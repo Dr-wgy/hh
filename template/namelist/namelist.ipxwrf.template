@@ -1,0 +1,15 @@
+#!/bin/csh
+
+cat > namelist.ipxwrf << EOF
+
+ &FILENAMES
+  file_wrfout_last    = '${file_wrfout_last}'
+  file_wrfin_next     = 'wrfinput_${domain}'
+  file_wrffdda_next   = 'wrfsfdda_${domain}'
+  do_msoil            = ${do_msoil}
+  do_tsoil            = ${do_tsoil}
+  do_tsoildeep_from2m = ${do_tsoildeep_from2m}
+  avg_period_2m       = 1
+ &END
+EOF
+
