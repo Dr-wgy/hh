@@ -1,4 +1,4 @@
-package com.makenv.model.mc.scheduled;
+package com.makenv.model.mc.message.scheduled;
 
 import com.makenv.model.mc.message.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
