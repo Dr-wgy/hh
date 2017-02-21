@@ -151,6 +151,17 @@ public class RedisService {
       return brpop(0,key);
     }
 
+    /**
+     * 移除元素
+     * @param key 移除的key
+     * @param start  开始位置
+     * @param end  结尾位置
+     */
+    public void ltrim(String key,int start,int end){
+
+        listOperations.trim(key,start,end);
+    }
+
     public String bRPopLPush(int timeOut,String key1,String key2) {
 
         return listOperations.getOperations().execute(new RedisCallback<String>() {

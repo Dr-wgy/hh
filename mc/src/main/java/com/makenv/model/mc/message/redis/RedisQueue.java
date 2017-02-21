@@ -3,6 +3,7 @@ package com.makenv.model.mc.message.redis;
 import com.makenv.model.mc.constant.Constants;
 import com.makenv.model.mc.core.util.JacksonUtil;
 import com.makenv.model.mc.message.body.Message;
+import com.makenv.model.mc.message.body.MessageWrapper;
 import com.makenv.model.mc.message.dispacher.AnnocationMessageDispacher;
 import com.makenv.model.mc.message.dispacher.ImessageDispacher;
 import com.makenv.model.mc.message.runable.MessageListenerRunable;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -67,15 +69,15 @@ public class RedisQueue{
                         TimeUnit.SECONDS.sleep(2);
                     }
 
-                    Message message =  takeFromTailAndInsertTemQueue();
+                    MessageWrapper messageWrapper =  takeFromTailAndInsertTemQueue();
 
-                    if (Objects.nonNull(message)){
+                    if (Objects.nonNull(messageWrapper) && Objects.nonNull(messageWrapper.getMessage())){
 
                         ImessageDispacher imessageDispacher = SpingTools.getBean(AnnocationMessageDispacher.class);
 
                         RedisService redisService = SpingTools.getBean(RedisService.class);
 
-                        MessageListenerRunable messageListenerRunable = new MessageListenerRunable(message,imessageDispacher,redisService);
+                        MessageListenerRunable messageListenerRunable = new MessageListenerRunable(messageWrapper,imessageDispacher,redisService);
 
                         threadPoolExecutor.execute(messageListenerRunable);
 
@@ -101,19 +103,25 @@ public class RedisQueue{
         return true;
     }
 
-    private Message takeFromTailAndInsertTemQueue() throws InterruptedException, IOException {
+    private MessageWrapper takeFromTailAndInsertTemQueue() throws InterruptedException, IOException {
 
         lock.lockInterruptibly();
 
         try {
 
+            MessageWrapper messageWrapper =  new MessageWrapper();
+
+            String queue_name = String.join(":",Constants.TEMP_QUEUE_NAME_PREFIX,UUID.randomUUID().toString());
+
+            messageWrapper.setTempQueueName(queue_name);
+
+            redisService.bRPopLPush(Constants.REDIS_RECEIVE_QUEUE_NAME, queue_name);
+
             String obj = redisService.brpop(Constants.REDIS_RECEIVE_QUEUE_NAME);
 
             Message message = JacksonUtil.jsonToObj(obj,Message.class);
 
-            String tem_queue = String.join(":", Constants.TEMP_QUEUE_NAME_PREFIX ,message.getId());
-
-            redisService.leftPush(tem_queue,obj);//插入临时队列
+            messageWrapper.setMessage(message);
 
             if(Objects.isNull(obj)) {
 
@@ -121,7 +129,7 @@ public class RedisQueue{
             }
             else {
 
-                return message;
+                return messageWrapper;
             }
 
         } finally {
