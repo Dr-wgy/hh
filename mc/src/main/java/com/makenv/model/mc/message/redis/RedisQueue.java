@@ -49,7 +49,7 @@ public class RedisQueue{
 
         }
 
-        redisListenerThread.setDaemon(true);
+        //redisListenerThread.setDaemon(true);
 
         redisListenerThread.start();
 
