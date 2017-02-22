@@ -5,7 +5,7 @@ package com.makenv.model.mc.message.body;
  */
 public class MessageWrapper {
 
-    public MessageWrapper(Message message, String tempQueueName) {
+    public MessageWrapper(String message, String tempQueueName) {
         this.message = message;
         this.tempQueueName = tempQueueName;
     }
@@ -14,16 +14,16 @@ public class MessageWrapper {
 
     }
 
-    private Message message;
+    private String message;
 
     private String tempQueueName;
 
 
-    public Message getMessage() {
+    public String getMessage() {
         return message;
     }
 
-    public void setMessage(Message message) {
+    public void setMessage(String message) {
         this.message = message;
     }
 

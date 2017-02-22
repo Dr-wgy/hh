@@ -8,5 +8,5 @@ import com.makenv.model.mc.message.body.Message;
  */
 public interface ImessageDispacher {
 
-    boolean dispacher(Message message);
+    boolean dispacher(String message);
 }
