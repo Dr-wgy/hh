@@ -8,6 +8,7 @@ import com.makenv.model.mc.message.dispacher.AnnocationMessageDispacher;
 import com.makenv.model.mc.message.runable.MessageListenerRunable;
 import com.makenv.model.mc.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -70,6 +71,8 @@ public class RedisQueue{
                     if(checkIsBusyOrNot()) {
 
                         TimeUnit.SECONDS.sleep(2);
+
+                        continue;
                     }
 
                     MessageWrapper messageWrapper =  takeFromTailAndInsertTemQueue();
@@ -93,13 +96,13 @@ public class RedisQueue{
 
     private boolean checkIsBusyOrNot(){
 
-        if(threadPoolExecutor.getActiveCount() >= threadPoolExecutor.getMaximumPoolSize()) {
+        if(threadPoolExecutor.getActiveCount() >= threadPoolExecutor.getMaximumPoolSize() - 2 ) {
 
-            return false;
+            return true;
 
         }
 
-        return true;
+        return false;
     }
 
     private MessageWrapper takeFromTailAndInsertTemQueue() throws InterruptedException, IOException {
@@ -116,11 +119,9 @@ public class RedisQueue{
 
             redisService.set(queue_name,obj);
 
-            Message message = JacksonUtil.jsonToObj(obj,Message.class);
-
             messageWrapper.setTempQueueName(queue_name);
 
-            messageWrapper.setMessage(message);
+            messageWrapper.setMessage(obj);
 
             if(Objects.isNull(obj)) {
 

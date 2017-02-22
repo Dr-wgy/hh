@@ -5,6 +5,8 @@ import com.makenv.model.mc.message.body.MessageWrapper;
 import com.makenv.model.mc.message.dispacher.ImessageDispacher;
 import com.makenv.model.mc.redis.RedisService;
 
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * Created by wgy on 2017/2/20.
@@ -34,6 +36,12 @@ public class MessageListenerRunable implements Runnable {
 
     @Override
     public void run() {
+
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         boolean flag = messageDispacher.dispacher(messageWrapper.getMessage());
 
