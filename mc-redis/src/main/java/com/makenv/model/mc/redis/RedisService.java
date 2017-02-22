@@ -1,4 +1,4 @@
-package com.makenv.model.mc.message.redis;
+package com.makenv.model.mc.redis;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

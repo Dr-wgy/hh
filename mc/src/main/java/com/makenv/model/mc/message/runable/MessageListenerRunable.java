@@ -3,7 +3,7 @@ package com.makenv.model.mc.message.runable;
 
 import com.makenv.model.mc.message.body.MessageWrapper;
 import com.makenv.model.mc.message.dispacher.ImessageDispacher;
-import com.makenv.model.mc.message.redis.RedisService;
+import com.makenv.model.mc.redis.RedisService;
 
 
 /**

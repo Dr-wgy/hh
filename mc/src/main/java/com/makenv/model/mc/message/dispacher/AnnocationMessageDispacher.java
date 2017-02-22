@@ -6,11 +6,11 @@ import com.makenv.model.mc.message.annoation.MessageInvoker;
 import com.makenv.model.mc.message.body.Message;
 import com.makenv.model.mc.message.exception.NoDispacherFoundException;
 import com.makenv.model.mc.message.exception.NoUniqueInvokerExpection;
-import com.makenv.model.mc.message.redis.RedisService;
 import com.makenv.model.mc.message.tools.ClassPathPackageScanner;
 import com.makenv.model.mc.message.tools.PackageScanner;
 import com.makenv.model.mc.message.tools.SpringTools;
 import com.makenv.model.mc.message.util.BeanUtil;
+import com.makenv.model.mc.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -6,6 +6,7 @@ import com.makenv.model.mc.message.body.Message;
 import com.makenv.model.mc.message.body.MessageWrapper;
 import com.makenv.model.mc.message.dispacher.AnnocationMessageDispacher;
 import com.makenv.model.mc.message.runable.MessageListenerRunable;
+import com.makenv.model.mc.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

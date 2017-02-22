@@ -13,6 +13,7 @@
     <module>mc-cli</module>
     <module>mc-tools</module>
     <module>mc</module>
+    <module>mc-redis</module>
   </modules>
   <parent>
     <groupId>org.springframework.boot</groupId>
