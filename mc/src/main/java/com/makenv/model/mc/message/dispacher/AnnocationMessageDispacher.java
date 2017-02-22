@@ -1,7 +1,9 @@
 package com.makenv.model.mc.message.dispacher;
 
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.makenv.model.mc.core.util.JacksonUtil;
+import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.message.annoation.MessageInvoker;
 import com.makenv.model.mc.message.body.Message;
 import com.makenv.model.mc.message.exception.NoDispacherFoundException;
@@ -11,6 +13,8 @@ import com.makenv.model.mc.message.tools.PackageScanner;
 import com.makenv.model.mc.message.tools.SpringTools;
 import com.makenv.model.mc.message.util.BeanUtil;
 import com.makenv.model.mc.redis.RedisService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,12 +24,16 @@ import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by wgy on 2017/2/20.
  */
 @Component
 public class AnnocationMessageDispacher implements ImessageDispacher {
+
+    private Logger logger = LoggerFactory.getLogger(AnnocationMessageDispacher.class);
+
 
     private static final String topPackageName = "com.makenv.model.mc.message.controller";
 
@@ -99,63 +107,119 @@ public class AnnocationMessageDispacher implements ImessageDispacher {
         }
 
     }
+    //消息检查
+    private Message messageCheck(String messageStr){
 
-    @Override
-    public boolean dispacher(Message message) {
+        Message message = null;
 
-        String uniqueLine = message.getType();
+        try {
 
-        if(handlerMappings.containsKey(uniqueLine)) {
+            message = JacksonUtil.jsonToObj(messageStr,Message.class);
 
-            Method method = handlerMappings.get(uniqueLine);
+            if(StringUtil.isEmpty(message.getId()) || StringUtil.isEmpty(message.getType()) || Objects.isNull(message.getBody())) {
 
-            Class clazz = method.getDeclaringClass();
+                logger.info("消息格式不能为空");
 
-            Object body = message.getBody();
+                message = null;
 
-            Object obj = spingTools.getBean(clazz);
-
-            try {
-
-                Class classes[] = method.getParameterTypes();
-
-                //只支持一个参数的入口
-                if(classes != null && classes.length != 0) {
-
-                    if(String.class.equals(classes[0])) {
-
-                        body = JacksonUtil.objToJson(body);
-
-                    }
-
-                    else if(body instanceof Map) {
-
-                        Object temBody = classes[0].newInstance();
-
-                        BeanUtil.transMap2Bean((Map)body,temBody);
-
-                        body = temBody;
-
-                    }
-                }
-
-                Object returnValue = method.invoke(obj,body);
-
-            } catch (Exception e) {
-
-                e.printStackTrace();
-
-                return false;
+                //发送失败消息
 
             }
         }
 
-        else {
+        catch (InvalidFormatException e) {
 
-            throw new NoDispacherFoundException("not dispacher found, please check your config");
+            logger.info("时间格式不正确");
+
+            e.printStackTrace();
+
+            //发送失败消息
+
         }
 
-        return true;
+        catch (IOException e) {
 
+            logger.info("消息格式不正确");
+
+            e.printStackTrace();
+
+            //发送失败消息
+        }
+
+        return message;
+    }
+
+    @Override
+    public boolean dispacher(String messageStr) {
+
+        Message message = messageCheck(messageStr);
+
+        if(message != null) {
+
+            String uniqueLine = message.getType();
+
+            if(handlerMappings.containsKey(uniqueLine)) {
+
+                Method method = handlerMappings.get(uniqueLine);
+
+                Class clazz = method.getDeclaringClass();
+
+                Object body = message.getBody();
+
+                Object obj = spingTools.getBean(clazz);
+
+                try {
+
+                    Class classes[] = method.getParameterTypes();
+
+                    //只支持一个参数的入口
+                    if(classes != null && classes.length != 0) {
+
+                        if(String.class.equals(classes[0])) {
+
+                            body = JacksonUtil.objToJson(body);
+
+                        }
+
+                        else if(body instanceof Map) {
+
+                            Object temBody = classes[0].newInstance();
+
+                            BeanUtil.transMap2Bean((Map)body,temBody);
+
+                            body = temBody;
+
+                        }
+                    }
+
+                    Object returnValue = method.invoke(obj,body);
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+
+                    return false;
+
+                }
+            }
+
+            else {
+
+                logger.info("not dispacher found, please check your config");
+
+                //发送失败消息
+                //throw new NoDispacherFoundException("not dispacher found, please check your config");
+
+                return false;
+            }
+
+            return true;
+
+        }
+
+        else {
+
+            return false;
+        }
     }
 }
