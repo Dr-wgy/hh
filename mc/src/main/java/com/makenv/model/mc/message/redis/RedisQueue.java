@@ -5,9 +5,8 @@ import com.makenv.model.mc.core.util.JacksonUtil;
 import com.makenv.model.mc.message.body.Message;
 import com.makenv.model.mc.message.body.MessageWrapper;
 import com.makenv.model.mc.message.dispacher.AnnocationMessageDispacher;
-import com.makenv.model.mc.message.dispacher.ImessageDispacher;
 import com.makenv.model.mc.message.runable.MessageListenerRunable;
-import com.makenv.model.mc.message.tools.SpingTools;
+import com.makenv.model.mc.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +28,10 @@ public class RedisQueue{
 
     @Autowired
     private RedisService redisService;
+
+    @Autowired
+    private AnnocationMessageDispacher annocationMessageDispacher;
+
 
     private ThreadPoolExecutor threadPoolExecutor;
 
@@ -73,11 +76,7 @@ public class RedisQueue{
 
                     if (Objects.nonNull(messageWrapper) && Objects.nonNull(messageWrapper.getMessage())){
 
-                        ImessageDispacher imessageDispacher = SpingTools.getBean(AnnocationMessageDispacher.class);
-
-                        RedisService redisService = SpingTools.getBean(RedisService.class);
-
-                        MessageListenerRunable messageListenerRunable = new MessageListenerRunable(messageWrapper,imessageDispacher,redisService);
+                        MessageListenerRunable messageListenerRunable = new MessageListenerRunable(messageWrapper,annocationMessageDispacher,redisService);
 
                         threadPoolExecutor.execute(messageListenerRunable);
 
@@ -109,17 +108,17 @@ public class RedisQueue{
 
         try {
 
-            MessageWrapper messageWrapper =  new MessageWrapper();
-
-            String queue_name = String.join(":",Constants.TEMP_QUEUE_NAME_PREFIX,UUID.randomUUID().toString());
-
-            messageWrapper.setTempQueueName(queue_name);
-
-            redisService.bRPopLPush(Constants.REDIS_RECEIVE_QUEUE_NAME, queue_name);
+            MessageWrapper messageWrapper = new MessageWrapper();
 
             String obj = redisService.brpop(Constants.REDIS_RECEIVE_QUEUE_NAME);
 
+            String queue_name = String.join(":",Constants.TEMP_QUEUE_NAME_PREFIX,UUID.randomUUID().toString());
+
+            redisService.set(queue_name,obj);
+
             Message message = JacksonUtil.jsonToObj(obj,Message.class);
+
+            messageWrapper.setTempQueueName(queue_name);
 
             messageWrapper.setMessage(message);
 
@@ -127,6 +126,7 @@ public class RedisQueue{
 
                 return null;
             }
+
             else {
 
                 return messageWrapper;

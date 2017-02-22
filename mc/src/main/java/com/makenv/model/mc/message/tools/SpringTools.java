@@ -6,28 +6,21 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SpingTools implements ApplicationContextAware {
+public class SpringTools implements ApplicationContextAware {
 
-    private static ApplicationContext context = null;
-    private static SpingTools stools = null;
-
-    public synchronized static SpingTools init() {
-        if (stools == null) {
-            stools = new SpingTools();
-        }
-        return stools;
-    }
+    private ApplicationContext context = null;
+    private SpringTools stools = null;
 
     public void setApplicationContext(ApplicationContext applicationContext)
             throws BeansException {
         context = applicationContext;
     }
 
-    public synchronized static Object getBean(String beanName) {
+    public  Object getBean(String beanName) {
         return context.getBean(beanName);
     }
 
-    public synchronized  static  <T> T getBean(Class<T> clazz){
+    public   <T> T getBean(Class<T> clazz){
 
         return context.getBean(clazz);
     }

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * Created by alei on 2017/2/21.
  */
 @EnableAutoConfiguration
-@ComponentScan({"com.makenv.model.mc"})
+@ComponentScan
 @Configuration
 public class Application {
   public static void main(String[] args) {
