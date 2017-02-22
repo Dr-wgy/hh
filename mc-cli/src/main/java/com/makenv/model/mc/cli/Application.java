@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
  */
 public class Application {
   private static Logger logger = LoggerFactory.getLogger(Application.class);
-
   public static void main(String[] args) throws Exception {
 
+    //java -jar mc-cli.jar -t ungrib -i /etc/xxx.conf
     CommandHelper.init(args);
     String funcType = CommandHelper.getValueAndCheck(CommandType.CMD_TYPE);
     IOperator operator = OperatorFactory.getOperator(funcType);

@@ -17,7 +17,17 @@ public class UngribOperator extends AbstractOperator {
   }
 
   @Override
-  public void init() throws Exception {
+  protected void beforeOperate() throws Exception {
+
+  }
+
+  @Override
+  protected void doOperate() throws Exception {
+
+  }
+
+  @Override
+  protected void afterOperate() throws Exception {
 
   }
 }
