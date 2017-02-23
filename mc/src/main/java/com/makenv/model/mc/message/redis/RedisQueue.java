@@ -96,6 +96,8 @@ public class RedisQueue{
 
     private boolean checkIsBusyOrNot(){
 
+        //检查当前服务线程是否繁忙，留下两个线程作为缓冲
+
         if(threadPoolExecutor.getActiveCount() >= threadPoolExecutor.getMaximumPoolSize() - 2 ) {
 
             return true;

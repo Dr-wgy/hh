@@ -2,6 +2,8 @@ package com.makenv.model.mc.message.dispacher;
 
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.makenv.model.mc.constant.Constants;
+import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.JacksonUtil;
 import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.message.annoation.MessageInvoker;
@@ -122,7 +124,9 @@ public class AnnocationMessageDispacher implements ImessageDispacher {
 
                 message = null;
 
-                //发送失败消息
+                FileUtil.writeLogByDaily(Constants.ERROR_MSG_LOG_PREFIX,messageStr);
+
+                //记录日志
 
             }
         }
@@ -133,7 +137,10 @@ public class AnnocationMessageDispacher implements ImessageDispacher {
 
             e.printStackTrace();
 
-            //发送失败消息
+            FileUtil.writeLogByDaily(Constants.ERROR_MSG_LOG_PREFIX,messageStr);
+
+            //记录日志
+
 
         }
 
@@ -143,7 +150,9 @@ public class AnnocationMessageDispacher implements ImessageDispacher {
 
             e.printStackTrace();
 
-            //发送失败消息
+            FileUtil.writeLogByDaily(Constants.ERROR_MSG_LOG_PREFIX,messageStr);
+
+            //记录日志
         }
 
         return message;
@@ -206,8 +215,9 @@ public class AnnocationMessageDispacher implements ImessageDispacher {
             else {
 
                 logger.info("not dispacher found, please check your config");
+                //记录日志
+                FileUtil.writeLogByDaily(Constants.ERROR_MSG_LOG_PREFIX,messageStr);
 
-                //发送失败消息
                 //throw new NoDispacherFoundException("not dispacher found, please check your config");
 
                 return false;

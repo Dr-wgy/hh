@@ -11,6 +11,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by alei on 2015/12/15.
@@ -33,6 +39,15 @@ public class FileUtil {
   public static boolean writeLocalFile(File file, String content) throws IOException {
     FileWriter fw = new FileWriter(file);
     try (BufferedWriter bw = new BufferedWriter(fw)) {
+      bw.write(content);
+    }
+    return true;
+  }
+
+  public static boolean writeAppendLocalFile(File file, String content) throws IOException {
+    FileWriter fw = new FileWriter(file,true);
+    try (BufferedWriter bw = new BufferedWriter(fw)) {
+      content = content + "\r\n";
       bw.write(content);
     }
     return true;
@@ -77,4 +92,56 @@ public class FileUtil {
 
     return flag;
   }
+
+  public static void writeLogByDaily(String fileNamePrefix,String content) {
+
+    File file = new File(String.join("-",fileNamePrefix,LocalDate.now().format(DateTimeFormatter.ISO_DATE)));
+
+    try {
+
+      writeAppendLocalFile(file,content);
+
+    } catch (IOException e) {
+
+      e.printStackTrace();
+    }
+
+  }
+
+  /**
+   * cp file
+   *
+   * @param source
+   * @param dest
+   * @throws IOException
+   */
+  public static void copyFile(String source, String dest)
+          throws IOException {
+    Path sourcePath = Paths.get(source);
+    Path destPath = Paths.get(dest);
+    File file = new File(dest);
+    if (!file.exists() || file.getParentFile() != null) {
+      file.getParentFile().mkdirs();
+    }
+    Files.copy(sourcePath, destPath, StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
+  }
+
+  /**
+   * mv file
+   *
+   * @param source
+   * @param dest
+   * @throws IOException
+   */
+  public static void moveFile(String source, String dest)
+          throws IOException {
+    Path sourcePath = Paths.get(source);
+    Path destPath = Paths.get(dest);
+    File file = new File(dest);
+    if (!file.exists() || file.getParentFile() != null) {
+      file.getParentFile().mkdirs();
+    }
+    Files.move(sourcePath, destPath, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+  }
+
 }
