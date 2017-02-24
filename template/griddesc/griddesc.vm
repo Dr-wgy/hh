@@ -1,0 +1,7 @@
+' '
+'${griddescBean.coordName}'
+   ${griddescBean.coordType}        ${griddescBean.stand_lat1}        ${griddescBean.stand_lat2}      ${griddescBean.stand_lon}       ${griddescBean.ref_lon}        ${griddescBean.ref_lat}
+' '
+'${griddescBean.gridName}'
+'${griddescBean.coordName}'    ${griddescBean.xorig}    ${griddescBean.yorig}      ${griddescBean.dx}      ${griddescBean.dy} ${griddescBean.nx} ${griddescBean.ny}   ${griddescBean.nthik}
+' '
