@@ -39,6 +39,8 @@ public class BaseModelTask extends ModelTask {
 
         ModelStartBean modelStartBean = this.getModelStartBean();
 
+        //生成责任链 --> 并且注入参数
+
 
         return handlerChain;
     }

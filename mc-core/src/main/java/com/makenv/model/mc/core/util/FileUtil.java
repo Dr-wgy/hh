@@ -1,16 +1,7 @@
 package com.makenv.model.mc.core.util;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -142,6 +133,58 @@ public class FileUtil {
       file.getParentFile().mkdirs();
     }
     Files.move(sourcePath, destPath, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+  }
+
+  public static String readLastLine(File file,String charset) {
+    if (!file.exists() || file.isDirectory() || !file.canRead()) {
+      return null;
+    }
+    RandomAccessFile randomaccessfile = null;
+    try {
+      randomaccessfile = new RandomAccessFile(file, "r");
+      long len = randomaccessfile.length();
+      if (len == 0L) {
+        return "";
+      } else {
+        long pos = len - 1;
+        while (pos > 0) {
+          pos--;
+          randomaccessfile.seek(pos);
+          if (randomaccessfile.readByte() == '\n') {
+            break;
+          }
+        }
+        if (pos == 0) {
+          randomaccessfile.seek(0);
+        }
+        byte[] bytes = new byte[(int) (len - pos)];
+        randomaccessfile.read(bytes);
+        if (charset == null) {
+          return new String(bytes);
+        } else {
+          return new String(bytes, charset);
+        }
+      }
+    } catch (FileNotFoundException e) {
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      if (randomaccessfile != null) {
+        try {
+          randomaccessfile.close();
+        } catch (Exception e2) {
+        }
+      }
+    }
+    return null;
+  }
+
+  public static String readLastLine(File file) {
+
+
+    return readLastLine(file, Charset.defaultCharset().displayName());
   }
 
 }
