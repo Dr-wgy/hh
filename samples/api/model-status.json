@@ -1,0 +1,14 @@
+{
+  "id": "123",
+  "time": "2017-02-01 12:00:12",
+  "type": "model.status",
+  "body": {
+    "userid": "用户ID",
+    "missionid": "任务ID",
+    "scenarioid": "情景ID",
+    "status": [
+      "cmaq.d01.pre",//节点名称
+      "success"//success|failed
+    ]
+  }
+}

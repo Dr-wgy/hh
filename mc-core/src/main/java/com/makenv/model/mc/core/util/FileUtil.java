@@ -36,7 +36,7 @@ public class FileUtil {
   }
 
   public static boolean writeAppendLocalFile(File file, String content) throws IOException {
-    FileWriter fw = new FileWriter(file,true);
+    FileWriter fw = new FileWriter(file, true);
     try (BufferedWriter bw = new BufferedWriter(fw)) {
       content = content + "\r\n";
       bw.write(content);
@@ -84,13 +84,13 @@ public class FileUtil {
     return flag;
   }
 
-  public static void writeLogByDaily(String fileNamePrefix,String content) {
+  public static void writeLogByDaily(String fileNamePrefix, String content) {
 
-    File file = new File(String.join("-",fileNamePrefix,LocalDate.now().format(DateTimeFormatter.ISO_DATE)));
+    File file = new File(String.join("-", fileNamePrefix, LocalDate.now().format(DateTimeFormatter.ISO_DATE)));
 
     try {
 
-      writeAppendLocalFile(file,content);
+      writeAppendLocalFile(file, content);
 
     } catch (IOException e) {
 
@@ -107,7 +107,7 @@ public class FileUtil {
    * @throws IOException
    */
   public static void copyFile(String source, String dest)
-          throws IOException {
+      throws IOException {
     Path sourcePath = Paths.get(source);
     Path destPath = Paths.get(dest);
     File file = new File(dest);
@@ -125,7 +125,7 @@ public class FileUtil {
    * @throws IOException
    */
   public static void moveFile(String source, String dest)
-          throws IOException {
+      throws IOException {
     Path sourcePath = Paths.get(source);
     Path destPath = Paths.get(dest);
     File file = new File(dest);
@@ -135,7 +135,37 @@ public class FileUtil {
     Files.move(sourcePath, destPath, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
   }
 
-  public static String readLastLine(File file,String charset) {
+  public static boolean copyFolder(File src, File dest) {
+    if (src.isDirectory()) {
+      if (!dest.exists() && !dest.mkdir()) {
+        return false;
+      }
+      String files[] = src.list();
+      for (String file : files) {
+        File srcFile = new File(src, file);
+        File destFile = new File(dest, file);
+        if (!copyFolder(srcFile, destFile)) return false;
+      }
+    } else {
+      try {
+        InputStream in = new FileInputStream(src);
+        OutputStream out = new FileOutputStream(dest);
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = in.read(buffer)) > 0) {
+          out.write(buffer, 0, length);
+        }
+        in.close();
+        out.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public static String readLastLine(File file, String charset) {
     if (!file.exists() || file.isDirectory() || !file.canRead()) {
       return null;
     }
@@ -182,8 +212,6 @@ public class FileUtil {
   }
 
   public static String readLastLine(File file) {
-
-
     return readLastLine(file, Charset.defaultCharset().displayName());
   }
 
