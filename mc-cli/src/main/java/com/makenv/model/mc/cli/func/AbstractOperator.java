@@ -2,6 +2,7 @@ package com.makenv.model.mc.cli.func;
 
 import com.makenv.model.mc.cli.cmd.CommandType;
 import com.makenv.model.mc.cli.helper.CommandHelper;
+import com.makenv.model.mc.cli.helper.JedisHelper;
 import com.makenv.model.mc.core.util.StringUtil;
 
 import java.io.File;
@@ -26,6 +27,10 @@ public abstract class AbstractOperator implements IOperator {
     beforeOperate();
     doOperate();
     afterOperate();
+  }
+
+  protected void sendMessage(String content) {
+    JedisHelper.sendMessage(content);
   }
 
   protected abstract void beforeOperate() throws Exception;

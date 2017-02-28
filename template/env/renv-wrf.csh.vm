@@ -6,9 +6,7 @@ setenv start_date ${start_date}
 setenv end_date ${end_date}
 #开始时间，默认18
 setenv start_hour ${start_hour}
-#是否为debug模式，0非，>0为debug
-setenv debug 1
 #WRF文件输出目录
 setenv wrf_output ${wrf_output}
 #是否为debug模式，0非，>0为debug
-setenv debug 1
+setenv debug ${debug}

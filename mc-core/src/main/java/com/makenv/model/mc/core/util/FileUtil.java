@@ -135,34 +135,28 @@ public class FileUtil {
     Files.move(sourcePath, destPath, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
   }
 
-  public static boolean copyFolder(File src, File dest) {
+  public static void copyFolder(File src, File dest) throws IOException {
     if (src.isDirectory()) {
-      if (!dest.exists() && !dest.mkdir()) {
-        return false;
+      if (!dest.exists()) {
+        dest.mkdir();
       }
       String files[] = src.list();
       for (String file : files) {
         File srcFile = new File(src, file);
         File destFile = new File(dest, file);
-        if (!copyFolder(srcFile, destFile)) return false;
+        copyFolder(srcFile, destFile);
       }
     } else {
-      try {
-        InputStream in = new FileInputStream(src);
-        OutputStream out = new FileOutputStream(dest);
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = in.read(buffer)) > 0) {
-          out.write(buffer, 0, length);
-        }
-        in.close();
-        out.close();
-      } catch (IOException e) {
-        e.printStackTrace();
-        return false;
+      InputStream in = new FileInputStream(src);
+      OutputStream out = new FileOutputStream(dest);
+      byte[] buffer = new byte[1024];
+      int length;
+      while ((length = in.read(buffer)) > 0) {
+        out.write(buffer, 0, length);
       }
+      in.close();
+      out.close();
     }
-    return true;
   }
 
   public static String readLastLine(File file, String charset) {
