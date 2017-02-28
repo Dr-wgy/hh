@@ -10,3 +10,11 @@ setenv start_hour ${start_hour}
 setenv ungrib_file ${ungrib_file}
 #是否为debug模式，0非，>0为debug
 setenv debug ${debug}
+#fnl输入目录/mc/share/input/fnl
+setenv fnl_nput ${fnl_nput}
+#gfs输入目录/mc/share/input/gfs
+setenv gfs_input ${gfs_input}
+#fnl输出目录/mc/share/input/ungrib_fnl
+setenv fnl_output ${fnl_output}
+#gfs输入目录/mc/share/input/ungrib_gfs
+setenv gfs_output ${gfs_output}

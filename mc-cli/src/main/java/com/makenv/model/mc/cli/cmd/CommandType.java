@@ -6,7 +6,8 @@ package com.makenv.model.mc.cli.cmd;
 public enum CommandType {
   CMD_TYPE(true, 't', "type", true, "function type"),
   CMD_OUTPUT(false, 'o', "output", true, "output file"),
-  CMD_INPUT(false, 'i', "input", true, "input file path");
+  CMD_INPUT(false, 'i', "input", true, "input file path"),
+  CMD_DATE(false, 'd', "date", true, "date time");
 
   public final boolean required;
   public final char opt;

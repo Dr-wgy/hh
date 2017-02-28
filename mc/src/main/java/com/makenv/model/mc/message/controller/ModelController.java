@@ -3,6 +3,7 @@ package com.makenv.model.mc.message.controller;
 import com.makenv.model.mc.core.util.JacksonUtil;
 import com.makenv.model.mc.message.annoation.MessageInvoker;
 import com.makenv.model.mc.message.pojo.ModelStartBean;
+import com.makenv.model.mc.message.pojo.VideoConvertBean;
 import com.makenv.model.mc.message.service.ModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +48,7 @@ public class ModelController {
     }
 
     @MessageInvoker("video.convert")
-    public boolean videoConvert(String data){
+    public boolean videoConvert(VideoConvertBean videoConvertBean){
 
         logger.info("video.convert");
 
