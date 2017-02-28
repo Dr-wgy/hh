@@ -8,6 +8,9 @@ import com.makenv.model.mc.message.pojo.ModelStartBean;
  */
 public class ForcastModelTask extends ModelTask {
 
+    public ForcastModelTask() {
+    }
+
     public ForcastModelTask(ModelStartBean modelStartBean) {
 
         super(modelStartBean);
