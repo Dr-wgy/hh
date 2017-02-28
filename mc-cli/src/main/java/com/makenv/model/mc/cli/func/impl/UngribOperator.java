@@ -27,7 +27,7 @@ public class UngribOperator extends AbstractOperator {
 
   @Override
   protected void beforeOperate() throws Exception {
-    String date = CommandHelper.getValueAndCheck(CommandType.CMD_DATE);
+    date = CommandHelper.getValueAndCheck(CommandType.CMD_DATE);
     if (StringUtil.isEmpty(date)) {
       date = LocalTimeUtil.formatToday("yyyyMMdd");
     }
