@@ -12,12 +12,13 @@ setenv end_date ${end_date}
 setenv start_hour ${start_hour}
 #执行geogrid输入文件所需要的数据目录/path/geog
 setenv geog_data ${geog_data}
-#输出目录
-setenv geogrid_data /path/geogrid
-#ungrib fnl输出目录
-setenv ungrib_fnl_data /path/ungrib/
-#ungrib gfs输出目录
-setenv ungrib_gfs_data /path/ungrib/
-setenv real_data /path/real_data
+#输出目录/path/geogrid
+setenv geogrid_data ${geogrid_data}
+#ungrib fnl输出目录/path/ungrib/
+setenv ungrib_fnl_data ${ungrib_fnl_data}
+#ungrib gfs输出目录/path/ungrib/
+setenv ungrib_gfs_data ${ungrib_gfs_data}
+#real_data目录/path/real_data
+setenv real_data ${real_data}
 #是否为debug模式，0非，>0为debug
-setenv debug 1
+setenv debug ${debug}

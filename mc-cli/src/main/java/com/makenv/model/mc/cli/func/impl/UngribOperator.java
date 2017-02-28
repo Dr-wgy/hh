@@ -6,9 +6,13 @@ import com.makenv.model.mc.cli.helper.CommandHelper;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.LocalTimeUtil;
 import com.makenv.model.mc.core.util.StringUtil;
+import com.makenv.model.mc.core.util.VelocityUtil;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by alei on 2017/2/21.
@@ -52,7 +56,19 @@ public class UngribOperator extends AbstractOperator {
   }
 
   private void buildEnv() {
-
+    String templateFile = "";
+    Map<String, String> params = new HashMap<>();
+    params.put("namelist_template", templateFile);
+    params.put("start_date", date);
+    params.put("end_date", date);
+    params.put("start_hour", "");
+    params.put("ungrib_file", "");
+    params.put("debug", "");
+    params.put("fnl_nput", "");
+    params.put("gfs_input", "");
+    params.put("fnl_output", "");
+    params.put("gfs_output", "");
+    VelocityUtil.buildTemplate(templateFile, params);
   }
 
   private void execFnl() {
@@ -63,11 +79,10 @@ public class UngribOperator extends AbstractOperator {
 
   }
 
-  private boolean copyFiles() {
+  private void copyFiles() throws IOException {
     String fnlSrc = "", fnlDest = "", gfsSrc = "", gfsDest = "";
-    if (!FileUtil.copyFolder(new File(fnlSrc), new File(fnlDest))) return false;
-    if (!FileUtil.copyFolder(new File(gfsSrc), new File(gfsDest))) return false;
-    return true;
+    FileUtil.copyFolder(new File(fnlSrc), new File(fnlDest));
+    FileUtil.copyFolder(new File(gfsSrc), new File(gfsDest));
   }
 
   @Override
