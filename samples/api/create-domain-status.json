@@ -1,0 +1,9 @@
+{
+  "id": "123",
+  "time": "2017-02-01 12:00:12",
+  "type": "domain.create.status",
+  "body": {
+    "msgid": "111",
+    "status": "success"
+  }
+}

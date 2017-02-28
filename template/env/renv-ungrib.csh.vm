@@ -18,3 +18,4 @@ setenv gfs_input ${gfs_input}
 setenv fnl_output ${fnl_output}
 #gfs输入目录/mc/share/input/ungrib_gfs
 setenv gfs_output ${gfs_output}
+#wrf安装目录
