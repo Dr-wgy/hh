@@ -1,12 +1,14 @@
 package com.makenv.model.mc.message.handler.wrf;
 
+import com.makenv.model.mc.core.config.McConfigManager;
+import com.makenv.model.mc.message.handler.AbstractHandlerConfig;
 import com.makenv.model.mc.message.handler.Handler;
 import com.makenv.model.mc.message.handler.HandlerChain;
 
 /**
  * Created by wgy on 2017/2/22.
  */
-public class WrfRunHandler implements Handler {
+public class WrfRunHandler extends AbstractHandlerConfig implements Handler {
 
     @Override
     public void doHandler(HandlerChain handlerChain) {
@@ -21,6 +23,11 @@ public class WrfRunHandler implements Handler {
         run_wrf_Shell();
 
         handlerChain.doHandler(handlerChain);
+    }
+
+    public WrfRunHandler(McConfigManager mcConfigManager) {
+
+        this.mcConfigManager = mcConfigManager;
     }
 
     private void run_wrf_Shell() {

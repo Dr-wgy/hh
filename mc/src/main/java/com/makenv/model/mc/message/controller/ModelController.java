@@ -3,6 +3,7 @@ package com.makenv.model.mc.message.controller;
 import com.makenv.model.mc.core.util.JacksonUtil;
 import com.makenv.model.mc.message.annoation.MessageInvoker;
 import com.makenv.model.mc.message.pojo.DomainCreateBean;
+import com.makenv.model.mc.message.pojo.ModelContinueBean;
 import com.makenv.model.mc.message.pojo.ModelStartBean;
 import com.makenv.model.mc.message.pojo.VideoConvertBean;
 import com.makenv.model.mc.message.service.ModelService;
@@ -39,7 +40,7 @@ public class ModelController {
     }
 
     @MessageInvoker("model.continue")
-    public boolean modeContinue(ModelStartBean modelStartBean){
+    public boolean modeContinue(ModelContinueBean modelContinueBean){
 
         logger.info("model.continue");
 

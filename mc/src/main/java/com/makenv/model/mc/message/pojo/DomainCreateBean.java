@@ -9,7 +9,7 @@ public class DomainCreateBean {
 
     private String domainid;
 
-    private TaskDomain taskDomain;
+    private TaskDomain domain;
 
     public String getUserid() {
         return userid;
@@ -27,11 +27,11 @@ public class DomainCreateBean {
         this.domainid = domainid;
     }
 
-    public TaskDomain getTaskDomain() {
-        return taskDomain;
+    public TaskDomain getDomain() {
+        return domain;
     }
 
-    public void setTaskDomain(TaskDomain taskDomain) {
-        this.taskDomain = taskDomain;
+    public void setDomain(TaskDomain domain) {
+        this.domain = domain;
     }
 }
