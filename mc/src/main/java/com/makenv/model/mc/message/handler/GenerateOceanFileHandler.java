@@ -5,7 +5,7 @@ package com.makenv.model.mc.message.handler;
  */
 public class GenerateOceanFileHandler implements Handler {
 
-    private boolean generateOceanFile(){
+    public boolean generateOceanFile(){
 
         return false;
     }
