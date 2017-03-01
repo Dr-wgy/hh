@@ -2,23 +2,27 @@ package com.makenv.model.mc.cli.func.impl;
 
 import com.makenv.model.mc.cli.cmd.CommandType;
 import com.makenv.model.mc.cli.func.AbstractOperator;
-import com.makenv.model.mc.cli.helper.CommandHelper;
+import com.makenv.model.mc.cli.cmd.CommandManager;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.LocalTimeUtil;
 import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by alei on 2017/2/21.
  */
+@Service
 public class UngribOperator extends AbstractOperator {
   private String date;
+  @Autowired
+  private CommandManager commandManager;
 
   @Override
   public String getName() {
@@ -26,17 +30,18 @@ public class UngribOperator extends AbstractOperator {
   }
 
   @Override
-  protected void beforeOperate() throws Exception {
-    date = CommandHelper.getValueAndCheck(CommandType.CMD_DATE);
+  protected boolean beforeOperate() throws Exception {
+    date = commandManager.getValueAndCheck(CommandType.CMD_DATE);
     if (StringUtil.isEmpty(date)) {
       date = LocalTimeUtil.formatToday("yyyyMMdd");
     }
-    if (checkFnl()) {
-
+    if (!checkFnl()) {
+      return false;
     }
-    if (checkGfs()) {
-
+    if (!checkGfs()) {
+      return false;
     }
+    return true;
   }
 
   private boolean checkFnl() {
@@ -48,11 +53,12 @@ public class UngribOperator extends AbstractOperator {
   }
 
   @Override
-  protected void doOperate() throws Exception {
+  protected boolean doOperate() throws Exception {
     copyFiles();
     buildEnv();
     execFnl();
     execGfs();
+    return true;
   }
 
   private void buildEnv() {
@@ -86,7 +92,7 @@ public class UngribOperator extends AbstractOperator {
   }
 
   @Override
-  protected void afterOperate() throws Exception {
-
+  protected boolean afterOperate() throws Exception {
+    return true;
   }
 }

@@ -1,9 +1,8 @@
 {
   "id": "123",
   "time": "2017-02-01 12:00:12",
-  "type": "domain.create.status",
+  "type": "ungrib.status",
   "body": {
-    "msgid": "111",
     "status": "success",
     "desc": "描述信息"
   }
