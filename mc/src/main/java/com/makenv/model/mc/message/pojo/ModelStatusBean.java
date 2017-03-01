@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by wgy on 2017/2/24.
  */
-public class ModelStatus {
+public class ModelStatusBean {
 
     private String userid;
 

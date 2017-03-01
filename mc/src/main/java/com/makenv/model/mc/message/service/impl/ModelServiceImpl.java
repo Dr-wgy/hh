@@ -3,8 +3,8 @@ package com.makenv.model.mc.message.service.impl;
 import com.makenv.model.mc.enumeration.ScenarioType;
 import com.makenv.model.mc.message.pojo.ModelStartBean;
 import com.makenv.model.mc.message.service.ModelService;
-import com.makenv.model.mc.message.task.*;
-import org.springframework.boot.Banner;
+import com.makenv.model.mc.message.task.ModelTask;
+import com.makenv.model.mc.message.task.ModelTaskFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,9 +19,9 @@ public class ModelServiceImpl implements ModelService {
 
         String scenarioType = modelStartBean.getScenarioType();
 
-        ScenarioType scenarioTypeEnum = ScenarioType.getScenarioType(scenarioType);
+        ScenarioType scenarionTypeEnum = ScenarioType.getScenarioType(scenarioType);
 
-        ModelTask modelTask = ModelTaskFactory.createModelTask(scenarioTypeEnum);
+        ModelTask modelTask = ModelTaskFactory.createModelTask(scenarionTypeEnum);
 
         modelTask.setModelStartBean(modelStartBean);
 
