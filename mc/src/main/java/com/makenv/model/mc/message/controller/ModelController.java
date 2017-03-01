@@ -66,4 +66,15 @@ public class ModelController {
 
         return true;
     }
+
+    @MessageInvoker("domain.create")
+    public boolean domainCreate(String data){
+
+        logger.info("domain.create");
+
+        System.out.println("domain.create");
+
+        return true;
+    }
+
 }

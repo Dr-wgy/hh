@@ -38,7 +38,9 @@ public class RedisQueue{
 
     private RedisListenerThread redisListenerThread;
 
+/*
     private Lock lock = new ReentrantLock();
+*/
 
     @PostConstruct
     public void init() {
@@ -109,7 +111,7 @@ public class RedisQueue{
 
     private MessageWrapper takeFromTailAndInsertTemQueue() throws InterruptedException, IOException {
 
-        lock.lockInterruptibly();
+        /*lock.lockInterruptibly();*/
 
         try {
 
@@ -137,7 +139,7 @@ public class RedisQueue{
 
         } finally {
 
-            lock.unlock();
-        }
+            /*lock.unlock();*/
+    }
     }
 }
