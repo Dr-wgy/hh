@@ -1,6 +1,4 @@
-package com.makenv.model.mc.config;
-
-import com.makenv.model.mc.enumeration.ScenarioType;
+package com.makenv.model.mc.core.config;
 
 /**
  * Created by wgy on 2017/2/28.

@@ -6,7 +6,7 @@ package com.makenv.model.mc.message.handler;
 public class GeneateGriddescHandler implements Handler {
 
     //生成geiddesc
-    private boolean generateGriddesc(){
+    public  boolean generateGriddesc(){
 
         return false;
     }

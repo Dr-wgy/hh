@@ -1,5 +1,6 @@
 package com.makenv.model.mc.message.service;
 
+import com.makenv.model.mc.message.pojo.DomainCreateBean;
 import com.makenv.model.mc.message.pojo.ModelStartBean;
 
 /**
@@ -8,4 +9,6 @@ import com.makenv.model.mc.message.pojo.ModelStartBean;
 public interface ModelService {
 
     void startModelTask(ModelStartBean modelStartBean);
+
+    void doCreateBean(DomainCreateBean domainCreateBean);
 }

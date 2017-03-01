@@ -159,6 +159,48 @@ public class FileUtil {
     }
   }
 
+  /**
+   * create symbolic link
+   *
+   * @param existFile
+   * @param newLink
+   */
+  public static boolean symbolicLink(String existFile, String newLink) throws IOException {
+
+    //TODO
+    boolean e = new File(existFile).exists();
+
+    File file = new File(newLink);
+    if (!file.exists() || file.getPath() != null) {
+      file.mkdirs();
+    }
+
+    Path existingFile = Paths.get(existFile);
+    Path link = Paths.get(newLink + existingFile.getFileName());
+    //存在的情况下 删除了 再新建啊！
+    if (Files.isSymbolicLink(link)) {
+      File f=link.toFile();
+      f.delete();
+      try {
+        Files.createSymbolicLink(link, existingFile);
+      } catch (IOException e1) {
+
+      }
+      return true;
+    }
+
+    File f = link.toFile();
+    if (f.exists()) {
+      return false;
+    }
+    try {
+      Files.createSymbolicLink(link, existingFile);
+    } catch (IOException e1) {
+      e1.printStackTrace();
+    }
+    return true;
+  }
+
   public static String readLastLine(File file, String charset) {
     if (!file.exists() || file.isDirectory() || !file.canRead()) {
       return null;
