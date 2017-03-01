@@ -1,9 +1,10 @@
 package com.makenv.model.mc.cli.func;
 
 import com.makenv.model.mc.cli.cmd.CommandType;
-import com.makenv.model.mc.cli.helper.CommandHelper;
+import com.makenv.model.mc.cli.cmd.CommandManager;
 import com.makenv.model.mc.cli.helper.JedisHelper;
 import com.makenv.model.mc.core.util.StringUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 
@@ -11,9 +12,13 @@ import java.io.File;
  * Created by alei on 2017/2/21.
  */
 public abstract class AbstractOperator implements IOperator {
+  @Autowired
+  private CommandManager commandManager;
+  @Autowired
+  private JedisHelper jedisHelper;
   @Override
   public void init() throws Exception {
-    String output = CommandHelper.getValueAndCheck(CommandType.CMD_OUTPUT);
+    String output = commandManager.getValueAndCheck(CommandType.CMD_OUTPUT);
     if (!StringUtil.isEmpty(output)) {
       File outputFile = new File(output);
       if (!outputFile.exists()) {
@@ -30,12 +35,12 @@ public abstract class AbstractOperator implements IOperator {
   }
 
   protected void sendMessage(String content) {
-    JedisHelper.sendMessage(content);
+    jedisHelper.sendMessage(content);
   }
 
-  protected abstract void beforeOperate() throws Exception;
+  protected abstract boolean beforeOperate() throws Exception;
 
-  protected abstract void doOperate() throws Exception;
+  protected abstract boolean doOperate() throws Exception;
 
-  protected abstract void afterOperate() throws Exception;
+  protected abstract boolean afterOperate() throws Exception;
 }

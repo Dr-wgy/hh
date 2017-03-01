@@ -1,7 +1,8 @@
-package com.makenv.model.mc.cli.helper;
+package com.makenv.model.mc.cli.cmd;
 
 import com.makenv.model.mc.cli.cmd.CommandType;
 import com.makenv.model.mc.cli.exception.InvalidParamsException;
+import com.makenv.model.mc.cli.func.OperatorFactory;
 import com.makenv.model.mc.core.util.StringUtil;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -9,54 +10,81 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
+import org.assertj.core.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Created by alei on 2016/8/31.
  */
-public class CommandHelper {
-  private static Options options = new Options();
-  private static CommandLine line;
+@Component
+public class CommandManager {
+  private Options options = new Options();
+  private CommandLine line;
+  @Autowired
+  private OperatorFactory operatorFactory;
+  private ApplicationArguments args;
+  private Logger logger = LoggerFactory.getLogger(CommandManager.class);
 
-  public static void init(String[] args) throws Exception {
+  @Autowired
+  public CommandManager(ApplicationArguments args) throws Exception {
+    this.args = args;
+  }
+
+  @PostConstruct
+  void initAndProcess() throws Exception {
     for (CommandType cmdType : CommandType.values()) {
       Option input = new Option(String.valueOf(cmdType.opt), cmdType.longOpt, cmdType.hasArg, cmdType.description);
       input.setRequired(cmdType.required);
       options.addOption(input);
     }
-    parseAndCheck(args);
+    if (parseAndCheck(args.getSourceArgs())) {
+      operatorFactory.getOperator(getValue(CommandType.CMD_TYPE)).operate();
+    }
   }
 
-  private static void parseAndCheck(String[] args) throws Exception {
+  private boolean parseAndCheck(String[] args) throws Exception {
+    if (Arrays.isNullOrEmpty(args)) {
+      printHelp();
+      return false;
+    }
     CommandLineParser parser = new DefaultParser();
     // parse the command line arguments
     line = parser.parse(options, args);
     for (Option option : options.getOptions()) {
       if (option.isRequired() && !line.hasOption(option.getOpt())) {
         printHelp();
-        throw new InvalidParamsException(String.format("parameters %s is required", option.getOpt()));
+        logger.error(String.format("parameters %s is required", option.getOpt()));
+        return false;
       }
     }
+    return true;
   }
 
-  public static String getValue(String option) {
+  public String getValue(String option) {
     if (line.hasOption(option)) {
       return line.getOptionValue(option);
     }
     return null;
   }
 
-  public static String getValue(char opt) {
+  String getValue(char opt) {
     if (line.hasOption(opt)) {
       return line.getOptionValue(opt);
     }
     return null;
   }
 
-  public static String getValue(CommandType commandType) {
+  String getValue(CommandType commandType) {
     return getValue(commandType.opt);
   }
 
-  public static String getValueAndCheck(CommandType commandType) throws InvalidParamsException {
+  public String getValueAndCheck(CommandType commandType) throws InvalidParamsException {
     String value = getValue(commandType);
     if (StringUtil.isEmpty(value)) {
       onMissingParameters(commandType.opt);
@@ -64,12 +92,12 @@ public class CommandHelper {
     return value;
   }
 
-  public static void printHelp() {
+  public void printHelp() {
     HelpFormatter formatter = new HelpFormatter();
     formatter.printHelp("mc", options);
   }
 
-  private static void onMissingParameters(char param) throws InvalidParamsException {
+  private void onMissingParameters(char param) throws InvalidParamsException {
     printHelp();
     throw new InvalidParamsException(StringUtil.formatLog("missing parameter -" + param));
   }
