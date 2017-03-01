@@ -9,6 +9,8 @@ public class UserCommonDir {
 
     private UserDataDir data;
 
+    private TemplateDir template;
+
     public UserDataDir getData() {
         return data;
     }
@@ -33,5 +35,27 @@ public class UserCommonDir {
 
     public void setDirPath(String dirPath) {
         this.dirPath = dirPath;
+    }
+
+    public static class TemplateDir {
+
+        private String dirPath;
+
+        public String getDirPath() {
+            return dirPath;
+        }
+
+        public void setDirPath(String dirPath) {
+            this.dirPath = dirPath;
+        }
+
+    }
+
+    public TemplateDir getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(TemplateDir template) {
+        this.template = template;
     }
 }

@@ -3,7 +3,7 @@
 cat > namelist.wps.metgrid << EOF
 &share
  wrf_core = 'ARW',
- max_dom = 3,
+ max_dom = ${max_dom},
  start_date = '${START_TIME}:00:00','${START_TIME}:00:00','${START_TIME}:00:00',
  end_date   = '${END_TIME}:00:00','${END_TIME}:00:00','${END_TIME}:00:00',
  interval_seconds = 21600

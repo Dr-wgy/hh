@@ -1,0 +1,32 @@
+#!/bin/csh
+
+cat > namelist.wps.geogrid << EOF
+&share
+ wrf_core = 'ARW',
+ max_dom = 3,
+ start_date = '${START_TIME}:00:00','${START_TIME}:00:00','${START_TIME}:00:00',
+ end_date   = '${END_TIME}:00:00','${END_TIME}:00:00','${END_TIME}:00:00',
+ interval_seconds = 21600
+ opt_output_from_geogrid_path = '${geogrid_data_path}',
+ io_form_geogrid = 2,
+/
+
+&geogrid
+ parent_id         =   ${geogrid.parent_id}
+ parent_grid_ratio =   ${geogrid.parent_grid_ratio}
+ i_parent_start    =   ${geogrid.i_parent_start}
+ j_parent_start    =   ${geogrid.j_parent_start}
+ e_we              =  ${geogrid.e_we}
+ e_sn              =  ${geogrid.e_sn}
+ geog_data_res     =  '10m', '2m', '30s'
+ dx = ${geogrid.dx}
+ dy = ${geogrid.dy}
+ map_proj = '${geogrid.map_proj}',
+ ref_lat   =  ${geogrid.ref_lat},
+ ref_lon   =  ${geogrid.ref_lon},
+ truelat1  =  ${geogrid.stand_lat1},
+ truelat2  =  ${geogrid.stand_lat2},
+ stand_lon =  ${geogrid.stand_lon},
+ geog_data_path = '${geog_data_path}',
+/
+EOF

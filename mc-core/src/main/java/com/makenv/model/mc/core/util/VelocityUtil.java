@@ -2,6 +2,7 @@ package com.makenv.model.mc.core.util;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.parser.node.ASTReference;
 import org.apache.velocity.runtime.parser.node.ASTprocess;
@@ -31,19 +32,15 @@ public class VelocityUtil {
         if(velocityEngine == null) {
 
           velocityEngine = new VelocityEngine();
+          Properties p = new Properties();
+          p.setProperty(Velocity.INPUT_ENCODING, "UTF-8");
+          p.setProperty(Velocity.OUTPUT_ENCODING, "UTF-8");
+          p.setProperty(Velocity.ENCODING_DEFAULT, "UTF-8");
+          if(testOrNot) {
 
-          if(!testOrNot) {
-
-            velocityEngine.init();
-
-          }
-          else {
-
-            Properties p = new Properties();
             p.setProperty("file.resource.loader.path","..");
-            velocityEngine.init(p);
-
           }
+          velocityEngine.init(p);
 
         }
       }
@@ -61,7 +58,7 @@ public class VelocityUtil {
     VelocityUtil.testOrNot = testOrNot;
   }
 
-  public static String buildTemplate(String templateFile, Map<String, String> values) {
+  public static String buildTemplate(String templateFile, Map<String,?> values) {
     Template template = VelocityUtil.newInstance().getTemplate(templateFile);
     VelocityContext velocityContext = new VelocityContext();
     for (String key : values.keySet()) {

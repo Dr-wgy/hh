@@ -1,5 +1,7 @@
 package com.makenv.model.mc.message.handler.wrf;
 
+import com.makenv.model.mc.core.config.McConfigManager;
+import com.makenv.model.mc.message.handler.AbstractHandlerConfig;
 import com.makenv.model.mc.message.handler.Handler;
 import com.makenv.model.mc.message.handler.HandlerChain;
 
@@ -7,12 +9,16 @@ import com.makenv.model.mc.message.handler.HandlerChain;
  * Created by wgy on 2017/2/22.
  * 所有的脚本是预处理脚本池 c shell 脚本
  */
-public class WrfPreProcessHandler implements Handler {
+public class WrfPreProcessHandler extends AbstractHandlerConfig implements Handler {
 
+    public WrfPreProcessHandler(McConfigManager mcConfigManager) {
+
+        this.mcConfigManager = mcConfigManager;
+    }
 
     private void generate_renv_wrf_pre_csh() {
 
-
+            //mcConfigManager.
     }
 
     private void link_wrf_pre_csh() {
