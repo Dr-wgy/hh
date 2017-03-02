@@ -1,12 +1,17 @@
 package com.makenv.model.mc.cli.func.impl;
 
 import com.makenv.model.mc.cli.cmd.CommandType;
+import com.makenv.model.mc.cli.exception.InvalidParamsException;
 import com.makenv.model.mc.cli.func.AbstractOperator;
 import com.makenv.model.mc.cli.cmd.CommandManager;
+import com.makenv.model.mc.core.config.McConfigManager;
+import com.makenv.model.mc.core.constant.Constant;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.LocalTimeUtil;
 import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +28,9 @@ public class UngribOperator extends AbstractOperator {
   private String date;
   @Autowired
   private CommandManager commandManager;
+  @Autowired
+  private McConfigManager configManager;
+  private Logger logger = LoggerFactory.getLogger(UngribOperator.class);
 
   @Override
   public String getName() {
@@ -30,8 +38,13 @@ public class UngribOperator extends AbstractOperator {
   }
 
   @Override
-  protected boolean beforeOperate() throws Exception {
-    date = commandManager.getValueAndCheck(CommandType.CMD_DATE);
+  protected boolean beforeOperate() {
+    try {
+      date = commandManager.getValueAndCheck(CommandType.CMD_DATE);
+    } catch (InvalidParamsException e) {
+      logger.error("", e);
+      return false;
+    }
     if (StringUtil.isEmpty(date)) {
       date = LocalTimeUtil.formatToday("yyyyMMdd");
     }
@@ -45,16 +58,16 @@ public class UngribOperator extends AbstractOperator {
   }
 
   private boolean checkFnl() {
-    return false;
+    return true;
   }
 
   private boolean checkGfs() {
-    return false;
+    return true;
   }
 
   @Override
-  protected boolean doOperate() throws Exception {
-    copyFiles();
+  protected boolean doOperate() {
+    if (!copyFiles()) return false;
     buildEnv();
     execFnl();
     execGfs();
@@ -85,14 +98,31 @@ public class UngribOperator extends AbstractOperator {
 
   }
 
-  private void copyFiles() throws IOException {
-    String fnlSrc = "", fnlDest = "", gfsSrc = "", gfsDest = "";
-    FileUtil.copyFolder(new File(fnlSrc), new File(fnlDest));
-    FileUtil.copyFolder(new File(gfsSrc), new File(gfsDest));
+  private boolean copyFiles() {
+    String _year = date.substring(0, 4);
+    String datePath = String.format("%s%s", File.separator, _year);
+    String timePath = String.format("%s%s", datePath, Constant.START_HOUR);
+    String fnlSrc = configManager.getSystemConfigPath().getSync().getFnl() + datePath;
+    String fnlDest = configManager.getSystemConfigPath().getWorkspace().getShare().getInput().getFnl().getDirPath() + datePath;
+    String gfsSrc = configManager.getSystemConfigPath().getSync().getGfs() + timePath;
+    String gfsDest = configManager.getSystemConfigPath().getWorkspace().getShare().getInput().getGfs().getDirPath() + timePath;
+    try {
+      for (String _hour : Constant.FILE_HOURS) {
+        String _file = String.format("fnl_%s_%s_00.grib2", date, _hour);
+        String fnlSrcFile = String.format("%s%s%s", fnlSrc, File.separator, _file);
+        String fnlDestFile = String.format("%s%s%s", fnlDest, File.separator, _file);
+        FileUtil.copyFile(fnlSrcFile, fnlDestFile);
+      }
+      FileUtil.copyFolder(new File(gfsSrc), new File(gfsDest));
+    } catch (IOException e) {
+      logger.error("", e);
+      return false;
+    }
+    return true;
   }
 
   @Override
-  protected boolean afterOperate() throws Exception {
+  protected boolean afterOperate() {
     return true;
   }
 }

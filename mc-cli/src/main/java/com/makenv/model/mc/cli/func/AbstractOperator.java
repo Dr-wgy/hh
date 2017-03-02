@@ -16,6 +16,7 @@ public abstract class AbstractOperator implements IOperator {
   private CommandManager commandManager;
   @Autowired
   private JedisHelper jedisHelper;
+
   @Override
   public void init() throws Exception {
     String output = commandManager.getValueAndCheck(CommandType.CMD_OUTPUT);
@@ -38,9 +39,9 @@ public abstract class AbstractOperator implements IOperator {
     jedisHelper.sendMessage(content);
   }
 
-  protected abstract boolean beforeOperate() throws Exception;
+  protected abstract boolean beforeOperate();
 
-  protected abstract boolean doOperate() throws Exception;
+  protected abstract boolean doOperate();
 
-  protected abstract boolean afterOperate() throws Exception;
+  protected abstract boolean afterOperate();
 }
