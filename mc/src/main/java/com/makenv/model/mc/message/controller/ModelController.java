@@ -74,11 +74,9 @@ public class ModelController {
 
         logger.info("domain.create");
 
-        modelService.doCreateBean(domainCreateBean);
-
         System.out.println("domain.create");
 
-        return true;
+        return modelService.doCreateBean(domainCreateBean);
     }
 
 }

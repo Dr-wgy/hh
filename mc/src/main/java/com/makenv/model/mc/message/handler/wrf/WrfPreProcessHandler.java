@@ -1,13 +1,17 @@
 package com.makenv.model.mc.message.handler.wrf;
 
 import com.makenv.model.mc.core.config.McConfigManager;
+import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.message.handler.AbstractHandlerConfig;
 import com.makenv.model.mc.message.handler.Handler;
 import com.makenv.model.mc.message.handler.HandlerChain;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by wgy on 2017/2/22.
- * 所有的脚本是预处理脚本池 c shell 脚本
+ * 所有的脚本是预处理脚本 c shell 脚本
  */
 public class WrfPreProcessHandler extends AbstractHandlerConfig implements Handler {
 
@@ -18,7 +22,15 @@ public class WrfPreProcessHandler extends AbstractHandlerConfig implements Handl
 
     private void generate_renv_wrf_pre_csh() {
 
-            //mcConfigManager.
+        WrfPreBean wrfPreBean = new WrfPreBean();
+
+        String fileNamePath =  mcConfigManager.getSystemConfigPath().getTemplate().getRenv_wrfpre_csh();
+
+        Map map = new HashMap();
+
+        map.put("wrfPre",wrfPreBean);
+
+        String content = VelocityUtil.buildTemplate(fileNamePath,map);
     }
 
     private void link_wrf_pre_csh() {
@@ -34,14 +46,23 @@ public class WrfPreProcessHandler extends AbstractHandlerConfig implements Handl
     @Override
     public void doHandler(HandlerChain handlerChain) {
 
-        //生成wrf预处理环境变量 c shell 脚本
-        generate_renv_wrf_pre_csh();
+        try {
 
-        //链接wrf预处理脚本
-        link_wrf_pre_csh();
+            //生成wrf预处理环境变量 c shell 脚本
+            generate_renv_wrf_pre_csh();
 
-        //执行预处理脚本
-        runShell();
+            //链接wrf预处理脚本
+            link_wrf_pre_csh();
+
+            //执行预处理脚本
+            runShell();
+
+
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
 
         handlerChain.doHandler(handlerChain);
 
