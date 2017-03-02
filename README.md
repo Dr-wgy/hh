@@ -111,4 +111,5 @@ gfs: /path/ungrib.csh /path/renv-ungrib.csh gfs
 6.link wrf.csh to /public/home/tsinghua/alei/mc/$userid/$missionid/common/run/wrf
 7.cd /public/home/tsinghua/alei/mc/$userid/$missionid/common/run/wrf;./wrf.csh /path/renv-wrf.csh
 
-如果是预报
+## 打包
+mvn clean compile package
