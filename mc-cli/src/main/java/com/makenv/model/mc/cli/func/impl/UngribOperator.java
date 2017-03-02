@@ -98,6 +98,8 @@ public class UngribOperator extends AbstractOperator {
     params.put("gfs_input", gfsDir);
     params.put("fnl_output", ungribFnlDir);
     params.put("gfs_output", ungribGfsDir);
+    params.put("scripts_path", configManager.getSystemConfigPath().getRoot().getScript());
+    params.put("wrf_build_path", configManager.getSystemConfigPath().getRoot().getWrf());
     String content = VelocityUtil.buildTemplate(renvTemplate, params);
     String renvPath = String.format("%s%s%s", target, File.separator, Constant.UNGRIB_RENV_FILE);
     FileUtil.writeLocalFile(new File(renvPath), content);
@@ -121,11 +123,11 @@ public class UngribOperator extends AbstractOperator {
 
   private boolean copyFiles() {
     String _year = date.substring(0, 4);
-    String _date = date.substring(4, 8);
+//    String _date = date.substring(4, 8);
     syncFnlDir = configManager.getSystemConfigPath().getSync().getFnl() + File.separator + _year;
     syncGfsDir = configManager.getSystemConfigPath().getSync().getGfs() + String.format("%s%s%s", File.separator, date, Constant.START_HOUR);
-    String _fnlDirSuffix = String.format("%s%s%s%s", File.separator, _year, File.separator, _date);
-    String _gfsDirSuffix = String.format("%s%s%s%s%s", File.separator, _year, File.separator, _date, Constant.START_HOUR);
+    String _fnlDirSuffix = String.format("%s%s", File.separator, _year);
+    String _gfsDirSuffix = String.format("%s%s%s", File.separator, date, Constant.START_HOUR);
     fnlDir = configManager.getSystemConfigPath().getWorkspace().getShare().getInput().getFnl().getDirPath() + _fnlDirSuffix;
     gfsDir = configManager.getSystemConfigPath().getWorkspace().getShare().getInput().getGfs().getDirPath() + _gfsDirSuffix;
     ungribFnlDir = configManager.getSystemConfigPath().getWorkspace().getShare().getInput().getUngrib_fnl().getDirPath() + _fnlDirSuffix;
@@ -135,8 +137,8 @@ public class UngribOperator extends AbstractOperator {
         String _file = String.format("fnl_%s_%s_00.grib2", date, _hour);
         String fnlSrcFile = String.format("%s%s%s", syncFnlDir, File.separator, _file);
         String fnlDestFile = String.format("%s%s%s", fnlDir, File.separator, _file);
-        FileUtil.copyFile(fnlSrcFile, fnlDestFile);
         logger.info(fnlSrcFile + " -> " + fnlDestFile);
+        FileUtil.copyFile(fnlSrcFile, fnlDestFile);
       }
       logger.info(syncGfsDir + " -> " + gfsDir);
       FileUtil.copyFolder(new File(syncGfsDir), new File(gfsDir));

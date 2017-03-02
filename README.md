@@ -100,7 +100,6 @@ gfs: /path/ungrib.csh /path/renv-ungrib.csh gfs
 ## wrf
 1. /path/wrf.csh /path/
 
-
 ------------------------------------
 如果是自定义基准情景
 1.生成griddesc，ocean file
@@ -110,6 +109,14 @@ gfs: /path/ungrib.csh /path/renv-ungrib.csh gfs
 5.生成/public/home/tsinghua/alei/mc/$userid/$missionid/common/run/wrf/renv-wrf.csh
 6.link wrf.csh to /public/home/tsinghua/alei/mc/$userid/$missionid/common/run/wrf
 7.cd /public/home/tsinghua/alei/mc/$userid/$missionid/common/run/wrf;./wrf.csh /path/renv-wrf.csh
+
+## 创建domain触发的操作
+1.mcip template生成
+2.调度ocean工具
+3.调度geogrid
+4.wrf，wps等template生成
+5.griddesc文件生成
+6.排放配置文件模板生成
 
 ## 打包
 mvn clean compile package
