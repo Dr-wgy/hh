@@ -9,7 +9,6 @@ public class TemplatePath {
 
     private String namelist_wps_metgrid_template;
 
-
     private String namelist_wrf_template;
 
     private String namelist_ipxwrf_template;

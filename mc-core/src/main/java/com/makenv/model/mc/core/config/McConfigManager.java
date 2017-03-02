@@ -45,12 +45,14 @@ public class McConfigManager implements InitializingBean {
             if(configPath.startsWith("file:")){
                 configPath = configPath.substring(5);
             }
-            File configFile = new File("../" + configPath);
+            File configFile = new File(configPath);
             if (!configFile.exists() || configFile.isDirectory()) {
-                throw new IllegalArgumentException(
-                        "Config file doesn't exist or it's directory");
+                configFile = new File("../" + configPath);
+                if (!configFile.exists() || configFile.isDirectory()) {
+                    throw new IllegalArgumentException(
+                            "Config file doesn't exist or it's directory");
+                }
             }
-
             config = ConfigFactory.parseFile(configFile).resolve();
 
             systemConfigPath = ConfigBeanFactory.create(config.getConfig("path"),SystemConfigPath.class);

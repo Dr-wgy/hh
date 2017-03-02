@@ -54,7 +54,7 @@ cat > namelist.input << EOF
  grid_id                = 1,     2,     3,
  parent_id              = ${wrf.parent_id},
  i_parent_start         = ${wrf.i_parent_start},
- j_parent_start         = ${wrf.i_parent_start},
+ j_parent_start         = ${wrf.j_parent_start},
  parent_grid_ratio      = ${wrf.parent_grid_ratio},
  parent_time_step_ratio = ${wrf.parent_time_step_ratio},
  feedback               = 0,
