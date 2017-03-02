@@ -14,8 +14,6 @@ public class SystemConfigPath {
 
     private SyncPath sync;
 
-    private TemplatePath template;
-
     public RootConfigPath getRoot() {
         return root;
     }
@@ -24,13 +22,6 @@ public class SystemConfigPath {
         this.root = root;
     }
 
-    public TemplatePath getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(TemplatePath template) {
-        this.template = template;
-    }
     public SyncPath getSync() {
         return sync;
     }
