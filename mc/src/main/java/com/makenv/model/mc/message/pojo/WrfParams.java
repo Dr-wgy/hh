@@ -9,6 +9,8 @@ public class WrfParams {
 
     private String parent_grid_ratio;
 
+    private String parent_time_step_ratio;
+
     private String i_parent_start;
 
     private String j_parent_start;
@@ -73,5 +75,13 @@ public class WrfParams {
 
     public void setEta_levels(String eta_levels) {
         this.eta_levels = eta_levels;
+    }
+
+    public String getParent_time_step_ratio() {
+        return parent_time_step_ratio;
+    }
+
+    public void setParent_time_step_ratio(String parent_time_step_ratio) {
+        this.parent_time_step_ratio = parent_time_step_ratio;
     }
 }
