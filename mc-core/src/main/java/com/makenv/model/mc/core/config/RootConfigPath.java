@@ -5,23 +5,40 @@ package com.makenv.model.mc.core.config;
  */
 public class RootConfigPath {
 
-    private String workspace;
+  private String workspace;
+  private String sync;
+  private String script;
+  private String wrf;
 
-    private String sync;
+  public String getScript() {
+    return script;
+  }
 
-    public String getWorkspace() {
-        return workspace;
-    }
+  public void setScript(String script) {
+    this.script = script;
+  }
 
-    public void setWorkspace(String workspace) {
-        this.workspace = workspace;
-    }
+  public String getWrf() {
+    return wrf;
+  }
 
-    public String getSync() {
-        return sync;
-    }
+  public void setWrf(String wrf) {
+    this.wrf = wrf;
+  }
 
-    public void setSync(String sync) {
-        this.sync = sync;
-    }
+  public String getWorkspace() {
+    return workspace;
+  }
+
+  public void setWorkspace(String workspace) {
+    this.workspace = workspace;
+  }
+
+  public String getSync() {
+    return sync;
+  }
+
+  public void setSync(String sync) {
+    this.sync = sync;
+  }
 }
