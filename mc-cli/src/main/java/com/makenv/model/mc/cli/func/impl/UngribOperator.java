@@ -71,19 +71,24 @@ public class UngribOperator extends AbstractOperator {
     if (!copyFiles()) return false;
     try {
       buildEnv();
+      prepareExecScript();
     } catch (IOException e) {
       logger.error("", e);
       return false;
     }
-    prepareExecScript();
     exec();
     return true;
   }
 
   private void buildEnv() throws IOException {
-    String templateFile = configManager.getSystemConfigPath().getTemplate().getNamelist_wps_ungrib();
+    String target = configManager.getSystemConfigPath().getWorkspace().getShare().getRun().getUngrib().getDirPath();
+    File targetDir = new File(target);
+    if (!targetDir.exists()) {
+      targetDir.mkdirs();
+    }
+    String renvTemplate = configManager.getSystemConfigPath().getTemplate().getRenv_ungrib_csh();
     Map<String, Object> params = new HashMap<>();
-    params.put("namelist_template", templateFile);
+    params.put("namelist_template", String.format("%s%snamelist.wps.ungrib.template", target, File.separator));
     params.put("start_date", date);
     params.put("end_date", date);
     params.put("start_hour", Constant.START_HOUR);
@@ -93,12 +98,20 @@ public class UngribOperator extends AbstractOperator {
     params.put("gfs_input", gfsDir);
     params.put("fnl_output", ungribFnlDir);
     params.put("gfs_output", ungribGfsDir);
-    String content = VelocityUtil.buildTemplate(templateFile, params);
-    FileUtil.writeLocalFile(new File(templateFile), content);
+    String content = VelocityUtil.buildTemplate(renvTemplate, params);
+    String renvPath = String.format("%s%s%s", target, File.separator, Constant.UNGRIB_RENV_FILE);
+    FileUtil.writeLocalFile(new File(renvPath), content);
   }
 
-  private void prepareExecScript() {
-
+  private void prepareExecScript() throws IOException {
+    String runPath = configManager.getSystemConfigPath().getWorkspace().getShare().getRun().getUngrib().getDirPath();
+    StringBuilder sb = new StringBuilder();
+    sb.append("cd ");
+    sb.append(runPath);
+    sb.append("\n");
+//    sb.append("./")
+    String scriptPath = String.format("%s%s%s", runPath, File.separator, Constant.UNGRIB_SCRIPT_FILE);
+    FileUtil.writeLocalFile(new File(scriptPath), sb.toString());
   }
 
   private void exec() {
