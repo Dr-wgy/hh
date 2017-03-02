@@ -40,11 +40,12 @@
         "Y0": "3,3,3"//y向裁剪网格数（以左下角为起点）
       }
     },
-    "conmmon": {
+    "common": {
       "time": {
         "start": "模式开始日期",
         "end": "模式结束日期"
-      }
+      },
+      "pathdate":"20170201" //起报时间
     },
     "emis": {
       "calctype": "cache",//计算方式，cache或者server
@@ -63,6 +64,9 @@
       "spinup": 2,
       "lastfnl": 20170201 //ungrib成功的最新一天，世界时间
     },
-    "suctasks":["wrf.pre"]//已执行成功的任务节点
+    "cmaq": {
+      "spinup": 2
+    },
+    "successtasks":["wrf.pre"]//已执行成功的任务节点
   }
 }
