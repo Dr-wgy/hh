@@ -33,8 +33,6 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
           <mainClass>com.makenv.model.mc.Application</mainClass>
-          <source>${version.jdk}</source>
-          <target>${version.jdk}</target>
         </configuration>
       </plugin>
       <plugin>
