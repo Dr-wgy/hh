@@ -10,5 +10,5 @@ public interface ModelService {
 
     void startModelTask(ModelStartBean modelStartBean);
 
-    void doCreateBean(DomainCreateBean domainCreateBean);
+    boolean doCreateBean(DomainCreateBean domainCreateBean);
 }

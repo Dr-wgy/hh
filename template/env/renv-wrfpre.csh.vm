@@ -15,9 +15,9 @@ setenv geog_data ${wrfPre.geog_data}
 #输出目录/path/geogrid
 setenv geogrid_data ${wrfPre.geogrid_data}
 #ungrib fnl输出目录/path/ungrib/
-setenv ungrib_fnl_data ${wrfPre.ungrib_fnl_data}
+setenv ungrib_fnl_data ${wrfPre.ungrib_fnl}
 #ungrib gfs输出目录/path/ungrib/
-setenv ungrib_gfs_data ${wrfPre.ungrib_gfs_data}
+setenv ungrib_gfs_data ${wrfPre.ungrib_gfs}
 #real_data目录/path/real_data
 setenv real_data ${wrfPre.real_data}
 #是否为debug模式，0非，>0为debug
