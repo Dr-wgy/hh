@@ -6,8 +6,6 @@ import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.message.pojo.CommonParams;
 import com.makenv.model.mc.message.pojo.DomainCreateBean;
-import com.makenv.model.mc.message.pojo.TaskDomain;
-import com.makenv.model.mc.message.pojo.WrfParams;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,108 +21,108 @@ import java.util.Map;
 @Component
 public class TemplateFileHelper {
 
-    @Autowired
-    private McConfigManager mcConfigManager;
+  @Autowired
+  private McConfigManager mcConfigManager;
 
-    private String templateDir;
+  private String templateDir;
 
-    @PostConstruct
-    public void postContruct(){
+  @PostConstruct
+  public void postContruct() {
 
-      templateDir = mcConfigManager.getSystemConfigPath().getWorkspace().getUserid().getDomainid().getCommon().getTemplate().getDirPath();
+    templateDir = mcConfigManager.getSystemConfigPath().getWorkspace().getUserid().getDomainid().getCommon().getTemplate().getDirPath();
+  }
+
+
+  public boolean generateNamelist(DomainCreateBean domainCreateBean) {
+
+    generateNamelistIpwrf(domainCreateBean);
+
+    generateNamelistOa(domainCreateBean);
+
+    generateNamelistwpsGeogrid(domainCreateBean);
+
+    generateNamelistwrf(domainCreateBean);
+
+    generateNamelistwpsMetgrid(domainCreateBean);
+
+    return false;
+
+  }
+
+  private boolean generateNamelistIpwrf(DomainCreateBean domainCreateBean) {
+
+    String filePathName = mcConfigManager.getSystemConfigPath().getTemplate().getNamelist_ipxwrf();
+
+    boolean flag = true;
+
+    try {
+
+      FileUtil.copyFile(filePathName, FilePathUtil.joinByDelimiter("/", templateDir, "namelist.ipxwrf.template"));
+
+    } catch (IOException e) {
+
+      flag = false;
+
+      e.printStackTrace();
     }
 
+    return flag;
 
-    public boolean generateNamelist(DomainCreateBean domainCreateBean){
+  }
 
-        generateNamelistIpwrf(domainCreateBean);
+  private boolean generateNamelistOa(DomainCreateBean domainCreateBean) {
 
-        generateNamelistOa(domainCreateBean);
+    String filePathName = mcConfigManager.getSystemConfigPath().getTemplate().getNamelist_oa();
 
-        generateNamelistwpsGeogrid(domainCreateBean);
+    boolean flag = true;
 
-        generateNamelistwrf(domainCreateBean);
+    try {
 
-        generateNamelistwpsMetgrid(domainCreateBean);
+      FileUtil.copyFile(filePathName, FilePathUtil.joinByDelimiter("/", templateDir, "namelist.oa.template"));
 
-        return false;
+    } catch (IOException e) {
 
+      flag = false;
+
+      e.printStackTrace();
     }
 
-    private boolean generateNamelistIpwrf(DomainCreateBean domainCreateBean){
+    return false;
 
-        String filePathName = mcConfigManager.getSystemConfigPath().getTemplate().getNamelist_ipxwrf_template();
+  }
 
-        boolean flag = true;
+  private boolean generateNamelistwpsGeogrid(DomainCreateBean domainCreateBean) {
 
-        try {
+    String filePathName = mcConfigManager.getSystemConfigPath().getTemplate().getNamelist_wps_geogrid();
 
-            FileUtil.copyFile(filePathName, FilePathUtil.joinByDelimiter("/",templateDir,"namelist.ipxwrf.template"));
+    Map map = new HashMap<>();
 
-        } catch (IOException e) {
+    Geogrid geogrid = new Geogrid();
 
-            flag = false;
+    CommonParams commonParams = domainCreateBean.getDomain().getCommon();
 
-            e.printStackTrace();
-        }
+    BeanUtils.copyProperties(domainCreateBean.getDomain().getCommon(), geogrid);
 
-        return flag;
+    BeanUtils.copyProperties(domainCreateBean.getDomain().getWrf(), geogrid);
 
-    }
+    map.put("geogrid", geogrid);
 
-    private boolean generateNamelistOa(DomainCreateBean domainCreateBean) {
+    String content = VelocityUtil.buildTemplate(filePathName, map);
 
-        String filePathName = mcConfigManager.getSystemConfigPath().getTemplate().getNamelist_oa_template();
+    return FileUtil.save(FilePathUtil.joinByDelimiter("/", templateDir, "namelist.wps.geogrid.template"), content);
 
-        boolean flag = true;
+  }
 
-        try {
-
-            FileUtil.copyFile(filePathName, FilePathUtil.joinByDelimiter("/",templateDir,"namelist.oa.template"));
-
-        } catch (IOException e) {
-
-            flag = false;
-
-            e.printStackTrace();
-        }
-
-        return false;
-
-    }
-
-    private boolean generateNamelistwpsGeogrid(DomainCreateBean domainCreateBean){
-
-        String filePathName = mcConfigManager.getSystemConfigPath().getTemplate().getNamelist_wps_geogrid_template();
-
-        Map map = new HashMap<>();
-
-        Geogrid geogrid = new Geogrid();
-
-        CommonParams commonParams = domainCreateBean.getDomain().getCommon();
-
-        BeanUtils.copyProperties(domainCreateBean.getDomain().getCommon(),geogrid);
-
-        BeanUtils.copyProperties(domainCreateBean.getDomain().getWrf(),geogrid);
-
-        map.put("geogrid",geogrid);
-
-        String content = VelocityUtil.buildTemplate(filePathName,map);
-
-        return  FileUtil.save(FilePathUtil.joinByDelimiter("/",templateDir,"namelist.wps.geogrid.template"),content);
-
-    }
-
-    private boolean generateNamelistwrf(DomainCreateBean domainCreateBean){
+  private boolean generateNamelistwrf(DomainCreateBean domainCreateBean) {
 
 
-        return false;
-    }
+    return false;
+  }
 
-    private boolean generateNamelistwpsMetgrid(DomainCreateBean domainCreateBean){
+  private boolean generateNamelistwpsMetgrid(DomainCreateBean domainCreateBean) {
 
 
-        return false;
-    }
+    return false;
+  }
 
 }
