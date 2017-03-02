@@ -9,8 +9,6 @@ public class RootConfigPath {
 
     private String sync;
 
-    private String template;
-
     public String getWorkspace() {
         return workspace;
     }
@@ -25,13 +23,5 @@ public class RootConfigPath {
 
     public void setSync(String sync) {
         this.sync = sync;
-    }
-
-    public String getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(String template) {
-        this.template = template;
     }
 }
