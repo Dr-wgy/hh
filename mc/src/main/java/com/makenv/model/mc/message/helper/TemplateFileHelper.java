@@ -75,7 +75,7 @@ public class TemplateFileHelper {
 
         try {
 
-            FileUtil.copyFile(filePathName, FilePathUtil.joinByDelimiter("/",templateDir,"namelist.ipxwrf.template"));
+            FileUtil.copyFile(filePathName, FilePathUtil.joinByDelimiter("/",getTemplateDirName(domainCreateBean),"namelist.ipxwrf.template"));
 
         } catch (IOException e) {
 
@@ -105,7 +105,7 @@ public class TemplateFileHelper {
             e.printStackTrace();
         }
 
-        return false;
+        return flag;
 
     }
 
@@ -152,7 +152,7 @@ public class TemplateFileHelper {
 
         String content = VelocityUtil.buildTemplate(filePathName,map);
 
-        return  FileUtil.save(FilePathUtil.joinByDelimiter("/",getTemplateDirName(domainCreateBean),"namelist.wps.metgrid.template"),content);
+        return  FileUtil.save(FilePathUtil.joinByDelimiter("/",getTemplateDirName(domainCreateBean),"namelist.wrf.template"),content);
     }
 
     private boolean generateNamelistwpsMetgrid(DomainCreateBean domainCreateBean){
