@@ -106,10 +106,11 @@ public class UngribOperator extends AbstractOperator {
   private void prepareExecScript() throws IOException {
     String runPath = configManager.getSystemConfigPath().getWorkspace().getShare().getRun().getUngrib().getDirPath();
     StringBuilder sb = new StringBuilder();
+    sb.append("#!/usr/bin/env bash\n");
     sb.append("cd ");
     sb.append(runPath);
     sb.append("\n");
-//    sb.append("./")
+    sb.append("./ungrib.csh ");
     String scriptPath = String.format("%s%s%s", runPath, File.separator, Constant.UNGRIB_SCRIPT_FILE);
     FileUtil.writeLocalFile(new File(scriptPath), sb.toString());
   }
