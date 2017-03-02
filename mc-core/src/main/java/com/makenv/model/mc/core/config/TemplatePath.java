@@ -22,14 +22,6 @@ public class TemplatePath {
 
   private String griddesc;
 
-  public String getNamelist_wps_ungrib() {
-    return namelist_wps_ungrib;
-  }
-
-  public void setNamelist_wps_ungrib(String namelist_wps_ungrib) {
-    this.namelist_wps_ungrib = namelist_wps_ungrib;
-  }
-
   public String getNamelist_wps_geogrid() {
     return namelist_wps_geogrid;
   }
@@ -44,6 +36,14 @@ public class TemplatePath {
 
   public void setNamelist_wps_metgrid(String namelist_wps_metgrid) {
     this.namelist_wps_metgrid = namelist_wps_metgrid;
+  }
+
+  public String getNamelist_wps_ungrib() {
+    return namelist_wps_ungrib;
+  }
+
+  public void setNamelist_wps_ungrib(String namelist_wps_ungrib) {
+    this.namelist_wps_ungrib = namelist_wps_ungrib;
   }
 
   public String getNamelist_wrf() {
@@ -101,4 +101,5 @@ public class TemplatePath {
   public void setGriddesc(String griddesc) {
     this.griddesc = griddesc;
   }
+
 }

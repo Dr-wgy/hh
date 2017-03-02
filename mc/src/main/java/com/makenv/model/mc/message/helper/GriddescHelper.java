@@ -1,6 +1,7 @@
 package com.makenv.model.mc.message.helper;
 
 import com.makenv.model.mc.core.config.McConfigManager;
+import com.makenv.model.mc.core.constant.Constant;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.message.pojo.DomainCreateBean;
@@ -39,15 +40,17 @@ public class GriddescHelper {
 
         int maxDom = domainCreateBean.getDomain().getCommon().getMax_dom();
 
-        String griddescFilePathName = getgGriddescFilePathName(domainCreateBean);
+        String griddescFilePathName = getGriddescFilePathName(domainCreateBean);
 
         String gridescVmFile = mcConfigManager.getSystemConfigPath().getTemplate().getGriddesc();
 
         boolean flag = false;
 
-        while(maxDom > 0) {
+        while(maxDom-- > 0) {
 
             GriddescBean griddescBean = new GriddescBean();
+
+            griddescBean.setCoordName(String.format(Constant.COORDNAME,maxDom + 1));
 
             griddescBean.setMap_proj(domain.getCommon().getMap_proj());
 
@@ -71,7 +74,7 @@ public class GriddescHelper {
 
             griddescBean.setNy(Integer.parseInt(ny[maxDom].trim()));
 
-            String currDomFile = String.format(griddescFilePathName, maxDom);
+            String currDomFile = String.format(griddescFilePathName, maxDom + 1);
 
             Map map = new HashMap();
 
@@ -79,15 +82,13 @@ public class GriddescHelper {
 
             String content = VelocityUtil.buildTemplate(gridescVmFile,map);
 
-            flag = FileUtil.save(content,currDomFile);
-
-            -- maxDom;
+            flag = FileUtil.save(currDomFile,content);
         }
 
         return flag;
     }
 
-    private String getgGriddescFilePathName(DomainCreateBean domainCreateBean) {
+    private String getGriddescFilePathName(DomainCreateBean domainCreateBean) {
 
         String filePathName = mcConfigManager.getSystemConfigPath().
                 getWorkspace().getUserid().getDomainid().

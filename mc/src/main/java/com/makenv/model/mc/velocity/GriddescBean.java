@@ -10,7 +10,7 @@ package com.makenv.model.mc.velocity;
    COORD-NAME, XORIG, YORIG, XCELL, YCELL, NCOLS, NROWS, NTHIK*/
 public class GriddescBean {
 
-    private String coorName;
+    private String coordName;
 
     private String map_proj; //投影方式
 
@@ -42,13 +42,6 @@ public class GriddescBean {
 
     private int nthik = 1;//Boundary perimeter thickness
 
-    public String getCoorName() {
-        return coorName;
-    }
-
-    public void setCoorName(String coorName) {
-        this.coorName = coorName;
-    }
 
     public int getCoordType() {
 
@@ -106,7 +99,7 @@ public class GriddescBean {
 
     public String getGridName() {
 
-        String gridNameTemPlate = "%s_%d%%s%d%s";
+        String gridNameTemPlate = "%s_%d%s%d%s";
 
         if("lambert".equals(map_proj)) {
             String lat;
@@ -193,5 +186,14 @@ public class GriddescBean {
 
     public void setMap_proj(String map_proj) {
         this.map_proj = map_proj;
+    }
+
+
+    public String getCoordName() {
+        return coordName;
+    }
+
+    public void setCoordName(String coordName) {
+        this.coordName = coordName;
     }
 }

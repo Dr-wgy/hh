@@ -28,6 +28,16 @@ public class ModelStartBean {
 
     private Wrf wrf;
 
+    public Cmaq getCmaq() {
+        return cmaq;
+    }
+
+    public void setCmaq(Cmaq cmaq) {
+        this.cmaq = cmaq;
+    }
+
+    private Cmaq cmaq;
+
     public String getCores() {
         return cores;
     }
@@ -84,7 +94,6 @@ public class ModelStartBean {
         this.scenarioid = scenarioid;
     }
 
-
     public TaskDomain getDomain() {
         return domain;
     }
@@ -99,5 +108,18 @@ public class ModelStartBean {
 
     public void setScenarioType(String scenarioType) {
         this.scenarioType = scenarioType;
+    }
+
+    public static class Cmaq {
+
+        private int spinup;
+
+        public int getSpinup() {
+            return spinup;
+        }
+
+        public void setSpinup(int spinup) {
+            this.spinup = spinup;
+        }
     }
 }

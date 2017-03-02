@@ -1,6 +1,7 @@
 package com.makenv.model.mc.message.handler.wrf;
 
 import com.makenv.model.mc.core.config.McConfigManager;
+import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.message.handler.AbstractHandlerConfig;
 import com.makenv.model.mc.message.handler.Handler;
@@ -15,6 +16,7 @@ import java.util.Map;
  */
 public class WrfPreProcessHandler extends AbstractHandlerConfig implements Handler {
 
+
     public WrfPreProcessHandler(McConfigManager mcConfigManager) {
 
         this.mcConfigManager = mcConfigManager;
@@ -22,15 +24,19 @@ public class WrfPreProcessHandler extends AbstractHandlerConfig implements Handl
 
     private void generate_renv_wrf_pre_csh() {
 
-        WrfPreBean wrfPreBean = new WrfPreBean();
-
         String fileNamePath =  mcConfigManager.getSystemConfigPath().getTemplate().getRenv_wrfpre_csh();
+
+        mcConfigManager.getSystemConfigPath().
+                getWorkspace().getUserid().
+                getDomainid().getCommon().getRun();
 
         Map map = new HashMap();
 
-        map.put("wrfPre",wrfPreBean);
+        //map.put("wrfPre",wrfPreBean);
 
         String content = VelocityUtil.buildTemplate(fileNamePath,map);
+
+        //FileUtil.save(,content)
     }
 
     private void link_wrf_pre_csh() {

@@ -101,13 +101,36 @@ public class ModelContinueBean {
 
     private Wrf wrf;
 
-    public List<String> getSubtasks() {
-        return subtasks;
+    public Cmaq getCmaq() {
+        return cmaq;
     }
 
-    public void setSubtasks(List<String> subtasks) {
-        this.subtasks = subtasks;
+    public void setCmaq(Cmaq cmaq) {
+        this.cmaq = cmaq;
     }
 
-    private List<String> subtasks;
+    private Cmaq cmaq;
+
+    private List<String> successtasks;
+
+    public List<String> getSuccesstasks() {
+        return successtasks;
+    }
+
+    public void setSuccesstasks(List<String> successtasks) {
+        this.successtasks = successtasks;
+    }
+
+    public static class Cmaq {
+
+        private int spinup;
+
+        public int getSpinup() {
+            return spinup;
+        }
+
+        public void setSpinup(int spinup) {
+            this.spinup = spinup;
+        }
+    }
 }

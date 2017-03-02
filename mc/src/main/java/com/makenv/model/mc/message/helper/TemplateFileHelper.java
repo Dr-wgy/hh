@@ -96,7 +96,7 @@ public class TemplateFileHelper {
 
         try {
 
-            FileUtil.copyFile(filePathName, FilePathUtil.joinByDelimiter("/",templateDir,"namelist.oa.template"));
+            FileUtil.copyFile(filePathName, FilePathUtil.joinByDelimiter("/",getTemplateDirName(domainCreateBean),"namelist.oa.template"));
 
         } catch (IOException e) {
 
@@ -127,7 +127,7 @@ public class TemplateFileHelper {
 
         String content = VelocityUtil.buildTemplate(filePathName,map);
 
-        return  FileUtil.save(FilePathUtil.joinByDelimiter("/",templateDir,"namelist.wps.geogrid.template"),content);
+        return  FileUtil.save(FilePathUtil.joinByDelimiter("/",getTemplateDirName(domainCreateBean),"namelist.wps.geogrid.template"),content);
 
     }
 
@@ -152,7 +152,7 @@ public class TemplateFileHelper {
 
         String content = VelocityUtil.buildTemplate(filePathName,map);
 
-        return  FileUtil.save(FilePathUtil.joinByDelimiter("/",templateDir,"namelist.wps.metgrid.template"),content);
+        return  FileUtil.save(FilePathUtil.joinByDelimiter("/",getTemplateDirName(domainCreateBean),"namelist.wps.metgrid.template"),content);
     }
 
     private boolean generateNamelistwpsMetgrid(DomainCreateBean domainCreateBean){
@@ -167,7 +167,16 @@ public class TemplateFileHelper {
 
         String content = VelocityUtil.buildTemplate(filePathName,map);
 
-        return  FileUtil.save(FilePathUtil.joinByDelimiter("/",templateDir,"namelist.wps.metgrid.template"),content);
+        return  FileUtil.save(FilePathUtil.joinByDelimiter("/",getTemplateDirName(domainCreateBean),"namelist.wps.metgrid.template"),content);
+    }
+
+    private String getTemplateDirName(DomainCreateBean domainCreateBean) {
+
+        String filePathName = mcConfigManager.getSystemConfigPath().getWorkspace().getUserid().getDomainid()
+                .getCommon().getTemplate().getDirPath();
+
+        return filePathName.replaceAll("\\{userid\\}",domainCreateBean.getUserid()).
+                replaceAll("\\{domainid\\}",domainCreateBean.getDomainid());
     }
 
 }
