@@ -27,7 +27,7 @@ import java.util.Map;
 @Component
 public class TemplateFileHelper {
 
-    private Logger logger = LoggerFactory.getLogger(TemplateFileHelper.class);
+    private Logger logger = LoggerFactory.getLogger(ModelController.class);
 
     @Autowired
     private McConfigManager mcConfigManager;
@@ -37,7 +37,7 @@ public class TemplateFileHelper {
     @PostConstruct
     public void postContruct(){
 
-      templateDir = mcConfigManager.getSystemConfigPath().getWorkspace().getUserid().getDomainid().getCommon().getTemplate().getDirPath();
+        templateDir = mcConfigManager.getSystemConfigPath().getWorkspace().getUserid().getDomainid().getCommon().getTemplate().getDirPath();
     }
 
 
@@ -69,7 +69,7 @@ public class TemplateFileHelper {
 
     private boolean generateNamelistIpwrf(DomainCreateBean domainCreateBean){
 
-        String filePathName = mcConfigManager.getSystemConfigPath().getTemplate().getNamelist_ipxwrf_template();
+        String filePathName = mcConfigManager.getSystemConfigPath().getTemplate().getNamelist_ipxwrf();
 
         boolean flag = true;
 
@@ -90,7 +90,7 @@ public class TemplateFileHelper {
 
     private boolean generateNamelistOa(DomainCreateBean domainCreateBean) {
 
-        String filePathName = mcConfigManager.getSystemConfigPath().getTemplate().getNamelist_oa_template();
+        String filePathName = mcConfigManager.getSystemConfigPath().getTemplate().getNamelist_oa();
 
         boolean flag = true;
 
@@ -111,7 +111,7 @@ public class TemplateFileHelper {
 
     private boolean generateNamelistwpsGeogrid(DomainCreateBean domainCreateBean){
 
-        String filePathName = mcConfigManager.getSystemConfigPath().getTemplate().getNamelist_wps_geogrid_template();
+        String filePathName = mcConfigManager.getSystemConfigPath().getTemplate().getNamelist_wps_geogrid();
 
         Map map = new HashMap<>();
 
@@ -133,7 +133,7 @@ public class TemplateFileHelper {
 
     private boolean generateNamelistwrf(DomainCreateBean domainCreateBean){
 
-        String filePathName = mcConfigManager.getSystemConfigPath().getTemplate().getNamelist_wrf_template();
+        String filePathName = mcConfigManager.getSystemConfigPath().getTemplate().getNamelist_wrf();
 
         //作用域
         Map map = new HashMap();
@@ -159,7 +159,7 @@ public class TemplateFileHelper {
 
         int max_dom = domainCreateBean.getDomain().getCommon().getMax_dom();
 
-        String filePathName = mcConfigManager.getSystemConfigPath().getTemplate().getNamelist_wps_metgrid_template();
+        String filePathName = mcConfigManager.getSystemConfigPath().getTemplate().getNamelist_wps_metgrid();
 
         Map map = new HashMap();
 
