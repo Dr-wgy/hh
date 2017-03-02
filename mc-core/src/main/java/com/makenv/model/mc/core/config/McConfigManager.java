@@ -54,6 +54,7 @@ public class McConfigManager implements InitializingBean {
                 }
             }
             config = ConfigFactory.parseFile(configFile).resolve();
+
             systemConfigPath = ConfigBeanFactory.create(config.getConfig("path"),SystemConfigPath.class);
 
         }
