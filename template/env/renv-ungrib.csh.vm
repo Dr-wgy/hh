@@ -18,4 +18,7 @@ setenv gfs_input ${gfs_input}
 setenv fnl_output ${fnl_output}
 #gfs输入目录/mc/share/input/ungrib_gfs
 setenv gfs_output ${gfs_output}
+#模式驱动脚本
+setenv scripts_path ${scripts_path}
 #wrf安装目录
+setenv wrf_build_path ${wrf_build_path}
