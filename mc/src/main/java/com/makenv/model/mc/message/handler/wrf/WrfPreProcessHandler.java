@@ -1,12 +1,19 @@
 package com.makenv.model.mc.message.handler.wrf;
 
 import com.makenv.model.mc.core.config.McConfigManager;
+import com.makenv.model.mc.core.constant.Constant;
+import com.makenv.model.mc.core.util.FilePathUtil;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.message.handler.AbstractHandlerConfig;
 import com.makenv.model.mc.message.handler.Handler;
 import com.makenv.model.mc.message.handler.HandlerChain;
+import com.makenv.model.mc.message.pojo.ModelCommonParams;
+import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Bean;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,37 +23,80 @@ import java.util.Map;
  */
 public class WrfPreProcessHandler extends AbstractHandlerConfig implements Handler {
 
+    private WrfPreParams wrfPreParams;
+
+    private String wrfPathdateRunPath;
 
     public WrfPreProcessHandler(McConfigManager mcConfigManager) {
 
         this.mcConfigManager = mcConfigManager;
+
+        init();
     }
 
-    private void generate_renv_wrf_pre_csh() {
+    private void init() {
+
+        wrfPathdateRunPath = mcConfigManager.getSystemConfigPath().getWorkspace().getUserid().getDomainid().getCommon().getRun().getWrfpre_pathdate();
+
+        wrfPathdateRunPath = replaceRegex(wrfPathdateRunPath);
+
+    }
+
+    private boolean generate_renv_wrf_pre_csh() {
+
+        String geogridDataPath = mcConfigManager.getSystemConfigPath().getWorkspace().getUserid().getDomainid().getCommon().getData().getGeogrid().getDirPath();
+
+        String geoDirPath = mcConfigManager.getSystemConfigPath().getWorkspace().getShare().getInput().getGeog().getDirPath();
+
+        geogridDataPath = replaceRegex(geogridDataPath);
+
+        WrfPreBean preBean = new WrfPreBean();
+
+        preBean.setStart_hour(Constant.START_HOUR);
+
+        preBean.setNamelist_wps_geogrid_template(FilePathUtil.joinByDelimiter(wrfPathdateRunPath, Constant.NAMELIST_WPS_GEOGRID_TEMPLATE));
+
+        preBean.setNamelist_wps_metgrid_template(FilePathUtil.joinByDelimiter(wrfPathdateRunPath, Constant.NAMELIST_WPS_METGRID_TEMPLATE));
+
+        preBean.setNamelist_wrf_template(FilePathUtil.joinByDelimiter(wrfPathdateRunPath, Constant.NAMELIST_WRF_TEMPLATE));
+
+        preBean.setGeog_data(geoDirPath);
+
+        preBean.setGeogrid_data(geogridDataPath);
+
+        preBean.setLogFilePathName(FilePathUtil.joinByDelimiter(wrfPathdateRunPath,Constant.WRF_PRE_LOG));
+
+        BeanUtils.copyProperties(wrfPreParams,preBean);
 
         String fileNamePath =  mcConfigManager.getSystemConfigPath().getTemplate().getRenv_wrfpre_csh();
 
-        mcConfigManager.getSystemConfigPath().
-                getWorkspace().getUserid().
-                getDomainid().getCommon().getRun();
-
         Map map = new HashMap();
 
-        //map.put("wrfPre",wrfPreBean);
+        map.put("wrfPre",preBean);
 
         String content = VelocityUtil.buildTemplate(fileNamePath,map);
 
-        //FileUtil.save(,content)
+        return FileUtil.save(FilePathUtil.joinByDelimiter(wrfPathdateRunPath,Constant.WRF_PRE_CSH),content);
     }
 
-    private void link_wrf_pre_csh() {
+    private boolean link_wrf_pre_csh() {
 
+        String exsitsPath = mcConfigManager.getSystemConfigPath().getCsh().getWrfpre_csh();
+
+        return FileUtil.symbolicLink(exsitsPath,FilePathUtil.joinByDelimiter(wrfPathdateRunPath,Constant.WRF_PRE_CSH));
 
     }
 
     private void runShell() {
 
 
+    }
+
+    private String replaceRegex(String path) {
+
+        return path.replaceAll("\\{userid\\}",wrfPreParams.getUserid()).replaceAll("\\{domainid\\}",wrfPreParams.getDomainid())
+
+                .replaceAll("\\{globaldatasets\\}",wrfPreParams.getGlobaldatasets());
     }
 
     @Override

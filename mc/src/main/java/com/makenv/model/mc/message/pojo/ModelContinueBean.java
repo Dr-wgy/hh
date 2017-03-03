@@ -58,14 +58,6 @@ public class ModelContinueBean {
         this.domain = domain;
     }
 
-    public Map getCommon() {
-        return common;
-    }
-
-    public void setCommon(Map common) {
-        this.common = common;
-    }
-
     public Emis getEmis() {
         return emis;
     }
@@ -95,7 +87,7 @@ public class ModelContinueBean {
 
     private TaskDomain domain; // 模式domain的具体参数
 
-    private Map common; //公共内容
+    private CommonParams common; //公共内容
 
     private Emis emis;
 
@@ -120,6 +112,15 @@ public class ModelContinueBean {
     public void setSuccesstasks(List<String> successtasks) {
         this.successtasks = successtasks;
     }
+
+    public CommonParams getCommon() {
+        return common;
+    }
+
+    public void setCommon(CommonParams common) {
+        this.common = common;
+    }
+
 
     public static class Cmaq {
 

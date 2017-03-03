@@ -9,12 +9,19 @@ public class SystemConfigPath {
 
     private WorkSpacePath workspace;
 
-    public SystemConfigPath() {
-    }
-
     private SyncPath sync;
 
     private TemplatePath template;
+
+    private CshShell csh;
+
+    public CshShell getCsh() {
+        return csh;
+    }
+
+    public void setCsh(CshShell csh) {
+        this.csh = csh;
+    }
 
     public RootConfigPath getRoot() {
         return root;
