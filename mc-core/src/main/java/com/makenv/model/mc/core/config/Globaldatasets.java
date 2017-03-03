@@ -87,6 +87,16 @@ public class Globaldatasets {
 
         private String dirPath;
 
+        private String pathdate;
+
+        public String getPathdate() {
+            return pathdate;
+        }
+
+        public void setPathdate(String pathdate) {
+            this.pathdate = pathdate;
+        }
+
     }
 
     public static class GlobalMegan {
@@ -101,6 +111,17 @@ public class Globaldatasets {
 
         private String dirPath;
 
+        private String pathdate;
+
+        public String getPathdate() {
+            return pathdate;
+        }
+
+        public void setPathdate(String pathdate) {
+            this.pathdate = pathdate;
+        }
+
+
     }
     public static class GlobalReal {
 
@@ -113,6 +134,19 @@ public class Globaldatasets {
         }
 
         private String dirPath;
+
+        private String pathdate;
+
+
+        public String getPathdate() {
+            return pathdate;
+        }
+
+        public void setPathdate(String pathdate) {
+            this.pathdate = pathdate;
+        }
+
+
 
 
     }
@@ -128,6 +162,16 @@ public class Globaldatasets {
         }
 
         private String dirPath;
+
+        private String pathdate;
+
+        public String getPathdate() {
+            return pathdate;
+        }
+
+        public void setPathdate(String pathdate) {
+            this.pathdate = pathdate;
+        }
 
     }
 
