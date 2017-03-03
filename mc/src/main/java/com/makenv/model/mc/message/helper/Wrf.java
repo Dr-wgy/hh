@@ -13,7 +13,7 @@ public class Wrf {
 
     private String e_sn;
 
-    private int nlevel;
+    private int e_vert;
 
     private String dx;
 
@@ -55,23 +55,23 @@ public class Wrf {
         this.e_sn = e_sn;
     }
 
-    public int getNlevel() {
+    public int getE_vert() {
 
-        if(nlevel != 0) {
+        if(e_vert != 0) {
 
             String eta_levels = this.getEta_levels();
 
             if(!StringUtil.isEmpty(eta_levels)) {
 
-                nlevel = eta_levels.split(",").length;
+                e_vert = eta_levels.split(",").length;
             }
         }
 
-        return nlevel;
+        return e_vert;
     }
 
-    public void setNlevel(int nlevel) {
-        this.nlevel = nlevel;
+    public void setE_vert(int e_vert) {
+        this.e_vert = e_vert;
     }
 
     public String getDx() {

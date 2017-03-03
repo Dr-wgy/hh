@@ -29,5 +29,23 @@ public class McipParams {
     @JsonProperty("Y0")
     private String y0;
 
+    private int ctm_vert;
 
+    private String ctmlays;
+
+    public int getCtm_vert() {
+        return ctm_vert;
+    }
+
+    public void setCtm_vert(int ctm_vert) {
+        this.ctm_vert = ctm_vert;
+    }
+
+    public String getCtmlays() {
+        return ctmlays;
+    }
+
+    public void setCtmlays(String ctmlays) {
+        this.ctmlays = ctmlays;
+    }
 }

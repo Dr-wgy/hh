@@ -46,7 +46,7 @@ cat > namelist.input << EOF
  e_we                   = ${wrf.e_we},
  e_sn                   = ${wrf.e_sn},
  s_vert                 = 1,     1,     1,
- e_vert                 = ${wrf.nlevel},   ${wrf.nlevel},    ${wrf.nlevel},
+ e_vert                 = ${wrf.e_vert},   ${wrf.e_vert},    ${wrf.e_vert},
  num_metgrid_soil_levels = 4
  num_metgrid_levels     = 32
  dx                     = ${wrf.dx},

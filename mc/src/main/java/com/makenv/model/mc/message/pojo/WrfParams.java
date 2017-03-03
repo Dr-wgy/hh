@@ -19,6 +19,8 @@ public class WrfParams {
 
     private String e_sn;
 
+    private int e_vert;
+
     private String eta_levels;
 
     public String getParent_id() {
@@ -83,5 +85,13 @@ public class WrfParams {
 
     public void setParent_time_step_ratio(String parent_time_step_ratio) {
         this.parent_time_step_ratio = parent_time_step_ratio;
+    }
+
+    public int getE_vert() {
+        return e_vert;
+    }
+
+    public void setE_vert(int e_vert) {
+        this.e_vert = e_vert;
     }
 }
