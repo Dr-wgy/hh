@@ -1,6 +1,18 @@
 package com.makenv.model.mc.core.util;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.RandomAccessFile;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -48,6 +60,14 @@ public class FileUtil {
     FileWriter fw = new FileWriter(new File(outPath));
     fw.write(json);
     fw.close();
+  }
+
+  public static boolean checkAndMkdir(String path) {
+    File dir = new File(path);
+    if (!dir.exists() || !dir.isDirectory()) {
+      return dir.mkdirs();
+    }
+    return true;
   }
 
   public static boolean save(String path, String content) {
@@ -179,7 +199,7 @@ public class FileUtil {
     Path link = Paths.get(newLink + existingFile.getFileName());
     //存在的情况下 删除了 再新建啊！
     if (Files.isSymbolicLink(link)) {
-      File f=link.toFile();
+      File f = link.toFile();
       f.delete();
       try {
         Files.createSymbolicLink(link, existingFile);

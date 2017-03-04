@@ -1,7 +1,6 @@
 package com.makenv.model.mc.message.handler.wrf;
 
 import com.makenv.model.mc.core.config.McConfigManager;
-import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.message.handler.AbstractHandlerConfig;
 import com.makenv.model.mc.message.handler.Handler;
@@ -24,9 +23,9 @@ public class WrfPreProcessHandler extends AbstractHandlerConfig implements Handl
 
     private void generate_renv_wrf_pre_csh() {
 
-        String fileNamePath =  mcConfigManager.getSystemConfigPath().getTemplate().getRenv_wrfpre_csh();
+        String fileNamePath =  mcConfigManager.getSystemConfig().getTemplate().getRenv_wrfpre_csh();
 
-        mcConfigManager.getSystemConfigPath().
+        mcConfigManager.getSystemConfig().
                 getWorkspace().getUserid().
                 getDomainid().getCommon().getRun();
 

@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.makenv.model.mc.core.constant.Constant.UNGRIB_RENV_FILE;
+
 /**
  * Created by alei on 2017/2/21.
  */
@@ -30,6 +32,12 @@ public class UngribOperator extends AbstractOperator {
   private CommandManager commandManager;
   @Autowired
   private McConfigManager configManager;
+
+  private String scriptPath;
+
+  private final static String TYPE_FNL = "fnl";
+  private final static String TYPE_GFS = "gfs";
+
   private Logger logger = LoggerFactory.getLogger(UngribOperator.class);
   private String fnlDir, gfsDir, syncFnlDir, syncGfsDir, ungribFnlDir, ungribGfsDir;
 
@@ -45,6 +53,15 @@ public class UngribOperator extends AbstractOperator {
     } catch (InvalidParamsException e) {
       logger.error("", e);
       return false;
+    }
+    {
+      String runPath = configManager.getSystemConfig().getWorkspace().getShare().getRun().getUngrib().getDirPath();
+      String tagPath = String.format("%s%stag%s%s", runPath, File.separator, File.separator, date);
+      File tag = new File(tagPath);
+      if (tag.exists()) {
+        logger.info(String.format("ungrib already done, %s", tagPath));
+        return true;
+      }
     }
     if (StringUtil.isEmpty(date)) {
       date = LocalTimeUtil.formatToday("yyyyMMdd");
@@ -81,12 +98,12 @@ public class UngribOperator extends AbstractOperator {
   }
 
   private void buildEnv() throws IOException {
-    String target = configManager.getSystemConfigPath().getWorkspace().getShare().getRun().getUngrib().getDirPath();
+    String target = configManager.getSystemConfig().getWorkspace().getShare().getRun().getUngrib().getDirPath();
     File targetDir = new File(target);
     if (!targetDir.exists()) {
       targetDir.mkdirs();
     }
-    String renvTemplate = configManager.getSystemConfigPath().getTemplate().getRenv_ungrib_csh();
+    String renvTemplate = configManager.getSystemConfig().getTemplate().getRenv_ungrib_csh();
     Map<String, Object> params = new HashMap<>();
     params.put("namelist_template", String.format("%s%snamelist.wps.ungrib.template", target, File.separator));
     params.put("start_date", date);
@@ -98,40 +115,63 @@ public class UngribOperator extends AbstractOperator {
     params.put("gfs_input", gfsDir);
     params.put("fnl_output", ungribFnlDir);
     params.put("gfs_output", ungribGfsDir);
-    params.put("scripts_path", configManager.getSystemConfigPath().getRoot().getScript());
-    params.put("wrf_build_path", configManager.getSystemConfigPath().getRoot().getWrf());
+    params.put("scripts_path", configManager.getSystemConfig().getRoot().getScript());
+    params.put("wrf_build_path", configManager.getSystemConfig().getRoot().getWrf());
     String content = VelocityUtil.buildTemplate(renvTemplate, params);
-    String renvPath = String.format("%s%s%s", target, File.separator, Constant.UNGRIB_RENV_FILE);
+    String renvPath = String.format("%s%s%s", target, File.separator, UNGRIB_RENV_FILE);
     FileUtil.writeLocalFile(new File(renvPath), content);
   }
 
   private void prepareExecScript() throws IOException {
-    String runPath = configManager.getSystemConfigPath().getWorkspace().getShare().getRun().getUngrib().getDirPath();
-    StringBuilder sb = new StringBuilder();
-    sb.append("#!/usr/bin/env bash\n");
-    sb.append("cd ");
-    sb.append(runPath);
-    sb.append("\n");
-    sb.append("./ungrib.csh ");
-    String scriptPath = String.format("%s%s%s", runPath, File.separator, Constant.UNGRIB_SCRIPT_FILE);
-    FileUtil.writeLocalFile(new File(scriptPath), sb.toString());
+    String runPath = configManager.getSystemConfig().getWorkspace().getShare().getRun().getUngrib().getDirPath();
+    String sb = "#!/usr/bin/env bash\n" +
+        "cd " +
+        runPath +
+        "\n" +
+        buildCmd(TYPE_FNL) +
+        buildCmd(TYPE_GFS);
+    scriptPath = String.format("%s%s%s", runPath, File.separator, Constant.UNGRIB_SCRIPT_FILE);
+    FileUtil.writeLocalFile(new File(scriptPath), sb);
   }
 
-  private void exec() {
+  private StringBuilder buildCmd(String type) {
+    String runPath = configManager.getSystemConfig().getWorkspace().getShare().getRun().getUngrib().getDirPath();
+    StringBuilder sb = new StringBuilder();
+    String driverScriptPath = String.format("%s%slevel_3%sModule_ungrib.csh", configManager.getSystemConfig().getRoot().getScript(), File.separator, File.separator);
+    sb.append(driverScriptPath);
+    sb.append(" ");
+    sb.append(String.format("%s%s%s", runPath, File.separator, UNGRIB_RENV_FILE));
+    sb.append(" ");
+    sb.append(type);
+    sb.append("\n");
+    return sb;
+  }
 
+  private boolean exec() {
+    String qsub = configManager.getSystemConfig().getPbs().getQsub();
+    String logFile = "";
+    String scriptFile = "";
+    qsub = String.format(qsub, 1, 2, "ungribe-" + date, logFile, scriptFile);
+    try {
+      Runtime.getRuntime().exec(qsub);
+    } catch (IOException e) {
+      logger.error("", e);
+      return false;
+    }
+    return true;
   }
 
   private boolean copyFiles() {
     String _year = date.substring(0, 4);
 //    String _date = date.substring(4, 8);
-    syncFnlDir = configManager.getSystemConfigPath().getSync().getFnl() + File.separator + _year;
-    syncGfsDir = configManager.getSystemConfigPath().getSync().getGfs() + String.format("%s%s%s", File.separator, date, Constant.START_HOUR);
+    syncFnlDir = configManager.getSystemConfig().getSync().getFnl() + File.separator + _year;
+    syncGfsDir = configManager.getSystemConfig().getSync().getGfs() + String.format("%s%s%s", File.separator, date, Constant.START_HOUR);
     String _fnlDirSuffix = String.format("%s%s", File.separator, _year);
     String _gfsDirSuffix = String.format("%s%s%s", File.separator, date, Constant.START_HOUR);
-    fnlDir = configManager.getSystemConfigPath().getWorkspace().getShare().getInput().getFnl().getDirPath() + _fnlDirSuffix;
-    gfsDir = configManager.getSystemConfigPath().getWorkspace().getShare().getInput().getGfs().getDirPath() + _gfsDirSuffix;
-    ungribFnlDir = configManager.getSystemConfigPath().getWorkspace().getShare().getInput().getUngrib_fnl().getDirPath() + _fnlDirSuffix;
-    ungribGfsDir = configManager.getSystemConfigPath().getWorkspace().getShare().getInput().getUngrib_gfs().getDirPath() + _gfsDirSuffix;
+    fnlDir = configManager.getSystemConfig().getWorkspace().getShare().getInput().getFnl().getDirPath() + _fnlDirSuffix;
+    gfsDir = configManager.getSystemConfig().getWorkspace().getShare().getInput().getGfs().getDirPath() + _gfsDirSuffix;
+    ungribFnlDir = configManager.getSystemConfig().getWorkspace().getShare().getInput().getUngrib_fnl().getDirPath() + _fnlDirSuffix;
+    ungribGfsDir = configManager.getSystemConfig().getWorkspace().getShare().getInput().getUngrib_gfs().getDirPath() + _gfsDirSuffix;
     try {
       for (String _hour : Constant.FILE_HOURS) {
         String _file = String.format("fnl_%s_%s_00.grib2", date, _hour);
@@ -151,6 +191,14 @@ public class UngribOperator extends AbstractOperator {
 
   @Override
   protected boolean afterOperate() {
+    String runPath = configManager.getSystemConfig().getWorkspace().getShare().getRun().getUngrib().getDirPath();
+    try {
+      String tagPath = String.format("%s%stag%s", runPath, File.separator, File.separator);
+      FileUtil.checkAndMkdir(tagPath);
+      FileUtil.writeLocalFile(new File(tagPath + date), "");
+    } catch (IOException e) {
+      logger.error("", e);
+    }
     return true;
   }
 }

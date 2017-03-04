@@ -11,7 +11,7 @@ setenv ungrib_file ${ungrib_file}
 #是否为debug模式，0非，>0为debug
 setenv debug ${debug}
 #fnl输入目录/mc/share/input/fnl
-setenv fnl_nput ${fnl_nput}
+setenv fnl_input ${fnl_input}
 #gfs输入目录/mc/share/input/gfs
 setenv gfs_input ${gfs_input}
 #fnl输出目录/mc/share/input/ungrib_fnl
