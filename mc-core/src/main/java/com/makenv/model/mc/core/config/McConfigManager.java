@@ -19,11 +19,11 @@ public class McConfigManager implements InitializingBean {
 
     private String configPath = "file:etc/system.conf";
 
-    public SystemConfigPath getSystemConfigPath() {
-        return systemConfigPath;
+    public SystemConfig getSystemConfig() {
+        return systemConfig;
     }
 
-    private SystemConfigPath systemConfigPath;
+    private SystemConfig systemConfig;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -55,7 +55,7 @@ public class McConfigManager implements InitializingBean {
             }
             config = ConfigFactory.parseFile(configFile).resolve();
 
-            systemConfigPath = ConfigBeanFactory.create(config.getConfig("path"),SystemConfigPath.class);
+            systemConfig = ConfigBeanFactory.create(config.getConfig("path"),SystemConfig.class);
 
         }
     }
