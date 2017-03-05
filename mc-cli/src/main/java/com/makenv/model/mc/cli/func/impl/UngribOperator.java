@@ -130,7 +130,7 @@ public class UngribOperator extends AbstractOperator {
         "\n" +
         buildCmd(TYPE_FNL) +
         buildCmd(TYPE_GFS);
-    scriptPath = String.format("%s%s%s", runPath, File.separator, Constant.UNGRIB_SCRIPT_FILE);
+    scriptPath = String.format("%s%s%s-%s", runPath, File.separator, Constant.UNGRIB_SCRIPT_FILE,date);
     FileUtil.writeLocalFile(new File(scriptPath), sb);
   }
 
@@ -149,9 +149,9 @@ public class UngribOperator extends AbstractOperator {
 
   private boolean exec() {
     String qsub = configManager.getSystemConfig().getPbs().getQsub();
-    String logFile = "";
-    String scriptFile = "";
-    qsub = String.format(qsub, 1, 2, "ungribe-" + date, logFile, scriptFile);
+    String runPath = configManager.getSystemConfig().getWorkspace().getShare().getRun().getUngrib().getDirPath();
+    String logFile = String.format("",runPath,date);
+    qsub = String.format(qsub, 1, 2, "ungribe-" + date, logFile, scriptPath);
     try {
       Runtime.getRuntime().exec(qsub);
     } catch (IOException e) {
