@@ -89,11 +89,11 @@ public class UngribOperator extends AbstractOperator {
     try {
       buildEnv();
       prepareExecScript();
+      exec();
     } catch (IOException e) {
       logger.error("", e);
       return false;
     }
-    exec();
     return true;
   }
 
@@ -130,7 +130,7 @@ public class UngribOperator extends AbstractOperator {
         "\n" +
         buildCmd(TYPE_FNL) +
         buildCmd(TYPE_GFS);
-    scriptPath = String.format("%s%s%s-%s", runPath, File.separator, Constant.UNGRIB_SCRIPT_FILE,date);
+    scriptPath = String.format("%s%s%s-%s", runPath, File.separator, Constant.UNGRIB_SCRIPT_FILE, date);
     FileUtil.writeLocalFile(new File(scriptPath), sb);
   }
 
@@ -147,18 +147,12 @@ public class UngribOperator extends AbstractOperator {
     return sb;
   }
 
-  private boolean exec() {
+  private void exec() throws IOException {
     String qsub = configManager.getSystemConfig().getPbs().getQsub();
     String runPath = configManager.getSystemConfig().getWorkspace().getShare().getRun().getUngrib().getDirPath();
-    String logFile = String.format("",runPath,date);
+    String logFile = String.format("%s%sungrib-%s.log", runPath, File.separator, date);
     qsub = String.format(qsub, 1, 2, "ungribe-" + date, logFile, scriptPath);
-    try {
-      Runtime.getRuntime().exec(qsub);
-    } catch (IOException e) {
-      logger.error("", e);
-      return false;
-    }
-    return true;
+    Runtime.getRuntime().exec(qsub);
   }
 
   private boolean copyFiles() {
