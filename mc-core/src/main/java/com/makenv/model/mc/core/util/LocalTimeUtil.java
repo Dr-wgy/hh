@@ -25,4 +25,9 @@ public class LocalTimeUtil {
   public static String formatToday() {
     return format(LocalDate.now());
   }
+
+  public static LocalDate parse(String date, String format) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+    return LocalDate.parse(date, formatter);
+  }
 }
