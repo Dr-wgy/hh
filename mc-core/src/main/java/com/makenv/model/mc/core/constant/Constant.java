@@ -10,6 +10,7 @@ public class Constant {
   public static final int MODEL_DEBUG_LEVEL = 1;
   public static final String UNGRIB_RENV_FILE = "renv-ungrib";
   public static final String UNGRIB_SCRIPT_FILE = "invoke-ungrib";
+  public static final String UNGRIB_LOG_FILE = "log-ungrib";
   public static final String UNGRIB_FILE_PREFIX = "FILE";
   public static final String COORDNAME = "China_d%02d";
   public static final String NAMELIST_IPXWRF_TEMPLATE = "namelist.ipxwrf.template";

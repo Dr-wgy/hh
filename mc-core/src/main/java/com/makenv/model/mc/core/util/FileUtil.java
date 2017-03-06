@@ -182,41 +182,32 @@ public class FileUtil {
   /**
    * create symbolic link
    *
-   * @param existFile
-   * @param newLink
+   * @param existFile 已存在的文件
+   * @param newLink   软连接后的新文件
    */
-  public static boolean symbolicLink(String existFile, String newLink){
-
-    //TODO
-    boolean e = new File(existFile).exists();
-
-    File file = new File(newLink);
-    if (!file.exists() || file.getPath() != null) {
-      file.mkdirs();
-    }
-
+  public static boolean symbolicLink(String existFile, String newLink) {
     Path existingFile = Paths.get(existFile);
-    Path link = Paths.get(newLink + existingFile.getFileName());
+    Path link = Paths.get(newLink);
+    File f = link.toFile();
     //存在的情况下 删除了 再新建啊！
     if (Files.isSymbolicLink(link)) {
-      File f = link.toFile();
-      f.delete();
+      if (!f.delete()) return false;
       try {
         Files.createSymbolicLink(link, existingFile);
-      } catch (IOException e1) {
-
+      } catch (IOException e) {
+        e.printStackTrace();
+        return false;
       }
       return true;
     }
-
-    File f = link.toFile();
     if (f.exists()) {
       return false;
     }
     try {
       Files.createSymbolicLink(link, existingFile);
-    } catch (IOException e1) {
-      e1.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+      return false;
     }
     return true;
   }
