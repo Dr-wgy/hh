@@ -1,12 +1,14 @@
 #模板文件绝对路径/path/namelist.wrf.template
-setenv namelist_namelist_wrf_template ${namelist_namelist_wrf_template}
+setenv namelist_namelist_wrf_template ${wrfBean.namelist_wrf_template}
 #开始日期
-setenv start_date ${start_date}
+setenv start_date ${wrfBean.start_date}
 #结束日期
-setenv end_date ${end_date}
+setenv end_date ${wrfBean.end_date}
 #开始时间，默认18
-setenv start_hour ${start_hour}
+setenv start_hour ${wrfBean.start_hour}
 #WRF文件输出目录
-setenv wrf_output ${wrf_output}
+setenv wrf_output ${wrfBean.wrf_output}
 #是否为debug模式，0非，>0为debug
-setenv debug ${debug}
+setenv debug ${wrfBean.debug}
+
+setenv log ${wrfPre.logFilePathName}

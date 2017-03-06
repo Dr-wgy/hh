@@ -8,12 +8,8 @@ import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.message.handler.AbstractHandlerConfig;
 import com.makenv.model.mc.message.handler.Handler;
 import com.makenv.model.mc.message.handler.HandlerChain;
-import com.makenv.model.mc.message.pojo.ModelCommonParams;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
 
-import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,6 +65,10 @@ public class WrfPreProcessHandler extends AbstractHandlerConfig implements Handl
         BeanUtils.copyProperties(wrfPreParams,preBean);
 
         String fileNamePath =  mcConfigManager.getSystemConfigPath().getTemplate().getRenv_wrfpre_csh();
+
+        mcConfigManager.getSystemConfigPath().
+                getWorkspace().getUserid().
+                getDomainid().getCommon().getRun();
 
         Map map = new HashMap();
 

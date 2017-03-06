@@ -13,7 +13,17 @@ public class SystemConfigPath {
 
     private TemplatePath template;
 
+    private Pbs pbs;
+
     private CshShell csh;
+
+    public Pbs getPbs() {
+        return pbs;
+    }
+
+    public void setPbs(Pbs pbs) {
+        this.pbs = pbs;
+    }
 
     public CshShell getCsh() {
         return csh;
