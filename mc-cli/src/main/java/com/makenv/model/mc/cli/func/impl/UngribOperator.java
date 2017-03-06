@@ -103,7 +103,7 @@ public class UngribOperator extends AbstractOperator {
     if (!targetDir.exists() && !targetDir.mkdirs()) {
       logger.error("create dir failed, " + target);
     }
-    String renvTemplate = configManager.getSystemConfig().getTemplate().getRenv_ungrib_csh();
+    String renvTemplate = configManager.getSystemConfig().getTemplate().getRenv_ungrib_sh();
     Map<String, Object> params = new HashMap<>();
     params.put("namelist_template", String.format("%s%snamelist.wps.ungrib.template", target, File.separator));
     params.put("start_date", date);
