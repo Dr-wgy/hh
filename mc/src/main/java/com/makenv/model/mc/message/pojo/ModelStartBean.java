@@ -22,7 +22,7 @@ public class ModelStartBean {
 
     private TaskDomain domain; // 模式domain的具体参数
 
-    private Map common; //公共内容
+    private ModelCommonParams common; //公共内容
 
     private Emis emis;
 
@@ -44,14 +44,6 @@ public class ModelStartBean {
 
     public void setCores(String cores) {
         this.cores = cores;
-    }
-
-    public Map getCommon() {
-        return common;
-    }
-
-    public void setCommon(Map common) {
-        this.common = common;
     }
 
     public Emis getEmis() {
@@ -121,5 +113,13 @@ public class ModelStartBean {
         public void setSpinup(int spinup) {
             this.spinup = spinup;
         }
+    }
+
+    public ModelCommonParams getCommon() {
+        return common;
+    }
+
+    public void setCommon(ModelCommonParams common) {
+        this.common = common;
     }
 }

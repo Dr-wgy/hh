@@ -3,7 +3,7 @@ setenv namelist_wps_geogrid_template ${wrfPre.namelist_wps_geogrid_template}
 #Metgrid模板文件绝对路径/path/namelist.wps.metgrid.template
 setenv namelist_wps_metgrid_template ${wrfPre.namelist_wps_metgrid_template}
 #WRF模板文件绝对路径/path/namelist.wrf.template
-setenv namelist_namelist_wrf_template ${wrfPre.namelist_namelist_wrf_template}
+setenv namelist_namelist_wrf_template ${wrfPre.namelist_wrf_template}
 #开始日期
 setenv start_date ${wrfPre.start_date}
 #结束日期
@@ -22,3 +22,5 @@ setenv ungrib_gfs_data ${wrfPre.ungrib_gfs}
 setenv real_data ${wrfPre.real_data}
 #是否为debug模式，0非，>0为debug
 setenv debug ${wrfPre.debug}
+#设置日志目录文件
+setenv log ${wrfPre.logFilePathName}

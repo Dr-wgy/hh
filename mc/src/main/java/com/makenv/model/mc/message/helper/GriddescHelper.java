@@ -42,7 +42,7 @@ public class GriddescHelper {
 
         String griddescFilePathName = getGriddescFilePathName(domainCreateBean);
 
-        String gridescVmFile = mcConfigManager.getSystemConfig().getTemplate().getGriddesc();
+        String gridescVmFile = mcConfigManager.getSystemConfigPath().getTemplate().getGriddesc();
 
         boolean flag = false;
 
@@ -90,7 +90,7 @@ public class GriddescHelper {
 
     private String getGriddescFilePathName(DomainCreateBean domainCreateBean) {
 
-        String filePathName = mcConfigManager.getSystemConfig().
+        String filePathName = mcConfigManager.getSystemConfigPath().
                 getWorkspace().getUserid().getDomainid().
                 getCommon().getData().getGriddesc().getFilePath();
 
