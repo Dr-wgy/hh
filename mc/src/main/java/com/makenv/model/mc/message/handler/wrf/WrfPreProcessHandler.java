@@ -32,7 +32,7 @@ public class WrfPreProcessHandler extends AbstractHandlerConfig implements Handl
 
     private void init() {
 
-        wrfPathdateRunPath = mcConfigManager.getSystemConfigPath().getWorkspace().getUserid().getDomainid().getCommon().getRun().getWrfpre_pathdate();
+        wrfPathdateRunPath = mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getRun().getWrfpre_pathdate();
 
         wrfPathdateRunPath = replaceRegex(wrfPathdateRunPath);
 
@@ -40,9 +40,9 @@ public class WrfPreProcessHandler extends AbstractHandlerConfig implements Handl
 
     private boolean generate_renv_wrf_pre_csh() {
 
-        String geogridDataPath = mcConfigManager.getSystemConfigPath().getWorkspace().getUserid().getDomainid().getCommon().getData().getGeogrid().getDirPath();
+        String geogridDataPath = mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGeogrid().getDirPath();
 
-        String geoDirPath = mcConfigManager.getSystemConfigPath().getWorkspace().getShare().getInput().getGeog().getDirPath();
+        String geoDirPath = mcConfigManager.getSystemConfig().getWorkspace().getShare().getInput().getGeog().getDirPath();
 
         geogridDataPath = replaceRegex(geogridDataPath);
 
@@ -64,9 +64,9 @@ public class WrfPreProcessHandler extends AbstractHandlerConfig implements Handl
 
         BeanUtils.copyProperties(wrfPreParams,preBean);
 
-        String fileNamePath =  mcConfigManager.getSystemConfigPath().getTemplate().getRenv_wrfpre_csh();
+        String fileNamePath =  mcConfigManager.getSystemConfig().getTemplate().getRenv_wrfpre_csh();
 
-        mcConfigManager.getSystemConfigPath().
+        mcConfigManager.getSystemConfig().
                 getWorkspace().getUserid().
                 getDomainid().getCommon().getRun();
 
@@ -81,7 +81,7 @@ public class WrfPreProcessHandler extends AbstractHandlerConfig implements Handl
 
     private boolean link_wrf_pre_csh() {
 
-        String exsitsPath = mcConfigManager.getSystemConfigPath().getCsh().getWrfpre_csh();
+        String exsitsPath = mcConfigManager.getSystemConfig().getCsh().getWrfpre_csh();
 
         return FileUtil.symbolicLink(exsitsPath,FilePathUtil.joinByDelimiter(wrfPathdateRunPath,Constant.WRF_PRE_CSH));
 
