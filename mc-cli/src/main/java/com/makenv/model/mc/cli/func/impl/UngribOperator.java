@@ -147,7 +147,12 @@ public class UngribOperator extends AbstractOperator {
   }
 
   private void buildEnv() throws IOException {
-    String renvTemplate = configManager.getSystemConfig().getTemplate().getRenv_ungrib_csh();
+    String target = configManager.getSystemConfig().getWorkspace().getShare().getRun().getUngrib().getDirPath();
+    File targetDir = new File(target);
+    if (!targetDir.exists() && !targetDir.mkdirs()) {
+      logger.error("create dir failed, " + target);
+    }
+    String renvTemplate = configManager.getSystemConfig().getTemplate().getRenv_ungrib_sh();
     Map<String, Object> params = new HashMap<>();
     params.put("namelist_template", namelistFile);
     params.put("start_date", date);
