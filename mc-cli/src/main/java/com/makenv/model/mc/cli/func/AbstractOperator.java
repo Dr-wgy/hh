@@ -1,7 +1,7 @@
 package com.makenv.model.mc.cli.func;
 
-import com.makenv.model.mc.cli.cmd.CommandType;
 import com.makenv.model.mc.cli.cmd.CommandManager;
+import com.makenv.model.mc.cli.cmd.CommandType;
 import com.makenv.model.mc.cli.helper.JedisHelper;
 import com.makenv.model.mc.core.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +30,8 @@ public abstract class AbstractOperator implements IOperator {
 
   @Override
   public void operate() throws Exception {
-    beforeOperate();
-    doOperate();
+    if (!beforeOperate()) return;
+    if (!doOperate()) return;
     afterOperate();
   }
 
