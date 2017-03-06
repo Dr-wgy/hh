@@ -3,7 +3,7 @@ package com.makenv.model.mc.core.config;
 /**
  * Created by wgy on 2017/2/28.
  */
-public class SystemConfigPath {
+public class SystemConfig {
 
     private RootConfigPath root;
 
