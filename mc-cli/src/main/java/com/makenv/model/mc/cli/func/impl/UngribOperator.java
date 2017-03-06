@@ -100,8 +100,8 @@ public class UngribOperator extends AbstractOperator {
   private void buildEnv() throws IOException {
     String target = configManager.getSystemConfig().getWorkspace().getShare().getRun().getUngrib().getDirPath();
     File targetDir = new File(target);
-    if (!targetDir.exists()) {
-      targetDir.mkdirs();
+    if (!targetDir.exists() && !targetDir.mkdirs()) {
+      logger.error("create dir failed, " + target);
     }
     String renvTemplate = configManager.getSystemConfig().getTemplate().getRenv_ungrib_csh();
     Map<String, Object> params = new HashMap<>();
@@ -118,7 +118,7 @@ public class UngribOperator extends AbstractOperator {
     params.put("scripts_path", configManager.getSystemConfig().getRoot().getScript());
     params.put("wrf_build_path", configManager.getSystemConfig().getRoot().getWrf());
     String content = VelocityUtil.buildTemplate(renvTemplate, params);
-    String renvPath = String.format("%s%s%s", target, File.separator, UNGRIB_RENV_FILE);
+    String renvPath = String.format("%s%s%s-%s", target, File.separator, UNGRIB_RENV_FILE, date);
     FileUtil.writeLocalFile(new File(renvPath), content);
   }
 
@@ -152,6 +152,7 @@ public class UngribOperator extends AbstractOperator {
     String runPath = configManager.getSystemConfig().getWorkspace().getShare().getRun().getUngrib().getDirPath();
     String logFile = String.format("%s%sungrib-%s.log", runPath, File.separator, date);
     qsub = String.format(qsub, 1, 2, "ungribe-" + date, logFile, scriptPath);
+    logger.info(qsub);
     Runtime.getRuntime().exec(qsub);
   }
 
