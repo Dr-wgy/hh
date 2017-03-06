@@ -185,7 +185,7 @@ public class FileUtil {
    * @param existFile
    * @param newLink
    */
-  public static boolean symbolicLink(String existFile, String newLink) throws IOException {
+  public static boolean symbolicLink(String existFile, String newLink){
 
     //TODO
     boolean e = new File(existFile).exists();

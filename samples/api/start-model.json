@@ -11,7 +11,7 @@
     "scenariotype": "forcast",//情景类型，forcast|reduce|base
     "cores": "计算核数",
     "domain":{
-      "conmmon": {
+      "common": {
         "map_proj": "lambert",//地图投影方式#不同投影下参数不同
         "ref_lat": "34.00",//中心纬度
         "ref_lon": "110.00",//中心经度
@@ -46,10 +46,10 @@
         "ctmlays":"1.000, 0.995, 0.988, 0.980, 0.970, 0.956, 0.938, 0.893, 0.839, 0.777, 0.702, 0.582, 0.400, 0.200, 0.000"// 同CTM一致的垂直分层
       }
     },
-    "conmmon": {
+    "common": {
       "time": {
-        "start": "模式开始日期",
-        "end": "模式结束日期"
+        "start_date": "20170201",
+        "end_date": "20170201"
       },
       "pathdate":"20170201" //起报时间
     },

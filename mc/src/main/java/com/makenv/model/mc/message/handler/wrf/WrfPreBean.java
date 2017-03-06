@@ -1,5 +1,7 @@
 package com.makenv.model.mc.message.handler.wrf;
 
+import java.util.Date;
+
 /**
  * Created by wgy on 2017/3/1.
  */
@@ -11,11 +13,27 @@ public class WrfPreBean {
 
     private String namelist_wrf_template; //WRF模板文件绝对路径
 
-    private String start_date; // 开始日期
+    public Date getStart_date() {
+        return start_date;
+    }
 
-    private String end_date; // 结束日期
+    public void setStart_date(Date start_date) {
+        this.start_date = start_date;
+    }
 
-    private String start_hour;// 开始小时
+    public Date getEnd_date() {
+        return end_date;
+    }
+
+    public void setEnd_date(Date end_date) {
+        this.end_date = end_date;
+    }
+
+    private Date start_date; // 开始日期
+
+    private Date end_date; // 结束日期
+
+    private int start_hour;// 开始小时
 
     private String geog_data; //执行geogrid输入文件所需要的数据目录
 
@@ -26,6 +44,8 @@ public class WrfPreBean {
     private String ungrib_gfs_data; //ungrib gfs输出目录/path/ungrib/
 
     private String real_data;//real_data目录/path/real_data
+
+    private String logFilePathName;//日志目录文件
 
     private int debug;//是否为debug模式，0非，>0为debug
 
@@ -45,21 +65,6 @@ public class WrfPreBean {
         this.namelist_wps_metgrid_template = namelist_wps_metgrid_template;
     }
 
-    public String getStart_date() {
-        return start_date;
-    }
-
-    public void setStart_date(String start_date) {
-        this.start_date = start_date;
-    }
-
-    public String getEnd_date() {
-        return end_date;
-    }
-
-    public void setEnd_date(String end_date) {
-        this.end_date = end_date;
-    }
 
     public String getGeog_data() {
         return geog_data;
@@ -109,19 +114,26 @@ public class WrfPreBean {
         this.debug = debug;
     }
 
-    public String getStart_hour() {
-        return start_hour;
-    }
-
-    public void setStart_hour(String start_hour) {
-        this.start_hour = start_hour;
-    }
-
     public String getNamelist_wrf_template() {
         return namelist_wrf_template;
     }
 
     public void setNamelist_wrf_template(String namelist_wrf_template) {
         this.namelist_wrf_template = namelist_wrf_template;
+    }
+    public String getLogFilePathName() {
+        return logFilePathName;
+    }
+
+    public void setLogFilePathName(String logFilePathName) {
+        this.logFilePathName = logFilePathName;
+    }
+
+    public int getStart_hour() {
+        return start_hour;
+    }
+
+    public void setStart_hour(int start_hour) {
+        this.start_hour = start_hour;
     }
 }
