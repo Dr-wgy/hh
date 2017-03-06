@@ -14,11 +14,11 @@ public class TemplatePath {
 
   private String namelist_oa;
 
-  private String renv_ungrib_csh;
+  private String renv_ungrib_sh;
 
-  private String renv_wrf_csh;
+  private String renv_mcip_sh;
 
-  private String renv_wrfpre_csh;
+  private String renv_wrf_sh;
 
   private String griddesc;
 
@@ -70,36 +70,36 @@ public class TemplatePath {
     this.namelist_oa = namelist_oa;
   }
 
-  public String getRenv_ungrib_csh() {
-    return renv_ungrib_csh;
-  }
-
-  public void setRenv_ungrib_csh(String renv_ungrib_csh) {
-    this.renv_ungrib_csh = renv_ungrib_csh;
-  }
-
-  public String getRenv_wrf_csh() {
-    return renv_wrf_csh;
-  }
-
-  public void setRenv_wrf_csh(String renv_wrf_csh) {
-    this.renv_wrf_csh = renv_wrf_csh;
-  }
-
-  public String getRenv_wrfpre_csh() {
-    return renv_wrfpre_csh;
-  }
-
-  public void setRenv_wrfpre_csh(String renv_wrfpre_csh) {
-    this.renv_wrfpre_csh = renv_wrfpre_csh;
-  }
-
   public String getGriddesc() {
     return griddesc;
   }
 
   public void setGriddesc(String griddesc) {
     this.griddesc = griddesc;
+  }
+
+  public String getRenv_ungrib_sh() {
+    return renv_ungrib_sh;
+  }
+
+  public void setRenv_ungrib_sh(String renv_ungrib_sh) {
+    this.renv_ungrib_sh = renv_ungrib_sh;
+  }
+
+  public String getRenv_mcip_sh() {
+    return renv_mcip_sh;
+  }
+
+  public void setRenv_mcip_sh(String renv_mcip_sh) {
+    this.renv_mcip_sh = renv_mcip_sh;
+  }
+
+  public String getRenv_wrf_sh() {
+    return renv_wrf_sh;
+  }
+
+  public void setRenv_wrf_sh(String renv_wrf_sh) {
+    this.renv_wrf_sh = renv_wrf_sh;
   }
 
 }
