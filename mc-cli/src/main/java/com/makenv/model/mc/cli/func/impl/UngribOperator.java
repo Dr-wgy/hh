@@ -93,7 +93,7 @@ public class UngribOperator extends AbstractOperator {
       FileUtil.checkAndMkdir(ungribFnlDir);
       FileUtil.checkAndMkdir(ungribGfsDir);
 
-      namelistFile = String.format("%s%snamelist.wps.ungrib.template", invokeDir, File.separator);
+      namelistFile = String.format("%s%s%s", invokeDir, File.separator, NAMELIST_WPS_UNGRIB_TEMPLATE);
       String namelist = configManager.getSystemConfig().getTemplate().getNamelist_wps_ungrib();
       File nlFile = new File(namelist);
       FileUtil.symbolicLink(nlFile.getAbsolutePath(), namelistFile);
@@ -190,8 +190,8 @@ public class UngribOperator extends AbstractOperator {
 
   private StringBuilder buildCmd(String type) {
     StringBuilder sb = new StringBuilder();
-    String driverScriptPath = String.format("%s%slevel_3%sModule_ungrib.csh", configManager.getSystemConfig().getRoot().getScript(), File.separator, File.separator);
-    sb.append(driverScriptPath);
+//    String driverScriptPath = String.format("%s%slevel_3%sModule_ungrib.csh", configManager.getSystemConfig().getRoot().getScript(), File.separator, File.separator);
+    sb.append(configManager.getSystemConfig().getCsh().getModule_ungrib_csh());
     sb.append(" ");
     sb.append(renvFile);
     sb.append(" ");
