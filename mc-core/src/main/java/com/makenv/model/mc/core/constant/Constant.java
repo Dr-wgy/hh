@@ -21,6 +21,7 @@ public class Constant {
   public static final String MODULE_WRF_CSH = "Module.wrf.csh";
   public static final String WRF_SCRIPT_FILE = "invoke-wrf";
   public static final String WRF_RENV_FILE="renv-wrf.sh";
+  public static final String NAMELIST_WPS_UNGRIB_TEMPLATE = "namelist.wps.ungrib.template";
 
 
 }
