@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 #模板文件绝对路径/path/namelist.wps.metgrid.template
 setenv namelist_wps_metgrid_template ${wrfBean.namelist_wps_metgrid_template}
 #模板文件绝对路径/path/namelist.wrf.template
@@ -7,6 +6,8 @@ setenv namelist_wrf_template ${wrfBean.namelist_wrf_template}
 setenv start_date ${wrfBean.start_date}
 #运行天数
 setenv run_days ${wrfBean.run_days}
+#运行小时数,12，额外增加的小时数
+setenv run_hours ${wrfBean.run_hours}
 #开始时间，默认18
 setenv start_hour ${wrfBean.start_hour}
 #模式驱动脚本目录
@@ -23,7 +24,9 @@ setenv metgrid_output_path ${wrfBean.metgrid_output_path}
 setenv real_output_path ${wrfBean.real_output_path}
 #WRF文件输出目录
 setenv wrf_output_path ${wrfBean.wrf_output_path}
-#是否为restart run？
-setenv restart_run ${wrfBean.restart_run}
+#基础情景WRF输出目录
+setenv base_wrf_output_path ${wrfBean.base_wrf_output_path}
+#是否为run_type: 0-initial, 1-restart, 2-reinitial
+setenv run_type ${wrfBean.restart_run}
 #是否为debug模式，0非，>0为debug
 setenv debug ${wrfBean.debug}

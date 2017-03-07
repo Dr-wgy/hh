@@ -1,0 +1,22 @@
+#GRIDDESC文件绝对路径/public/home/tsinghua/lixin/my_code/git/model-driver/GRIDDESC/
+setenv GRIDDESC_path ${griddesc_path}
+#开始日期,20170303
+setenv start_date ${start_date}
+#开始时间，默认18
+setenv start_hour ${start_hour}
+#运行日数
+setenv run_days ${run_days}
+#模式驱动脚本目录/public/home/tsinghua/lixin/my_code/git/model-driver/
+setenv scripts_path ${scripts_path}
+#MEGAN安装目录
+setenv megan_build_path ${megan_build_path}
+#MCIP文件输出目录
+setenv mcip_output ${mcip_output}
+#MET2MGN文件输出目录
+setenv met2mgn_output ${met2mgn_output}
+#EMPROC文件输出目录
+setenv emproc_output ${emproc_output}
+#MEGAN文件输出目录
+setenv megan_output ${megan_output}
+#是否为debug模式，0非，>0为debug
+setenv debug ${debug}

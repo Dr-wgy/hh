@@ -9,6 +9,15 @@ public class RootConfigPath {
   private String sync;
   private String script;
   private String wrf;
+  private String cmaq;
+
+  public String getCmaq() {
+    return cmaq;
+  }
+
+  public void setCmaq(String cmaq) {
+    this.cmaq = cmaq;
+  }
 
   public String getScript() {
     return script;

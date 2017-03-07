@@ -5,9 +5,9 @@ package com.makenv.model.mc.enumeration;
  */
 public enum ScenarioType {
 
-    MODEL_FORCAST("forcast"),
+    MODEL_FORCAST("fnl"),
 
-    MODEL_REDUCE("reduce"),
+    MODEL_REDUCE("gfs"),
 
     MODEL_BASE("base");
 

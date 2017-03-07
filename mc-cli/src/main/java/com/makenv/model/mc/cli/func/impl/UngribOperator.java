@@ -66,9 +66,9 @@ public class UngribOperator extends AbstractOperator {
       LocalDate yesterday = today.plusDays(-1);
       String computeYesterday = LocalTimeUtil.format(yesterday, DATE_FORMAT);
       syncFnlDir = configManager.getSystemConfig().getSync().getFnl() + File.separator + _year;
-      syncGfsDir = configManager.getSystemConfig().getSync().getGfs() + String.format("%s%s%s", File.separator, computeYesterday, Constant.START_HOUR);
+      syncGfsDir = configManager.getSystemConfig().getSync().getGfs() + String.format("%s%s%s", File.separator, computeYesterday, configManager.getSystemConfig().getModel().getStart_hour());
       String _fnlDirSuffix = String.format("%s%s", File.separator, _year);
-      String _gfsDirSuffix = String.format("%s%s%s", File.separator, computeYesterday, Constant.START_HOUR);
+      String _gfsDirSuffix = String.format("%s%s%s", File.separator, computeYesterday, configManager.getSystemConfig().getModel().getStart_hour());
       fnlDir = configManager.getSystemConfig().getWorkspace().getShare().getInput().getFnl().getDirPath() + _fnlDirSuffix;
       gfsDir = configManager.getSystemConfig().getWorkspace().getShare().getInput().getGfs().getDirPath() + _gfsDirSuffix;
       ungribFnlDir = configManager.getSystemConfig().getWorkspace().getShare().getInput().getUngrib_fnl().getDirPath() + _fnlDirSuffix;
@@ -162,8 +162,8 @@ public class UngribOperator extends AbstractOperator {
     Map<String, Object> params = new HashMap<>();
     params.put("namelist_template", namelistFile);
     params.put("start_date", computeDate);
-    params.put("end_date", computeDate);
-    params.put("start_hour", Constant.START_HOUR);
+    params.put("run_days", 1);
+    params.put("start_hour", configManager.getSystemConfig().getModel().getStart_hour());
     params.put("ungrib_file", Constant.UNGRIB_FILE_PREFIX);
     params.put("debug", Constant.MODEL_DEBUG_LEVEL);
     params.put("fnl_input", fnlDir);

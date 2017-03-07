@@ -3,7 +3,7 @@ setenv namelist_template ${namelist_template}
 #开始日期
 setenv start_date ${start_date}
 #结束日期
-setenv end_date ${end_date}
+setenv run_days ${run_days}
 #开始时间，默认18
 setenv start_hour ${start_hour}
 #模式驱动脚本目录
