@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class WrfPreProcessHandler extends AbstractHandlerConfig implements Handler {
 
-    private WrfPreParams wrfPreParams;
+    private WrfParams wrfPreParams;
 
     private String wrfPathdateRunPath;
 
@@ -60,11 +60,9 @@ public class WrfPreProcessHandler extends AbstractHandlerConfig implements Handl
 
         preBean.setGeogrid_data(geogridDataPath);
 
-        preBean.setLogFilePathName(FilePathUtil.joinByDelimiter(wrfPathdateRunPath,Constant.WRF_PRE_LOG));
-
         BeanUtils.copyProperties(wrfPreParams,preBean);
 
-        String fileNamePath =  mcConfigManager.getSystemConfig().getTemplate().getRenv_wrfpre_csh();
+        String fileNamePath =  "";//mcConfigManager.getSystemConfig().getTemplate().getRenv_wrfpre_csh();
 
         mcConfigManager.getSystemConfig().
                 getWorkspace().getUserid().
@@ -76,14 +74,16 @@ public class WrfPreProcessHandler extends AbstractHandlerConfig implements Handl
 
         String content = VelocityUtil.buildTemplate(fileNamePath,map);
 
-        return FileUtil.save(FilePathUtil.joinByDelimiter(wrfPathdateRunPath,Constant.WRF_PRE_CSH),content);
+        return false;//FileUtil.save(FilePathUtil.joinByDelimiter(wrfPathdateRunPath,Constant.WRF_PRE_CSH),content);
     }
 
     private boolean link_wrf_pre_csh() {
 
-        String exsitsPath = mcConfigManager.getSystemConfig().getCsh().getWrfpre_csh();
+        String exsitsPath = "";
 
-        return FileUtil.symbolicLink(exsitsPath,FilePathUtil.joinByDelimiter(wrfPathdateRunPath,Constant.WRF_PRE_CSH));
+        //String exsitsPath = mcConfigManager.getSystemConfig().getCsh().getWrfpre_csh();
+
+        return false;//FileUtil.symbolicLink(exsitsPath,FilePathUtil.joinByDelimiter(wrfPathdateRunPath,Constant.WRF_PRE_CSH));
 
     }
 

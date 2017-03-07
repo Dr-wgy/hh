@@ -121,6 +121,15 @@ public class TemplateFileHelper {
 
         BeanUtils.copyProperties(domainCreateBean.getDomain().getWrf(),geogrid);
 
+        //dx //dy 只取最大值
+        String dx[] = commonParams.getDx().split(",");
+
+        String dy[] = commonParams.getDx().split(",");
+
+        geogrid.setDx(dx[0]);
+
+        geogrid.setDy(dy[0]);
+
         map.put("geogrid",geogrid);
 
         String content = VelocityUtil.buildTemplate(filePathName,map);

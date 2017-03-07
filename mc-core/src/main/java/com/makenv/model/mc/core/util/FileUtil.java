@@ -56,6 +56,15 @@ public class FileUtil {
     return true;
   }
 
+  public static boolean writeAppendLocalFileInLinux(File file, String content) throws IOException {
+    FileWriter fw = new FileWriter(file, true);
+    try (BufferedWriter bw = new BufferedWriter(fw)) {
+      content = content + "\n";
+      bw.write(content);
+    }
+    return true;
+  }
+
   public static void writeJson(String outPath, String json) throws IOException {
     FileWriter fw = new FileWriter(new File(outPath));
     fw.write(json);

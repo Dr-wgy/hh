@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by wgy on 2017/3/3.
  */
-public class WrfPreParams {
+public class WrfParams {
 
     @JsonFormat(pattern = "yyyyMMdd")
     @DateTimeFormat(pattern="yyyyMMdd")
@@ -42,6 +42,8 @@ public class WrfPreParams {
     private String globaldatasets;
 
     private Date pathdate;
+
+    private long cores;
 
     public int getStart_hour() {
         return start_hour;
@@ -81,6 +83,14 @@ public class WrfPreParams {
 
     public void setPathdate(Date pathdate) {
         this.pathdate = pathdate;
+    }
+
+    public long getCores() {
+        return cores;
+    }
+
+    public void setCores(long cores) {
+        this.cores = cores;
     }
 
 }
