@@ -1,2 +1,10 @@
-# geogrid 输出目录
-setenv
+# geogrid输入目录
+setenv geog_data_path ${geog_data_path}
+# geogrid输出目录
+setenv geogrid_data_path ${geogrid_data_path}
+
+setenv namelist_template ${namelist_template}
+
+setenv scripts_path ${scripts_path}
+
+setenv wrf_build_path ${wrf_build_path}
