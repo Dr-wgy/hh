@@ -8,7 +8,7 @@
     "domainid": "1",
     "missionid": "任务ID",
     "scenarioid": "情景ID",
-    "scenariotype": "forcast",//情景类型，fnl
+    "datatype": "gfs",//气象数据类型，fnl, gfs
     "cores": "计算核数",
     "domain":{
       "common": {
@@ -74,8 +74,8 @@
     "cmaq": {
       "spinup": 2,
       "ic":{
-        "scenarioid":"",
-        "date":""
+        "scenarioid":"123",
+        "date":"20170201"
       }
     }
   }
