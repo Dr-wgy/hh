@@ -18,6 +18,7 @@ public class Constant {
   public static final String NAMELIST_WPS_GEOGRID_TEMPLATE = "namelist.wps.geogrid.template";
   public static final String NAMELIST_WRF_TEMPLATE = "namelist.wrf.template";
   public static final String NAMELIST_WPS_METGRID_TEMPLATE = "namelist.wps.metgrid.template";
+  public static final String NAMELIST_WPS_UNGRIB_TEMPLATE = "namelist.wps.ungrib.template";
   public static final String WRF_PRE_LOG = "wrfpre.log";
   public static final String WRF_PRE_CSH = "wrfpre.csh";
 
