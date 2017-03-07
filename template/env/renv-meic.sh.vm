@@ -1,0 +1,14 @@
+#开始日期20170303
+setenv start_date ${start_date}
+#结束日期
+setenv end_date ${end_date}
+#开始时间,16
+setenv start_hour ${start_hour}
+#模式驱动脚本目录, /public/home/tsinghua/lixin/my_code/git/model-driver/
+setenv scripts_path ${scripts_path}
+#MEGAN文件输出目录
+setenv megan_output ${megan_output}
+#MEIC文件输出目录
+setenv meic_output ${meic_output}
+#是否为debug模式，0非，>0为debug
+setenv debug ${debug}

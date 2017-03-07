@@ -48,7 +48,7 @@ public class WrfPreProcessHandler extends AbstractHandlerConfig implements Handl
 
         WrfPreBean preBean = new WrfPreBean();
 
-        preBean.setStart_hour(Constant.START_HOUR);
+        preBean.setStart_hour(mcConfigManager.getSystemConfig().getModel().getStart_hour());
 
         preBean.setNamelist_wps_geogrid_template(FilePathUtil.joinByDelimiter(wrfPathdateRunPath, Constant.NAMELIST_WPS_GEOGRID_TEMPLATE));
 

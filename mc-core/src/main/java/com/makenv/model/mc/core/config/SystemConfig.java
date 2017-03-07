@@ -4,63 +4,67 @@ package com.makenv.model.mc.core.config;
  * Created by wgy on 2017/2/28.
  */
 public class SystemConfig {
+  private RootConfigPath root;
+  private WorkSpacePath workspace;
+  private SyncPath sync;
+  private TemplatePath template;
+  private Pbs pbs;
+  private CshShell csh;
+  private Model model;
 
-    private RootConfigPath root;
+  public Model getModel() {
+    return model;
+  }
 
-    private WorkSpacePath workspace;
+  public void setModel(Model model) {
+    this.model = model;
+  }
 
-    private SyncPath sync;
+  public Pbs getPbs() {
+    return pbs;
+  }
 
-    private TemplatePath template;
+  public void setPbs(Pbs pbs) {
+    this.pbs = pbs;
+  }
 
-    private Pbs pbs;
+  public CshShell getCsh() {
+    return csh;
+  }
 
-    private CshShell csh;
+  public void setCsh(CshShell csh) {
+    this.csh = csh;
+  }
 
-    public Pbs getPbs() {
-        return pbs;
-    }
+  public RootConfigPath getRoot() {
+    return root;
+  }
 
-    public void setPbs(Pbs pbs) {
-        this.pbs = pbs;
-    }
+  public void setRoot(RootConfigPath root) {
+    this.root = root;
+  }
 
-    public CshShell getCsh() {
-        return csh;
-    }
+  public TemplatePath getTemplate() {
+    return template;
+  }
 
-    public void setCsh(CshShell csh) {
-        this.csh = csh;
-    }
+  public void setTemplate(TemplatePath template) {
+    this.template = template;
+  }
 
-    public RootConfigPath getRoot() {
-        return root;
-    }
+  public SyncPath getSync() {
+    return sync;
+  }
 
-    public void setRoot(RootConfigPath root) {
-        this.root = root;
-    }
+  public void setSync(SyncPath sync) {
+    this.sync = sync;
+  }
 
-    public TemplatePath getTemplate() {
-        return template;
-    }
+  public WorkSpacePath getWorkspace() {
+    return workspace;
+  }
 
-    public void setTemplate(TemplatePath template) {
-        this.template = template;
-    }
-    public SyncPath getSync() {
-        return sync;
-    }
-
-    public void setSync(SyncPath sync) {
-        this.sync = sync;
-    }
-
-    public WorkSpacePath getWorkspace() {
-        return workspace;
-    }
-
-    public void setWorkspace(WorkSpacePath workspace) {
-        this.workspace = workspace;
-    }
+  public void setWorkspace(WorkSpacePath workspace) {
+    this.workspace = workspace;
+  }
 }

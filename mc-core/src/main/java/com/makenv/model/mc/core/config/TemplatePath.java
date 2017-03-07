@@ -9,18 +9,50 @@ public class TemplatePath {
   private String namelist_wps_metgrid;
   private String namelist_wps_ungrib;
   private String namelist_wrf;
-
   private String namelist_ipxwrf;
-
   private String namelist_oa;
 
   private String renv_ungrib_sh;
-
-  private String renv_mcip_sh;
-
+  private String renv_domain_sh;
   private String renv_wrf_sh;
+  private String renv_mcip_sh;
+  private String renv_megan_sh;
+  private String renv_meic_sh;
+  private String renv_cmaq_sh;
 
   private String griddesc;
+
+  public String getRenv_domain_sh() {
+    return renv_domain_sh;
+  }
+
+  public void setRenv_domain_sh(String renv_domain_sh) {
+    this.renv_domain_sh = renv_domain_sh;
+  }
+
+  public String getRenv_megan_sh() {
+    return renv_megan_sh;
+  }
+
+  public void setRenv_megan_sh(String renv_megan_sh) {
+    this.renv_megan_sh = renv_megan_sh;
+  }
+
+  public String getRenv_meic_sh() {
+    return renv_meic_sh;
+  }
+
+  public void setRenv_meic_sh(String renv_meic_sh) {
+    this.renv_meic_sh = renv_meic_sh;
+  }
+
+  public String getRenv_cmaq_sh() {
+    return renv_cmaq_sh;
+  }
+
+  public void setRenv_cmaq_sh(String renv_cmaq_sh) {
+    this.renv_cmaq_sh = renv_cmaq_sh;
+  }
 
   public String getNamelist_wps_geogrid() {
     return namelist_wps_geogrid;

@@ -43,15 +43,10 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public void startModelTask(ModelStartBean modelStartBean) {
-
         String scenarioType = modelStartBean.getScenarioType();
-
         ScenarioType scenarionTypeEnum = ScenarioType.getScenarioType(scenarioType);
-
         ModelTask modelTask = ModelTaskFactory.createModelTask(scenarionTypeEnum);
-
         modelTask.setModelStartBean(modelStartBean);
-
         modelTask.doModelTask();
 
     }

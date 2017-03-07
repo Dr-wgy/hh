@@ -134,7 +134,7 @@ public class WrfRunHandler extends AbstractHandlerConfig implements Handler,Miss
 
         WrfBean wrfBean = new WrfBean();
 
-        wrfBean.setStart_hour(Constant.START_HOUR);
+        wrfBean.setStart_hour(mcConfigManager.getSystemConfig().getModel().getStart_hour());
 
         wrfBean.setNamelist_wps_metgrid_template(FilePathUtil.joinByDelimiter(wrfPathdateRunPath, Constant.NAMELIST_WPS_METGRID_TEMPLATE));
 
