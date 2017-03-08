@@ -14,7 +14,9 @@ setenv cmaq_build_path ${cmaq_build_path}
 setenv mcip_output_path ${mcip_output_path}
 #MEIC文件输出目录
 setenv meic_output_path ${meic_output_path}
-#是否为初始化模拟
+#BCON文件输出目录
+setenv bcon_output_path ${bcon_output_path}
+#是否为初始化模拟: 0-initial, 1-restart
 setenv run_type ${run_type}
 #基础情景CMAQ文件输出目录
 setenv base_cmaq_output_path ${base_cmaq_output_path}
