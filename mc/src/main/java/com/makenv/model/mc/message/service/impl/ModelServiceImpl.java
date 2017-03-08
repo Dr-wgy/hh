@@ -73,7 +73,6 @@ public class ModelServiceImpl implements ModelService {
     //3. 执行createDomain的相关shell
     boolean succShellRunFlag = createDomainHelper.executeShell(domainCreateBean);
 
-
-    return flag && nameListFlag;
+    return flag && nameListFlag && succShellRunFlag;
   }
 }

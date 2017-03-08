@@ -39,6 +39,106 @@ public class Wrf {
 
     private int pxlsm_smois_init;//#是否从LANDUSE.TBL中读取初始土壤温度
 
+    private String mp_physics;
+
+    private String ra_lw_physics;
+
+    private String ra_sw_physics;
+
+    private String radt;
+
+    private String sf_sfclay_physics;
+
+    private String sf_surface_physics;
+
+    private String bl_pbl_physics;
+
+    private String bldt;
+
+    private String cu_physics;
+
+    private String cudt;
+
+    public String getMp_physics() {
+        return mp_physics;
+    }
+
+    public void setMp_physics(String mp_physics) {
+        this.mp_physics = mp_physics;
+    }
+
+    public String getRa_lw_physics() {
+        return ra_lw_physics;
+    }
+
+    public void setRa_lw_physics(String ra_lw_physics) {
+        this.ra_lw_physics = ra_lw_physics;
+    }
+
+    public String getRa_sw_physics() {
+        return ra_sw_physics;
+    }
+
+    public void setRa_sw_physics(String ra_sw_physics) {
+        this.ra_sw_physics = ra_sw_physics;
+    }
+
+    public String getRadt() {
+        return radt;
+    }
+
+    public void setRadt(String radt) {
+        this.radt = radt;
+    }
+
+    public String getSf_sfclay_physics() {
+        return sf_sfclay_physics;
+    }
+
+    public void setSf_sfclay_physics(String sf_sfclay_physics) {
+        this.sf_sfclay_physics = sf_sfclay_physics;
+    }
+
+    public String getSf_surface_physics() {
+        return sf_surface_physics;
+    }
+
+    public void setSf_surface_physics(String sf_surface_physics) {
+        this.sf_surface_physics = sf_surface_physics;
+    }
+
+    public String getBl_pbl_physics() {
+        return bl_pbl_physics;
+    }
+
+    public void setBl_pbl_physics(String bl_pbl_physics) {
+        this.bl_pbl_physics = bl_pbl_physics;
+    }
+
+    public String getBldt() {
+        return bldt;
+    }
+
+    public void setBldt(String bldt) {
+        this.bldt = bldt;
+    }
+
+    public String getCu_physics() {
+        return cu_physics;
+    }
+
+    public void setCu_physics(String cu_physics) {
+        this.cu_physics = cu_physics;
+    }
+
+    public String getCudt() {
+        return cudt;
+    }
+
+    public void setCudt(String cudt) {
+        this.cudt = cudt;
+    }
+
     public int getDo_fdda() {
         return do_fdda;
     }
