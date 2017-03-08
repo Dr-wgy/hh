@@ -1,52 +1,63 @@
 package com.makenv.model.mc.message.pojo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 
 /**
  * Created by wgy on 2017/3/3.
  */
 public class ModelCommonParams {
+  @JsonProperty("datatype")
+  private String datatype;//情景类型
+  private TimeDate time;
 
-    private TimeDate time;
+  public String getDatatype() {
+    return datatype;
+  }
 
-    public static class TimeDate {
+  public void setDatatype(String datatype) {
+    this.datatype = datatype;
+  }
 
-        private Date start;
+  public static class TimeDate {
 
-        private Date end;
+    private Date start;
 
-        public Date getStart() {
-            return start;
-        }
+    private Date end;
 
-        public void setStart(Date start) {
-            this.start = start;
-        }
-
-        public Date getEnd() {
-            return end;
-        }
-
-        public void setEnd(Date end) {
-            this.end = end;
-        }
+    public Date getStart() {
+      return start;
     }
 
-    private Date pathdate;
-
-    public TimeDate getTime() {
-        return time;
+    public void setStart(Date start) {
+      this.start = start;
     }
 
-    public void setTime(TimeDate time) {
-        this.time = time;
+    public Date getEnd() {
+      return end;
     }
 
-    public Date getPathdate() {
-        return pathdate;
+    public void setEnd(Date end) {
+      this.end = end;
     }
+  }
 
-    public void setPathdate(Date pathdate) {
-        this.pathdate = pathdate;
-    }
+  private Date pathdate;
+
+  public TimeDate getTime() {
+    return time;
+  }
+
+  public void setTime(TimeDate time) {
+    this.time = time;
+  }
+
+  public Date getPathdate() {
+    return pathdate;
+  }
+
+  public void setPathdate(Date pathdate) {
+    this.pathdate = pathdate;
+  }
 }
