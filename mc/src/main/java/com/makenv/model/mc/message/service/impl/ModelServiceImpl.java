@@ -2,9 +2,8 @@ package com.makenv.model.mc.message.service.impl;
 
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.enumeration.ScenarioType;
-import com.makenv.model.mc.message.controller.ModelController;
+import com.makenv.model.mc.message.helper.CreateDomainHelper;
 import com.makenv.model.mc.message.helper.GriddescHelper;
-import com.makenv.model.mc.message.helper.OceanFileHepler;
 import com.makenv.model.mc.message.helper.TemplateFileHelper;
 import com.makenv.model.mc.message.pojo.DomainCreateBean;
 import com.makenv.model.mc.message.pojo.ModelStartBean;
@@ -32,7 +31,8 @@ public class ModelServiceImpl implements ModelService {
     private GriddescHelper griddescHelper;
 
     @Autowired
-    private OceanFileHepler oceanFileHepler;
+    private CreateDomainHelper createDomainHelper;
+
 
     @Autowired
     private TemplateFileHelper templateFileHelper;
@@ -54,18 +54,18 @@ public class ModelServiceImpl implements ModelService {
     @Override
     public boolean doCreateBean(DomainCreateBean domainCreateBean) {
 
-
         //1. 生成griddesc
 
         boolean flag =  griddescHelper.generateGriddesc(domainCreateBean);
 
-        //2. 生成oceanFile
-        boolean oceanFileFlag = oceanFileHepler.generateOcean(domainCreateBean);
-
-
+        //2. 生成相对应的template
         boolean nameListFlag = templateFileHelper.generateNamelist(domainCreateBean);
-        //3. 生成相对应的template
 
-        return flag && oceanFileFlag && nameListFlag;
+        //3. 执行createDomain的相关shell
+        boolean succShellRunFlag = createDomainHelper.executeShell(domainCreateBean);
+
+
+
+        return flag && nameListFlag;
     }
 }
