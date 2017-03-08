@@ -11,6 +11,15 @@ public class Model {
   private int wrf_run_hours;
   private String base_date;
   private LocalDate baseDate;
+  private int days_of_reinitial;
+
+  public int getDays_of_reinitial() {
+    return days_of_reinitial;
+  }
+
+  public void setDays_of_reinitial(int days_of_reinitial) {
+    this.days_of_reinitial = days_of_reinitial;
+  }
 
   public LocalDate getBaseDate() {
     return baseDate;

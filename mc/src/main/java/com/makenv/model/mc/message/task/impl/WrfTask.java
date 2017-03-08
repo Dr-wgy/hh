@@ -23,8 +23,9 @@ public class WrfTask extends ModelTask {
 
   private int getRunType(LocalDate compDate) {
     LocalDate baseDate = configManager.getSystemConfig().getModel().getBaseDate();
-    if (McUtil.needReInitial(baseDate, compDate)) {
-      return 0;
+    int reinitialDays = configManager.getSystemConfig().getModel().getDays_of_reinitial();
+    if (McUtil.needReInitial(baseDate, compDate, reinitialDays)) {
+      return RUN_TYPE_INIT;
     }
     return 1;
   }
@@ -41,6 +42,11 @@ public class WrfTask extends ModelTask {
       logger.error("common.time invalid");
       return false;
     }
+
+    while (!start.isAfter(end)) {
+
+    }
+
     return false;
   }
 

@@ -10,6 +10,9 @@ public abstract class ModelTask implements IModelTask {
   protected IModelTask nextTask;
   protected ModelStartBean modelStartBean;
   protected McConfigManager configManager;
+  protected final static int RUN_TYPE_INIT = 0;
+  protected final static int RUN_TYPE_RESTART = 1;
+  protected final static int RUN_TYPE_REINIT = 2;
 
   public ModelTask(ModelStartBean modelStartBean, McConfigManager configManager) {
     this.modelStartBean = modelStartBean;
