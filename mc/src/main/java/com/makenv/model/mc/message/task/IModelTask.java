@@ -5,5 +5,5 @@ package com.makenv.model.mc.message.task;
  */
 public interface IModelTask {
   void setNextTask(IModelTask nextTask);
-  void handleRequest();
+  boolean handleRequest();
 }

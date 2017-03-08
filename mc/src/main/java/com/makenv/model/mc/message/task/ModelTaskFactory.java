@@ -1,42 +1,34 @@
 package com.makenv.model.mc.message.task;
 
+import com.makenv.model.mc.core.config.McConfigManager;
+import com.makenv.model.mc.message.pojo.ModelStartBean;
 import com.makenv.model.mc.message.task.impl.CmaqTask;
 import com.makenv.model.mc.message.task.impl.McipTask;
 import com.makenv.model.mc.message.task.impl.MeganTask;
 import com.makenv.model.mc.message.task.impl.MeicTask;
 import com.makenv.model.mc.message.task.impl.WrfTask;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Created by alei on 2017/3/8.
  */
-@Component
 public class ModelTaskFactory {
   @Autowired
-  private WrfTask wrfTask;
-  @Autowired
-  private MeicTask meicTask;
-  @Autowired
-  private MeganTask meganTask;
-  @Autowired
-  private McipTask mcipTask;
-  @Autowired
-  private CmaqTask cmaqTask;
+  private McConfigManager configManager;
 
-  public IModelTask getModelTask(String taskType) {
+  public IModelTask getModelTask(String taskType, ModelStartBean modelStartBean) {
     ModelTaskType _taskType = ModelTaskType.valueOf(taskType);
     switch (_taskType) {
       case MEIC:
-        return meicTask;
+        return new MeicTask(modelStartBean, configManager);
       case WRF:
-        return wrfTask;
+        return new WrfTask(modelStartBean, configManager);
       case MEGAN:
-        return meganTask;
+        return new MeganTask(modelStartBean, configManager);
       case MCIP:
-        return mcipTask;
+        return new McipTask(modelStartBean, configManager);
       case CMAQ:
-        return cmaqTask;
+        return new CmaqTask(modelStartBean, configManager);
     }
     return null;
   }
