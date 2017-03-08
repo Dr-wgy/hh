@@ -1,5 +1,8 @@
 package com.makenv.model.mc.message.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.makenv.model.mc.core.util.JacksonUtil;
+
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -14,30 +17,43 @@ public class BeanUtil {
 
 
     // Map --> Bean 1: 利用Introspector,PropertyDescriptor实现 Map --> Bean
-    public static void transMap2Bean(Map<String, Object> map, Object obj) {
+    public static Object transMap2Bean(Map<String, Object> map, Object obj) {
 
         try {
-            BeanInfo beanInfo = Introspector.getBeanInfo(obj.getClass());
-            PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
 
-            for (PropertyDescriptor property : propertyDescriptors) {
-                String key = property.getName();
+            String json = JacksonUtil.objToJson(map);
 
-                if (map.containsKey(key)) {
-                    Object value = map.get(key);
-                    // 得到property对应的setter方法
-                    Method setter = property.getWriteMethod();
-                    setter.invoke(obj, value);
-                }
-
-            }
+            obj = JacksonUtil.jsonToObj(json,obj.getClass());
 
         } catch (Exception e) {
-            System.out.println("transMap2Bean Error " + e);
+
+            e.printStackTrace();
         }
 
-        return;
+        return obj;
 
+    }
+
+    public static Object transforMapToObject(Class<? extends Object> type, Map<String, String> map) throws Exception {
+        BeanInfo beanInfo = Introspector.getBeanInfo(type); //获取类属性
+        Object obj = type.newInstance(); //创建 JavaBean 对象
+//给 JavaBean对象的属性赋值
+        PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+        for (int i = 0; i < propertyDescriptors.length; i++) {
+            PropertyDescriptor descriptor = propertyDescriptors[i];
+            String propertyName = descriptor.getName();
+            if (map.containsKey(propertyName)) {
+                try {
+                    Object value = map.get(propertyName);
+                    Object[] args = new Object[1];
+                    args[0] = value;
+                    descriptor.getWriteMethod().invoke(obj, args);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return obj;
     }
 
     // Bean --> Map 1: 利用Introspector和PropertyDescriptor 将Bean --> Map

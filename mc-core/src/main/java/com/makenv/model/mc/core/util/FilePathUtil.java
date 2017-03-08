@@ -1,5 +1,9 @@
 package com.makenv.model.mc.core.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by wgy on 2016/11/8.
  */
@@ -10,11 +14,23 @@ public class FilePathUtil {
 
     public static String joinByDelimiter(String delimiter,String ... args){
 
-        if(StringUtil.isEmpty(delimiter)) {
+        if(DELIMITER.equals(delimiter)) {
 
             delimiter = DELIMITER;
+
+            return String.join(DELIMITER,args);
         }
 
-        return String.join(delimiter,args);
+        else {
+
+            List<String> list = new ArrayList();
+
+            list.add(delimiter);
+
+            list.addAll(Arrays.asList(args));
+
+            return String.join(DELIMITER,list.toArray(new String[0]));
+
+        }
     }
 }
