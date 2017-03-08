@@ -44,6 +44,8 @@ public class ModelServiceImpl implements ModelService {
         modelTask.setNextTask(modelTaskFactory.getModelTask(tasks[i]));
       }
     }
+    assert modelTask != null;
+    modelTask.handleRequest();
 //        ScenarioType scenarionTypeEnum = ScenarioType.getScenarioType(scenarioType);
 //        ModelTask modelTask = ModelTaskFactory.createModelTask(scenarionTypeEnum);
 //        modelTask.setModelStartBean(modelStartBean);
