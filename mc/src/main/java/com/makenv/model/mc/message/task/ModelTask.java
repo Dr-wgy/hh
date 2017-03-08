@@ -13,4 +13,6 @@ public abstract class ModelTask implements IModelTask {
   public void handleRequest() {
 
   }
+//  protected abstract boolean prepareHandle();
+
 }

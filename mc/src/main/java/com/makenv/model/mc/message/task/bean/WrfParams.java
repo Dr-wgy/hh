@@ -1,4 +1,4 @@
-package com.makenv.model.mc.message.handler.wrf;
+package com.makenv.model.mc.message.task.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;

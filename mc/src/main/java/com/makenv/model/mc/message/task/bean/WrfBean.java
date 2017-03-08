@@ -1,4 +1,4 @@
-package com.makenv.model.mc.message.handler.wrf;
+package com.makenv.model.mc.message.task.bean;
 
 import com.makenv.model.mc.core.util.TimeUtil;
 
