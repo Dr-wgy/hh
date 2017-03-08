@@ -60,7 +60,8 @@ public class ModelServiceImpl implements ModelService {
   public boolean doCreateBean(DomainCreateBean domainCreateBean) {
 
 
-    //1. 生成griddesc
+        //1. 生成griddesc
+        boolean flag = griddescHelper.generateGriddesc(domainCreateBean);
 
         //2. 生成相对应的template
         boolean nameListFlag = templateFileHelper.generateNamelist(domainCreateBean);
@@ -68,8 +69,6 @@ public class ModelServiceImpl implements ModelService {
         //3. 执行createDomain的相关shell
         boolean succShellRunFlag = createDomainHelper.executeShell(domainCreateBean);
 
-
-        boolean flag = griddescHelper.generateGriddesc(domainCreateBean);
 
         return flag && nameListFlag;
     }
