@@ -17,6 +17,7 @@ import com.makenv.model.mc.message.util.BeanUtil;
 import com.makenv.model.mc.redis.RedisService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -194,9 +195,7 @@ public class AnnocationMessageDispacher implements ImessageDispacher {
 
                             Object temBody = classes[0].newInstance();
 
-                            BeanUtil.transMap2Bean((Map)body,temBody);
-
-                            body = temBody;
+                            body = BeanUtil.transMap2Bean((Map)body,temBody);
 
                         }
                     }
