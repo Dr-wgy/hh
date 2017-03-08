@@ -140,6 +140,6 @@ public class RedisQueue{
         } finally {
 
             /*lock.unlock();*/
-    }
+        }
     }
 }

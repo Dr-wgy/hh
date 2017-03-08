@@ -13,6 +13,8 @@ public class CshShell {
 
     private String module_wrf_csh;
 
+    private String module_domain_csh;
+
     public String getModule_mcip_csh() {
         return module_mcip_csh;
     }
@@ -44,4 +46,13 @@ public class CshShell {
     public void setModule_wrf_csh(String module_wrf_csh) {
         this.module_wrf_csh = module_wrf_csh;
     }
+
+    public String getModule_domain_csh() {
+        return module_domain_csh;
+    }
+
+    public void setModule_domain_csh(String module_domain_csh) {
+        this.module_domain_csh = module_domain_csh;
+    }
+
 }

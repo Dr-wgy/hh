@@ -1,6 +1,7 @@
 package com.makenv.model.mc.message.helper;
 
 import com.makenv.model.mc.core.config.McConfigManager;
+import com.makenv.model.mc.core.constant.Constant;
 import com.makenv.model.mc.core.util.FilePathUtil;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
@@ -73,7 +74,7 @@ public class TemplateFileHelper {
 
         try {
 
-            FileUtil.copyFile(filePathName, FilePathUtil.joinByDelimiter("/",getTemplateDirName(domainCreateBean),"namelist.ipxwrf.template"));
+            FileUtil.copyFile(filePathName, FilePathUtil.joinByDelimiter("/",getTemplateDirName(domainCreateBean), Constant.NAMELIST_IPXWRF_TEMPLATE));
 
         } catch (IOException e) {
 
@@ -94,7 +95,7 @@ public class TemplateFileHelper {
 
         try {
 
-            FileUtil.copyFile(filePathName, FilePathUtil.joinByDelimiter("/",getTemplateDirName(domainCreateBean),"namelist.oa.template"));
+            FileUtil.copyFile(filePathName, FilePathUtil.joinByDelimiter("/",getTemplateDirName(domainCreateBean),Constant.NAMELIST_OA_TEMPLATE));
 
         } catch (IOException e) {
 
@@ -134,7 +135,7 @@ public class TemplateFileHelper {
 
         String content = VelocityUtil.buildTemplate(filePathName,map);
 
-        return  FileUtil.save(FilePathUtil.joinByDelimiter("/",getTemplateDirName(domainCreateBean),"namelist.wps.geogrid.template"),content);
+        return  FileUtil.save(FilePathUtil.joinByDelimiter("/",getTemplateDirName(domainCreateBean),Constant.NAMELIST_WPS_GEOGRID_TEMPLATE),content);
 
     }
 
@@ -159,7 +160,7 @@ public class TemplateFileHelper {
 
         String content = VelocityUtil.buildTemplate(filePathName,map);
 
-        return  FileUtil.save(FilePathUtil.joinByDelimiter("/",getTemplateDirName(domainCreateBean),"namelist.wrf.template"),content);
+        return  FileUtil.save(FilePathUtil.joinByDelimiter("/",getTemplateDirName(domainCreateBean),Constant.NAMELIST_WRF_TEMPLATE),content);
     }
 
     private boolean generateNamelistwpsMetgrid(DomainCreateBean domainCreateBean){
@@ -174,7 +175,7 @@ public class TemplateFileHelper {
 
         String content = VelocityUtil.buildTemplate(filePathName,map);
 
-        return  FileUtil.save(FilePathUtil.joinByDelimiter("/",getTemplateDirName(domainCreateBean),"namelist.wps.metgrid.template"),content);
+        return  FileUtil.save(FilePathUtil.joinByDelimiter("/",getTemplateDirName(domainCreateBean),Constant.NAMELIST_WPS_METGRID_TEMPLATE),content);
     }
 
     private String getTemplateDirName(DomainCreateBean domainCreateBean) {

@@ -23,19 +23,13 @@ public class ModelController {
 
     @Autowired
     private ModelService modelService;
-
     private Logger logger = LoggerFactory.getLogger(ModelController.class);
-
 
     @MessageInvoker("model.start")
     public boolean modelStart(ModelStartBean modelStartBean) throws IOException {
-
         modelService.startModelTask(modelStartBean);
-
         logger.info("model.start");
-
         System.out.println("model.start");
-
         return true;
     }
 

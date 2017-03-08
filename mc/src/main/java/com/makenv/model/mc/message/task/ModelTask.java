@@ -1,34 +1,16 @@
 package com.makenv.model.mc.message.task;
 
-import com.makenv.model.mc.message.handler.HandlerChain;
-import com.makenv.model.mc.message.pojo.ModelStartBean;
-
 /**
- * Created by wgy on 2017/2/23.
+ * Created by alei on 2017/3/8.
  */
-public abstract class ModelTask {
+public abstract class ModelTask implements IModelTask {
+  protected IModelTask nextTask;
 
-     ModelTask(ModelStartBean modelStartBean) {
-        this.modelStartBean = modelStartBean;
-    }
+  public void setNextTask(IModelTask nextTask) {
 
-    ModelTask() {
-    }
+  }
 
-    public ModelStartBean getModelStartBean() {
-        return modelStartBean;
-    }
+  public void handleRequest() {
 
-    public void setModelStartBean(ModelStartBean modelStartBean) {
-        this.modelStartBean = modelStartBean;
-    }
-
-    private ModelStartBean modelStartBean;
-
-    public abstract void doModelTask();
-
-    protected HandlerChain buildHanlderChain(){
-
-        return null;
-    }
+  }
 }

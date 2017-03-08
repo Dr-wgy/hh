@@ -31,6 +31,46 @@ public class Wrf {
 
     private String eta_levels;
 
+    private int do_fdda;//#是否开启fdda
+
+    private int do_sfdda;//#是否开启sfdda
+
+    private int do_obsgrid;//#是否开启obsgrid
+
+    private int pxlsm_smois_init;//#是否从LANDUSE.TBL中读取初始土壤温度
+
+    public int getDo_fdda() {
+        return do_fdda;
+    }
+
+    public void setDo_fdda(int do_fdda) {
+        this.do_fdda = do_fdda;
+    }
+
+    public int getDo_sfdda() {
+        return do_sfdda;
+    }
+
+    public void setDo_sfdda(int do_sfdda) {
+        this.do_sfdda = do_sfdda;
+    }
+
+    public int getDo_obsgrid() {
+        return do_obsgrid;
+    }
+
+    public void setDo_obsgrid(int do_obsgrid) {
+        this.do_obsgrid = do_obsgrid;
+    }
+
+    public int getPxlsm_smois_init() {
+        return pxlsm_smois_init;
+    }
+
+    public void setPxlsm_smois_init(int pxlsm_smois_init) {
+        this.pxlsm_smois_init = pxlsm_smois_init;
+    }
+
     public int getMax_dom() {
         return max_dom;
     }
