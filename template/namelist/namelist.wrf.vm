@@ -65,23 +65,23 @@ cat > namelist.input << EOF
  /
 
  &physics
- mp_physics             = 6,     6,     6,
- ra_lw_physics          = 1,     1,     1,
- ra_sw_physics          = 5,     5,     5,
- radt                   =15,    15,    15,
- sf_sfclay_physics      = 7,     7,     7,
- sf_surface_physics     = 7,     7,     7,
- bl_pbl_physics         = 7,     7,     7,
- bldt                   = 0,     0,     0,
- cu_physics             = 1,     1,     1,
- cudt                   = 0,     0,     0,
+ mp_physics             = ${mp_physics},
+ ra_lw_physics          = ${ra_lw_physics},
+ ra_sw_physics          = ${ra_sw_physics},
+ radt                   = ${radt},
+ sf_sfclay_physics      = ${sf_sfclay_physics},
+ sf_surface_physics     = ${sf_surface_physics},
+ bl_pbl_physics         = ${bl_pbl_physics},
+ bldt                   = ${bldt},
+ cu_physics             = ${cu_physics},
+ cudt                   = ${cudt},
  isfflx                 = 1,
  ifsnow                 = 0,
  icloud                 = 1,
  surface_input_source   = 1,
  num_soil_layers        = 2,
  num_land_cat           = 24,
- pxlsm_smois_init       = ${pxlsm_smois_init}
+ pxlsm_smois_init       = ${wrf.pxlsm_smois_init}
  maxiens                = 1,
  maxens                 = 3,
  maxens2                = 3,
@@ -91,7 +91,7 @@ cat > namelist.input << EOF
  /
 
  &fdda
- grid_fdda              = ${do_fdda},${do_fdda},${do_fdda},
+ grid_fdda              = ${wrf.do_fdda},${wrf.do_fdda},${wrf.do_fdda},
  gfdda_inname           = "wrffdda_d<domain>",
  gfdda_end_h            = 132,   132,   132,
  gfdda_interval_m       = 360,   360,   360,
@@ -111,7 +111,7 @@ cat > namelist.input << EOF
  if_ramping             = 0,
  dtramp_min             = 60.0,
  io_form_gfdda          = 2,
- grid_sfdda             = ${do_sfdda},${do_sfdda},${do_sfdda},
+ grid_sfdda             = ${wrf.do_sfdda},${wrf.do_sfdda},${wrf.do_sfdda},
  sgfdda_inname          = "wrfsfdda_d<domain>",
  sgfdda_end_h           = 132,   132,   132,
  sgfdda_interval_m      = 360,   360,   360,
@@ -120,7 +120,7 @@ cat > namelist.input << EOF
  gt_sfc                 = 0.0003,     0.0003,     0.0003,
  gq_sfc                 = 0.0003,     0.0003,     0.0003,
  rinblw                 = 250.,
- obs_nudge_opt          = ${do_obsgrid},
+ obs_nudge_opt          = ${wrf.do_obsgrid},
  max_obs                = 150000,
  fdda_start             = 0., 0.,
  fdda_end               = 99999.,    99999.,    99999.,
