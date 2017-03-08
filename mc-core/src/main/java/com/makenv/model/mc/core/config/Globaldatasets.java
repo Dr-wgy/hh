@@ -4,175 +4,92 @@ package com.makenv.model.mc.core.config;
  * Created by wgy on 2017/2/28.
  */
 public class Globaldatasets {
+  private String dirPath;
+  private GlobalMcip mcip;
+  private GlobalMegan megan;
+  private GlobalMetgrid metgrid;
+  private GlobalWrf wrf;
+//  private GlobalWrfDp wrfdp;
+
+  public String getDirPath() {
+    return dirPath;
+  }
+
+  public GlobalMcip getMcip() {
+    return mcip;
+  }
+
+  public void setMcip(GlobalMcip mcip) {
+    this.mcip = mcip;
+  }
+
+  public GlobalMegan getMegan() {
+    return megan;
+  }
+
+  public void setMegan(GlobalMegan megan) {
+    this.megan = megan;
+  }
+
+  public GlobalWrf getWrf() {
+    return wrf;
+  }
+
+  public void setWrf(GlobalWrf wrf) {
+    this.wrf = wrf;
+  }
+
+  public void setDirPath(String dirPath) {
+    this.dirPath = dirPath;
+  }
+
+  public GlobalMetgrid getMetgrid() {
+    return metgrid;
+  }
+
+  public void setMetgrid(GlobalMetgrid metgrid) {
+    this.metgrid = metgrid;
+  }
+
+  public static class GlobalMcip {
 
     public String getDirPath() {
-        return dirPath;
-    }
-
-    public GlobalMcip getMcip() {
-        return mcip;
-    }
-
-    public void setMcip(GlobalMcip mcip) {
-        this.mcip = mcip;
-    }
-
-    public GlobalMegan getMegan() {
-        return megan;
-    }
-
-    public void setMegan(GlobalMegan megan) {
-        this.megan = megan;
-    }
-
-    public GlobalReal getReal() {
-        return real;
-    }
-
-    public void setReal(GlobalReal real) {
-        this.real = real;
-    }
-
-    public GlobalWrf getWrf() {
-        return wrf;
-    }
-
-    public void setWrf(GlobalWrf wrf) {
-        this.wrf = wrf;
+      return dirPath;
     }
 
     public void setDirPath(String dirPath) {
-        this.dirPath = dirPath;
+      this.dirPath = dirPath;
     }
 
     private String dirPath;
 
-    private GlobalMcip mcip;
+  }
 
-    private GlobalMegan megan;
-
-    public GlobalMetgrid getMetgrid() {
-        return metgrid;
+  public static class GlobalMegan {
+    public String getDirPath() {
+      return dirPath;
     }
 
-    public void setMetgrid(GlobalMetgrid metgrid) {
-        this.metgrid = metgrid;
+    public void setDirPath(String dirPath) {
+      this.dirPath = dirPath;
     }
 
-    private GlobalMetgrid metgrid;
+    private String dirPath;
 
-    private GlobalReal real;
+  }
 
-    private GlobalWrf wrf;
+  public static class GlobalMetgrid {
 
-    public GlobalWrfDp getWrfdp() {
-        return wrfdp;
+    public String getDirPath() {
+      return dirPath;
     }
 
-    public void setWrfdp(GlobalWrfDp wrfdp) {
-        this.wrfdp = wrfdp;
+    public void setDirPath(String dirPath) {
+      this.dirPath = dirPath;
     }
 
-    private GlobalWrfDp wrfdp;
+    private String dirPath;
 
-    public static class GlobalMcip {
-
-        public String getDirPath() {
-            return dirPath;
-        }
-
-        public void setDirPath(String dirPath) {
-            this.dirPath = dirPath;
-        }
-
-        private String dirPath;
-
-        private String pathdate;
-
-        public String getPathdate() {
-            return pathdate;
-        }
-
-        public void setPathdate(String pathdate) {
-            this.pathdate = pathdate;
-        }
-
-    }
-
-    public static class GlobalMegan {
-
-        public String getDirPath() {
-            return dirPath;
-        }
-
-        public void setDirPath(String dirPath) {
-            this.dirPath = dirPath;
-        }
-
-        private String dirPath;
-
-        private String pathdate;
-
-        public String getPathdate() {
-            return pathdate;
-        }
-
-        public void setPathdate(String pathdate) {
-            this.pathdate = pathdate;
-        }
-
-
-    }
-    public static class GlobalReal {
-
-        public String getDirPath() {
-            return dirPath;
-        }
-
-        public void setDirPath(String dirPath) {
-            this.dirPath = dirPath;
-        }
-
-        private String dirPath;
-
-        private String pathdate;
-
-
-        public String getPathdate() {
-            return pathdate;
-        }
-
-        public void setPathdate(String pathdate) {
-            this.pathdate = pathdate;
-        }
-
-
-
-
-    }
-
-    public static class GlobalMetgrid {
-
-        public String getDirPath() {
-            return dirPath;
-        }
-
-        public void setDirPath(String dirPath) {
-            this.dirPath = dirPath;
-        }
-
-        private String dirPath;
-
-        private String pathdate;
-
-        public String getPathdate() {
-            return pathdate;
-        }
-
-        public void setPathdate(String pathdate) {
-            this.pathdate = pathdate;
-        }
-
-    }
+  }
 
 }

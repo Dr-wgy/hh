@@ -16,6 +16,12 @@ public abstract class ModelTask implements IModelTask {
     this.configManager = configManager;
   }
 
+  protected String processPath(String path) {
+    return path.replace("\\{userid\\}", modelStartBean.getUserid()).
+        replace("\\{domainid\\}", modelStartBean.getDomainid()).
+        replace("\\{globaldatasets\\}", modelStartBean.getCommon().getDatatype());
+  }
+
   public void setNextTask(IModelTask nextTask) {
     this.nextTask = nextTask;
   }

@@ -7,7 +7,8 @@ import java.time.format.DateTimeFormatter;
  * Created by alei on 2017/2/28.
  */
 public class LocalTimeUtil {
-  private static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+  public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+  public static final String YMD_DATE_FORMAT = "yyyyMMdd";
 
   public static String format(LocalDate date, String format) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
@@ -24,6 +25,10 @@ public class LocalTimeUtil {
 
   public static String formatToday() {
     return format(LocalDate.now());
+  }
+
+  public static LocalDate parse(String date) {
+    return parse(date, DEFAULT_DATE_FORMAT);
   }
 
   public static LocalDate parse(String date, String format) {
