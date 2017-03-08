@@ -8,7 +8,7 @@ import com.makenv.model.mc.message.pojo.ModelStartBean;
  */
 public interface ModelService {
 
-    void startModelTask(ModelStartBean modelStartBean);
+  boolean startModelTask(ModelStartBean modelStartBean);
 
-    boolean doCreateBean(DomainCreateBean domainCreateBean);
+  boolean doCreateBean(DomainCreateBean domainCreateBean);
 }
