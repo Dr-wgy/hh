@@ -8,10 +8,12 @@ import com.makenv.model.mc.message.task.impl.MeganTask;
 import com.makenv.model.mc.message.task.impl.MeicTask;
 import com.makenv.model.mc.message.task.impl.WrfTask;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by alei on 2017/3/8.
  */
+@Component
 public class ModelTaskFactory {
   @Autowired
   private McConfigManager configManager;
