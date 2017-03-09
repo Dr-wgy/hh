@@ -1,5 +1,6 @@
 package com.makenv.model.mc.cli.helper;
 
+import com.makenv.model.mc.core.config.RedisQueueConfig;
 import com.makenv.model.mc.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,17 +16,13 @@ public class JedisHelper {
   @Autowired
   private RedisService redisService;
 
+  @Autowired
+  private RedisQueueConfig redisQueueConfig;
+
   public void sendMessage(String content) {
-    redisService.leftPush("test", content);
+
+    redisService.leftPush(redisQueueConfig.getSendQueueName(), content);
+
   }
-//  private final static JedisPool POOL;
-//
-//  static {
-//    POOL = new JedisPool(new JedisPoolConfig(), "166.111.42.46", 16379, 2000, "123456");
-//  }
-//
-//  public static void sendMessage(String content) {
-//    Jedis jedis = POOL.getResource();
-//    jedis.lpush("xxx", content);
-//  }
+
 }
