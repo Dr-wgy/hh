@@ -1,19 +1,24 @@
 package com.makenv.model.mc.server.message.service.impl;
 
 import com.makenv.model.mc.core.config.McConfigManager;
+import com.makenv.model.mc.core.constant.Constant;
+import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.server.message.helper.CreateDomainHelper;
+import com.makenv.model.mc.server.message.helper.GriddescHelper;
 import com.makenv.model.mc.server.message.helper.TemplateFileHelper;
+import com.makenv.model.mc.server.message.pojo.DomainCreateBean;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
 import com.makenv.model.mc.server.message.service.ModelService;
 import com.makenv.model.mc.server.message.task.IModelTask;
 import com.makenv.model.mc.server.message.task.ModelTaskFactory;
-import com.makenv.model.mc.server.message.helper.GriddescHelper;
-import com.makenv.model.mc.server.message.pojo.DomainCreateBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by wgy on 2017/2/23.
@@ -54,7 +59,26 @@ public class ModelServiceImpl implements ModelService {
         lastTask = nextTask;
       }
     }
-    return firstTask != null && firstTask.handleRequest();
+    if (firstTask == null) {
+      return false;
+    }
+    File modelRunFile = new File(firstTask.getModelRunFilePath());
+    String content = String.format("%ssource %s%s%s\n", Constant.CSH_HEADER,
+        mcConfigManager.getSystemConfig().getRoot().getScript(),
+        File.separator,
+        Constant.SYS_RENV_CSH);
+    try {
+      FileUtil.writeLocalFile(modelRunFile, content);
+    } catch (IOException e) {
+      logger.error("", e);
+      return false;
+    }
+    if (!firstTask.handleRequest()) {
+      return false;
+    }
+    String cmd = String.format(mcConfigManager.getSystemConfig().getPbs().getQsub(), firstTask.getModelRunFilePath(), 1, 1, "", "", "");
+//    Runtime.getRuntime().exec(String.format("",wwww));
+    return true;
   }
 
 

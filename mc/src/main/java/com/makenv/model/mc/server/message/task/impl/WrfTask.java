@@ -125,7 +125,12 @@ public class WrfTask extends ModelTask {
     String renv_scrpit = String.format("%s%s%s${start_date}", wrfRunDir, File.separator, Constant.WRF_RENV_FILE);
     params.put("renv_scrpit", renv_scrpit);
     String content = VelocityUtil.buildTemplate(configManager.getSystemConfig().getTemplate().getCsh_wrf(), params);
-//    FileUtil.writeAppendLocalFileInLinux() TODO
+    try {
+      FileUtil.writeAppendLocalFileInLinux(getModelRunFile(), content);
+    } catch (IOException e) {
+      logger.error("", e);
+      return false;
+    }
     return true;
   }
 

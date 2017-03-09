@@ -5,5 +5,8 @@ package com.makenv.model.mc.server.message.task;
  */
 public interface IModelTask {
   void setNextTask(IModelTask nextTask);
+
   boolean handleRequest();
+
+  String getModelRunFilePath();
 }

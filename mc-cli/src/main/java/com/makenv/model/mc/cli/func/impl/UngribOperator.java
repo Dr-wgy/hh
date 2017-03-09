@@ -36,10 +36,7 @@ public class UngribOperator extends AbstractOperator {
 
   private static final String DATE_FORMAT = "yyyyMMdd";
 
-  private String invokeScriptFile, logFile, namelistFile, tagFile, renvFile, invokeDir;
-
-  private final static String TYPE_FNL = "fnl";
-  private final static String TYPE_GFS = "gfs";
+  private String invokeScriptFile, logFile, errorLogFile, namelistFile, tagFile, renvFile, invokeDir;
 
   private Logger logger = LoggerFactory.getLogger(UngribOperator.class);
   private String fnlDir, gfsDir, syncFnlDir, syncGfsDir, ungribFnlDir, ungribGfsDir;
@@ -82,6 +79,7 @@ public class UngribOperator extends AbstractOperator {
       renvFile = String.format("%s%s%s-%s", renvDir, File.separator, UNGRIB_RENV_FILE, computeDate);
       String logDir = runPath + File.separator + "log";
       logFile = String.format("%s%s%s-%s", logDir, File.separator, UNGRIB_LOG_FILE, computeDate);
+      errorLogFile = String.format("%s%s%s-error-%s", logDir, File.separator, UNGRIB_LOG_FILE, computeDate);
       invokeDir = runPath + File.separator + "invoke";
       invokeScriptFile = String.format("%s%s%s-%s", invokeDir, File.separator, UNGRIB_SCRIPT_FILE, computeDate);
 
@@ -106,6 +104,7 @@ public class UngribOperator extends AbstractOperator {
       logger.info(ungribGfsDir);
       logger.info(invokeScriptFile);
       logger.info(logFile);
+      logger.info(errorLogFile);
       logger.info(namelistFile);
       logger.info(tagFile);
       logger.info(renvFile);
@@ -181,8 +180,8 @@ public class UngribOperator extends AbstractOperator {
     String cdInvokeDir = String.format("cd %s\n", invokeDir);
     String sb = Constant.CSH_HEADER + sourceSysRenv +
         cdInvokeDir +
-        buildCmd(TYPE_FNL) +
-        buildCmd(TYPE_GFS);
+        buildCmd(Constant.GLOBAL_TYPE_FNL) +
+        buildCmd(Constant.GLOBAL_TYPE_GFS);
     File file = new File(invokeScriptFile);
     FileUtil.writeLocalFile(file, sb);
     file.setExecutable(true);
@@ -202,7 +201,7 @@ public class UngribOperator extends AbstractOperator {
 
   private void exec() throws IOException {
     String qsub = configManager.getSystemConfig().getPbs().getQsub();
-    qsub = String.format(qsub, 1, 2, "ungrib-" + computeDate, logFile, invokeScriptFile);
+    qsub = String.format(qsub, 1, 1, "ungrib-" + computeDate, logFile, errorLogFile, invokeScriptFile);
     logger.info(qsub);
     Runtime.getRuntime().exec(qsub);
   }
