@@ -5,6 +5,7 @@ import com.makenv.model.mc.core.constant.Constant;
 import com.makenv.model.mc.core.util.FilePathUtil;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
+import com.makenv.model.mc.server.constant.Constants;
 import com.makenv.model.mc.server.message.pojo.DomainCreateBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,14 +40,18 @@ public class CreateDomainHelper{
 
         try {
 
-            Runtime.getRuntime().exec("qsub -j oe -o " + geogridRunPath + " " + invokeFile);
+            Runtime.getRuntime().exec("qsub -j -o "+ FilePathUtil.joinByDelimiter(geogridRunPath,Constants.GEOGRID_OUT_FILE_NAME)
+
+                    +" -e" + FilePathUtil.joinByDelimiter(geogridRunPath,Constants.GEOGRID_ERROR_FILE_NAME) + " " + invokeFile);
 
         } catch (IOException e) {
 
             e.printStackTrace();
+
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     private String buildRenv(DomainCreateBean domainCreateBean){
@@ -91,10 +96,7 @@ public class CreateDomainHelper{
     //准备执行的脚本
     private String prepareExecShell(String geogridRunPath,String script_path,String moduleDomainCsh,String renvPathName){
 
-
-
         StringBuffer stringBuffer = new StringBuffer("#!/usr/bin/csh -f");
-
                     stringBuffer.append("\n")
                     .append("cd ")
                     .append(geogridRunPath)
