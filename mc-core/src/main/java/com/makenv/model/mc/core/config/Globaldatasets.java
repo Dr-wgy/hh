@@ -66,15 +66,68 @@ public class Globaldatasets {
   }
 
   public static class GlobalMegan {
+    private String dirPath;
+    private GlobalMeganEmproc emproc;
+    private GlobalMeganMet2mgn met2mgn;
+    private GlobalMeganMgn2mech mgn2mech;
     public String getDirPath() {
       return dirPath;
     }
-
     public void setDirPath(String dirPath) {
       this.dirPath = dirPath;
     }
 
-    private String dirPath;
+    public GlobalMeganEmproc getEmproc() {
+      return emproc;
+    }
+
+    public void setEmproc(GlobalMeganEmproc emproc) {
+      this.emproc = emproc;
+    }
+
+    public GlobalMeganMet2mgn getMet2mgn() {
+      return met2mgn;
+    }
+
+    public void setMet2mgn(GlobalMeganMet2mgn met2mgn) {
+      this.met2mgn = met2mgn;
+    }
+
+    public GlobalMeganMgn2mech getMgn2mech() {
+      return mgn2mech;
+    }
+
+    public void setMgn2mech(GlobalMeganMgn2mech mgn2mech) {
+      this.mgn2mech = mgn2mech;
+    }
+
+    public static class GlobalMeganEmproc {
+      private String dirPath;
+      public String getDirPath() {
+        return dirPath;
+      }
+      public void setDirPath(String dirPath) {
+        this.dirPath = dirPath;
+      }
+    }
+    public static class GlobalMeganMet2mgn {
+      private String dirPath;
+      public String getDirPath() {
+        return dirPath;
+      }
+      public void setDirPath(String dirPath) {
+        this.dirPath = dirPath;
+      }
+    }
+    public static class GlobalMeganMgn2mech {
+      private String dirPath;
+      public String getDirPath() {
+        return dirPath;
+      }
+      public void setDirPath(String dirPath) {
+        this.dirPath = dirPath;
+      }
+    }
 
   }
 

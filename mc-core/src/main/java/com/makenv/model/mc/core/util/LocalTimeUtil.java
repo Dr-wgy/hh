@@ -2,6 +2,7 @@ package com.makenv.model.mc.core.util;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Created by alei on 2017/2/28.
@@ -34,5 +35,9 @@ public class LocalTimeUtil {
   public static LocalDate parse(String date, String format) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
     return LocalDate.parse(date, formatter);
+  }
+
+  public static long between(LocalDate date1, LocalDate date2) {
+    return ChronoUnit.DAYS.between(date1, date2);
   }
 }

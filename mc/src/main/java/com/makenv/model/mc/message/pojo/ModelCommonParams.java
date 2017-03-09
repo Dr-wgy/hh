@@ -11,6 +11,15 @@ public class ModelCommonParams {
   @JsonProperty("datatype")
   private String datatype;//情景类型
   private TimeDate time;
+  private boolean initial;
+
+  public boolean isInitial() {
+    return initial;
+  }
+
+  public void setInitial(boolean initial) {
+    this.initial = initial;
+  }
 
   public String getDatatype() {
     return datatype;
