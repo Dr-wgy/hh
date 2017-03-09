@@ -16,8 +16,8 @@
       "initial": true,
       "datatype": "gfs",//气象数据类型，fnl, gfs
       "time": { //模拟开始和结束时间
-        "start_date": "20170201",
-        "end_date": "20170201"
+        "start": "20170201",
+        "end": "20170201"
       },
       "pathdate":"20170201" //起报时间
     },

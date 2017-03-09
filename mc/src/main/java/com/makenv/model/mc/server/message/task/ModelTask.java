@@ -26,14 +26,20 @@ public abstract class ModelTask implements IModelTask {
   protected String wrfBuildPath;
   protected String geogridOutputPath;
   private String modelRunFile;
+  private String modelRunDir;
 
   public ModelTask(ModelStartBean modelStartBean, McConfigManager configManager) {
     this.modelStartBean = modelStartBean;
     this.configManager = configManager;
+    init();
   }
 
   public String getModelRunFilePath() {
     return modelRunFile;
+  }
+
+  public String getModelRunDir() {
+    return modelRunDir;
   }
 
   protected File getModelRunFile() {
@@ -41,9 +47,9 @@ public abstract class ModelTask implements IModelTask {
   }
 
   protected String processPath(String path) {
-    return path.replace("\\{userid\\}", modelStartBean.getUserid()).
-        replace("\\{domainid\\}", modelStartBean.getDomainid()).
-        replace("\\{globaldatasets\\}", modelStartBean.getCommon().getDatatype());
+    return path.replace("{userid}", modelStartBean.getUserid()).
+        replace("{domainid}", modelStartBean.getDomainid()).
+        replace("{globaldatasets}", modelStartBean.getCommon().getDatatype());
   }
 
   public void setNextTask(IModelTask nextTask) {
@@ -54,7 +60,7 @@ public abstract class ModelTask implements IModelTask {
     return beforeHandle() && doHandle() && afterHandle();
   }
 
-  protected boolean beforeHandle() {
+  private void init() {
     startHour = configManager.getSystemConfig().getModel().getStart_hour();
     localStartHour = configManager.getSystemConfig().getModel().getLocal_start_hour();
     String templateDir = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getTemplate().getDirPath());
@@ -63,12 +69,13 @@ public abstract class ModelTask implements IModelTask {
     scriptPath = configManager.getSystemConfig().getRoot().getScript();
     wrfBuildPath = configManager.getSystemConfig().getRoot().getWrf();
     geogridOutputPath = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGeogrid().getDirPath());
-    String modelRunDir = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getModelRunPath());
+     modelRunDir = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getModelRunPath());
     modelRunDir = String.format("%s%s%s", modelRunDir, File.separator, modelStartBean.getScenarioid());
     FileUtil.checkAndMkdir(modelRunDir);
     modelRunFile = String.format("%s%s%s", modelRunDir, File.separator, Constant.MODEL_SCRIPT_FILE);
-    return true;
   }
+
+  protected abstract boolean beforeHandle();
 
   protected abstract boolean doHandle();
 

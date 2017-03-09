@@ -7,56 +7,61 @@ import java.util.List;
  */
 public class Emis {
 
-    private String calctype;
+  private String calctype;
+  private String actionlist;
+  private List<String> model;
+  private Cmaq cmaq;
+  private Megan megan;
+  private String sourceid;
 
-    private String actionlist;
+  public String getSourceid() {
+    return sourceid;
+  }
 
-    private List<String> model;
+  public void setSourceid(String sourceid) {
+    this.sourceid = sourceid;
+  }
 
-    private Cmaq cmaq;
+  public Megan getMegan() {
+    return megan;
+  }
 
-    private Megan megan;
-
-    public Megan getMegan() {
-        return megan;
-    }
-
-    public void setMegan(Megan megan) {
-        this.megan = megan;
-    }
-
-
-    public String getActionlist() {
-        return actionlist;
-    }
-
-    public void setActionlist(String actionlist) {
-        this.actionlist = actionlist;
-    }
-
-    public String getCalctype() {
-        return calctype;
-    }
-
-    public void setCalctype(String calctype) {
-        this.calctype = calctype;
-    }
+  public void setMegan(Megan megan) {
+    this.megan = megan;
+  }
 
 
-    public List<String> getModel() {
-        return model;
-    }
+  public String getActionlist() {
+    return actionlist;
+  }
 
-    public void setModel(List<String> model) {
-        this.model = model;
-    }
+  public void setActionlist(String actionlist) {
+    this.actionlist = actionlist;
+  }
 
-    public Cmaq getCmaq() {
-        return cmaq;
-    }
+  public String getCalctype() {
+    return calctype;
+  }
 
-    public void setCmaq(Cmaq cmaq) {
-        this.cmaq = cmaq;
-    }
+  public void setCalctype(String calctype) {
+    this.calctype = calctype;
+  }
+
+
+  public List<String> getModel() {
+    return model;
+  }
+
+  public void setModel(List<String> model) {
+    this.model = model;
+  }
+
+  public Cmaq getCmaq() {
+    return cmaq;
+  }
+
+  public void setCmaq(Cmaq cmaq) {
+    this.cmaq = cmaq;
+  }
 
 }

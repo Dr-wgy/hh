@@ -10,6 +10,6 @@ interval_seconds = 21600
 
 &ungrib
 out_format = 'WPS',
-prefix = '${output_path}/${ungrib_file}',
+prefix = '${ungrib_file}',
 /
 EOF

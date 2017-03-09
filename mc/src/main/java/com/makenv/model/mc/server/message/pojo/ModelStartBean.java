@@ -99,8 +99,16 @@ public class ModelStartBean {
   }
 
   public static class Cmaq {
-
     private int spinup;
+    private Ic ic;
+
+    public Ic getIc() {
+      return ic;
+    }
+
+    public void setIc(Ic ic) {
+      this.ic = ic;
+    }
 
     public int getSpinup() {
       return spinup;
@@ -108,6 +116,27 @@ public class ModelStartBean {
 
     public void setSpinup(int spinup) {
       this.spinup = spinup;
+    }
+
+    public static class Ic {
+      private String scenarioid;
+      private String date;
+
+      public String getScenarioid() {
+        return scenarioid;
+      }
+
+      public void setScenarioid(String scenarioid) {
+        this.scenarioid = scenarioid;
+      }
+
+      public String getDate() {
+        return date;
+      }
+
+      public void setDate(String date) {
+        this.date = date;
+      }
     }
   }
 

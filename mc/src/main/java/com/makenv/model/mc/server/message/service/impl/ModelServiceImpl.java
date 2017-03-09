@@ -69,6 +69,7 @@ public class ModelServiceImpl implements ModelService {
         Constant.SYS_RENV_CSH);
     try {
       FileUtil.writeLocalFile(modelRunFile, content);
+      modelRunFile.setExecutable(true);
     } catch (IOException e) {
       logger.error("", e);
       return false;
@@ -76,7 +77,11 @@ public class ModelServiceImpl implements ModelService {
     if (!firstTask.handleRequest()) {
       return false;
     }
-    String cmd = String.format(mcConfigManager.getSystemConfig().getPbs().getQsub(), firstTask.getModelRunFilePath(), 1, 1, "", "", "");
+    String errLog = String.format("%s%s%s", firstTask.getModelRunDir(), File.separator, Constant.MODEL_LOG_FILE_ERROR);
+    String infoLog = String.format("%s%s%s", firstTask.getModelRunDir(), File.separator, Constant.MODEL_LOG_FILE_INFO);
+    String cmd = String.format(mcConfigManager.getSystemConfig().getPbs().getQsub(),
+        firstTask.getModelRunFilePath(), 1, 1, infoLog, errLog, firstTask.getModelRunFilePath());
+    logger.info(cmd);
 //    Runtime.getRuntime().exec(String.format("",wwww));
     return true;
   }

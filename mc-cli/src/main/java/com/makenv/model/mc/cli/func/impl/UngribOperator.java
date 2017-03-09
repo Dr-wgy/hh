@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,16 +58,16 @@ public class UngribOperator extends AbstractOperator {
     }
     {
       String _year = computeDate.substring(0, 4);
-      LocalDate today = LocalTimeUtil.parse(computeDate, DATE_FORMAT);
-      LocalDate yesterday = today.plusDays(-1);
-      String computeYesterday = LocalTimeUtil.format(yesterday, DATE_FORMAT);
+//      LocalDate today = LocalTimeUtil.parse(computeDate, DATE_FORMAT);
+//      LocalDate yesterday = today.plusDays(-1);
+//      String computeYesterday = LocalTimeUtil.format(yesterday, DATE_FORMAT);
       syncFnlDir = configManager.getSystemConfig().getSync().getFnl() + File.separator + _year;
-      syncGfsDir = configManager.getSystemConfig().getSync().getGfs() + String.format("%s%s%s", File.separator, computeYesterday, configManager.getSystemConfig().getModel().getStart_hour());
-      String _fnlDirSuffix = String.format("%s%s", File.separator, _year);
-      String _gfsDirSuffix = String.format("%s%s%s", File.separator, computeYesterday, configManager.getSystemConfig().getModel().getStart_hour());
-      fnlDir = configManager.getSystemConfig().getWorkspace().getShare().getInput().getFnl().getDirPath() + _fnlDirSuffix;
+      syncGfsDir = configManager.getSystemConfig().getSync().getGfs() + String.format("%s%s%s", File.separator, computeDate, configManager.getSystemConfig().getModel().getStart_hour());
+//      String _fnlDirSuffix = String.format("%s%s", File.separator, _year);
+      String _gfsDirSuffix = String.format("%s%s%s", File.separator, computeDate, configManager.getSystemConfig().getModel().getStart_hour());
+      fnlDir = configManager.getSystemConfig().getWorkspace().getShare().getInput().getFnl().getDirPath();
       gfsDir = configManager.getSystemConfig().getWorkspace().getShare().getInput().getGfs().getDirPath() + _gfsDirSuffix;
-      ungribFnlDir = configManager.getSystemConfig().getWorkspace().getShare().getInput().getUngrib_fnl().getDirPath() + _fnlDirSuffix;
+      ungribFnlDir = configManager.getSystemConfig().getWorkspace().getShare().getInput().getUngrib_fnl().getDirPath();
       ungribGfsDir = configManager.getSystemConfig().getWorkspace().getShare().getInput().getUngrib_gfs().getDirPath() + _gfsDirSuffix;
 
       String runPath = configManager.getSystemConfig().getWorkspace().getShare().getRun().getUngrib().getDirPath();
