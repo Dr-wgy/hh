@@ -177,10 +177,10 @@ public class UngribOperator extends AbstractOperator {
   }
 
   private void prepareExecScript() throws IOException {
-    String sb = Constant.CSH_HEADER + "source " + Constant.CSH_HEADER + "\n" +
-        "cd " +
-        invokeDir +
-        "\n" +
+    String sourceSysRenv = String.format("source %s%s%s\n", configManager.getSystemConfig().getRoot().getScript(), File.separator, Constant.SYS_RENV_CSH);
+    String cdInvokeDir = String.format("cd %s\n", invokeDir);
+    String sb = Constant.CSH_HEADER + sourceSysRenv +
+        cdInvokeDir +
         buildCmd(TYPE_FNL) +
         buildCmd(TYPE_GFS);
     File file = new File(invokeScriptFile);
