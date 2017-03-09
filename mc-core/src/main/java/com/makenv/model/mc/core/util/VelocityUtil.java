@@ -4,15 +4,10 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.parser.node.ASTReference;
-import org.apache.velocity.runtime.parser.node.ASTprocess;
-import org.apache.velocity.runtime.parser.node.Node;
 
 import java.io.StringWriter;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 /**
  * Created by alei on 2016/8/31.
@@ -21,44 +16,23 @@ public class VelocityUtil {
 
   private static VelocityEngine velocityEngine;
 
-  private static Boolean testOrNot = false;
-
-  public static VelocityEngine newInstance(){
-
-    if(velocityEngine == null) {
-
-      synchronized(VelocityEngine.class) {
-
-        if(velocityEngine == null) {
-
+  private static VelocityEngine newInstance() {
+    if (velocityEngine == null) {
+      synchronized (VelocityEngine.class) {
+        if (velocityEngine == null) {
           velocityEngine = new VelocityEngine();
           Properties p = new Properties();
           p.setProperty(Velocity.INPUT_ENCODING, "UTF-8");
           p.setProperty(Velocity.OUTPUT_ENCODING, "UTF-8");
           p.setProperty(Velocity.ENCODING_DEFAULT, "UTF-8");
-          if(testOrNot) {
-
-            p.setProperty("file.resource.loader.path","..");
-          }
           velocityEngine.init(p);
-
         }
       }
     }
     return velocityEngine;
   }
 
-
-  public static boolean isTestOrNot() {
-    return testOrNot;
-  }
-
-  public static void setTestOrNot(boolean testOrNot) {
-
-    VelocityUtil.testOrNot = testOrNot;
-  }
-
-  public static String buildTemplate(String templateFile, Map<String,?> values) {
+  public static String buildTemplate(String templateFile, Map<String, ?> values) {
     Template template = VelocityUtil.newInstance().getTemplate(templateFile);
     VelocityContext velocityContext = new VelocityContext();
     for (String key : values.keySet()) {
@@ -69,45 +43,13 @@ public class VelocityUtil {
     return writer.toString().replaceAll("\r\n", "\n");
   }
 
-  public static Set<String> getParameterNamesByVelocityTemplate(String templateFile) {
-
-
-    return getParameterNamesByVelocityTemplate(templateFile, "utf-8");
+  public static String buildTemplate(String templateFile, String key, Object value) {
+    Template template = VelocityUtil.newInstance().getTemplate(templateFile);
+    VelocityContext velocityContext = new VelocityContext();
+    velocityContext.put(key, value);
+    StringWriter writer = new StringWriter();
+    template.merge(velocityContext, writer);
+    return writer.toString().replaceAll("\r\n", "\n");
   }
 
-  public static Set<String> getParameterNamesByVelocityTemplate(String templateFile,String encoding) {
-
-    Set set = new HashSet();
-
-    Template template = VelocityUtil.newInstance().getTemplate(templateFile,encoding);
-
-    Object data = template.getData();
-
-    if(data instanceof ASTprocess) {
-
-      ASTprocess process = ((ASTprocess)data);
-
-      int length = process.jjtGetNumChildren();
-
-      for(int i = 0 ;i < length;i++) {
-
-        Node node = process.jjtGetChild(i);
-
-        if(node instanceof ASTReference) {
-
-          ASTReference reference = (ASTReference)node;
-
-          String parameterName = reference.getRootString();
-
-          if(parameterName != null) {
-
-            set.add(parameterName);
-
-          }
-        }
-      }
-    }
-
-    return set;
-  }
 }

@@ -22,6 +22,16 @@ public class TemplatePath {
 
   private String griddesc;
 
+  private String csh_wrf;
+
+  public String getCsh_wrf() {
+    return csh_wrf;
+  }
+
+  public void setCsh_wrf(String csh_wrf) {
+    this.csh_wrf = csh_wrf;
+  }
+
   public String getRenv_domain_sh() {
     return renv_domain_sh;
   }
