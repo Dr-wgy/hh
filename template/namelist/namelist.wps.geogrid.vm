@@ -3,7 +3,7 @@
 cat > namelist.wps.geogrid << EOF
 &share
  wrf_core = 'ARW',
- max_dom = '${geogrid.max_dom}',
+ max_dom = ${geogrid.max_dom},
  opt_output_from_geogrid_path = '${geogrid_data_path}',
  io_form_geogrid = 2,
 /
@@ -16,8 +16,8 @@ cat > namelist.wps.geogrid << EOF
  e_we              =  ${geogrid.e_we}
  e_sn              =  ${geogrid.e_sn}
  geog_data_res     =  '10m', '2m', '30s'
- dx = ${geogrid.dx}
- dy = ${geogrid.dy}
+ dx = ${geogrid.dx},
+ dy = ${geogrid.dy},
  map_proj = '${geogrid.map_proj}',
  ref_lat   =  ${geogrid.ref_lat},
  ref_lon   =  ${geogrid.ref_lon},

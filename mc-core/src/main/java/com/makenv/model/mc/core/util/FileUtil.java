@@ -271,4 +271,10 @@ public class FileUtil {
     return readLastLine(file, Charset.defaultCharset().displayName());
   }
 
+  public static void createFolder(String geogridDataPath) {
+    File file = new File(geogridDataPath);
+    if(!file.exists()) {
+      file.mkdirs();
+    }
+  }
 }

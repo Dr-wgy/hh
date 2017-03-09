@@ -202,6 +202,16 @@ public class AnnocationMessageDispacher implements ImessageDispacher {
 
                     Object returnValue = method.invoke(obj,body);
 
+                    if( returnValue instanceof Boolean) {
+
+                        return (Boolean) returnValue;
+                    }
+
+                    else {
+
+                        return false;
+                    }
+
                 } catch (Exception e) {
 
                     e.printStackTrace();
@@ -221,8 +231,6 @@ public class AnnocationMessageDispacher implements ImessageDispacher {
 
                 return false;
             }
-
-            return true;
 
         }
 

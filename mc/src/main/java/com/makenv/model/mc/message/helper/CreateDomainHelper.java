@@ -32,7 +32,7 @@ public class CreateDomainHelper{
 
         try {
 
-            Runtime.getRuntime().exec(invokeFile);
+            Runtime.getRuntime().exec("qsub  "+ invokeFile);
 
         } catch (IOException e) {
 
@@ -62,6 +62,8 @@ public class CreateDomainHelper{
                 getData().getGeogrid().getDirPath();
 
         geogridDataPath = replaceRegex(geogridDataPath,domainCreateBean);
+        //创建文件夹
+        FileUtil.createFolder(geogridDataPath);
         geoRenv.setGeogrid_data_path(geogridDataPath);
         HashMap hashMap = new HashMap();
         hashMap.put("georenv",geoRenv);
@@ -84,15 +86,19 @@ public class CreateDomainHelper{
 
         String moduleDomainCsh = mcConfigManager.getSystemConfig().getCsh().getModule_domain_csh();
 
+        String script_path = mcConfigManager.getSystemConfig().getRoot().getScript();
+
         String geogridRunPath = mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getRun().getGeogrid();
 
         geogridRunPath = replaceRegex(geogridRunPath,domainCreateBean);
 
-        StringBuffer stringBuffer = new StringBuffer("#!/usr/bin/env bash");
+        StringBuffer stringBuffer = new StringBuffer("#!/usr/bin/csh -f");
 
                     stringBuffer.append("\n")
                     .append("cd ")
                     .append(geogridRunPath)
+                    .append("\n")
+                    .append(FilePathUtil.joinByDelimiter(script_path,Constant.SYS_RENV_CSH))
                     .append("\n")
                     .append(moduleDomainCsh).append(" ")
                     .append(renvPathName);
