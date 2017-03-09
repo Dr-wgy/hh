@@ -5,17 +5,19 @@ import com.makenv.model.mc.core.constant.Constant;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.LocalTimeUtil;
 import com.makenv.model.mc.core.util.StringUtil;
+import com.makenv.model.mc.server.message.pojo.ModelCommonParams;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
 import com.makenv.model.mc.server.message.task.ModelTask;
+import com.makenv.model.mc.server.message.task.bean.WrfBean;
 import com.makenv.model.mc.server.message.util.McUtil;
-import com.makenv.model.mc.server.message.pojo.ModelCommonParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
 
 /**
  * WRF根据reinitial的情况需要分段执行，另外还要考虑跨年的情况
@@ -30,13 +32,10 @@ public class WrfTask extends ModelTask {
     super(modelStartBean, configManager);
   }
 
-  private int getRunType(LocalDate compDate) {
+  private boolean isReInitial(LocalDate compDate) {
     LocalDate baseDate = configManager.getSystemConfig().getModel().getBaseDate();
     int reinitialDays = configManager.getSystemConfig().getModel().getDays_of_reinitial();
-    if (McUtil.needReInitial(baseDate, compDate, reinitialDays)) {
-      return RUN_TYPE_INIT;
-    }
-    return 1;
+    return McUtil.needReInitial(baseDate, compDate, reinitialDays);
   }
 
   private boolean checkParams() {
@@ -75,46 +74,58 @@ public class WrfTask extends ModelTask {
   }
 
 
-  private Map<String, Object> buildRenvParams(LocalDate start, LocalDate end,int runType) {
-    Map<String, Object> params = createParams();
-    params.put("start_date", LocalTimeUtil.format(start,LocalTimeUtil.YMD_DATE_FORMAT));
-    params.put("run_days", LocalTimeUtil.between(start,end));
-    params.put("run_hours", "");
-    params.put("ungrib_output_path", "");
-    params.put("metgrid_output_path", "");
-    params.put("wrf_output_path", "");
-    params.put("base_wrf_output_path", "");
-    params.put("run_type",runType);
-    return params;
+  private List<WrfBean> buildRenvBean() {
+    boolean isInitial = modelStartBean.getCommon().isInitial();
+    int i = 0, j = 0;
+    LocalDate _current = startDate, lastDate = startDate;
+    TreeMap<String, Integer> renInitialData = new TreeMap<>();
+    WrfBean bean;
+    List<WrfBean> beans = new ArrayList<>();
+    while (!_current.isAfter(endDate)) {
+      if (isReInitial(_current)) {
+        if (i != 0) {
+          bean = createWrfBean();
+          beans.add(bean);
+          bean.setStart_date(LocalTimeUtil.format(lastDate, LocalTimeUtil.YMD_DATE_FORMAT));
+//          bean.setRun_days();
+          bean.setRun_hours(configManager.getSystemConfig().getModel().getWrf_run_hours());
+//          bean.setUngrib_output_path();
+//          bean.setMetgrid_output_path();
+//          bean.setWrf_output_path();
+//          bean.setBase_wrf_output_path();
+          bean.setRun_type(j == 0 ? RUN_TYPE_INIT : RUN_TYPE_REINIT);
+          lastDate = _current;
+          j++;
+        }
+      }
+      i++;
+      _current = _current.plusDays(1);
+    }
+//    params.put("start_date", LocalTimeUtil.format(start,LocalTimeUtil.YMD_DATE_FORMAT));
+//    params.put("run_days", LocalTimeUtil.between(start,end));
+//    params.put("run_hours", "");
+//    params.put("ungrib_output_path", "");
+//    params.put("metgrid_output_path", "");
+//    params.put("wrf_output_path", "");
+//    params.put("base_wrf_output_path", "");
+//    params.put("run_type",runType);
+    return null;
   }
 
   @Override
   protected boolean doHandle() {
-    boolean isInitial = modelStartBean.getCommon().isInitial();
-    int i = 1, j = 0;
-    LocalDate _start = startDate;
-    while (!_start.isAfter(endDate)) {
-
-      if(_start.isEqual(endDate)){
-
-      }else {
-
-      }
-      i++;
-      _start = _start.plusDays(1);
-    }
     return true;
   }
 
-  private Map<String, Object> createParams() {
-    Map<String, Object> params = new HashMap<>();
-    params.put("namelist_wps_metgrid_template", metgridTemplate);
-    params.put("namelist_wrf_template", wrfTemplate);
-    params.put("start_hour", startHour);
-    params.put("scripts_path", scriptPath);
-    params.put("wrf_build_path", wrfBuildPath);
-    params.put("geogrid_output_path", geogridOutputPath);
-    params.put("debug", Constant.MODEL_DEBUG_LEVEL);
-    return params;
+  private WrfBean createWrfBean() {
+    WrfBean bean = new WrfBean();
+    bean.setNamelist_wps_metgrid_template(metgridTemplate);
+    bean.setNamelist_wrf_template(wrfTemplate);
+    bean.setStart_hour(startHour);
+    bean.setScripts_path(scriptPath);
+    bean.setWrf_build_path(wrfBuildPath);
+    bean.setGeogrid_output_path(geogridOutputPath);
+    bean.setDebug(Constant.MODEL_DEBUG_LEVEL);
+    return bean;
   }
 }

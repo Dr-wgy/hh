@@ -1,30 +1,30 @@
 #模板文件绝对路径/path/namelist.wps.metgrid.template
-setenv namelist_wps_metgrid_template ${namelist_wps_metgrid_template}
+setenv namelist_wps_metgrid_template ${wrfBean.namelist_wps_metgrid_template}
 #模板文件绝对路径/path/namelist.wrf.template
-setenv namelist_wrf_template ${namelist_wrf_template}
+setenv namelist_wrf_template ${wrfBean.namelist_wrf_template}
 #开始日期
-setenv start_date ${start_date}
+setenv start_date ${wrfBean.start_date}
 #运行天数
-setenv run_days ${run_days}
+setenv run_days ${wrfBean.run_days}
 #运行小时数,12，额外增加的小时数
-setenv run_hours ${run_hours}
+setenv run_hours ${wrfBean.run_hours}
 #开始时间，默认18
-setenv start_hour ${start_hour}
+setenv start_hour ${wrfBean.start_hour}
 #模式驱动脚本目录
-setenv scripts_path ${scripts_path}
+setenv scripts_path ${wrfBean.scripts_path}
 #WRF安装目录
-setenv wrf_build_path ${wrf_build_path}
+setenv wrf_build_path ${wrfBean.wrf_build_path}
 #GEOGRID文件输出目录
-setenv geogrid_output_path ${geogrid_output_path}
+setenv geogrid_output_path ${wrfBean.geogrid_output_path}
 #UNGRIB文件输出目录
-setenv ungrib_output_path ${ungrib_output_path}
+setenv ungrib_output_path ${wrfBean.ungrib_output_path}
 #METGRID文件输出目录
-setenv metgrid_output_path ${metgrid_output_path}
+setenv metgrid_output_path ${wrfBean.metgrid_output_path}
 #WRF文件输出目录
-setenv wrf_output_path ${wrf_output_path}
+setenv wrf_output_path ${wrfBean.wrf_output_path}
 #基础情景WRF输出目录
-setenv base_wrf_output_path ${base_wrf_output_path}
+setenv base_wrf_output_path ${wrfBean.base_wrf_output_path}
 #是否为run_type: 0-initial, 1-restart, 2-reinitial
-setenv run_type ${restart_run}
+setenv run_type ${wrfBean.restart_run}
 #是否为debug模式，0非，>0为debug
-setenv debug ${debug}
+setenv debug ${wrfBean.debug}
