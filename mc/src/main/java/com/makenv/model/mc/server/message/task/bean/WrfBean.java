@@ -19,6 +19,24 @@ public class WrfBean {
   private String wrf_output_path;//#WRF文件输出目录
   private String base_wrf_output_path;//#WRF文件输出目录
   private int run_type;
+  private String global;
+  private String ungrib_file;
+
+  public String getGlobal() {
+    return global;
+  }
+
+  public void setGlobal(String global) {
+    this.global = global;
+  }
+
+  public String getUngrib_file() {
+    return ungrib_file;
+  }
+
+  public void setUngrib_file(String ungrib_file) {
+    this.ungrib_file = ungrib_file;
+  }
 
   public String getNamelist_wrf_template() {
     return namelist_wrf_template;

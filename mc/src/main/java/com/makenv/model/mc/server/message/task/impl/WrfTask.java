@@ -5,6 +5,7 @@ import com.makenv.model.mc.core.constant.Constant;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.LocalTimeUtil;
 import com.makenv.model.mc.core.util.StringUtil;
+import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.server.message.pojo.ModelCommonParams;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
 import com.makenv.model.mc.server.message.task.ModelTask;
@@ -14,10 +15,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.Map;
 
 /**
  * WRF根据reinitial的情况需要分段执行，另外还要考虑跨年的情况
@@ -27,9 +30,11 @@ public class WrfTask extends ModelTask {
   private Logger logger = LoggerFactory.getLogger(WrfTask.class);
   private String wrfRunDir;
   private LocalDate startDate, endDate;
+  private List<WrfBean> wrfBeans;
 
   public WrfTask(ModelStartBean modelStartBean, McConfigManager configManager) {
     super(modelStartBean, configManager);
+    wrfBeans = new LinkedList<>();
   }
 
   private boolean isReInitial(LocalDate compDate) {
@@ -73,49 +78,116 @@ public class WrfTask extends ModelTask {
     return processDirectory();
   }
 
+  @Override
+  protected boolean doHandle() {
+    switch (modelStartBean.getCommon().getDatatype()) {
+      case Constant.GLOBAL_TYPE_FNL:
+        buildFnlRenvBean();
+        break;
+      case Constant.GLOBAL_TYPE_GFS:
+        buildGfsRenvBean();
+        break;
+      default:
+        return false;
+    }
 
-  private List<WrfBean> buildRenvBean() {
+    return buildRenv() && buildCsh();
+  }
+
+  /**
+   * 生成RENV文件
+   */
+  private boolean buildRenv() {
+    String renvTemplate = configManager.getSystemConfig().getTemplate().getRenv_wrf_sh();
+    try {
+      for (WrfBean wrfBean : wrfBeans) {
+        String content = VelocityUtil.buildTemplate(renvTemplate, "wrfBean", wrfBean);
+        String renvFilePath = String.format("%s%s%s-%s", wrfRunDir, File.separator, Constant.WRF_RENV_FILE, wrfBean.getStart_date());
+        FileUtil.writeLocalFile(new File(renvFilePath), content);
+      }
+    } catch (IOException e) {
+      logger.error("", e);
+      return false;
+    }
+    return true;
+  }
+
+  private boolean buildCsh() {
+    List<String> dateList = new LinkedList<>();
+    for (WrfBean wrfBean : wrfBeans) {
+      dateList.add(wrfBean.getStart_date());
+    }
+    String start_dates = String.join(" ", dateList);
+    Map<String, Object> params = new HashMap<>();
+    params.put("start_dates", start_dates);
+    params.put("wrf_run_dir", wrfRunDir);
+    params.put("wrf_script", configManager.getSystemConfig().getCsh().getModule_wrf_csh());
+    String renv_scrpit = String.format("%s%s%s${start_date}", wrfRunDir, File.separator, Constant.WRF_RENV_FILE);
+    params.put("renv_scrpit", renv_scrpit);
+    String content = VelocityUtil.buildTemplate(configManager.getSystemConfig().getTemplate().getCsh_wrf(), params);
+//    FileUtil.writeAppendLocalFileInLinux() TODO
+    return true;
+  }
+
+  private void buildGfsRenvBean() {
+    WrfBean bean = createWrfBean();
+    bean.setStart_date(LocalTimeUtil.format(startDate, LocalTimeUtil.YMD_DATE_FORMAT));
+    bean.setRun_days((int) LocalTimeUtil.between(endDate, startDate));
+    bean.setRun_hours(0);
+    String ungribOutPath = configManager.getSystemConfig().getWorkspace().getShare().getInput().getUngrib_gfs().getDirPath();
+    ungribOutPath = String.format("%s%s%s", ungribOutPath, File.separator, bean.getStart_date());
+    bean.setUngrib_output_path(ungribOutPath);
+    String metgridOutPath = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGlobaldatasets().getMetgrid().getDirPath();
+    metgridOutPath = String.format("%s%s%s", metgridOutPath, File.separator, bean.getStart_date());
+    bean.setMetgrid_output_path(processPath(metgridOutPath));
+    String wrfOutPath = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGlobaldatasets().getWrf().getDirPath();
+    wrfOutPath = processPath(wrfOutPath);
+    bean.setWrf_output_path(wrfOutPath);
+    //TODO fixme
+    bean.setBase_wrf_output_path(wrfOutPath);
+    wrfBeans.add(bean);
+  }
+
+  private void buildFnlRenvBean() {
     boolean isInitial = modelStartBean.getCommon().isInitial();
     int i = 0, j = 0;
     LocalDate _current = startDate, lastDate = startDate;
-    TreeMap<String, Integer> renInitialData = new TreeMap<>();
     WrfBean bean;
-    List<WrfBean> beans = new ArrayList<>();
     while (!_current.isAfter(endDate)) {
-      if (isReInitial(_current)) {
-        if (i != 0) {
-          bean = createWrfBean();
-          beans.add(bean);
-          bean.setStart_date(LocalTimeUtil.format(lastDate, LocalTimeUtil.YMD_DATE_FORMAT));
-//          bean.setRun_days();
-          bean.setRun_hours(configManager.getSystemConfig().getModel().getWrf_run_hours());
-//          bean.setUngrib_output_path();
-//          bean.setMetgrid_output_path();
-//          bean.setWrf_output_path();
-//          bean.setBase_wrf_output_path();
-          bean.setRun_type(j == 0 ? RUN_TYPE_INIT : RUN_TYPE_REINIT);
-          lastDate = _current;
-          j++;
-        }
+      if (isReInitial(_current) && i != 0) {
+        bean = buildFnlWrfBean(lastDate, _current);
+        wrfBeans.add(bean);
+        bean.setRun_type(j++ == 0 ? (isInitial ? RUN_TYPE_INIT : RUN_TYPE_RESTART) : RUN_TYPE_REINIT);
+        lastDate = _current;
       }
       i++;
       _current = _current.plusDays(1);
     }
-//    params.put("start_date", LocalTimeUtil.format(start,LocalTimeUtil.YMD_DATE_FORMAT));
-//    params.put("run_days", LocalTimeUtil.between(start,end));
-//    params.put("run_hours", "");
-//    params.put("ungrib_output_path", "");
-//    params.put("metgrid_output_path", "");
-//    params.put("wrf_output_path", "");
-//    params.put("base_wrf_output_path", "");
-//    params.put("run_type",runType);
-    return null;
+    bean = buildFnlWrfBean(lastDate, endDate);
+    if (j == 0) {
+      bean.setRun_type(isInitial ? RUN_TYPE_INIT : RUN_TYPE_RESTART);
+    } else {
+      bean.setRun_type(RUN_TYPE_REINIT);
+    }
+    wrfBeans.add(bean);
   }
 
-  @Override
-  protected boolean doHandle() {
-    return true;
+  private WrfBean buildFnlWrfBean(LocalDate startDate, LocalDate current) {
+    WrfBean bean = createWrfBean();
+    bean.setStart_date(LocalTimeUtil.format(startDate, LocalTimeUtil.YMD_DATE_FORMAT));
+    bean.setRun_days((int) LocalTimeUtil.between(current, startDate));
+    bean.setRun_hours(configManager.getSystemConfig().getModel().getWrf_run_hours());
+    bean.setUngrib_output_path(configManager.getSystemConfig().getWorkspace().getShare().getInput().getUngrib_fnl().getDirPath());
+    String metgridOutPath = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGlobaldatasets().getMetgrid().getDirPath();
+    bean.setMetgrid_output_path(processPath(metgridOutPath));
+    String wrfOutPath = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGlobaldatasets().getWrf().getDirPath();
+    wrfOutPath = processPath(wrfOutPath);
+    bean.setWrf_output_path(wrfOutPath);
+    //TODO fixme
+    bean.setBase_wrf_output_path(wrfOutPath);
+    return bean;
   }
+
 
   private WrfBean createWrfBean() {
     WrfBean bean = new WrfBean();
@@ -126,6 +198,8 @@ public class WrfTask extends ModelTask {
     bean.setWrf_build_path(wrfBuildPath);
     bean.setGeogrid_output_path(geogridOutputPath);
     bean.setDebug(Constant.MODEL_DEBUG_LEVEL);
+    bean.setGlobal(modelStartBean.getCommon().getDatatype());
+    bean.setUngrib_file(Constant.UNGRIB_FILE_PREFIX);
     return bean;
   }
 }

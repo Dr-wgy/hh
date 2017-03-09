@@ -2,6 +2,7 @@ package com.makenv.model.mc.server.message.task;
 
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.core.constant.Constant;
+import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
 
 import java.io.File;
@@ -24,10 +25,19 @@ public abstract class ModelTask implements IModelTask {
   protected String scriptPath;
   protected String wrfBuildPath;
   protected String geogridOutputPath;
+  private String modelRunDir;
+  private String modelRunFile;
 
   public ModelTask(ModelStartBean modelStartBean, McConfigManager configManager) {
     this.modelStartBean = modelStartBean;
     this.configManager = configManager;
+  }
+
+  public String getModelRunDir() {
+    return modelRunDir;
+  }
+  public String getModelRunFile() {
+    return modelRunDir;
   }
 
   protected String processPath(String path) {
@@ -53,6 +63,10 @@ public abstract class ModelTask implements IModelTask {
     scriptPath = configManager.getSystemConfig().getRoot().getScript();
     wrfBuildPath = configManager.getSystemConfig().getRoot().getWrf();
     geogridOutputPath = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGeogrid().getDirPath());
+    modelRunDir = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getModelRunPath());
+//    modelRunDir= String.format("%s%s%s",modelRunDir,File.separator,modelStartBean.getCommon().ge); TODO
+    FileUtil.checkAndMkdir(modelRunDir);
+    modelRunFile = String.format("%s%s%s",modelRunDir,File.separator,Constant.MODEL_SCRIPT_FILE);
     return true;
   }
 
