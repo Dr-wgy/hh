@@ -6,7 +6,8 @@ package com.makenv.model.mc.cli.cmd;
 public enum CommandType {
   CMD_TYPE(true, 't', "type", true, "function type"),
   CMD_OUTPUT(false, 'o', "output", true, "output file"),
-  CMD_INPUT(false, 'i', "input", true, "input file path"),
+  CMD_INPUT(false, 'i', "input", true, "input file path notice. -D -I can not exists at the same time"),
+  CMD_DATA(false,'D',"data",true,"input data notice. -D -I can not exists at the same time"),
   CMD_DATE(false, 'd', "date", true, "date time, e.g. 20170101");
 
   public final boolean required;
