@@ -1,5 +1,6 @@
 package com.makenv.model.mc.server.message.redis;
 
+import com.makenv.model.mc.core.config.RedisQueueConfig;
 import com.makenv.model.mc.server.constant.Constants;
 import com.makenv.model.mc.server.message.body.MessageWrapper;
 import com.makenv.model.mc.server.message.dispacher.AnnocationMessageDispacher;
@@ -21,6 +22,9 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class RedisQueue{
+
+    @Autowired
+    RedisQueueConfig redisQueueConfig;
 
     @Autowired
     private RedisService redisService;
@@ -112,7 +116,7 @@ public class RedisQueue{
 
             MessageWrapper messageWrapper = new MessageWrapper();
 
-            String obj = redisService.brpop(Constants.REDIS_RECEIVE_QUEUE_NAME);
+            String obj = redisService.brpop(redisQueueConfig.getReceiveQueueName());
 
             String queue_name = String.join(":",Constants.TEMP_QUEUE_NAME_PREFIX,UUID.randomUUID().toString());
 
