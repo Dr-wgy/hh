@@ -20,8 +20,6 @@ setenv geogrid_output_path ${wrfBean.geogrid_output_path}
 setenv ungrib_output_path ${wrfBean.ungrib_output_path}
 #METGRID文件输出目录
 setenv metgrid_output_path ${wrfBean.metgrid_output_path}
-#REAL文件输出目录
-setenv real_output_path ${wrfBean.real_output_path}
 #WRF文件输出目录
 setenv wrf_output_path ${wrfBean.wrf_output_path}
 #基础情景WRF输出目录
