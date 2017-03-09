@@ -35,6 +35,15 @@ public class StringUtil {
     }
 
     /**
+     * "cn/fh/lightning" -> "cn.fh.lightning"
+     * @param name
+     * @return
+     */
+    public static String SplashToDot(String name) {
+        return name.replaceAll("/", ".");
+    }
+
+    /**
      * "Apple.class" -> "Apple"
      */
     public static String trimExtension(String name) {

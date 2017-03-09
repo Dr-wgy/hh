@@ -11,5 +11,5 @@ public class Constants {
 
     public static final String REDIS_RECEIVE_QUEUE_NAME = "receive:queue";
 
-    public static final String ERROR_MSG_LOG_PREFIX = "error-msg";
+    public static final String ERROR_MSG_LOG_PREFIX = "messageLog/error-msg";
 }

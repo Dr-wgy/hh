@@ -102,48 +102,62 @@ public class ClassPathPackageScanner implements PackageScanner {
             }
 
             names = readFromJarFile(filePath, splashPath);
+
+            for (String name : names) {
+                if (isClassFile(name)) {
+                    try {
+                        String fullName = StringUtil.SplashToDot(name).replaceAll(".class","");
+                        Class clazz = Class.forName(fullName);
+                        if(annotationFilter != null) {
+                            Object annocationClass = clazz.getDeclaredAnnotation(annotationFilter);
+                            if(annocationClass != null) {
+                                //nameList.add(basePackage + "." + StringUtil.trimExtension(name));
+                                nameList.add(fullName);
+                            }
+                        }
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                        logger.info("class is not defined");
+                    }
+
+                } else {
+                    // this is a directory
+                    // check this directory for more classes
+                    // do recursive invocation
+                    doScan(basePackage + "." + name, nameList);
+                }
+            }
         } else {
             // directory
             if (logger.isInfoEnabled()) {
                 logger.info("{} 是一个目录", filePath);
             }
-
             names = readFromDirectory(filePath);
-        }
-
-        for (String name : names) {
-
-            if (isClassFile(name)) {
-
-                try {
-
-                    String fullName = toFullyQualifiedName(name, basePackage);
-
-                    Class clazz = Class.forName(fullName);
-
-                    if(annotationFilter != null) {
-
-                        Object annocationClass = clazz.getDeclaredAnnotation(annotationFilter);
-
-                        if(annocationClass != null) {
-
-                            //nameList.add(basePackage + "." + StringUtil.trimExtension(name));
-                            nameList.add(fullName);
-
+            for (String name : names) {
+                if (isClassFile(name)) {
+                    try {
+                        String fullName = toFullyQualifiedName(name, basePackage);
+                        Class clazz = Class.forName(fullName);
+                        if(annotationFilter != null) {
+                            Object annocationClass = clazz.getDeclaredAnnotation(annotationFilter);
+                            if(annocationClass != null) {
+                                //nameList.add(basePackage + "." + StringUtil.trimExtension(name));
+                                nameList.add(fullName);
+                            }
                         }
                     }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                        logger.info("class is not defined");
+                    }
 
+                } else {
+                    // this is a directory
+                    // check this directory for more classes
+                    // do recursive invocation
+                    doScan(basePackage + "." + name, nameList);
                 }
-                catch (Exception e) {
-
-                    logger.info("class is not defined");
-                }
-
-            } else {
-                // this is a directory
-                // check this directory for more classes
-                // do recursive invocation
-                doScan(basePackage + "." + name, nameList);
             }
         }
 

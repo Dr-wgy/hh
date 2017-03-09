@@ -88,6 +88,8 @@ public class AnnocationMessageDispacher implements ImessageDispacher {
                         }
                         else {
 
+                            System.out.println(uniqueFlag);
+
                             handlerMappings.put(uniqueFlag,eachMethod);
                         }
 
@@ -139,7 +141,6 @@ public class AnnocationMessageDispacher implements ImessageDispacher {
             FileUtil.writeLogByDaily(Constants.ERROR_MSG_LOG_PREFIX,messageStr);
 
             //记录日志
-
 
         }
 
