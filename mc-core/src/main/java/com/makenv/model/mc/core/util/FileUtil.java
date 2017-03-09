@@ -119,6 +119,11 @@ public class FileUtil {
 
     try {
 
+      if(!file.exists()) {
+
+       FileUtil.createFile(file);
+      }
+
       writeAppendLocalFile(file, content);
 
     } catch (IOException e) {
@@ -126,6 +131,27 @@ public class FileUtil {
       e.printStackTrace();
     }
 
+  }
+
+  public static void createFile(File file) {
+    File parentFile = file.getParentFile();
+    if(parentFile != null && !parentFile.exists()) {
+      parentFile.mkdirs();
+    }
+    else {
+      if(!file.exists()) {
+        try {
+          file.createNewFile();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+
+  }
+
+  public static void createFile(String fileName) {
+    createFile(new File(fileName));
   }
 
   /**
@@ -271,8 +297,8 @@ public class FileUtil {
     return readLastLine(file, Charset.defaultCharset().displayName());
   }
 
-  public static void createFolder(String geogridDataPath) {
-    File file = new File(geogridDataPath);
+  public static void createFolder(String folderPath) {
+    File file = new File(folderPath);
     if(!file.exists()) {
       file.mkdirs();
     }

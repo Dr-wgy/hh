@@ -25,13 +25,21 @@ public class CreateDomainHelper{
 
     public boolean executeShell(DomainCreateBean domainCreateBean) {
 
+        String moduleDomainCsh = mcConfigManager.getSystemConfig().getCsh().getModule_domain_csh();
+
+        String script_path = mcConfigManager.getSystemConfig().getRoot().getScript();
+
+        String geogridRunPath = mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getRun().getGeogrid();
+
+        geogridRunPath = replaceRegex(geogridRunPath,domainCreateBean);
+
         String renvPathName = buildRenv(domainCreateBean);
 
-        String invokeFile = prepareExecShell(domainCreateBean,renvPathName);
+        String invokeFile = prepareExecShell(geogridRunPath,script_path,moduleDomainCsh,renvPathName);
 
         try {
 
-            Runtime.getRuntime().exec("qsub  "+ invokeFile);
+            Runtime.getRuntime().exec("qsub -j oe -o " + geogridRunPath + " " + invokeFile);
 
         } catch (IOException e) {
 
@@ -81,15 +89,9 @@ public class CreateDomainHelper{
     }
 
     //准备执行的脚本
-    private String prepareExecShell(DomainCreateBean domainCreateBean,String renvPathName){
+    private String prepareExecShell(String geogridRunPath,String script_path,String moduleDomainCsh,String renvPathName){
 
-        String moduleDomainCsh = mcConfigManager.getSystemConfig().getCsh().getModule_domain_csh();
 
-        String script_path = mcConfigManager.getSystemConfig().getRoot().getScript();
-
-        String geogridRunPath = mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getRun().getGeogrid();
-
-        geogridRunPath = replaceRegex(geogridRunPath,domainCreateBean);
 
         StringBuffer stringBuffer = new StringBuffer("#!/usr/bin/csh -f");
 
@@ -97,7 +99,7 @@ public class CreateDomainHelper{
                     .append("cd ")
                     .append(geogridRunPath)
                     .append("\n")
-                    .append(FilePathUtil.joinByDelimiter(script_path,Constant.SYS_RENV_CSH))
+                    .append("source "+FilePathUtil.joinByDelimiter(script_path,Constant.SYS_RENV_CSH))
                     .append("\n")
                     .append(moduleDomainCsh).append(" ")
                     .append(renvPathName);
