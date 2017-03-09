@@ -26,6 +26,8 @@ public class CreateDomainHelper{
 
     public boolean executeShell(DomainCreateBean domainCreateBean) {
 
+        String qsubStr = mcConfigManager.getSystemConfig().getPbs().getQsub();
+
         String moduleDomainCsh = mcConfigManager.getSystemConfig().getCsh().getModule_domain_csh();
 
         String script_path = mcConfigManager.getSystemConfig().getRoot().getScript();
@@ -40,9 +42,13 @@ public class CreateDomainHelper{
 
         try {
 
-            Runtime.getRuntime().exec("qsub -j -o "+ FilePathUtil.joinByDelimiter(geogridRunPath,Constants.GEOGRID_OUT_FILE_NAME)
+            qsubStr = String.format(qsubStr,1,1,String.join(Constants.GEOGRID_NAME,domainCreateBean.getDomainid()),
+                    FilePathUtil.joinByDelimiter(geogridRunPath,Constants.GEOGRID_OUT_FILE_NAME),
+                    FilePathUtil.joinByDelimiter(geogridRunPath,Constants.GEOGRID_ERROR_FILE_NAME),
+                    invokeFile
+            );
 
-                    +" -e" + FilePathUtil.joinByDelimiter(geogridRunPath,Constants.GEOGRID_ERROR_FILE_NAME) + " " + invokeFile);
+            Runtime.getRuntime().exec(qsubStr);
 
         } catch (IOException e) {
 

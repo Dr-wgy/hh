@@ -16,4 +16,7 @@ public class Constants {
     public static final String GEOGRID_OUT_FILE_NAME = "geogrid_out.log";
 
     public static final String GEOGRID_ERROR_FILE_NAME = "geogrid_error.log";
+
+    public static final String GEOGRID_NAME = "geogrid";
+
 }
