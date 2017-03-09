@@ -9,4 +9,6 @@ public interface IModelTask {
   boolean handleRequest();
 
   String getModelRunFilePath();
+
+  String getModelRunDir();
 }

@@ -73,9 +73,7 @@ public class WrfTask extends ModelTask {
 
   @Override
   protected boolean beforeHandle() {
-    if (!checkParams()) return false;
-    super.beforeHandle();
-    return processDirectory();
+    return checkParams() && processDirectory();
   }
 
   @Override
@@ -122,7 +120,7 @@ public class WrfTask extends ModelTask {
     params.put("start_dates", start_dates);
     params.put("wrf_run_dir", wrfRunDir);
     params.put("wrf_script", configManager.getSystemConfig().getCsh().getModule_wrf_csh());
-    String renv_scrpit = String.format("%s%s%s${start_date}", wrfRunDir, File.separator, Constant.WRF_RENV_FILE);
+    String renv_scrpit = String.format("%s%s%s-${start_date}", wrfRunDir, File.separator, Constant.WRF_RENV_FILE);
     params.put("renv_scrpit", renv_scrpit);
     String content = VelocityUtil.buildTemplate(configManager.getSystemConfig().getTemplate().getCsh_wrf(), params);
     try {

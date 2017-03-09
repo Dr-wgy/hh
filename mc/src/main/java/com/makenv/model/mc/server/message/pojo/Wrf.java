@@ -5,13 +5,22 @@ package com.makenv.model.mc.server.message.pojo;
  */
 public class Wrf {
 
-    private int spinup;
+  private int spinup;
+  private String lastfnl;
 
-    public int getSpinup() {
-        return spinup;
-    }
+  public String getLastfnl() {
+    return lastfnl;
+  }
 
-    public void setSpinup(int spinup) {
-        this.spinup = spinup;
-    }
+  public void setLastfnl(String lastfnl) {
+    this.lastfnl = lastfnl;
+  }
+
+  public int getSpinup() {
+    return spinup;
+  }
+
+  public void setSpinup(int spinup) {
+    this.spinup = spinup;
+  }
 }

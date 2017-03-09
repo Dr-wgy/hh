@@ -14,7 +14,7 @@ public class MessageTool {
     String queue = "receive_queue_name";
     Jedis jedis = new Jedis("166.111.42.46", 16379);
     jedis.auth("123456");
-    String content = FileUtil.readLocalFile(new File("D:\\work\\mc\\samples\\api\\start-model.json"));
+    String content = FileUtil.readLocalFile(new File("D:\\work\\mc\\samples\\api\\test\\start-model-1.json"));
     jedis.lpush(queue, content);
   }
 }

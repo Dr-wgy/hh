@@ -2,8 +2,8 @@ package com.makenv.model.mc.server.message.task;
 
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
-import com.makenv.model.mc.server.message.task.impl.McipTask;
 import com.makenv.model.mc.server.message.task.impl.CmaqTask;
+import com.makenv.model.mc.server.message.task.impl.McipTask;
 import com.makenv.model.mc.server.message.task.impl.MeganTask;
 import com.makenv.model.mc.server.message.task.impl.MeicTask;
 import com.makenv.model.mc.server.message.task.impl.WrfTask;
@@ -19,7 +19,7 @@ public class ModelTaskFactory {
   private McConfigManager configManager;
 
   public IModelTask getModelTask(String taskType, ModelStartBean modelStartBean) {
-    ModelTaskType _taskType = ModelTaskType.valueOf(taskType);
+    ModelTaskType _taskType = ModelTaskType.valueOf(taskType.toUpperCase());
     switch (_taskType) {
       case MEIC:
         return new MeicTask(modelStartBean, configManager);
