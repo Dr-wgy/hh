@@ -24,7 +24,7 @@ public class Constant {
   public static final String MODULE_WRF_CSH = "Module.wrf.csh";
   public static final String GEOGRID_SCRIPT_FILE = "invoke-geogrid";
 
-  public static final String DOMAIN_RENV_FILE="renv-domain.sh";
+  public static final String DOMAIN_RENV_FILE="renv-domain.csh";
 
   public static final String WRF_RENV_FILE = "renv-wrf";
   public static final String WRF_SCRIPT_FILE = "invoke-wrf";

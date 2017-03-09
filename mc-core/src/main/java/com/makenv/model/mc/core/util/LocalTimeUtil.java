@@ -38,6 +38,6 @@ public class LocalTimeUtil {
   }
 
   public static long between(LocalDate date1, LocalDate date2) {
-    return ChronoUnit.DAYS.between(date1, date2);
+    return Math.abs(ChronoUnit.DAYS.between(date1, date2));
   }
 }
