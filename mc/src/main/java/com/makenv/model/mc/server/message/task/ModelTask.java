@@ -25,7 +25,6 @@ public abstract class ModelTask implements IModelTask {
   protected String scriptPath;
   protected String wrfBuildPath;
   protected String geogridOutputPath;
-  private String modelRunDir;
   private String modelRunFile;
 
   public ModelTask(ModelStartBean modelStartBean, McConfigManager configManager) {
@@ -33,11 +32,12 @@ public abstract class ModelTask implements IModelTask {
     this.configManager = configManager;
   }
 
-  public String getModelRunDir() {
-    return modelRunDir;
+  public String getModelRunFilePath() {
+    return modelRunFile;
   }
-  public String getModelRunFile() {
-    return modelRunDir;
+
+  protected File getModelRunFile() {
+    return new File(modelRunFile);
   }
 
   protected String processPath(String path) {
@@ -63,10 +63,10 @@ public abstract class ModelTask implements IModelTask {
     scriptPath = configManager.getSystemConfig().getRoot().getScript();
     wrfBuildPath = configManager.getSystemConfig().getRoot().getWrf();
     geogridOutputPath = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGeogrid().getDirPath());
-    modelRunDir = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getModelRunPath());
-//    modelRunDir= String.format("%s%s%s",modelRunDir,File.separator,modelStartBean.getCommon().ge); TODO
+    String modelRunDir = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getModelRunPath());
+    modelRunDir = String.format("%s%s%s", modelRunDir, File.separator, modelStartBean.getScenarioid());
     FileUtil.checkAndMkdir(modelRunDir);
-    modelRunFile = String.format("%s%s%s",modelRunDir,File.separator,Constant.MODEL_SCRIPT_FILE);
+    modelRunFile = String.format("%s%s%s", modelRunDir, File.separator, Constant.MODEL_SCRIPT_FILE);
     return true;
   }
 

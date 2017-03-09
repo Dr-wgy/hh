@@ -10,9 +10,9 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource("classpath:redisQueue.properties")
 public class RedisQueueConfig {
-    @Value("redis.send.queue.name")
+    @Value("${redis.send.queue.name}")
     private String sendQueueName;
-    @Value("redis.receive.queue.name")
+    @Value("${redis.send.queue.name}e")
     private String receiveQueueName;
 
     public String getSendQueueName() {
