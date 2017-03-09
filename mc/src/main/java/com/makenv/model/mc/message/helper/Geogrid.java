@@ -5,6 +5,8 @@ package com.makenv.model.mc.message.helper;
  */
 public class Geogrid {
 
+    private int max_dom;
+
     private String parent_id;
 
     private String parent_grid_ratio;
@@ -143,6 +145,14 @@ public class Geogrid {
 
     public void setMap_proj(String map_proj) {
         this.map_proj = map_proj;
+    }
+
+    public int getMax_dom() {
+        return max_dom;
+    }
+
+    public void setMax_dom(int max_dom) {
+        this.max_dom = max_dom;
     }
 
 }
