@@ -177,7 +177,7 @@ public class UngribOperator extends AbstractOperator {
   }
 
   private void prepareExecScript() throws IOException {
-    String sb = "#!/usr/bin/env bash\n" +
+    String sb = Constant.CSH_HEADER + "source " + Constant.CSH_HEADER + "\n" +
         "cd " +
         invokeDir +
         "\n" +

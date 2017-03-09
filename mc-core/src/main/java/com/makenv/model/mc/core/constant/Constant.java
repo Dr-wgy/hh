@@ -6,7 +6,7 @@ package com.makenv.model.mc.core.constant;
 public class Constant {
 
 //  public static final int START_HOUR = 18;
-  public static final String SYS_RENV_CSH = "sys_renv_csh";
+  public static final String SYS_RENV_CSH = "sys_renv.csh";
   public static final String[] FILE_HOURS = {"00", "06", "12", "18"};
   public static final int MODEL_DEBUG_LEVEL = 1;
   public static final String UNGRIB_RENV_FILE = "renv-ungrib";
@@ -30,4 +30,6 @@ public class Constant {
   public static final String WRF_RENV_FILE = "renv-wrf";
   public static final String WRF_SCRIPT_FILE = "invoke-wrf";
   public static final String WRF_LOG_FILE = "log-wrf";
+
+  public static final String CSH_HEADER = "#!/bin/csh\n";
 }
