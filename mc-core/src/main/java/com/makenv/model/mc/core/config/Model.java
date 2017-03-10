@@ -12,6 +12,15 @@ public class Model {
   private String base_date;
   private LocalDate baseDate;
   private int days_of_reinitial;
+  private int ungrib_gfs_days;
+
+  public int getUngrib_gfs_days() {
+    return ungrib_gfs_days;
+  }
+
+  public void setUngrib_gfs_days(int ungrib_gfs_days) {
+    this.ungrib_gfs_days = ungrib_gfs_days;
+  }
 
   public int getDays_of_reinitial() {
     return days_of_reinitial;
