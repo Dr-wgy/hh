@@ -73,9 +73,9 @@ public class UngribOperator extends AbstractOperator {
       runPath = configManager.getSystemConfig().getWorkspace().getShare().getRun().getUngrib().getDirPath();
       runPath = String.format("%s%s%s", runPath, File.separator, computeDate);
 
-      tagFile = String.format("%stag", runPath);
-      renvFnlFile = String.format("%s%s%s-%s", runPath, File.separator, MODEL_RENV_FILE, Constant.GLOBAL_TYPE_FNL);
-      renvGfsFile = String.format("%s%s%s-%s", runPath, File.separator, MODEL_RENV_FILE, Constant.GLOBAL_TYPE_GFS);
+      tagFile = String.format("%s%stag", runPath, File.separator);
+      renvFnlFile = String.format("%s%s%s-%s", runPath, File.separator, Constant.GLOBAL_TYPE_FNL, MODEL_RENV_FILE);
+      renvGfsFile = String.format("%s%s%s-%s", runPath, File.separator, Constant.GLOBAL_TYPE_GFS, MODEL_RENV_FILE);
       infoLogFile = String.format("%s%s%s", runPath, File.separator, TORQUE_LOG_ERROR);
       errorLogFile = String.format("%s%s%s", runPath, File.separator, TORQUE_LOG_INFO);
       invokeScriptFile = String.format("%s%s%s", runPath, File.separator, Constant.MODEL_SCRIPT_FILE);
