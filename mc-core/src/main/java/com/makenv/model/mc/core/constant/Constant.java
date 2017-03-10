@@ -35,4 +35,8 @@ public class Constant {
 
   public static final String GLOBAL_TYPE_FNL = "fnl";
   public static final String GLOBAL_TYPE_GFS = "gfs";
+
+  public static final String DOMAIN_JSON = "domain.json";
+
+
 }

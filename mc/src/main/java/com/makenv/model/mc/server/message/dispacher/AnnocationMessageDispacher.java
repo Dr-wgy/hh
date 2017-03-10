@@ -123,6 +123,8 @@ public class AnnocationMessageDispacher implements ImessageDispacher {
 
                 logger.info("消息格式不能为空");
 
+                logger.info(messageStr);
+
                 message = null;
 
                 FileUtil.writeLogByDaily(Constants.ERROR_MSG_LOG_PREFIX,messageStr);
@@ -136,6 +138,8 @@ public class AnnocationMessageDispacher implements ImessageDispacher {
 
             logger.info("时间格式不正确");
 
+            logger.info(messageStr);
+
             e.printStackTrace();
 
             FileUtil.writeLogByDaily(Constants.ERROR_MSG_LOG_PREFIX,messageStr);
@@ -147,6 +151,8 @@ public class AnnocationMessageDispacher implements ImessageDispacher {
         catch (IOException e) {
 
             logger.info("消息格式不正确");
+
+            logger.info(messageStr);
 
             e.printStackTrace();
 
