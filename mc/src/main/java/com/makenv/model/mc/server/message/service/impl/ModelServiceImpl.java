@@ -2,7 +2,9 @@ package com.makenv.model.mc.server.message.service.impl;
 
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.core.constant.Constant;
+import com.makenv.model.mc.core.util.FilePathUtil;
 import com.makenv.model.mc.core.util.FileUtil;
+import com.makenv.model.mc.core.util.JacksonUtil;
 import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.server.message.helper.CreateDomainHelper;
 import com.makenv.model.mc.server.message.helper.GriddescHelper;
@@ -102,6 +104,14 @@ public class ModelServiceImpl implements ModelService {
     //3. 执行createDomain的相关shell
     boolean succShellRunFlag = createDomainHelper.executeShell(domainCreateBean);
 
+    //将domain信息生成到制定目录中
+    String dirPath =  mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getDirPath();
+    dirPath.replaceAll("\\{userid\\}",domainCreateBean.getUserid()).replaceAll("\\{domainid\\}",domainCreateBean.getDomainid());
+    try {
+      FileUtil.writeLocalFile(new File(FilePathUtil.joinByDelimiter(dirPath,Constant.DOMAIN_JSON)), JacksonUtil.objToJson(domainCreateBean.getDomain()));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     return flag && nameListFlag && succShellRunFlag;
   }
 }
