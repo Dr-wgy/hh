@@ -76,8 +76,8 @@ public class UngribOperator extends AbstractOperator {
       tagFile = String.format("%s%stag", runPath, File.separator);
       renvFnlFile = String.format("%s%s%s-%s", runPath, File.separator, Constant.GLOBAL_TYPE_FNL, MODEL_RENV_FILE);
       renvGfsFile = String.format("%s%s%s-%s", runPath, File.separator, Constant.GLOBAL_TYPE_GFS, MODEL_RENV_FILE);
-      infoLogFile = String.format("%s%s%s", runPath, File.separator, TORQUE_LOG_ERROR);
-      errorLogFile = String.format("%s%s%s", runPath, File.separator, TORQUE_LOG_INFO);
+      infoLogFile = String.format("%s%s%s", runPath, File.separator, TORQUE_LOG_INFO);
+      errorLogFile = String.format("%s%s%s", runPath, File.separator, TORQUE_LOG_ERROR);
       invokeScriptFile = String.format("%s%s%s", runPath, File.separator, Constant.MODEL_SCRIPT_FILE);
 
       FileUtil.checkAndMkdir(runPath);
@@ -230,10 +230,7 @@ public class UngribOperator extends AbstractOperator {
 
   @Override
   protected boolean afterOperate() {
-//    String runPath = configManager.getSystemConfig().getWorkspace().getShare().getRun().getUngrib().getDirPath();
     try {
-//      String tagPath = String.format("%s%stag%s", runPath, File.separator, File.separator);
-//      FileUtil.checkAndMkdir(tagPath);
       FileUtil.writeLocalFile(new File(tagFile), "");
     } catch (IOException e) {
       logger.error("", e);

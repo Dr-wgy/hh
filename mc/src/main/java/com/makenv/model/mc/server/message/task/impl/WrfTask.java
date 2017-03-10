@@ -29,7 +29,6 @@ import java.util.Map;
 public class WrfTask extends ModelTask {
   private Logger logger = LoggerFactory.getLogger(WrfTask.class);
   private String wrfRunDir;
-  private LocalDate startDate, endDate;
   private List<WrfBean> wrfBeans;
   private String renvFilePathPrefix;
 
@@ -44,13 +43,8 @@ public class WrfTask extends ModelTask {
     return McUtil.needReInitial(baseDate, compDate, reinitialDays);
   }
 
-  private boolean checkParams() {
-    String start = modelStartBean.getCommon().getTime().getStart();
-    String end = modelStartBean.getCommon().getTime().getEnd();
-    startDate = LocalTimeUtil.parse(start, LocalTimeUtil.YMD_DATE_FORMAT);
-    endDate = LocalTimeUtil.parse(end, LocalTimeUtil.YMD_DATE_FORMAT);
-    if (startDate.isAfter(endDate)) {
-      logger.error(StringUtil.formatLog("common.time invalid", start, end));
+  protected boolean checkParams() {
+    if (!super.checkParams()) {
       return false;
     }
     int spinup = modelStartBean.getWrf().getSpinup();
