@@ -79,8 +79,8 @@ public class ModelServiceImpl implements ModelService {
     if (!firstTask.handleRequest()) {
       return false;
     }
-    String errLog = String.format("%s%s%s", firstTask.getModelRunDir(), File.separator, Constant.MODEL_LOG_FILE_ERROR);
-    String infoLog = String.format("%s%s%s", firstTask.getModelRunDir(), File.separator, Constant.MODEL_LOG_FILE_INFO);
+    String errLog = String.format("%s%s%s", firstTask.getModelRunDir(), File.separator, Constant.TORQUE_LOG_ERROR);
+    String infoLog = String.format("%s%s%s", firstTask.getModelRunDir(), File.separator, Constant.TORQUE_LOG_INFO);
     String cmd = String.format(mcConfigManager.getSystemConfig().getPbs().getQsub(),
         firstTask.getModelRunFilePath(), 1, 1, infoLog, errLog, firstTask.getModelRunFilePath());
     logger.info(cmd);

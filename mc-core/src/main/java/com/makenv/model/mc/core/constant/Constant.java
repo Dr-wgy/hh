@@ -9,9 +9,6 @@ public class Constant {
   public static final String SYS_RENV_CSH = "sys_renv.csh";
   public static final String[] FILE_HOURS = {"00", "06", "12", "18"};
   public static final int MODEL_DEBUG_LEVEL = 1;
-  public static final String UNGRIB_RENV_FILE = "renv-ungrib";
-  public static final String UNGRIB_SCRIPT_FILE = "invoke-ungrib";
-  public static final String UNGRIB_LOG_FILE = "log-ungrib";
   public static final String UNGRIB_FILE_PREFIX = "FILE";
   public static final String COORDNAME = "China_d%02d";
 
@@ -26,10 +23,13 @@ public class Constant {
 
   public static final String DOMAIN_RENV_FILE = "renv-domain.csh";
 
-  public static final String WRF_RENV_FILE = "renv-wrf";
-  public static final String MODEL_SCRIPT_FILE = "invoke-model";
-  public static final String MODEL_LOG_FILE_INFO = "log-model-info";
-  public static final String MODEL_LOG_FILE_ERROR = "log-model-error";
+//  public static final String WRF_RENV_FILE = "renv-wrf";
+//  public static final String MODEL_SCRIPT_FILE = "invoke-model";
+
+  public static final String TORQUE_LOG_INFO = "torque-info.log";
+  public static final String TORQUE_LOG_ERROR = "torque-error.log";
+  public static final String MODEL_RENV_FILE = "renv.csh";
+  public static final String MODEL_SCRIPT_FILE = "invoke.csh";
 
   public static final String CSH_HEADER = "#!/bin/csh\n";
 

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ public class UngribOperator extends AbstractOperator {
 
   private static final String DATE_FORMAT = "yyyyMMdd";
 
-  private String invokeScriptFile, logFile, errorLogFile, namelistFile, tagFile, renvFile, invokeDir;
+  private String invokeScriptFile, infoLogFile, errorLogFile, namelistFile, tagFile, renvGfsFile, renvFnlFile, runPath;
 
   private Logger logger = LoggerFactory.getLogger(UngribOperator.class);
   private String fnlDir, gfsDir, syncFnlDir, syncGfsDir, ungribFnlDir, ungribGfsDir, year;
@@ -58,39 +59,32 @@ public class UngribOperator extends AbstractOperator {
     }
     {
       year = computeDate.substring(0, 4);
-//      LocalDate today = LocalTimeUtil.parse(computeDate, DATE_FORMAT);
-//      LocalDate yesterday = today.plusDays(-1);
-//      String computeYesterday = LocalTimeUtil.format(yesterday, DATE_FORMAT);
+      LocalDate today = LocalTimeUtil.parse(computeDate, DATE_FORMAT);
+      LocalDate yesterday = today.plusDays(-1);
+      String computeYesterday = LocalTimeUtil.format(yesterday, DATE_FORMAT);
       syncFnlDir = configManager.getSystemConfig().getSync().getFnl() + File.separator + year;
-      syncGfsDir = configManager.getSystemConfig().getSync().getGfs() + String.format("%s%s%s", File.separator, computeDate, configManager.getSystemConfig().getModel().getStart_hour());
-//      String _fnlDirSuffix = String.format("%s%s", File.separator, _year);
-      String _gfsDirSuffix = String.format("%s%s%s", File.separator, computeDate, configManager.getSystemConfig().getModel().getStart_hour());
+      syncGfsDir = configManager.getSystemConfig().getSync().getGfs() + String.format("%s%s%s", File.separator, computeYesterday, configManager.getSystemConfig().getModel().getStart_hour());
+      String _gfsDirSuffix = String.format("%s%s%s", File.separator, computeYesterday, configManager.getSystemConfig().getModel().getStart_hour());
       fnlDir = configManager.getSystemConfig().getWorkspace().getShare().getInput().getFnl().getDirPath();
       gfsDir = configManager.getSystemConfig().getWorkspace().getShare().getInput().getGfs().getDirPath() + _gfsDirSuffix;
       ungribFnlDir = configManager.getSystemConfig().getWorkspace().getShare().getInput().getUngrib_fnl().getDirPath();
       ungribGfsDir = configManager.getSystemConfig().getWorkspace().getShare().getInput().getUngrib_gfs().getDirPath() + _gfsDirSuffix;
 
-      String runPath = configManager.getSystemConfig().getWorkspace().getShare().getRun().getUngrib().getDirPath();
+      runPath = configManager.getSystemConfig().getWorkspace().getShare().getRun().getUngrib().getDirPath();
+      runPath = String.format("%s%s%s", runPath, File.separator, computeDate);
 
-      String tagDir = String.format("%s%stag%s", runPath, File.separator, File.separator);
-      tagFile = String.format("%s%s", tagDir, computeDate);
-      String renvDir = runPath + File.separator + "renv";
-      renvFile = String.format("%s%s%s-%s", renvDir, File.separator, UNGRIB_RENV_FILE, computeDate);
-      String logDir = runPath + File.separator + "log";
-      logFile = String.format("%s%s%s-%s", logDir, File.separator, UNGRIB_LOG_FILE, computeDate);
-      errorLogFile = String.format("%s%s%s-error-%s", logDir, File.separator, UNGRIB_LOG_FILE, computeDate);
-      invokeDir = runPath + File.separator + "invoke";
-      invokeScriptFile = String.format("%s%s%s-%s", invokeDir, File.separator, UNGRIB_SCRIPT_FILE, computeDate);
+      tagFile = String.format("%s%stag", runPath, File.separator);
+      renvFnlFile = String.format("%s%s%s-%s", runPath, File.separator, Constant.GLOBAL_TYPE_FNL, MODEL_RENV_FILE);
+      renvGfsFile = String.format("%s%s%s-%s", runPath, File.separator, Constant.GLOBAL_TYPE_GFS, MODEL_RENV_FILE);
+      infoLogFile = String.format("%s%s%s", runPath, File.separator, TORQUE_LOG_ERROR);
+      errorLogFile = String.format("%s%s%s", runPath, File.separator, TORQUE_LOG_INFO);
+      invokeScriptFile = String.format("%s%s%s", runPath, File.separator, Constant.MODEL_SCRIPT_FILE);
 
-
-      FileUtil.checkAndMkdir(logDir);
-      FileUtil.checkAndMkdir(tagDir);
-      FileUtil.checkAndMkdir(renvDir);
-      FileUtil.checkAndMkdir(invokeDir);
+      FileUtil.checkAndMkdir(runPath);
       FileUtil.checkAndMkdir(ungribFnlDir);
       FileUtil.checkAndMkdir(ungribGfsDir);
 
-      namelistFile = String.format("%s%s%s", invokeDir, File.separator, NAMELIST_WPS_UNGRIB_TEMPLATE);
+      namelistFile = String.format("%s%s%s", runPath, File.separator, NAMELIST_WPS_UNGRIB_TEMPLATE);
       String namelist = configManager.getSystemConfig().getTemplate().getNamelist_wps_ungrib();
       File nlFile = new File(namelist);
       FileUtil.symbolicLink(nlFile.getAbsolutePath(), namelistFile);
@@ -102,11 +96,11 @@ public class UngribOperator extends AbstractOperator {
       logger.info(ungribFnlDir);
       logger.info(ungribGfsDir);
       logger.info(invokeScriptFile);
-      logger.info(logFile);
       logger.info(errorLogFile);
       logger.info(namelistFile);
       logger.info(tagFile);
-      logger.info(renvFile);
+      logger.info(renvFnlFile);
+      logger.info(renvGfsFile);
 
       File tag = new File(tagFile);
       if (tag.exists()) {
@@ -150,33 +144,46 @@ public class UngribOperator extends AbstractOperator {
     return true;
   }
 
-  private void buildEnv() throws IOException {
-    String target = configManager.getSystemConfig().getWorkspace().getShare().getRun().getUngrib().getDirPath();
-    File targetDir = new File(target);
-    if (!targetDir.exists() && !targetDir.mkdirs()) {
-      logger.error("create dir failed, " + target);
-    }
-    String renvTemplate = configManager.getSystemConfig().getTemplate().getRenv_ungrib_sh();
+  private Map<String, Object> createParams() {
     Map<String, Object> params = new HashMap<>();
     params.put("namelist_template", namelistFile);
     params.put("start_date", computeDate);
-    params.put("run_days", 1);
-    params.put("start_hour", configManager.getSystemConfig().getModel().getStart_hour());
     params.put("ungrib_file", Constant.UNGRIB_FILE_PREFIX);
-    params.put("debug", Constant.MODEL_DEBUG_LEVEL);
-    params.put("fnl_input", fnlDir);
-    params.put("gfs_input", gfsDir);
-    params.put("fnl_output", ungribFnlDir);
-    params.put("gfs_output", ungribGfsDir);
     params.put("scripts_path", configManager.getSystemConfig().getRoot().getScript());
     params.put("wrf_build_path", configManager.getSystemConfig().getRoot().getWrf());
-    String content = VelocityUtil.buildTemplate(renvTemplate, params);
-    FileUtil.writeLocalFile(new File(renvFile), content);
+    params.put("debug", Constant.MODEL_DEBUG_LEVEL);
+    return params;
+  }
+
+  private void buildEnv() throws IOException {
+    String renvTemplate = configManager.getSystemConfig().getTemplate().getRenv_ungrib_sh();
+    String content = VelocityUtil.buildTemplate(renvTemplate, buildFnlEnv());
+    FileUtil.writeLocalFile(new File(renvFnlFile), content);
+    content = VelocityUtil.buildTemplate(renvTemplate, buildGfsEnv());
+    FileUtil.writeLocalFile(new File(renvGfsFile), content);
+  }
+
+  private Map<String, Object> buildFnlEnv() throws IOException {
+    Map<String, Object> params = createParams();
+    params.put("run_days", 1);
+    params.put("input_path", fnlDir);
+    params.put("output_path", ungribFnlDir);
+    params.put("global", Constant.GLOBAL_TYPE_FNL);
+    return params;
+  }
+
+  private Map<String, Object> buildGfsEnv() throws IOException {
+    Map<String, Object> params = createParams();
+    params.put("run_days", configManager.getSystemConfig().getModel().getUngrib_gfs_days());
+    params.put("input_path", gfsDir);
+    params.put("output_path", ungribGfsDir);
+    params.put("global", Constant.GLOBAL_TYPE_GFS);
+    return params;
   }
 
   private void prepareExecScript() throws IOException {
-    String sourceSysRenv = String.format("source %s%s%s\n", configManager.getSystemConfig().getRoot().getScript(), File.separator, Constant.SYS_RENV_CSH);
-    String cdInvokeDir = String.format("cd %s\n", invokeDir);
+    String sourceSysRenv = String.format("source %s%s%s\necho $LD_LIBRARY_PATH\n\n", configManager.getSystemConfig().getRoot().getScript(), File.separator, Constant.SYS_RENV_CSH);
+    String cdInvokeDir = String.format("cd %s\n", runPath);
     String sb = Constant.CSH_HEADER + sourceSysRenv +
         cdInvokeDir +
         buildCmd(Constant.GLOBAL_TYPE_FNL) +
@@ -191,16 +198,14 @@ public class UngribOperator extends AbstractOperator {
 //    String driverScriptPath = String.format("%s%slevel_3%sModule_ungrib.csh", configManager.getSystemConfig().getRoot().getScript(), File.separator, File.separator);
     sb.append(configManager.getSystemConfig().getCsh().getModule_ungrib_csh());
     sb.append(" ");
-    sb.append(renvFile);
-    sb.append(" ");
-    sb.append(type);
+    sb.append(type.equals(Constant.GLOBAL_TYPE_GFS) ? renvGfsFile : renvFnlFile);
     sb.append("\n");
     return sb;
   }
 
   private void exec() throws IOException {
     String qsub = configManager.getSystemConfig().getPbs().getQsub();
-    qsub = String.format(qsub, 1, 1, "ungrib-" + computeDate, logFile, errorLogFile, invokeScriptFile);
+    qsub = String.format(qsub, 1, 1, "ungrib-" + computeDate, infoLogFile, errorLogFile, invokeScriptFile);
     logger.info(qsub);
     Runtime.getRuntime().exec(qsub);
   }

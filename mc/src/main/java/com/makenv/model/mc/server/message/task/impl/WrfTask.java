@@ -31,6 +31,7 @@ public class WrfTask extends ModelTask {
   private String wrfRunDir;
   private LocalDate startDate, endDate;
   private List<WrfBean> wrfBeans;
+  private String renvFilePathPrefix;
 
   public WrfTask(ModelStartBean modelStartBean, McConfigManager configManager) {
     super(modelStartBean, configManager);
@@ -64,10 +65,11 @@ public class WrfTask extends ModelTask {
   }
 
   private boolean processDirectory() {
+    renvFilePathPrefix = String.format("%s%s%s-", wrfRunDir, File.separator, Constant.MODEL_RENV_FILE);
     String runDir = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getRun().getWrf();
     runDir = processPath(runDir);
     ModelCommonParams.TimeDate time = modelStartBean.getCommon().getTime();
-    wrfRunDir = String.format("%s%s%s-%s-%s", runDir, File.separator, time.getStart(), time.getEnd(), modelStartBean.getWrf().getSpinup());
+    wrfRunDir = String.format("%s%s%s-%s-%s", runDir, File.separator, modelStartBean.getScenarioid(), time.getStart(), time.getEnd());
     return FileUtil.checkAndMkdir(wrfRunDir);
   }
 
@@ -100,7 +102,7 @@ public class WrfTask extends ModelTask {
     try {
       for (WrfBean wrfBean : wrfBeans) {
         String content = VelocityUtil.buildTemplate(renvTemplate, "wrfBean", wrfBean);
-        String renvFilePath = String.format("%s%s%s-%s", wrfRunDir, File.separator, Constant.WRF_RENV_FILE, wrfBean.getStart_date());
+        String renvFilePath = String.format("%s%s", renvFilePathPrefix, wrfBean.getStart_date());
         FileUtil.writeLocalFile(new File(renvFilePath), content);
       }
     } catch (IOException e) {
@@ -120,8 +122,7 @@ public class WrfTask extends ModelTask {
     params.put("start_dates", start_dates);
     params.put("wrf_run_dir", wrfRunDir);
     params.put("wrf_script", configManager.getSystemConfig().getCsh().getModule_wrf_csh());
-    String renv_scrpit = String.format("%s%s%s-${start_date}", wrfRunDir, File.separator, Constant.WRF_RENV_FILE);
-    params.put("renv_scrpit", renv_scrpit);
+    params.put("renv_scrpit", renvFilePathPrefix + "${start_date}");
     String content = VelocityUtil.buildTemplate(configManager.getSystemConfig().getTemplate().getCsh_wrf(), params);
     try {
       FileUtil.writeAppendLocalFileInLinux(getModelRunFile(), content);

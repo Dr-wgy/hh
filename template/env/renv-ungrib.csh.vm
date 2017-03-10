@@ -4,20 +4,16 @@ setenv namelist_template ${namelist_template}
 setenv start_date ${start_date}
 #结束日期
 setenv run_days ${run_days}
-#开始时间，默认18
-setenv start_hour ${start_hour}
+#全球数据集
+setenv global ${global}
 #模式驱动脚本目录
 setenv scripts_path ${scripts_path}
 #WRF安装目录
 setenv wrf_build_path ${wrf_build_path}
-#fnl输入目录/mc/share/input/fnl
-setenv fnl_input_path ${fnl_input}
-#gfs输入目录/mc/share/input/gfs
-setenv gfs_input_path ${gfs_input}
-#fnl输出目录/mc/share/input/ungrib_fnl
-setenv fnl_output_path ${fnl_output}
-#gfs输入目录/mc/share/input/ungrib_gfs
-setenv gfs_output_path ${gfs_output}
+#输入目录/mc/share/input/fnl
+setenv input_path ${input_path}
+#输出目录/mc/share/input/ungrib_fnl
+setenv output_path ${output_path}
 #ungrib生成的文件名称前缀FILE
 setenv ungrib_file ${ungrib_file}
 #是否为debug模式，0非，>0为debug
