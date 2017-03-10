@@ -38,7 +38,7 @@ public class UngribOperator extends AbstractOperator {
   private String invokeScriptFile, logFile, errorLogFile, namelistFile, tagFile, renvFile, invokeDir;
 
   private Logger logger = LoggerFactory.getLogger(UngribOperator.class);
-  private String fnlDir, gfsDir, syncFnlDir, syncGfsDir, ungribFnlDir, ungribGfsDir;
+  private String fnlDir, gfsDir, syncFnlDir, syncGfsDir, ungribFnlDir, ungribGfsDir, year;
 
   @Override
   public String getName() {
@@ -57,11 +57,11 @@ public class UngribOperator extends AbstractOperator {
       return false;
     }
     {
-      String _year = computeDate.substring(0, 4);
+      year = computeDate.substring(0, 4);
 //      LocalDate today = LocalTimeUtil.parse(computeDate, DATE_FORMAT);
 //      LocalDate yesterday = today.plusDays(-1);
 //      String computeYesterday = LocalTimeUtil.format(yesterday, DATE_FORMAT);
-      syncFnlDir = configManager.getSystemConfig().getSync().getFnl() + File.separator + _year;
+      syncFnlDir = configManager.getSystemConfig().getSync().getFnl() + File.separator + year;
       syncGfsDir = configManager.getSystemConfig().getSync().getGfs() + String.format("%s%s%s", File.separator, computeDate, configManager.getSystemConfig().getModel().getStart_hour());
 //      String _fnlDirSuffix = String.format("%s%s", File.separator, _year);
       String _gfsDirSuffix = String.format("%s%s%s", File.separator, computeDate, configManager.getSystemConfig().getModel().getStart_hour());
@@ -210,7 +210,7 @@ public class UngribOperator extends AbstractOperator {
       for (String _hour : Constant.FILE_HOURS) {
         String _file = String.format("fnl_%s_%s_00.grib2", computeDate, _hour);
         String fnlSrcFile = String.format("%s%s%s", syncFnlDir, File.separator, _file);
-        String fnlDestFile = String.format("%s%s%s", fnlDir, File.separator, _file);
+        String fnlDestFile = String.format("%s%s%s%s%s", fnlDir, File.separator, year, File.separator, _file);
         logger.info(fnlSrcFile + " -> " + fnlDestFile);
         FileUtil.copyFile(fnlSrcFile, fnlDestFile);
       }

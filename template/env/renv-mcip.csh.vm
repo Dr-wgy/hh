@@ -14,11 +14,17 @@ setenv cmaq_build_path ${cmaq_build_path}
 setenv geogrid_output_path ${geogrid_output_path}
 #WRF文件输出目录
 setenv wrf_output_path ${wrf_output_path}
-#MCIP文件输出目录
-setenv mcip_output ${mcip_output}
-# for MCIP, ( d01 d02 d03 )
-setenv APPL       = ( ${appl} )
-setenv NCOLS      = ( ${ncols} )
-setenv NROWS      = ( ${nrows} )
+#MCIP文件输出目录/public/home/tsinghua/lixin/data/test/mcip/
+setenv mcip_output_path ${mcip_output_path}
+#坐标系名称,LAM_20_50_35_110
+setenv CoordName ${CoordName}
+#原点纬度,35
+setenv ref_lat ${ref_lat}
+#domain个数,3
+setenv max_dom ${max_dom}
+#各层domain的BTRIM数(0,1,2,3,4,5)
+setenv btrim    ${btrim}
+#MCIP分层,"1.000,0.995,0.988,0.980,0.970,0.956,0.938,0.893,0.839,0.777,0.702,0.582,0.400,0.200,0.000"
+setenv CTMLAYS  "${CTMLAYS}"
 #是否为debug模式，0非，>0为debug
 setenv debug ${debug}

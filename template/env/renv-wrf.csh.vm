@@ -11,9 +11,9 @@ setenv run_hours ${wrfBean.run_hours}
 #开始时间，默认18
 setenv start_hour ${wrfBean.start_hour}
 #全球数据集: fnl or gfs?
-setenv global ${global}
+setenv global ${wrfBean.global}
 #ungrib生成的文件名称前缀FILE
-setenv ungrib_file ${ungrib_file}
+setenv ungrib_file ${wrfBean.ungrib_file}
 #模式驱动脚本目录
 setenv scripts_path ${wrfBean.scripts_path}
 #WRF安装目录

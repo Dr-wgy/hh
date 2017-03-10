@@ -1,0 +1,2 @@
+cd $meic_run_dir
+$meic_script $renv_scrpit
