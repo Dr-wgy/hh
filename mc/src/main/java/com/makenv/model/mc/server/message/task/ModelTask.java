@@ -3,9 +3,14 @@ package com.makenv.model.mc.server.message.task;
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.core.constant.Constant;
 import com.makenv.model.mc.core.util.FileUtil;
+import com.makenv.model.mc.core.util.LocalTimeUtil;
+import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.time.LocalDate;
 
 /**
  * Created by alei on 2017/3/8.
@@ -27,11 +32,27 @@ public abstract class ModelTask implements IModelTask {
   protected String geogridOutputPath;
   private String modelRunFile;
   private String modelRunDir;
+  protected String cmaqBuildPath;
+  protected LocalDate startDate, endDate;
+
+  private Logger logger = LoggerFactory.getLogger(ModelTask.class);
 
   public ModelTask(ModelStartBean modelStartBean, McConfigManager configManager) {
     this.modelStartBean = modelStartBean;
     this.configManager = configManager;
     init();
+  }
+
+  protected boolean checkParams() {
+    String start = modelStartBean.getCommon().getTime().getStart();
+    String end = modelStartBean.getCommon().getTime().getEnd();
+    startDate = LocalTimeUtil.parse(start, LocalTimeUtil.YMD_DATE_FORMAT);
+    endDate = LocalTimeUtil.parse(end, LocalTimeUtil.YMD_DATE_FORMAT);
+    if (startDate.isAfter(endDate)) {
+      logger.error(StringUtil.formatLog("common.time invalid", start, end));
+      return false;
+    }
+    return true;
   }
 
   public String getModelRunFilePath() {
@@ -69,10 +90,11 @@ public abstract class ModelTask implements IModelTask {
     scriptPath = configManager.getSystemConfig().getRoot().getScript();
     wrfBuildPath = configManager.getSystemConfig().getRoot().getWrf();
     geogridOutputPath = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGeogrid().getDirPath());
-     modelRunDir = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getModelRunPath());
+    modelRunDir = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getModelRunPath());
     modelRunDir = String.format("%s%s%s", modelRunDir, File.separator, modelStartBean.getScenarioid());
     FileUtil.checkAndMkdir(modelRunDir);
     modelRunFile = String.format("%s%s%s", modelRunDir, File.separator, Constant.MODEL_SCRIPT_FILE);
+    cmaqBuildPath = configManager.getSystemConfig().getRoot().getCmaq();
   }
 
   protected abstract boolean beforeHandle();

@@ -28,7 +28,7 @@ public class Constant {
 
   public static final String TORQUE_LOG_INFO = "torque-info.log";
   public static final String TORQUE_LOG_ERROR = "torque-error.log";
-  public static final String MODEL_RENV_FILE = "renv.csh";
+  public static final String MODEL_RENV_FILE = "renv";
   public static final String MODEL_SCRIPT_FILE = "invoke.csh";
 
   public static final String CSH_HEADER = "#!/bin/csh\n";
