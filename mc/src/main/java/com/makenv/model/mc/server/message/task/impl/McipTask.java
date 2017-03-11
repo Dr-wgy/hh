@@ -41,6 +41,19 @@ public class McipTask extends ModelTask {
 
   private void buildRenv() {
     mcipBean.setCmaq_build_path(cmaqBuildPath);
+//    mcipBean.setCoordName();
+//    mcipBean.setCTMLAYS();
+//    mcipBean.setDebug();
+//    mcipBean.setGeogrid_output_path();
+//    mcipBean.setMax_dom();
+//    mcipBean.setMcip_output_path();
+//    mcipBean.setMcip_start_hour();
+//    mcipBean.setRef_lat();
+//    mcipBean.setRun_days();
+//    mcipBean.setScripts_path();
+//    mcipBean.setStart_date();
+//    mcipBean.setWrf_output_path();
+//    mcipBean.setWrf_start_hour();
   }
 
   @Override

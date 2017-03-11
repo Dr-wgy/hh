@@ -6,7 +6,8 @@ package com.makenv.model.mc.server.message.task.bean;
 public class McipBean {
   private String start_date;
   private int wrf_start_hour;
-  private int mcip_start_hour;
+  private int time_difference;
+  private String global;
   private int run_days;
   private String scripts_path;
   private String cmaq_build_path;
@@ -36,12 +37,20 @@ public class McipBean {
     this.wrf_start_hour = wrf_start_hour;
   }
 
-  public int getMcip_start_hour() {
-    return mcip_start_hour;
+  public int getTime_difference() {
+    return time_difference;
   }
 
-  public void setMcip_start_hour(int mcip_start_hour) {
-    this.mcip_start_hour = mcip_start_hour;
+  public void setTime_difference(int time_difference) {
+    this.time_difference = time_difference;
+  }
+
+  public String getGlobal() {
+    return global;
+  }
+
+  public void setGlobal(String global) {
+    this.global = global;
   }
 
   public int getRun_days() {

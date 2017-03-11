@@ -1,11 +1,13 @@
 #开始日期
 setenv start_date ${start_date}
-#wrf开始时间
-setenv wrf_start_hour ${wrf_start_hour}
-#mcip开始时间（北京时间）, 16
-setenv mcip_start_hour ${mcip_start_hour}
 #运行日数
 setenv run_days ${run_days}
+#时差
+setenv time_difference ${time_difference}
+#wrf开始时间
+setenv wrf_start_hour ${wrf_start_hour}
+#全球数据集
+setenv global ${global}
 #模式驱动脚本目录/public/home/tsinghua/lixin/my_code/git/model-driver/
 setenv scripts_path ${scripts_path}
 #CMAQ安装目录
