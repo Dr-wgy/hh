@@ -23,6 +23,42 @@ public class TemplatePath {
   private String griddesc;
 
   private String csh_wrf;
+  private String csh_mcip;
+  private String csh_meic;
+  private String csh_megan;
+  private String csh_cmaq;
+
+  public String getCsh_mcip() {
+    return csh_mcip;
+  }
+
+  public void setCsh_mcip(String csh_mcip) {
+    this.csh_mcip = csh_mcip;
+  }
+
+  public String getCsh_meic() {
+    return csh_meic;
+  }
+
+  public void setCsh_meic(String csh_meic) {
+    this.csh_meic = csh_meic;
+  }
+
+  public String getCsh_megan() {
+    return csh_megan;
+  }
+
+  public void setCsh_megan(String csh_megan) {
+    this.csh_megan = csh_megan;
+  }
+
+  public String getCsh_cmaq() {
+    return csh_cmaq;
+  }
+
+  public void setCsh_cmaq(String csh_cmaq) {
+    this.csh_cmaq = csh_cmaq;
+  }
 
   public String getCsh_wrf() {
     return csh_wrf;

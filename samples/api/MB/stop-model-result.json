@@ -1,0 +1,12 @@
+{
+  "id": "123",
+  "time": "2017-02-01 12:00:12",
+  "type": "model.stop.result",
+  "body": {
+    "userid": "用户编号",
+    "missionid": "任务编号",
+    "domainid": "domain版本ID",
+    "scenarioid": "情景编号",
+    "code": 0
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "123",
+  "time": "2017-02-01 12:00:12",
+  "type": "model.start.result",
+  "body": {
+    "userid": "用户编号",
+    "missionid": "任务编号",
+    "domainid": "domain版本ID",
+    "scenarioid": "情景编号",
+    "tasks": [
+      {
+        "type": "wrf",//prepare,wrf,mcip,megan,meic,cmaq
+        "code": 0//0,成功  非0,失败
+      }
+    ]
+  }
+}
