@@ -2,8 +2,6 @@ package com.makenv.model.mc.server.message.pojo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Date;
-
 /**
  * Created by wgy on 2017/3/3.
  */
@@ -12,6 +10,16 @@ public class ModelCommonParams {
   private String datatype;//情景类型
   private TimeDate time;
   private boolean initial;
+  private String pathdate;
+  private String simtype;
+
+  public String getSimtype() {
+    return simtype;
+  }
+
+  public void setSimtype(String simtype) {
+    this.simtype = simtype;
+  }
 
   public boolean isInitial() {
     return initial;
@@ -52,7 +60,6 @@ public class ModelCommonParams {
     }
   }
 
-  private Date pathdate;
 
   public TimeDate getTime() {
     return time;
@@ -62,11 +69,11 @@ public class ModelCommonParams {
     this.time = time;
   }
 
-  public Date getPathdate() {
+  public String getPathdate() {
     return pathdate;
   }
 
-  public void setPathdate(Date pathdate) {
+  public void setPathdate(String pathdate) {
     this.pathdate = pathdate;
   }
 }

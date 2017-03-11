@@ -5,116 +5,126 @@ package com.makenv.model.mc.core.config;
  */
 public class ScenarionDataDir {
 
-    public CctmDir getCctm() {
-        return cctm;
-    }
+  private String dirPath;
+  private ScenarioDataVideo video;
+  private ScenarionDpDir dp;
+  private BconDir bcon;
+  private CctmDir cctm;
+  private EmisDir emisDir;
 
-    public void setCctm(CctmDir cctm) {
-        this.cctm = cctm;
-    }
+  public EmisDir getEmisDir() {
+    return emisDir;
+  }
 
-    public ScenarionDpDir getDp() {
-        return dp;
-    }
+  public void setEmisDir(EmisDir emisDir) {
+    this.emisDir = emisDir;
+  }
 
-    public void setDp(ScenarionDpDir dp) {
-        this.dp = dp;
-    }
+  public CctmDir getCctm() {
+    return cctm;
+  }
 
-    public ScenarioDataIcon getIcon() {
-        return icon;
-    }
+  public void setCctm(CctmDir cctm) {
+    this.cctm = cctm;
+  }
 
-    public void setIcon(ScenarioDataIcon icon) {
-        this.icon = icon;
-    }
+  public ScenarionDpDir getDp() {
+    return dp;
+  }
 
-    public ScenarioDataVideo getVideo() {
-        return video;
-    }
+  public void setDp(ScenarionDpDir dp) {
+    this.dp = dp;
+  }
 
-    public void setVideo(ScenarioDataVideo video) {
-        this.video = video;
-    }
+  public ScenarioDataVideo getVideo() {
+    return video;
+  }
+
+  public void setVideo(ScenarioDataVideo video) {
+    this.video = video;
+  }
+
+  public String getDirPath() {
+    return dirPath;
+
+  }
+
+  public void setDirPath(String dirPath) {
+    this.dirPath = dirPath;
+  }
+
+  public BconDir getBcon() {
+    return bcon;
+  }
+
+  public void setBcon(BconDir bcon) {
+    this.bcon = bcon;
+  }
+
+
+  public static class EmisDir {
 
     public String getDirPath() {
-        return dirPath;
-
+      return dirPath;
     }
 
     public void setDirPath(String dirPath) {
-        this.dirPath = dirPath;
-    }
-
-    public BconDir getBcon() {
-        return bcon;
-    }
-
-    public void setBcon(BconDir bcon) {
-        this.bcon = bcon;
+      this.dirPath = dirPath;
     }
 
     private String dirPath;
+  }
 
-    private BconDir bcon;
+  public static class BconDir {
 
-    private CctmDir cctm;
-
-    private ScenarionDpDir dp;
-
-    public static class BconDir{
-
-        public String getDirPath() {
-            return dirPath;
-        }
-
-        public void setDirPath(String dirPath) {
-            this.dirPath = dirPath;
-        }
-
-        private String dirPath;
+    public String getDirPath() {
+      return dirPath;
     }
 
-    public static class CctmDir {
-
-        public String getDirPath() {
-            return dirPath;
-        }
-
-        public void setDirPath(String dirPath) {
-            this.dirPath = dirPath;
-        }
-
-        private String dirPath;
+    public void setDirPath(String dirPath) {
+      this.dirPath = dirPath;
     }
 
-    private ScenarioDataIcon icon;
+    private String dirPath;
+  }
 
-    private ScenarioDataVideo video;
+  public static class CctmDir {
 
-    public static class ScenarioDataIcon {
-
-        private String dirPath;
-
-        public String getDirPath() {
-            return dirPath;
-        }
-
-        public void setDirPath(String dirPath) {
-            this.dirPath = dirPath;
-        }
+    public String getDirPath() {
+      return dirPath;
     }
 
-    public static class ScenarioDataVideo {
-
-        private String dirPath;
-
-        public String getDirPath() {
-            return dirPath;
-        }
-
-        public void setDirPath(String dirPath) {
-            this.dirPath = dirPath;
-        }
+    public void setDirPath(String dirPath) {
+      this.dirPath = dirPath;
     }
+
+    private String dirPath;
+  }
+
+
+  public static class ScenarioDataIcon {
+
+    private String dirPath;
+
+    public String getDirPath() {
+      return dirPath;
+    }
+
+    public void setDirPath(String dirPath) {
+      this.dirPath = dirPath;
+    }
+  }
+
+  public static class ScenarioDataVideo {
+
+    private String dirPath;
+
+    public String getDirPath() {
+      return dirPath;
+    }
+
+    public void setDirPath(String dirPath) {
+      this.dirPath = dirPath;
+    }
+  }
 }

@@ -7,12 +7,29 @@ import java.time.LocalDate;
  */
 public class Model {
   private int start_hour;
-  private int local_start_hour;
+  private int time_difference;
   private int wrf_run_hours;
   private String base_date;
   private LocalDate baseDate;
   private int days_of_reinitial;
   private int ungrib_gfs_days;
+  private int debug_level;
+
+  public int getDebug_level() {
+    return debug_level;
+  }
+
+  public void setDebug_level(int debug_level) {
+    this.debug_level = debug_level;
+  }
+
+  public int getTime_difference() {
+    return time_difference;
+  }
+
+  public void setTime_difference(int time_difference) {
+    this.time_difference = time_difference;
+  }
 
   public int getUngrib_gfs_days() {
     return ungrib_gfs_days;
@@ -51,13 +68,6 @@ public class Model {
     this.start_hour = start_hour;
   }
 
-  public int getLocal_start_hour() {
-    return local_start_hour;
-  }
-
-  public void setLocal_start_hour(int local_start_hour) {
-    this.local_start_hour = local_start_hour;
-  }
 
   public int getWrf_run_hours() {
     return wrf_run_hours;

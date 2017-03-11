@@ -1,26 +1,30 @@
-#GRIDDESC文件绝对路径/public/home/tsinghua/lixin/my_code/git/model-driver/GRIDDESC/
-setenv GRIDDESC_path ${griddesc_path}
 #开始日期, 20170303
 setenv start_date ${start_date}
-#第一个小时, 16
-setenv start_hour ${start_hour}
+#时差
+setenv time_difference ${time_difference}
 #运行天数,1
 setenv run_days ${run_days}
+#CMAQ版本,CMAQv5.0.1
+setenv cmaq_version ${cmaq_version}
 #模式驱动脚本目录,/public/home/tsinghua/lixin/my_code/git/model-driver/
 setenv scripts_path ${scripts_path}
 #CMAQ安装目录
 setenv cmaq_build_path ${cmaq_build_path}
+#GRIDDESC文件绝对路径/public/home/tsinghua/lixin/my_code/git/model-driver/GRIDDESC/
+setenv GRIDDESC_path ${griddesc_path}
 #MCIP文件输出目录
 setenv mcip_output_path ${mcip_output_path}
 #MEIC文件输出目录
 setenv meic_output_path ${meic_output_path}
 #BCON文件输出目录
 setenv bcon_output_path ${bcon_output_path}
-#是否为初始化模拟: 0-initial, 1-restart
-setenv run_type ${run_type}
 #基础情景CMAQ文件输出目录
 setenv base_cmaq_output_path ${base_cmaq_output_path}
 #CMAQ文件输出目录
 setenv cmaq_output_path ${cmaq_output_path}
+#domain个数
+setenv max_dom ${max_dom}
+#是否为初始化模拟: 0-initial, 1-restart
+setenv run_type ${run_type}
 #是否为debug模式，0非，>0为debug
 setenv debug ${debug}

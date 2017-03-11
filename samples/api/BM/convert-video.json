@@ -7,9 +7,7 @@
     "missionid": "任务ID",
     "scenarioid": "情景ID",
     "domain": [//要转化的视频
-      "d01",
-      "d02",
-      "d03"
+      "d01","d02","d03"
     ],
     "species": [//要转化的物种
       "PM25",

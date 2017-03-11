@@ -151,7 +151,7 @@ public class UngribOperator extends AbstractOperator {
     params.put("ungrib_file", Constant.UNGRIB_FILE_PREFIX);
     params.put("scripts_path", configManager.getSystemConfig().getRoot().getScript());
     params.put("wrf_build_path", configManager.getSystemConfig().getRoot().getWrf());
-    params.put("debug", Constant.MODEL_DEBUG_LEVEL);
+    params.put("debug", configManager.getSystemConfig().getModel().getDebug_level());
     return params;
   }
 

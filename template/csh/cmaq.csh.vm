@@ -1,2 +1,2 @@
-cd $mcip_run_dir
-$mcip_script $renv_scrpit
+cd $cmaq_run_dir
+$cmaq_script $renv_scrpit

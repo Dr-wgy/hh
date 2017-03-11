@@ -28,7 +28,7 @@ import java.util.Map;
  */
 public class WrfTask extends ModelTask {
   private Logger logger = LoggerFactory.getLogger(WrfTask.class);
-  private String wrfRunDir;
+  private String wrfRunDir, wrfOutDir;
   private List<WrfBean> wrfBeans;
   private String renvFilePathPrefix;
 
@@ -59,12 +59,20 @@ public class WrfTask extends ModelTask {
   }
 
   private boolean processDirectory() {
-    renvFilePathPrefix = String.format("%s%s%s-", wrfRunDir, File.separator, Constant.MODEL_RENV_FILE);
     String runDir = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getRun().getWrf();
     runDir = processPath(runDir);
     ModelCommonParams.TimeDate time = modelStartBean.getCommon().getTime();
-    wrfRunDir = String.format("%s%s%s-%s-%s", runDir, File.separator, modelStartBean.getScenarioid(), time.getStart(), time.getEnd());
-    return FileUtil.checkAndMkdir(wrfRunDir);
+    wrfRunDir = String.format("%s%s%s-%s", runDir, File.separator, modelStartBean.getScenarioid(), System.currentTimeMillis());
+
+    wrfOutDir = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGlobaldatasets().getWrf().getDirPath();
+    wrfOutDir = processPath(wrfOutDir);
+
+    if (modelStartBean.getCommon().getDatatype().equals(Constant.GLOBAL_TYPE_GFS)) {
+      String initialTime = LocalTimeUtil.ldToUcTime(modelStartBean.getCommon().getPathdate(), configManager.getSystemConfig().getModel().getStart_hour());
+      wrfOutDir = String.format("%s%s%s", wrfOutDir, File.separator, initialTime);
+    }
+    renvFilePathPrefix = String.format("%s%s%s-", wrfRunDir, File.separator, Constant.MODEL_RENV_FILE);
+    return FileUtil.checkAndMkdir(wrfRunDir) && FileUtil.checkAndMkdir(wrfRunDir);
   }
 
   @Override
@@ -138,9 +146,7 @@ public class WrfTask extends ModelTask {
     String metgridOutPath = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGlobaldatasets().getMetgrid().getDirPath();
     metgridOutPath = String.format("%s%s%s", metgridOutPath, File.separator, bean.getStart_date());
     bean.setMetgrid_output_path(processPath(metgridOutPath));
-    String wrfOutPath = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGlobaldatasets().getWrf().getDirPath();
-    wrfOutPath = processPath(wrfOutPath);
-    bean.setWrf_output_path(wrfOutPath);
+    bean.setWrf_output_path(wrfOutDir);
     wrfBeans.add(bean);
   }
 
@@ -191,7 +197,7 @@ public class WrfTask extends ModelTask {
     bean.setScripts_path(scriptPath);
     bean.setWrf_build_path(wrfBuildPath);
     bean.setGeogrid_output_path(geogridOutputPath);
-    bean.setDebug(Constant.MODEL_DEBUG_LEVEL);
+    bean.setDebug(debugLevel);
     bean.setGlobal(modelStartBean.getCommon().getDatatype());
     bean.setUngrib_file(Constant.UNGRIB_FILE_PREFIX);
     return bean;
