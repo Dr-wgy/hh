@@ -26,8 +26,6 @@ setenv ungrib_output_path ${wrfBean.ungrib_output_path}
 setenv metgrid_output_path ${wrfBean.metgrid_output_path}
 #WRF文件输出目录
 setenv wrf_output_path ${wrfBean.wrf_output_path}
-#基础情景WRF输出目录
-setenv base_wrf_output_path ${wrfBean.base_wrf_output_path}
 #是否为run_type: 0-initial, 1-restart, 2-reinitial
 setenv run_type ${wrfBean.restart_run}
 #是否为debug模式，0非，>0为debug

@@ -17,7 +17,7 @@ public class WrfBean {
   private String ungrib_output_path;//#UNGRIB文件输出目录
   private String metgrid_output_path;//#METGRID文件输出目录
   private String wrf_output_path;//#WRF文件输出目录
-  private String base_wrf_output_path;//#WRF文件输出目录
+//  private String base_wrf_output_path;//#WRF文件输出目录
   private int run_type;
   private String global;
   private String ungrib_file;
@@ -140,14 +140,6 @@ public class WrfBean {
 
   public void setWrf_output_path(String wrf_output_path) {
     this.wrf_output_path = wrf_output_path;
-  }
-
-  public String getBase_wrf_output_path() {
-    return base_wrf_output_path;
-  }
-
-  public void setBase_wrf_output_path(String base_wrf_output_path) {
-    this.base_wrf_output_path = base_wrf_output_path;
   }
 
   public int getRun_type() {
