@@ -2,8 +2,6 @@
 
 setenv meic_type = ${meic_type}
 
-if( ${meic_type} == cache) then
-
 #开始日期
 setenv start_date ${start_date}
 #结束日期
@@ -11,37 +9,33 @@ setenv end_date  ${end_date}
 
 setenv emissiondir  ${emissiondir}
 
-setenv taskId xxxxx
-
-#conf_template /public/home/tsinghua/wuguanyu/model-driver/template/meicd0${domain}_${meic_type}.conf.template
-setenv conf_template ${conf_template}
-
-setenv scripts_path ${scripts_path}
+setenv taskId ${taskId}
 
 setenv max_dom ${max_dom}
 
-setenv meic_build_path ${meic_build_path}
+if( ${meic_type} == cache) then
+
+    #conf_template /public/home/tsinghua/wuguanyu/model-driver/template/meicd0${domain}_${meic_type}.conf.template
+    setenv conf_template ${conf_template}
+
+    setenv scripts_path ${scripts_path}
+
+    setenv meic_build_path ${meic_build_path}
+
+    setenv invoke_file ${invoke_file}
 
 else if (${meic_type} == server) then
 
-#开始日期
-setenv start_date ${start_date}
-#结束日期
-setenv end_date ${end_date}
+    #conf_template /public/home/tsinghua/wuguanyu/model-driver/template/meicd0${domain}_${meic_type}.conf.template
 
-setenv max_dom ${max_dom}
+    setenv conf_template ${conf_template}
 
-#conf_template /public/home/tsinghua/wuguanyu/model-driver/template/meicd0${domain}_${meic_type}.conf.template
+    setenv onefilehours ${onefilehours}
 
-setenv conf_template ${conf_template}
-mplate
+    setenv firsethour ${firsethour}
 
-setenv onefilehours ${onefilehours}
+    setenv outpath "${outpath}<p.year><p.dayOfYear>"
 
-setenv firsethour ${firsethour}
-
-setenv outpath "${outpath}<p.year><p.dayOfYear>"
-
-setenv megan_megan_valuepath "${megan_megan_valuepath}<p.dayOfYear>.ncf|||<p.speciesname>|||<p.hour>,0,:,:"
+    setenv megan_megan_valuepath "${megan_megan_valuepath}<p.dayOfYear>.ncf|||<p.speciesname>|||<p.hour>,0,:,:"
 
 endif
