@@ -141,8 +141,6 @@ public class WrfTask extends ModelTask {
     String wrfOutPath = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGlobaldatasets().getWrf().getDirPath();
     wrfOutPath = processPath(wrfOutPath);
     bean.setWrf_output_path(wrfOutPath);
-    //TODO fixme
-    bean.setBase_wrf_output_path(wrfOutPath);
     wrfBeans.add(bean);
   }
 
@@ -181,8 +179,6 @@ public class WrfTask extends ModelTask {
     String wrfOutPath = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGlobaldatasets().getWrf().getDirPath();
     wrfOutPath = processPath(wrfOutPath);
     bean.setWrf_output_path(wrfOutPath);
-    //TODO fixme
-    bean.setBase_wrf_output_path(wrfOutPath);
     return bean;
   }
 
