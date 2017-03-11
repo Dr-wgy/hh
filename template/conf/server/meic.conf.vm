@@ -1,0 +1,55 @@
+#!/bin/csh
+
+cat > meicd0${domain}_${meic_type}.conf << EOF
+
+meicCityConfig: ${meic_city_path}
+#
+caseid: lx_jiangsu_case1_d03
+
+#
+domain:[
+
+	{
+      "dx" : ${dx},
+      "dy" : ${dy},
+      "name" : "${name}",
+      "params" : "+proj=lcc +lat_1=${stand_lat1} +lat_2=${stand_lat2} +lat_0=${ref_lat} +lon_0=${ref_lat} +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs",
+      "xcells" : ${xcells},
+      "xorig" : ${xorig},
+      "xpad" : 0,
+      "ycells" : ${ycells},
+      "yorig" : ${yorig},
+      "ypad" : 0
+	}
+]
+
+#
+time:{
+      start: ${start_date}
+      end: ${end_date}
+}
+
+#
+model: ["${model}"]
+
+cmaq:{
+	submodel: ${submodel}
+}
+
+#
+builder:{
+	onefilehours: ${onefilehours}
+    firsthour: ${firsthour}
+	outpath: "${outpath}<p.year><p.dayOfYear>"
+}
+emission:{
+	megan.shutdown: ${shutdown}
+	megan.megan.valuepath: "${valuepath}<p.dayOfYear>.ncf|||<p.speciesname>|||<p.hour>,0,:,:"
+	megan.year.yearmap.2015: 2016
+}
+append:{
+    common.snip.psmeasures.action: ${pslist}
+    common.snip.ssmeasures.action: ${sslist}
+}
+
+EOF

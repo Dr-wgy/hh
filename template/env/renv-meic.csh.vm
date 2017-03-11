@@ -1,14 +1,47 @@
-#开始日期20170303
+#!/bin/csh -f
+
+setenv meic_type = ${meic_type}
+
+if( ${meic_type} == cache) then
+
+#开始日期
+setenv start_date ${start_date}
+#结束日期
+setenv end_date  ${end_date}
+
+setenv emissiondir  ${emissiondir}
+
+setenv taskId xxxxx
+
+#conf_template /public/home/tsinghua/wuguanyu/model-driver/template/meicd0${domain}_${meic_type}.conf.template
+setenv conf_template ${conf_template}
+
+setenv scripts_path ${scripts_path}
+
+setenv max_dom ${max_dom}
+
+setenv meic_build_path ${meic_build_path}
+
+else if (${meic_type} == server) then
+
+#开始日期
 setenv start_date ${start_date}
 #结束日期
 setenv end_date ${end_date}
-#开始时间,16
-setenv start_hour ${start_hour}
-#模式驱动脚本目录, /public/home/tsinghua/lixin/my_code/git/model-driver/
-setenv scripts_path ${scripts_path}
-#MEGAN文件输出目录
-setenv megan_output ${megan_output}
-#MEIC文件输出目录
-setenv meic_output ${meic_output}
-#是否为debug模式，0非，>0为debug
-setenv debug ${debug}
+
+setenv max_dom ${max_dom}
+
+#conf_template /public/home/tsinghua/wuguanyu/model-driver/template/meicd0${domain}_${meic_type}.conf.template
+
+setenv conf_template ${conf_template}
+mplate
+
+setenv onefilehours ${onefilehours}
+
+setenv firsethour ${firsethour}
+
+setenv outpath "${outpath}<p.year><p.dayOfYear>"
+
+setenv megan_megan_valuepath "${megan_megan_valuepath}<p.dayOfYear>.ncf|||<p.speciesname>|||<p.hour>,0,:,:"
+
+endif
