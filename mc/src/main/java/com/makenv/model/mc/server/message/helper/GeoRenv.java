@@ -15,6 +15,18 @@ public class GeoRenv {
 
     private String wrf_build_path;// wrf的安装目录
 
+    private String wrf_version;
+
+
+    public String getWrf_version() {
+        return wrf_version;
+    }
+
+    public void setWrf_version(String wrf_version) {
+        this.wrf_version = wrf_version;
+    }
+
+
     public String getGeog_data_path() {
         return geog_data_path;
     }

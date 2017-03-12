@@ -1,10 +1,14 @@
 #!/bin/csh
 
-cat > meicd0${domain}_${meic_type}.conf << EOF
+cat > meicd0${meic.currdom}_${meic_type}.conf << EOF
+
+username:linxin
+password:linxin
 
 meicCityConfig: ${meic_city_path}
+controlfile:/home/zhangchenchen/conf/cf.csv
 #
-caseid: lx_jiangsu_case1_d03
+caseid: ${}
 
 #
 domain:[

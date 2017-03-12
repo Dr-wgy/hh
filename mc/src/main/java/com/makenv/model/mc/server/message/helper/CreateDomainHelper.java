@@ -73,6 +73,7 @@ public class CreateDomainHelper{
         geoRenv.setScripts_path(mcConfigManager.getSystemConfig().getRoot().getScript());
         geoRenv.setNamelist_wps_geogrid_template(geogridTemplatePath);
         geoRenv.setGeog_data_path(mcConfigManager.getSystemConfig().getWorkspace().getShare().getInput().getGeog().getDirPath());
+        geoRenv.setWrf_version(domainCreateBean.getDomain().getWrf().getVersion());
 
         String geogridDataPath = mcConfigManager.getSystemConfig()
                 .getWorkspace().getUserid().

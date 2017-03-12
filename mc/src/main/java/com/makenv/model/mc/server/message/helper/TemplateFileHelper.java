@@ -8,6 +8,7 @@ import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.server.message.controller.ModelController;
 import com.makenv.model.mc.server.message.pojo.CommonParams;
 import com.makenv.model.mc.server.message.pojo.DomainCreateBean;
+import com.makenv.model.mc.server.message.pojo.TaskDomain;
 import com.makenv.model.mc.server.message.pojo.WrfParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,8 +63,159 @@ public class TemplateFileHelper {
 
         logger.info("generateNamelistwpsMetgrid is " + (metgridFlag ? "success":"failed"));
 
+        boolean meicCacheFlag = generateMeicCacheConfTemplate(domainCreateBean);
+
+        logger.info("generateMeicCacheConfTemplate is " + (meicCacheFlag ? "success":"failed"));
+
+        boolean meicServerFlag = generateMeicServerConfTemplate(domainCreateBean);
+
+        logger.info("generateMeicServerConfTemplate is " + (meicServerFlag ? "success":"failed"));
+
         return ipwrfFlag && oaFlag && wpsGeogridFlag && wrfFlag && metgridFlag;
 
+    }
+
+    private boolean generateMeicServerConfTemplate(DomainCreateBean domainCreateBean) {
+
+        String meicTemplatePath = mcConfigManager.getSystemConfig().getTemplate().getMeic_cache_conf_vm();
+
+        TaskDomain domain = domainCreateBean.getDomain();
+
+        String model = domainCreateBean.getDomain().getMeic().getModel().getName();
+
+        String submodel = domainCreateBean.getDomain().getMeic().getModel().getName();
+
+        String dx[]  =  domain.getCommon().getDx().split(",");
+
+        String dy[] = domain.getCommon().getDy().split(",");
+
+        String nx[] = domain.getCmaq().getNx().split(",");
+
+        String ny[] = domain.getCmaq().getNy().split(",");
+
+        String xorig[] = domain.getCmaq().getXorig().split(",");
+
+        String yorig[] = domain.getCmaq().getXorig().split(",");
+
+        int maxDom = domainCreateBean.getDomain().getCommon().getMax_dom();
+
+        int currdom = maxDom;
+
+        boolean flag = false;
+
+        while(currdom-- > 0) {
+
+            Map paramsMap = new HashMap();
+
+            MeicServerConfBean meic = new MeicServerConfBean();
+
+            meic.setStand_lat1(domain.getCommon().getStand_lat1());
+
+            meic.setStand_lat2(domain.getCommon().getStand_lat2());
+
+            meic.setRef_lat(domain.getCommon().getRef_lat());
+
+            meic.setRef_lon(domain.getCommon().getRef_lon());
+
+            meic.setDx(Integer.parseInt(dx[currdom].trim()));
+
+            meic.setDy(Integer.parseInt(dy[currdom].trim()));
+
+            meic.setXcells(Integer.parseInt(nx[currdom].trim()));
+
+            meic.setYcells(Integer.parseInt(ny[currdom].trim()));
+
+            meic.setXorig(Double.parseDouble(xorig[currdom].trim()));
+
+            meic.setYorig(Double.parseDouble(yorig[currdom].trim()));
+
+            meic.setName(String.format(Constant.GRIDNAME,currdom + 1));
+
+            meic.setCurrdom(currdom + 1);
+
+            meic.setModel(model);
+
+            meic.setSubmodel(submodel);
+
+            paramsMap.put("meic",meic);
+
+            String content = VelocityUtil.buildTemplate(meicTemplatePath,paramsMap);
+
+            String meicTemplate = FilePathUtil.joinByDelimiter(getTemplateDirName(domainCreateBean),String.format(Constant.MEIC_CONF_TEMPLATE,currdom + 1,Constant.MEIC_SERVER_TYPE));
+
+            flag = FileUtil.save(meicTemplate,content);
+
+        }
+
+
+        return flag;
+    }
+
+    private boolean generateMeicCacheConfTemplate(DomainCreateBean domainCreateBean) {
+
+        String meicTemplatePath = mcConfigManager.getSystemConfig().getTemplate().getMeic_cache_conf_vm();
+
+        TaskDomain domain = domainCreateBean.getDomain();
+
+        String dx[]  =  domain.getCommon().getDx().split(",");
+
+        String dy[] = domain.getCommon().getDy().split(",");
+
+        String nx[] = domain.getCmaq().getNx().split(",");
+
+        String ny[] = domain.getCmaq().getNy().split(",");
+
+        String xorig[] = domain.getCmaq().getXorig().split(",");
+
+        String yorig[] = domain.getCmaq().getXorig().split(",");
+
+        int maxDom = domainCreateBean.getDomain().getCommon().getMax_dom();
+
+        int currdom = maxDom;
+
+        boolean flag = false;
+
+        while(currdom-- > 0) {
+
+            Map paramsMap = new HashMap();
+
+            MeicServerConfBean meic = new MeicServerConfBean();
+
+            meic.setStand_lat1(domain.getCommon().getStand_lat1());
+
+            meic.setStand_lat2(domain.getCommon().getStand_lat2());
+
+            meic.setRef_lat(domain.getCommon().getRef_lat());
+
+            meic.setRef_lon(domain.getCommon().getRef_lon());
+
+            meic.setDx(Integer.parseInt(dx[currdom].trim()));
+
+            meic.setDy(Integer.parseInt(dy[currdom].trim()));
+
+            meic.setXcells(Integer.parseInt(nx[currdom].trim()));
+
+            meic.setYcells(Integer.parseInt(ny[currdom].trim()));
+
+            meic.setName(String.format(Constant.GRIDNAME,currdom + 1));
+
+            meic.setXorig(Double.parseDouble(xorig[currdom].trim()));
+
+            meic.setYorig(Double.parseDouble(yorig[currdom].trim()));
+
+            meic.setCurrdom(currdom + 1);
+
+            paramsMap.put("meic",meic);
+
+            String content = VelocityUtil.buildTemplate(meicTemplatePath,paramsMap);
+
+            String meicTemplate = FilePathUtil.joinByDelimiter(getTemplateDirName(domainCreateBean),String.format(Constant.MEIC_CONF_TEMPLATE,currdom + 1,Constant.MEIC_CACHE_TYPE));
+
+            flag = FileUtil.save(meicTemplate,content);
+
+        }
+
+        return flag;
     }
 
     private boolean generateNamelistIpwrf(DomainCreateBean domainCreateBean){

@@ -1,6 +1,6 @@
 #!/bin/csh -f
 
-setenv meic_type = ${meic_type}
+setenv meic_type = ${meicType}
 
 #开始日期
 setenv start_date ${start_date}
@@ -16,7 +16,7 @@ setenv max_dom ${max_dom}
 if( ${meic_type} == cache) then
 
     #conf_template /public/home/tsinghua/wuguanyu/model-driver/template/meicd0${domain}_${meic_type}.conf.template
-    setenv conf_template ${conf_template}
+    setenv conf_template_dir ${conf_template_dir}
 
     setenv scripts_path ${scripts_path}
 
@@ -28,11 +28,17 @@ else if (${meic_type} == server) then
 
     #conf_template /public/home/tsinghua/wuguanyu/model-driver/template/meicd0${domain}_${meic_type}.conf.template
 
-    setenv conf_template ${conf_template}
+    setenv conf_template_dir ${conf_template_dir}
+
+    setenv meicCityConfig ${meicCityConfig}
+
+    setenv controlfile ${controlfile}
 
     setenv onefilehours ${onefilehours}
 
     setenv firsethour ${firsethour}
+
+    setenv meic_server_url ${meic_server_url}
 
     setenv outpath "${outpath}<p.year><p.dayOfYear>"
 

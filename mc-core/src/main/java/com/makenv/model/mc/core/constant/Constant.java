@@ -10,7 +10,7 @@ public class Constant {
   public static final String[] FILE_HOURS = {"00", "06", "12", "18"};
 //  public static final int MODEL_DEBUG_LEVEL = 1;
   public static final String UNGRIB_FILE_PREFIX = "FILE";
-  public static final String COORDNAME = "China_d%02d";
+  public static final String GRIDNAME = "China_d%02d";
 
   public static final String NAMELIST_IPXWRF_TEMPLATE = "namelist.ipxwrf.template";
   public static final String NAMELIST_OA_TEMPLATE = "namelist.oa.template";
@@ -18,6 +18,8 @@ public class Constant {
   public static final String NAMELIST_WRF_TEMPLATE = "namelist.wrf.template";
   public static final String NAMELIST_WPS_METGRID_TEMPLATE = "namelist.wps.metgrid.template";
   public static final String NAMELIST_WPS_UNGRIB_TEMPLATE = "namelist.wps.ungrib.template";
+  public static final String MEIC_CONF_TEMPLATE="meic%02d_%s.conf.template";
+
 
   public static final String GEOGRID_SCRIPT_FILE = "invoke-geogrid";
 
@@ -37,6 +39,9 @@ public class Constant {
   public static final String GLOBAL_TYPE_GFS = "gfs";
 
   public static final String DOMAIN_JSON = "domain.json";
+
+  public static final String MEIC_CACHE_TYPE = "cache";
+  public static final String MEIC_SERVER_TYPE = "server";
 
 
 }
