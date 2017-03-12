@@ -8,3 +8,5 @@ setenv namelist_template ${georenv.namelist_wps_geogrid_template}
 setenv scripts_path ${georenv.scripts_path}
 
 setenv wrf_build_path ${georenv.wrf_build_path}
+
+setenv wrf_version ${georenv.wrf_version}

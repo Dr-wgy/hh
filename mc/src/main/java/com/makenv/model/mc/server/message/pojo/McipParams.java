@@ -30,7 +30,7 @@ public class McipParams {
     private String y0;
 
     private int ctm_vert;
-
+    @JsonProperty("CTMLAYS")
     private String ctmlays;
 
     public int getCtm_vert() {

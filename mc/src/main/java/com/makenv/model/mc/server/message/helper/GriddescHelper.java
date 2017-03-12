@@ -50,7 +50,7 @@ public class GriddescHelper {
 
             GriddescBean griddescBean = new GriddescBean();
 
-            griddescBean.setCoordName(String.format(Constant.COORDNAME,maxDom + 1));
+            griddescBean.setGridName(String.format(Constant.GRIDNAME,maxDom + 1));
 
             griddescBean.setMap_proj(domain.getCommon().getMap_proj());
 
@@ -73,6 +73,8 @@ public class GriddescHelper {
             griddescBean.setNx(Integer.parseInt(nx[maxDom].trim()));
 
             griddescBean.setNy(Integer.parseInt(ny[maxDom].trim()));
+
+            griddescBean.setCoordName(domain.getCommon().getCoord_Name());
 
             String currDomFile = String.format(griddescFilePathName, maxDom + 1);
 

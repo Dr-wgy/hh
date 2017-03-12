@@ -12,6 +12,9 @@ public class TemplatePath {
   private String namelist_ipxwrf;
   private String namelist_oa;
 
+  private String meic_cache_conf_vm;
+  private String meic_server_conf_vm;
+
   private String renv_ungrib_sh;
   private String renv_domain_sh;
   private String renv_wrf_sh;
@@ -178,6 +181,22 @@ public class TemplatePath {
 
   public void setRenv_wrf_sh(String renv_wrf_sh) {
     this.renv_wrf_sh = renv_wrf_sh;
+  }
+
+  public String getMeic_cache_conf_vm() {
+    return meic_cache_conf_vm;
+  }
+
+  public void setMeic_cache_conf_vm(String meic_cache_conf_vm) {
+    this.meic_cache_conf_vm = meic_cache_conf_vm;
+  }
+
+  public String getMeic_server_conf_vm() {
+    return meic_server_conf_vm;
+  }
+
+  public void setMeic_server_conf_vm(String meic_server_conf_vm) {
+    this.meic_server_conf_vm = meic_server_conf_vm;
   }
 
 }

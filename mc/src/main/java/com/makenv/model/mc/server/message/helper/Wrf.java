@@ -59,6 +59,156 @@ public class Wrf {
 
     private String cudt;
 
+    private String grid_fdda;
+
+    private String gfdda_interval_m;
+
+    private String grid_sfdda;
+
+    private String sgfdda_interval_m;
+
+    private String obs_nudge_opt;
+
+    private String diff_opt;
+
+    private String km_opt;
+
+    private String damp_opt;
+
+    private String dampcoef;
+
+    private String khdif;
+
+    private String kvdif;
+
+    private String surface_input_source;
+
+    private String sst_update;
+
+    private String gfdda_end_h;
+
+    private String sgfdda_end_h;
+
+    public String getGrid_fdda() {
+        return grid_fdda;
+    }
+
+    public void setGrid_fdda(String grid_fdda) {
+        this.grid_fdda = grid_fdda;
+    }
+
+    public String getGfdda_interval_m() {
+        return gfdda_interval_m;
+    }
+
+    public void setGfdda_interval_m(String gfdda_interval_m) {
+        this.gfdda_interval_m = gfdda_interval_m;
+    }
+
+    public String getGrid_sfdda() {
+        return grid_sfdda;
+    }
+
+    public void setGrid_sfdda(String grid_sfdda) {
+        this.grid_sfdda = grid_sfdda;
+    }
+
+    public String getSgfdda_interval_m() {
+        return sgfdda_interval_m;
+    }
+
+    public void setSgfdda_interval_m(String sgfdda_interval_m) {
+        this.sgfdda_interval_m = sgfdda_interval_m;
+    }
+
+    public String getObs_nudge_opt() {
+        return obs_nudge_opt;
+    }
+
+    public void setObs_nudge_opt(String obs_nudge_opt) {
+        this.obs_nudge_opt = obs_nudge_opt;
+    }
+
+    public String getDiff_opt() {
+        return diff_opt;
+    }
+
+    public void setDiff_opt(String diff_opt) {
+        this.diff_opt = diff_opt;
+    }
+
+    public String getKm_opt() {
+        return km_opt;
+    }
+
+    public void setKm_opt(String km_opt) {
+        this.km_opt = km_opt;
+    }
+
+    public String getDamp_opt() {
+        return damp_opt;
+    }
+
+    public void setDamp_opt(String damp_opt) {
+        this.damp_opt = damp_opt;
+    }
+
+    public String getDampcoef() {
+        return dampcoef;
+    }
+
+    public void setDampcoef(String dampcoef) {
+        this.dampcoef = dampcoef;
+    }
+
+    public String getKhdif() {
+        return khdif;
+    }
+
+    public void setKhdif(String khdif) {
+        this.khdif = khdif;
+    }
+
+    public String getKvdif() {
+        return kvdif;
+    }
+
+    public void setKvdif(String kvdif) {
+        this.kvdif = kvdif;
+    }
+
+    public String getSurface_input_source() {
+        return surface_input_source;
+    }
+
+    public void setSurface_input_source(String surface_input_source) {
+        this.surface_input_source = surface_input_source;
+    }
+
+    public String getSst_update() {
+        return sst_update;
+    }
+
+    public void setSst_update(String sst_update) {
+        this.sst_update = sst_update;
+    }
+
+    public String getGfdda_end_h() {
+        return gfdda_end_h;
+    }
+
+    public void setGfdda_end_h(String gfdda_end_h) {
+        this.gfdda_end_h = gfdda_end_h;
+    }
+
+    public String getSgfdda_end_h() {
+        return sgfdda_end_h;
+    }
+
+    public void setSgfdda_end_h(String sgfdda_end_h) {
+        this.sgfdda_end_h = sgfdda_end_h;
+    }
+
     public String getMp_physics() {
         return mp_physics;
     }
