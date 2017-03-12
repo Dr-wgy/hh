@@ -3,6 +3,7 @@ package com.makenv.model.mc.core.util;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -52,8 +53,9 @@ public class LocalTimeUtil {
   public static String ldToUcTime(String ltDate, int startHour) {
     LocalDate date = parse(ltDate, YMD_DATE_FORMAT);
     LocalDateTime time = date.atStartOfDay();
-    ZonedDateTime utcZoned = ZonedDateTime.of(time, ZoneId.of("UTC") );
-//    ZonedDateTime utcZoned = time.atZone(ZoneId.of("UTC"));
+    ZonedDateTime.of(time,ZoneId.systemDefault());
+    ZonedDateTime cttZoned = ZonedDateTime.of(time, ZoneId.of("Asia/Shanghai") );
+    ZonedDateTime utcZoned = cttZoned.withZoneSameInstant(ZoneOffset.UTC);
     return format(utcZoned.toLocalDate(), YMD_DATE_FORMAT) + String.format("%02d", startHour);
   }
 }

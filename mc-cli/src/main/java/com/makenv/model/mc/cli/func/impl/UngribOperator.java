@@ -6,10 +6,13 @@ import com.makenv.model.mc.cli.exception.InvalidParamsException;
 import com.makenv.model.mc.cli.func.AbstractOperator;
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.core.constant.Constant;
+import com.makenv.model.mc.core.util.FilePathUtil;
 import com.makenv.model.mc.core.util.FileUtil;
+import com.makenv.model.mc.core.util.JacksonUtil;
 import com.makenv.model.mc.core.util.LocalTimeUtil;
 import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
+import com.makenv.model.mc.server.message.pojo.TaskDomain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,7 +147,7 @@ public class UngribOperator extends AbstractOperator {
     return true;
   }
 
-  private Map<String, Object> createParams() {
+  private Map<String, Object> createParams() throws IOException {
     Map<String, Object> params = new HashMap<>();
     params.put("namelist_template", namelistFile);
     params.put("start_date", computeDate);
@@ -152,6 +155,9 @@ public class UngribOperator extends AbstractOperator {
     params.put("scripts_path", configManager.getSystemConfig().getRoot().getScript());
     params.put("wrf_build_path", configManager.getSystemConfig().getRoot().getWrf());
     params.put("debug", configManager.getSystemConfig().getModel().getDebug_level());
+    String domainFile = FilePathUtil.joinByDelimiter(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getDirPath(), Constant.DOMAIN_JSON);
+    TaskDomain taskDomain = JacksonUtil.readFromJsonFile(domainFile, TaskDomain.class);
+    params.put("wrf_version", taskDomain.getWrf().getVersion());
     return params;
   }
 
