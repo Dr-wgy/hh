@@ -38,7 +38,7 @@ public class CmaqTask extends AbstractCmaqTask {
     cctmDataDir = processPath(cctmDataDir);
     bconDataDir = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getMissionid().getScenarioid().getData().getBcon().getDirPath();
     bconDataDir = processPath(bconDataDir);
-    meicDataDir = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getMissionid().getScenarioid().getData().getEmisDir().getDirPath();
+    meicDataDir = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getMissionid().getScenarioid().getData().getEmis().getDirPath();
     meicDataDir = processPath(meicDataDir);
     griddescDataDir = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGriddesc().getDirPath();
     griddescDataDir = processPath(griddescDataDir);

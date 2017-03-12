@@ -5,43 +5,49 @@ package com.makenv.model.mc.server.message.pojo;
  */
 public class TaskDomain {
 
-    private CommonParams common; //公共参数
+  private CommonParams common; //公共参数
+  private CmaqParams cmaq; //cmaq 参数
+  private WrfParams wrf; // wrf 参数
+  private McipParams mcip; // mcip 参数
+  private MeicParams meic;
 
-    private CmaqParams cmaq; //cmaq 参数
+  public MeicParams getMeic() {
+    return meic;
+  }
 
-    private WrfParams wrf; // wrf 参数
+  public void setMeic(MeicParams meic) {
+    this.meic = meic;
+  }
 
-    private McipParams mcip; // mcip 参数
+  public CommonParams getCommon() {
+    return common;
+  }
 
+  public void setCommon(CommonParams common) {
+    this.common = common;
+  }
 
-    public CommonParams getCommon() {
-        return common;
-    }
+  public WrfParams getWrf() {
+    return wrf;
+  }
 
-    public void setCommon(CommonParams common) {
-        this.common = common;
-    }
+  public void setWrf(WrfParams wrf) {
+    this.wrf = wrf;
+  }
 
-    public WrfParams getWrf() {
-        return wrf;
-    }
+  public McipParams getMcip() {
+    return mcip;
+  }
 
-    public void setWrf(WrfParams wrf) {
-        this.wrf = wrf;
-    }
+  public void setMcip(McipParams mcip) {
+    this.mcip = mcip;
+  }
 
-    public McipParams getMcip() {
-        return mcip;
-    }
+  public CmaqParams getCmaq() {
+    return cmaq;
+  }
 
-    public void setMcip(McipParams mcip) {
-        this.mcip = mcip;
-    }
-    public CmaqParams getCmaq() {
-        return cmaq;
-    }
-
-    public void setCmaq(CmaqParams cmaq) {
-        this.cmaq = cmaq;
-    }
+  public void setCmaq(CmaqParams cmaq) {
+    this.cmaq = cmaq;
+  }
 }

@@ -3,13 +3,16 @@ package com.makenv.model.mc.server.message.task;
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.core.constant.Constant;
 import com.makenv.model.mc.core.util.FileUtil;
+import com.makenv.model.mc.core.util.JacksonUtil;
 import com.makenv.model.mc.core.util.LocalTimeUtil;
 import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
+import com.makenv.model.mc.server.message.pojo.TaskDomain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 
 /**
@@ -33,6 +36,7 @@ public abstract class ModelTask implements IModelTask {
   private String modelRunFile;
   private String modelRunDir;
   protected String cmaqBuildPath;
+  private String domainInfoFile;
   protected LocalDate startDate, endDate;
   protected int debugLevel;
 
@@ -68,6 +72,10 @@ public abstract class ModelTask implements IModelTask {
     return new File(modelRunFile);
   }
 
+  protected TaskDomain getTaskDomain() throws IOException {
+    return JacksonUtil.readFromJsonFile(domainInfoFile, TaskDomain.class);
+  }
+
   protected String processPath(String path) {
     return path.replace("{userid}", modelStartBean.getUserid()).
         replace("{domainid}", modelStartBean.getDomainid()).
@@ -99,6 +107,8 @@ public abstract class ModelTask implements IModelTask {
     modelRunFile = String.format("%s%s%s", modelRunDir, File.separator, Constant.MODEL_SCRIPT_FILE);
     cmaqBuildPath = configManager.getSystemConfig().getRoot().getCmaq();
     debugLevel = configManager.getSystemConfig().getModel().getDebug_level();
+    domainInfoFile = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getDirPath();
+    domainInfoFile = processPath(domainInfoFile);
   }
 
   protected abstract boolean beforeHandle();

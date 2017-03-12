@@ -10,14 +10,14 @@ public class ScenarionDataDir {
   private ScenarionDpDir dp;
   private BconDir bcon;
   private CctmDir cctm;
-  private EmisDir emisDir;
+  private EmisDir emis;
 
-  public EmisDir getEmisDir() {
-    return emisDir;
+  public EmisDir getEmis() {
+    return emis;
   }
 
-  public void setEmisDir(EmisDir emisDir) {
-    this.emisDir = emisDir;
+  public void setEmis(EmisDir emis) {
+    this.emis = emis;
   }
 
   public CctmDir getCctm() {
