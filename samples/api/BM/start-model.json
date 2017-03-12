@@ -33,6 +33,7 @@
       "initial": true,
       "spinup": 2,
       "ic":{
+        "missionid": "1",
         "scenarioid":"123",
         "date":"20170201"
       }
