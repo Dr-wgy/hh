@@ -78,7 +78,7 @@ public class CmaqTask extends AbstractCmaqTask {
     cmaqBean.setDebug(debugLevel);
     cmaqBean.setStart_date(LocalTimeUtil.format(startDate, LocalTimeUtil.YMD_DATE_FORMAT));
     cmaqBean.setTime_difference(timeDiff);
-    cmaqBean.setRun_days((int) LocalTimeUtil.between(startDate, endDate));
+    cmaqBean.setRun_days((int) LocalTimeUtil.between(startDate, endDate) + 1);
     TaskDomain taskDomain = getTaskDomain();
     cmaqBean.setCmaq_version(taskDomain.getCmaq().getVersion());
     cmaqBean.setScripts_path(scriptPath);

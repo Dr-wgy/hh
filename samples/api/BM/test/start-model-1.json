@@ -26,12 +26,12 @@
     },
     "wrf": {
       "initial": true,
-      "spinup": 2,
+      "spinup": 0,
       "lastfnl": "20170201" 
     },
     "cmaq": {
       "initial": true,
-      "spinup": 2,
+      "spinup": 0,
       "ic":{
         "missionid": "1",
         "scenarioid":"1",

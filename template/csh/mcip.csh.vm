@@ -1,2 +1,4 @@
+
+# start mcip
 cd $mcip_run_dir
 $mcip_script $renv_scrpit

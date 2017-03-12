@@ -105,12 +105,14 @@ public class ModelServiceImpl implements ModelService {
     boolean succShellRunFlag = createDomainHelper.executeShell(domainCreateBean);
 
     //将domain信息生成到制定目录中
-    String dirPath =  mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getDirPath();
-    dirPath.replaceAll("\\{userid\\}",domainCreateBean.getUserid()).replaceAll("\\{domainid\\}",domainCreateBean.getDomainid());
+    String dirPath = mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getDirPath();
+    dirPath = dirPath.replaceAll("\\{userid\\}", domainCreateBean.getUserid()).replaceAll("\\{domainid\\}", domainCreateBean.getDomainid());
+    FileUtil.checkAndMkdir(dirPath);
     try {
-      FileUtil.writeLocalFile(new File(FilePathUtil.joinByDelimiter(dirPath,Constant.DOMAIN_JSON)), JacksonUtil.objToJson(domainCreateBean.getDomain()));
+      FileUtil.writeLocalFile(new File(FilePathUtil.joinByDelimiter(dirPath, Constant.DOMAIN_JSON)), JacksonUtil.objToJson(domainCreateBean.getDomain()));
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.error("", e);
+      return false;
     }
     return flag && nameListFlag && succShellRunFlag;
   }

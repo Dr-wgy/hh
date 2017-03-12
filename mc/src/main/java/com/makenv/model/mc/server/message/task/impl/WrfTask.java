@@ -138,7 +138,7 @@ public class WrfTask extends ModelTask {
   private void buildGfsRenvBean() {
     WrfBean bean = createWrfBean();
     bean.setStart_date(LocalTimeUtil.format(startDate, LocalTimeUtil.YMD_DATE_FORMAT));
-    bean.setRun_days((int) LocalTimeUtil.between(endDate, startDate));
+    bean.setRun_days((int) LocalTimeUtil.between(endDate, startDate) + 1);
     bean.setRun_hours(0);
     String ungribOutPath = configManager.getSystemConfig().getWorkspace().getShare().getInput().getUngrib_gfs().getDirPath();
     ungribOutPath = String.format("%s%s%s", ungribOutPath, File.separator, bean.getStart_date());
@@ -177,7 +177,7 @@ public class WrfTask extends ModelTask {
   private WrfBean buildFnlWrfBean(LocalDate startDate, LocalDate current) {
     WrfBean bean = createWrfBean();
     bean.setStart_date(LocalTimeUtil.format(startDate, LocalTimeUtil.YMD_DATE_FORMAT));
-    bean.setRun_days((int) LocalTimeUtil.between(current, startDate));
+    bean.setRun_days((int) LocalTimeUtil.between(current, startDate) + 1);
     bean.setRun_hours(configManager.getSystemConfig().getModel().getWrf_run_hours());
     bean.setUngrib_output_path(configManager.getSystemConfig().getWorkspace().getShare().getInput().getUngrib_fnl().getDirPath());
     String metgridOutPath = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGlobaldatasets().getMetgrid().getDirPath();

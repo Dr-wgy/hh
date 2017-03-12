@@ -66,7 +66,7 @@ public class McipTask extends AbstractCmaqTask {
     mcipBean.setWrf_start_hour(startHour);
     mcipBean.setTime_difference(timeDiff);
     mcipBean.setGlobal(modelStartBean.getCommon().getDatatype());
-    mcipBean.setRun_days((int) LocalTimeUtil.between(startDate, endDate));
+    mcipBean.setRun_days((int) LocalTimeUtil.between(startDate, endDate) + 1);
     mcipBean.setScripts_path(scriptPath);
     mcipBean.setCmaq_build_path(cmaqBuildPath);
     mcipBean.setGeogrid_output_path(geogridOutputPath);
