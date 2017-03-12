@@ -72,7 +72,7 @@ public class CmaqTask extends AbstractCmaqTask {
     cmaqBean.setTime_difference(timeDiff);
     cmaqBean.setRun_days((int) LocalTimeUtil.between(startDate, endDate));
     TaskDomain taskDomain = getTaskDomain();
-//    cmaqBean.setCmaq_version();TODO
+    cmaqBean.setCmaq_version(taskDomain.getCmaq().getVersion());
     cmaqBean.setScripts_path(scriptPath);
     cmaqBean.setCmaq_build_path(cmaqBuildPath);
     cmaqBean.setGRIDDESC_path(griddescDataDir);
@@ -83,11 +83,10 @@ public class CmaqTask extends AbstractCmaqTask {
     oceanPath = processPath(oceanPath);
     cmaqBean.setOcean_output_path(oceanPath);
     cmaqBean.setBcon_output_path(bconDataDir);
-    cmaqBean.setBase_cmaq_output_path(cctmDataDir);
-    cmaqBean.setCmaq_output_path(baseCctmDataDir);
+    cmaqBean.setBase_cmaq_output_path(baseCctmDataDir);
+    cmaqBean.setCmaq_output_path(cctmDataDir);
     cmaqBean.setMax_dom(taskDomain.getCommon().getMax_dom());
-    ModelStartBean.Cmaq.Ic ic = modelStartBean.getCmaq().getIc();
-    cmaqBean.setRun_type(ic == null ? RUN_TYPE_INIT : RUN_TYPE_RESTART);
+    cmaqBean.setRun_type(modelStartBean.getCmaq().isInitial() ? RUN_TYPE_INIT : RUN_TYPE_RESTART);
   }
 
   private boolean buildRenv() {
