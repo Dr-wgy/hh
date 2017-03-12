@@ -9,12 +9,10 @@
     "scenarioid": "情景ID",
     "tasks": ["wrf", "mcip", "megan", "meic", "cmaq"], //注意顺序
     "cores": "计算核数",
-    "domain":{
-      //see domain.json
-    },
     "common": {
       "initial": true,
       "datatype": "gfs",//气象数据类型，fnl, gfs
+      "simtype":"base",//模拟类型base or scenario
       "time": { //模拟开始和结束时间
         "start": "20170201",
         "end": "20170201"
@@ -33,7 +31,7 @@
     },
     "cmaq": {
       "spinup": 2,
-      "ic":{
+      "ic":{//ic 为空代表initial
         "scenarioid":"123",
         "date":"20170201"
       }

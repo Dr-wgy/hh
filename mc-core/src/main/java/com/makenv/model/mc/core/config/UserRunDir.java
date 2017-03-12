@@ -9,6 +9,24 @@ public class UserRunDir {
   private String megan;
   private String ocean;
   private String wrf;
+  private String cmaq;
+  private String mcip;
+
+  public String getMcip() {
+    return mcip;
+  }
+
+  public void setMcip(String mcip) {
+    this.mcip = mcip;
+  }
+
+  public String getCmaq() {
+    return cmaq;
+  }
+
+  public void setCmaq(String cmaq) {
+    this.cmaq = cmaq;
+  }
 
   public String getDirPath() {
     return dirPath;

@@ -1,6 +1,9 @@
 package com.makenv.model.mc.core.util;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
@@ -39,5 +42,16 @@ public class LocalTimeUtil {
 
   public static long between(LocalDate date1, LocalDate date2) {
     return Math.abs(ChronoUnit.DAYS.between(date1, date2));
+  }
+
+  public static LocalDateTime parseTime(String time, String format) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+    return LocalDateTime.parse(time, formatter);
+  }
+
+  public static String ldToUcTime(String ltDate, int startHour) {
+    LocalDateTime time = parseTime(ltDate, YMD_DATE_FORMAT);
+    ZonedDateTime utcZoned = time.atZone(ZoneId.of("UTC"));
+    return format(utcZoned.toLocalDate(), YMD_DATE_FORMAT) + String.format("%02d", startHour);
   }
 }

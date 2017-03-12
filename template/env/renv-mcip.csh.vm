@@ -1,32 +1,32 @@
 #开始日期
-setenv start_date ${start_date}
+setenv start_date ${mcipBean.start_date}
 #运行日数
-setenv run_days ${run_days}
+setenv run_days ${mcipBean.run_days}
 #时差
-setenv time_difference ${time_difference}
+setenv time_difference ${mcipBean.time_difference}
 #wrf开始时间
-setenv wrf_start_hour ${wrf_start_hour}
+setenv wrf_start_hour ${mcipBean.wrf_start_hour}
 #全球数据集
-setenv global ${global}
+setenv global ${mcipBean.global}
 #模式驱动脚本目录/public/home/tsinghua/lixin/my_code/git/model-driver/
-setenv scripts_path ${scripts_path}
+setenv scripts_path ${mcipBean.scripts_path}
 #CMAQ安装目录
-setenv cmaq_build_path ${cmaq_build_path}
+setenv cmaq_build_path ${mcipBean.cmaq_build_path}
 #GEOGRID文件输出目录
-setenv geogrid_output_path ${geogrid_output_path}
+setenv geogrid_output_path ${mcipBean.geogrid_output_path}
 #WRF文件输出目录
-setenv wrf_output_path ${wrf_output_path}
+setenv wrf_output_path ${mcipBean.wrf_output_path}
 #MCIP文件输出目录/public/home/tsinghua/lixin/data/test/mcip/
-setenv mcip_output_path ${mcip_output_path}
+setenv mcip_output_path ${mcipBean.mcip_output_path}
 #坐标系名称,LAM_20_50_35_110
-setenv CoordName ${CoordName}
+setenv CoordName ${mcipBean.CoordName}
 #原点纬度,35
-setenv ref_lat ${ref_lat}
+setenv ref_lat ${mcipBean.ref_lat}
 #domain个数,3
-setenv max_dom ${max_dom}
+setenv max_dom ${mcipBean.max_dom}
 #各层domain的BTRIM数(0,1,2,3,4,5)
-setenv btrim    ${btrim}
+setenv btrim    ${mcipBean.btrim}
 #MCIP分层,"1.000,0.995,0.988,0.980,0.970,0.956,0.938,0.893,0.839,0.777,0.702,0.582,0.400,0.200,0.000"
-setenv CTMLAYS  "${CTMLAYS}"
+setenv CTMLAYS  "${mcipBean.CTMLAYS}"
 #是否为debug模式，0非，>0为debug
-setenv debug ${debug}
+setenv debug ${mcipBean.debug}

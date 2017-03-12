@@ -3,13 +3,16 @@ package com.makenv.model.mc.server.message.task;
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.core.constant.Constant;
 import com.makenv.model.mc.core.util.FileUtil;
+import com.makenv.model.mc.core.util.JacksonUtil;
 import com.makenv.model.mc.core.util.LocalTimeUtil;
 import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
+import com.makenv.model.mc.server.message.pojo.TaskDomain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 
 /**
@@ -24,7 +27,7 @@ public abstract class ModelTask implements IModelTask {
   protected final static int RUN_TYPE_REINIT = 2;
 
   protected int startHour;
-  protected int localStartHour;
+  protected int timeDiff;
   protected String metgridTemplate;
   protected String wrfTemplate;
   protected String scriptPath;
@@ -33,7 +36,9 @@ public abstract class ModelTask implements IModelTask {
   private String modelRunFile;
   private String modelRunDir;
   protected String cmaqBuildPath;
+  private String domainInfoFile;
   protected LocalDate startDate, endDate;
+  protected int debugLevel;
 
   private Logger logger = LoggerFactory.getLogger(ModelTask.class);
 
@@ -67,10 +72,16 @@ public abstract class ModelTask implements IModelTask {
     return new File(modelRunFile);
   }
 
+  protected TaskDomain getTaskDomain() throws IOException {
+    return JacksonUtil.readFromJsonFile(domainInfoFile, TaskDomain.class);
+  }
+
   protected String processPath(String path) {
     return path.replace("{userid}", modelStartBean.getUserid()).
         replace("{domainid}", modelStartBean.getDomainid()).
-        replace("{globaldatasets}", modelStartBean.getCommon().getDatatype());
+        replace("{globaldatasets}", modelStartBean.getCommon().getDatatype()).
+        replace("{scenarioid}", modelStartBean.getScenarioid()).
+        replace("{missionid}", modelStartBean.getMissionid());
   }
 
   public void setNextTask(IModelTask nextTask) {
@@ -83,7 +94,7 @@ public abstract class ModelTask implements IModelTask {
 
   private void init() {
     startHour = configManager.getSystemConfig().getModel().getStart_hour();
-    localStartHour = configManager.getSystemConfig().getModel().getLocal_start_hour();
+    timeDiff = configManager.getSystemConfig().getModel().getTime_difference();
     String templateDir = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getTemplate().getDirPath());
     metgridTemplate = String.format("%s%s%s", templateDir, File.separator, Constant.NAMELIST_WPS_METGRID_TEMPLATE);
     wrfTemplate = String.format("%s%s%s", templateDir, File.separator, Constant.NAMELIST_WPS_METGRID_TEMPLATE);
@@ -91,10 +102,13 @@ public abstract class ModelTask implements IModelTask {
     wrfBuildPath = configManager.getSystemConfig().getRoot().getWrf();
     geogridOutputPath = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGeogrid().getDirPath());
     modelRunDir = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getModelRunPath());
-    modelRunDir = String.format("%s%s%s", modelRunDir, File.separator, modelStartBean.getScenarioid());
+    modelRunDir = String.format("%s%s%s/%s", modelRunDir, File.separator, modelStartBean.getScenarioid(), modelStartBean.getCommon().getTime().getStart());
     FileUtil.checkAndMkdir(modelRunDir);
     modelRunFile = String.format("%s%s%s", modelRunDir, File.separator, Constant.MODEL_SCRIPT_FILE);
     cmaqBuildPath = configManager.getSystemConfig().getRoot().getCmaq();
+    debugLevel = configManager.getSystemConfig().getModel().getDebug_level();
+    domainInfoFile = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getDirPath();
+    domainInfoFile = processPath(domainInfoFile);
   }
 
   protected abstract boolean beforeHandle();
