@@ -9,10 +9,19 @@ public class Emis {
 
   private String calctype;
   private String actionlist;
-  private List<String> model;
-  private Cmaq cmaq;
-  private Megan megan;
+//  private List<String> model;
+//  private Cmaq cmaq;
+//  private Megan megan;
   private String sourceid;
+  private String meiccityconfig;
+
+  public String getMeiccityconfig() {
+    return meiccityconfig;
+  }
+
+  public void setMeiccityconfig(String meiccityconfig) {
+    this.meiccityconfig = meiccityconfig;
+  }
 
   public String getSourceid() {
     return sourceid;
@@ -20,14 +29,6 @@ public class Emis {
 
   public void setSourceid(String sourceid) {
     this.sourceid = sourceid;
-  }
-
-  public Megan getMegan() {
-    return megan;
-  }
-
-  public void setMegan(Megan megan) {
-    this.megan = megan;
   }
 
 
@@ -47,21 +48,5 @@ public class Emis {
     this.calctype = calctype;
   }
 
-
-  public List<String> getModel() {
-    return model;
-  }
-
-  public void setModel(List<String> model) {
-    this.model = model;
-  }
-
-  public Cmaq getCmaq() {
-    return cmaq;
-  }
-
-  public void setCmaq(Cmaq cmaq) {
-    this.cmaq = cmaq;
-  }
 
 }

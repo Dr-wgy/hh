@@ -3,36 +3,36 @@
   "time": "2017-02-01 12:00:12",
   "type": "model.start",
   "body": {
-    "userid": "用户ID",
+    "userid": "123",
     "domainid": "1",
-    "missionid": "任务ID",
-    "scenarioid": "情景ID",
-    "tasks": ["wrf", "mcip", "megan", "meic", "cmaq"], //注意顺序
-    "cores": "计算核数",
+    "missionid": "1",
+    "scenarioid": "1",
+    "tasks": ["wrf", "mcip", "megan", "meic", "cmaq"],
+    "cores": 12,
     "common": {
       "initial": true,
-      "datatype": "gfs",//气象数据类型，fnl, gfs
-      "simtype":"base",//模拟类型base or scenario
-      "time": { //模拟开始和结束时间
+      "datatype": "gfs",
+      "simtype":"base",
+      "time": { 
         "start": "20170201",
         "end": "20170201"
       },
-      "pathdate":"20170201" //起报时间
+      "pathdate":"20170201" 
     },
     "emis": {
-      "sourceid": "生成网格排放所需要的清单ID",
-      "calctype": "cache",//计算方式，cache或者server
-      "actionlist": "排放系数路径",
+      "sourceid": "1",
+      "calctype": "cache",
+      "actionlist": "/path/actionlist",
       "meiccityconfig": "/work/b/lixin_meic/hebei/meic-city.conf"
     },
     "wrf": {
       "spinup": 2,
-      "lastfnl": "20170201" //ungrib成功的最新一天，世界时间
+      "lastfnl": "20170201" 
     },
     "cmaq": {
       "spinup": 2,
-      "ic":{//ic 为空代表initial
-        "scenarioid":"123",
+      "ic":{
+        "scenarioid":"1",
         "date":"20170201"
       }
     }

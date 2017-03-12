@@ -50,8 +50,8 @@ public class LocalTimeUtil {
   }
 
   public static String ldToUcTime(String ltDate, int startHour) {
-    LocalDateTime time = parseTime(ltDate, YMD_DATE_FORMAT);
-    ZonedDateTime utcZoned = time.atZone(ZoneId.of("UTC"));
+    LocalDate date = parse(ltDate, YMD_DATE_FORMAT);
+    ZonedDateTime utcZoned = date.atStartOfDay().atZone(ZoneId.of("UTC"));
     return format(utcZoned.toLocalDate(), YMD_DATE_FORMAT) + String.format("%02d", startHour);
   }
 }
