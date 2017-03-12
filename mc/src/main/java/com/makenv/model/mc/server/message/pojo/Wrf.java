@@ -7,6 +7,15 @@ public class Wrf {
 
   private int spinup;
   private String lastfnl;
+  private boolean initial;
+
+  public boolean isInitial() {
+    return initial;
+  }
+
+  public void setInitial(boolean initial) {
+    this.initial = initial;
+  }
 
   public String getLastfnl() {
     return lastfnl;

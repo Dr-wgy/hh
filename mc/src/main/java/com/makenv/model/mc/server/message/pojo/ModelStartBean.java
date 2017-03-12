@@ -93,6 +93,15 @@ public class ModelStartBean {
   public static class Cmaq {
     private int spinup;
     private Ic ic;
+    private boolean initial;
+
+    public boolean isInitial() {
+      return initial;
+    }
+
+    public void setInitial(boolean initial) {
+      this.initial = initial;
+    }
 
     public Ic getIc() {
       return ic;
