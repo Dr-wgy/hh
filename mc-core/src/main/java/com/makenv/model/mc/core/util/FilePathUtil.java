@@ -16,14 +16,10 @@ public class FilePathUtil {
 
         if(DELIMITER.equals(delimiter)) {
 
-            delimiter = DELIMITER;
-
             return String.join(DELIMITER,args);
-        }
+        } else {
 
-        else {
-
-            List<String> list = new ArrayList();
+            List<String> list = new ArrayList<>();
 
             list.add(delimiter);
 

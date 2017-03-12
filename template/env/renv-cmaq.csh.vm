@@ -6,6 +6,8 @@ setenv time_difference ${time_difference}
 setenv run_days ${run_days}
 #CMAQ版本,CMAQv5.0.1
 setenv cmaq_version ${cmaq_version}
+#全球数据集
+setenv global ${global}
 #模式驱动脚本目录,/public/home/tsinghua/lixin/my_code/git/model-driver/
 setenv scripts_path ${scripts_path}
 #CMAQ安装目录
@@ -14,8 +16,10 @@ setenv cmaq_build_path ${cmaq_build_path}
 setenv GRIDDESC_path ${griddesc_path}
 #MCIP文件输出目录
 setenv mcip_output_path ${mcip_output_path}
+#ocean文件输出目录,/public/home/tsinghua/lixin/data/test/ocean/
+setenv ocean_output_path ${ocean_output_path}
 #MEIC文件输出目录
-setenv meic_output_path ${meic_output_path}
+setenv emis_output_path ${emis_output_path}
 #BCON文件输出目录
 setenv bcon_output_path ${bcon_output_path}
 #基础情景CMAQ文件输出目录

@@ -75,8 +75,9 @@ public class McipTask extends AbstractCmaqTask {
     //TODO
     TaskDomain domain = getTaskDomain();
 //    mcipBean.setCoordName(domain.getMcip().getCtmlays());
-//    mcipBean.setRef_lat();
-//    mcipBean.setMax_dom();
+//    mcipBean.setCmaq_version();
+    mcipBean.setRef_lat(domain.getCommon().getRef_lat() + "");
+    mcipBean.setMax_dom(domain.getCommon().getMax_dom());
 //    mcipBean.setBtrim();
     mcipBean.setCTMLAYS(domain.getMcip().getCtmlays());
     mcipBean.setDebug(debugLevel);

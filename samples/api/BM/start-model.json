@@ -31,7 +31,7 @@
     },
     "cmaq": {
       "spinup": 2,
-      "ic":{//ic 为空代表initial
+      "ic":{
         "scenarioid":"123",
         "date":"20170201"
       }

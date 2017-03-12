@@ -30,6 +30,7 @@
       "lastfnl": "20170201" 
     },
     "cmaq": {
+      "version": "CMAQv5.0.1",
       "spinup": 2,
       "ic":{
         "scenarioid":"1",

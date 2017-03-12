@@ -51,7 +51,9 @@ public class LocalTimeUtil {
 
   public static String ldToUcTime(String ltDate, int startHour) {
     LocalDate date = parse(ltDate, YMD_DATE_FORMAT);
-    ZonedDateTime utcZoned = date.atStartOfDay().atZone(ZoneId.of("UTC"));
+    LocalDateTime time = date.atStartOfDay();
+    ZonedDateTime utcZoned = ZonedDateTime.of(time, ZoneId.of("UTC") );
+//    ZonedDateTime utcZoned = time.atZone(ZoneId.of("UTC"));
     return format(utcZoned.toLocalDate(), YMD_DATE_FORMAT) + String.format("%02d", startHour);
   }
 }
