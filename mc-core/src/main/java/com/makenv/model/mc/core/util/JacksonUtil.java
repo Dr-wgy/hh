@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.type.ArrayType;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
@@ -78,6 +79,15 @@ public class JacksonUtil {
     mapper.enable(CsvParser.Feature.WRAP_AS_ARRAY);
     MappingIterator<T> it = mapper.readerFor(tClass).readValues(content);
     return it.readAll();
+  }
+
+  public static <T> T readFromJsonFile(String file, Class<?> objClass) throws IOException {
+    File dataFile = new File(file);
+    if (!dataFile.exists()) {
+      return null;
+    }
+    ArrayType type = JSON_MAPPER.getTypeFactory().constructArrayType(objClass);
+    return JSON_MAPPER.readValue(dataFile, type);
   }
 
   public static <T> T readFromJsonFile(String file, Class<? extends Collection> collectionClass, Class<?> elementClass) throws IOException {

@@ -17,4 +17,5 @@ public class McUtil {
     LocalDate _compDate = LocalDate.parse(compDate);
     return needReInitial(_baseDate, _compDate, reInitialDays);
   }
+
 }

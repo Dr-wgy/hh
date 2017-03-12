@@ -7,6 +7,7 @@ import com.makenv.model.mc.core.util.LocalTimeUtil;
 import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
+import com.makenv.model.mc.server.message.pojo.TaskDomain;
 import com.makenv.model.mc.server.message.task.bean.McipBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +61,7 @@ public class McipTask extends AbstractCmaqTask {
     return true;
   }
 
-  private void createMcipBean() {
+  private void createMcipBean() throws IOException {
     mcipBean.setStart_date(LocalTimeUtil.format(startDate, LocalTimeUtil.YMD_DATE_FORMAT));
     mcipBean.setWrf_start_hour(startHour);
     mcipBean.setTime_difference(timeDiff);
@@ -72,11 +73,12 @@ public class McipTask extends AbstractCmaqTask {
     mcipBean.setWrf_output_path(wrfPath);
     mcipBean.setMcip_output_path(dataDir);
     //TODO
-//    mcipBean.setCoordName();
+    TaskDomain domain = getTaskDomain();
+//    mcipBean.setCoordName(domain.getMcip().getCtmlays());
 //    mcipBean.setRef_lat();
 //    mcipBean.setMax_dom();
 //    mcipBean.setBtrim();
-//    mcipBean.setCTMLAYS();
+    mcipBean.setCTMLAYS(domain.getMcip().getCtmlays());
     mcipBean.setDebug(debugLevel);
   }
 
@@ -114,7 +116,12 @@ public class McipTask extends AbstractCmaqTask {
 
   @Override
   protected boolean doHandle() {
-    createMcipBean();
+    try {
+      createMcipBean();
+    } catch (IOException e) {
+      logger.error("", e);
+      return false;
+    }
     return buildRenv() && buildCsh();
   }
 }

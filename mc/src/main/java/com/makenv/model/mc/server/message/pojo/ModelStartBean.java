@@ -11,7 +11,7 @@ public class ModelStartBean {
   private String domainid;
   private String[] tasks;
   private int cores;// 计算核数
-  private TaskDomain domain; // 模式domain的具体参数
+  //  private TaskDomain domain; // 模式domain的具体参数
   private ModelCommonParams common; //公共内容
   private Emis emis;
   private Wrf wrf;
@@ -88,14 +88,6 @@ public class ModelStartBean {
 
   public void setScenarioid(String scenarioid) {
     this.scenarioid = scenarioid;
-  }
-
-  public TaskDomain getDomain() {
-    return domain;
-  }
-
-  public void setDomain(TaskDomain domain) {
-    this.domain = domain;
   }
 
   public static class Cmaq {
