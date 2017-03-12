@@ -122,6 +122,15 @@ public class ModelStartBean {
     public static class Ic {
       private String scenarioid;
       private String date;
+      private String missionid;
+
+      public String getMissionid() {
+        return missionid;
+      }
+
+      public void setMissionid(String missionid) {
+        this.missionid = missionid;
+      }
 
       public String getScenarioid() {
         return scenarioid;
