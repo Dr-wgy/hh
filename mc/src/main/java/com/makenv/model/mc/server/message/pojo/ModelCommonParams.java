@@ -9,7 +9,6 @@ public class ModelCommonParams {
   @JsonProperty("datatype")
   private String datatype;//情景类型
   private TimeDate time;
-  private boolean initial;
   private String pathdate;
   private String simtype;
 
@@ -19,14 +18,6 @@ public class ModelCommonParams {
 
   public void setSimtype(String simtype) {
     this.simtype = simtype;
-  }
-
-  public boolean isInitial() {
-    return initial;
-  }
-
-  public void setInitial(boolean initial) {
-    this.initial = initial;
   }
 
   public String getDatatype() {
