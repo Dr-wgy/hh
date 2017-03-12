@@ -1,6 +1,6 @@
 #!/bin/csh
 
-cat > meicd0${domain}_${meic_type}.conf << EOF
+cat > meicd0${meic.currdom}_${meic_type}.conf << EOF
 
 username:linxin
 password:linxin
@@ -8,7 +8,7 @@ password:linxin
 meicCityConfig: ${meic_city_path}
 controlfile:/home/zhangchenchen/conf/cf.csv
 #
-caseid: ${name}_d0${domaon}
+caseid: ${}
 
 #
 domain:[

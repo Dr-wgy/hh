@@ -1,6 +1,6 @@
 #!/bin/csh
 
-cat > meicd0${domain}_${meic_type}.conf << EOF
+cat > meicd0${meic.currdom}_${meic.meicType}.conf << EOF
 
 include file("this/etc/__task.conf")
 
@@ -11,19 +11,20 @@ common {
 common.snip.psmeasures.action: ${pslist}
 common.snip.ssmeasures.action: ${sslist}
 builder.start: 2017-01-26
-builder.end: 2017-01status-26
-emission.megan.megan.valuepath: "/public/home/tsinghua/curr/input/megandata/MEGANv2.10.China09.CB05.2016<p.dayOfYear>.ncf|||<p.speciesname>|||<p.hour>,0,:,:"
+builder.end: 2017-01-26
+emission.megan.megan.valuepath: "ls
+/public/home/tsinghua/curr/input/megandata/MEGANv2.10.China09.CB05.2016<p.dayOfYear>.ncf|||<p.speciesname>|||<p.hour>,0,:,:"
 emission.megan.shutdown: false
 emission.megan.grid: {
-  "dx" : ${dx},
-  "dy" : ${dy},
-  "name" : "${name}",
-  "params" : "+proj=lcc +lat_1=${stand_lat1} +lat_2=${stand_lat2} +lat_0=${ref_lat} +lon_0=${ref_lat} +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs",
-  "xcells" : ${xcells},
-  "xorig" : ${xorig},
+  "dx" : ${meic.dx},
+  "dy" : ${meic.dy},
+  "name" : "${meic.name}",
+  "params" : "+proj=lcc +lat_1=${meic.stand_lat1} +lat_2=${meic.stand_lat2} +lat_0=${meic.ref_lat} +lon_0=${meic.ref_lon} +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs",
+  "xcells" : ${meic.xcells},
+  "xorig" : ${meic.xorig},
   "xpad" : 0,
-  "ycells" : ${ycells},
-  "yorig" : ${yorig},
+  "ycells" : ${meic.ycells},
+  "yorig" : ${meic.yorig},
   "ypad" : 0
 }
 

@@ -1,5 +1,7 @@
 package com.makenv.model.mc.server.message.pojo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by wgy on 2017/2/23.
  */
@@ -22,6 +24,9 @@ public class CommonParams {
     private String dx;//x向分辨率（单位m）
 
     private String dy;//y向分辨率（单位m）
+
+    @JsonProperty("Coord_Name")
+    private String coord_Name;
 
     public String getMap_proj() {
         return map_proj;
@@ -93,6 +98,14 @@ public class CommonParams {
 
     public void setDy(String dy) {
         this.dy = dy;
+    }
+
+    public String getCoord_Name() {
+        return coord_Name;
+    }
+
+    public void setCoord_Name(String coord_Name) {
+        this.coord_Name = coord_Name;
     }
 
 

@@ -98,25 +98,6 @@ public class GriddescBean {
     }
 
     public String getGridName() {
-
-        String gridNameTemPlate = "%s_%d%s%d%s";
-
-        if("lambert".equals(map_proj)) {
-            String lat;
-            String lon;
-            if(ref_lat > 0) lat = "N";
-            else lat = "S";
-            if(ref_lon > 0) lon = "E";
-            else lon = "W";
-            gridName = String.format(gridNameTemPlate,"LAM",(int)ref_lat,lat,(int) ref_lon,lon);
-        }
-
-        else {
-
-            throw  new RuntimeException("参数异常请检查");
-        }
-
-
         return gridName;
     }
 
@@ -190,6 +171,24 @@ public class GriddescBean {
 
 
     public String getCoordName() {
+
+      /*  String gridNameTemPlate = "%s_%d%s%d%s";
+
+        if("lambert".equals(map_proj)) {
+            String lat;
+            String lon;
+            if(ref_lat > 0) lat = "N";
+            else lat = "S";
+            if(ref_lon > 0) lon = "E";
+            else lon = "W";
+            coordName = String.format(gridNameTemPlate,"LAM",(int)ref_lat,lat,(int) ref_lon,lon);
+        }
+
+        else {
+
+            throw  new RuntimeException("参数异常请检查");
+        }*/
+
         return coordName;
     }
 
