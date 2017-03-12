@@ -4,6 +4,8 @@ setenv start_date ${mcipBean.start_date}
 setenv run_days ${mcipBean.run_days}
 #时差
 setenv time_difference ${mcipBean.time_difference}
+#CMAQ版本,CMAQv5.0.1
+setenv cmaq_version ${cmaq_version}
 #wrf开始时间
 setenv wrf_start_hour ${mcipBean.wrf_start_hour}
 #全球数据集

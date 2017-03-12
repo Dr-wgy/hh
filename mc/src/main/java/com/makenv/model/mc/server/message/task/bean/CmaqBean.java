@@ -8,17 +8,43 @@ public class CmaqBean {
   private int time_difference;
   private int run_days;
   private String cmaq_version;
+  private String global;
   private String scripts_path;
   private String cmaq_build_path;
   private String GRIDDESC_path;
   private String mcip_output_path;
-  private String meic_output_path;
+  private String ocean_output_path;
+  private String emis_output_path;
   private String bcon_output_path;
   private String base_cmaq_output_path;
   private String cmaq_output_path;
   private int max_dom;
   private int run_type;
   private int debug;
+
+  public String getGlobal() {
+    return global;
+  }
+
+  public void setGlobal(String global) {
+    this.global = global;
+  }
+
+  public String getOcean_output_path() {
+    return ocean_output_path;
+  }
+
+  public void setOcean_output_path(String ocean_output_path) {
+    this.ocean_output_path = ocean_output_path;
+  }
+
+  public String getEmis_output_path() {
+    return emis_output_path;
+  }
+
+  public void setEmis_output_path(String emis_output_path) {
+    this.emis_output_path = emis_output_path;
+  }
 
   public String getStart_date() {
     return start_date;
@@ -82,14 +108,6 @@ public class CmaqBean {
 
   public void setMcip_output_path(String mcip_output_path) {
     this.mcip_output_path = mcip_output_path;
-  }
-
-  public String getMeic_output_path() {
-    return meic_output_path;
-  }
-
-  public void setMeic_output_path(String meic_output_path) {
-    this.meic_output_path = meic_output_path;
   }
 
   public String getBcon_output_path() {

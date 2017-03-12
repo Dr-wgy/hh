@@ -2,6 +2,7 @@ package com.makenv.model.mc.server.message.task;
 
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.core.constant.Constant;
+import com.makenv.model.mc.core.util.FilePathUtil;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.JacksonUtil;
 import com.makenv.model.mc.core.util.LocalTimeUtil;
@@ -109,6 +110,7 @@ public abstract class ModelTask implements IModelTask {
     debugLevel = configManager.getSystemConfig().getModel().getDebug_level();
     domainInfoFile = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getDirPath();
     domainInfoFile = processPath(domainInfoFile);
+    domainInfoFile= FilePathUtil.joinByDelimiter(domainInfoFile,Constant.DOMAIN_JSON);
   }
 
   protected abstract boolean beforeHandle();
