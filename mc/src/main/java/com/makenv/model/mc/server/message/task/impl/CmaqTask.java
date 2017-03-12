@@ -7,6 +7,7 @@ import com.makenv.model.mc.core.util.LocalTimeUtil;
 import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
+import com.makenv.model.mc.server.message.pojo.TaskDomain;
 import com.makenv.model.mc.server.message.task.bean.CmaqBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,22 +65,27 @@ public class CmaqTask extends AbstractCmaqTask {
     return true;
   }
 
-  private void createCmaqBean() {
+  private void createCmaqBean() throws IOException {
     cmaqBean = new CmaqBean();
     cmaqBean.setDebug(debugLevel);
     cmaqBean.setStart_date(LocalTimeUtil.format(startDate, LocalTimeUtil.YMD_DATE_FORMAT));
     cmaqBean.setTime_difference(timeDiff);
     cmaqBean.setRun_days((int) LocalTimeUtil.between(startDate, endDate));
+    TaskDomain taskDomain = getTaskDomain();
 //    cmaqBean.setCmaq_version();TODO
     cmaqBean.setScripts_path(scriptPath);
     cmaqBean.setCmaq_build_path(cmaqBuildPath);
     cmaqBean.setGRIDDESC_path(griddescDataDir);
     cmaqBean.setMcip_output_path(cmipOutPath);
-    cmaqBean.setMeic_output_path(meicDataDir);
+    cmaqBean.setEmis_output_path(meicDataDir);
+    cmaqBean.setGlobal(modelStartBean.getCommon().getDatatype());
+    String oceanPath = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getOcean().getDirPath();
+    oceanPath = processPath(oceanPath);
+    cmaqBean.setOcean_output_path(oceanPath);
     cmaqBean.setBcon_output_path(bconDataDir);
     cmaqBean.setBase_cmaq_output_path(cctmDataDir);
     cmaqBean.setCmaq_output_path(baseCctmDataDir);
-//    cmaqBean.setMax_dom(); TODO
+    cmaqBean.setMax_dom(taskDomain.getCommon().getMax_dom());
     ModelStartBean.Cmaq.Ic ic = modelStartBean.getCmaq().getIc();
     cmaqBean.setRun_type(ic == null ? RUN_TYPE_INIT : RUN_TYPE_RESTART);
   }
@@ -122,7 +128,12 @@ public class CmaqTask extends AbstractCmaqTask {
 
   @Override
   protected boolean doHandle() {
-    createCmaqBean();
+    try {
+      createCmaqBean();
+    } catch (IOException e) {
+      logger.error("", e);
+      return false;
+    }
     return buildRenv() && buildCsh();
   }
 }

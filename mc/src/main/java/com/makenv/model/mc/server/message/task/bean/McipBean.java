@@ -16,10 +16,19 @@ public class McipBean {
   private String mcip_output_path;
   private String CoordName;
   private String ref_lat;
-  private String max_dom;
+  private int max_dom;
   private String btrim;
   private String CTMLAYS;
   private int debug;
+  private String cmaq_version;
+
+  public String getCmaq_version() {
+    return cmaq_version;
+  }
+
+  public void setCmaq_version(String cmaq_version) {
+    this.cmaq_version = cmaq_version;
+  }
 
   public String getStart_date() {
     return start_date;
@@ -117,11 +126,11 @@ public class McipBean {
     this.ref_lat = ref_lat;
   }
 
-  public String getMax_dom() {
+  public int getMax_dom() {
     return max_dom;
   }
 
-  public void setMax_dom(String max_dom) {
+  public void setMax_dom(int max_dom) {
     this.max_dom = max_dom;
   }
 
