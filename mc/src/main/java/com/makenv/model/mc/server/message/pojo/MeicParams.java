@@ -4,15 +4,15 @@ package com.makenv.model.mc.server.message.pojo;
  * Created by alei on 2017/3/12.
  */
 public class MeicParams {
-  private Meagen meagen;
+  private Meagen megan;
   private ForModel model;
 
-  public Meagen getMeagen() {
-    return meagen;
+  public Meagen getMegan() {
+    return megan;
   }
 
-  public void setMeagen(Meagen meagen) {
-    this.meagen = meagen;
+  public void setMegan(Meagen megan) {
+    this.megan = megan;
   }
 
   public ForModel getModel() {

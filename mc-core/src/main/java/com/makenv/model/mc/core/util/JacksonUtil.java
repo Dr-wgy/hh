@@ -81,15 +81,6 @@ public class JacksonUtil {
     return it.readAll();
   }
 
-  public static <T> T readFromJsonFile(String file, Class<?> objClass) throws IOException {
-    File dataFile = new File(file);
-    if (!dataFile.exists()) {
-      return null;
-    }
-    ArrayType type = JSON_MAPPER.getTypeFactory().constructArrayType(objClass);
-    return JSON_MAPPER.readValue(dataFile, type);
-  }
-
   public static <T> T readFromJsonFile(String file, Class<? extends Collection> collectionClass, Class<?> elementClass) throws IOException {
     File dataFile = new File(file);
     if (!dataFile.exists()) {

@@ -5,107 +5,104 @@ package com.makenv.model.mc.core.config;
  */
 public class ScenarionRunDir {
 
-    public String getDirPath() {
-        return dirPath;
-    }
+  private String dirPath;
+  private ScenarionRunCctm cctm;
+  private ScenarionRunEmis emis;
+  private ScenarionRundp dp;
+  private ScenarionRunvideo video;
 
-    public void setDirPath(String dirPath) {
-        this.dirPath = dirPath;
-    }
+  public String getDirPath() {
+    return dirPath;
+  }
 
-    public ScenarionRunCctm getCctm() {
-        return cctm;
-    }
+  public void setDirPath(String dirPath) {
+    this.dirPath = dirPath;
+  }
 
-    public void setCctm(ScenarionRunCctm cctm) {
-        this.cctm = cctm;
-    }
+  public ScenarionRunCctm getCctm() {
+    return cctm;
+  }
 
-    public ScenarionRunCctmPre getCctmpre() {
-        return cctmpre;
-    }
+  public void setCctm(ScenarionRunCctm cctm) {
+    this.cctm = cctm;
+  }
 
-    public void setCctmpre(ScenarionRunCctmPre cctmpre) {
-        this.cctmpre = cctmpre;
-    }
+  public ScenarionRunEmis getEmis() {
+    return emis;
+  }
 
-    public ScenarionRundp getDp() {
-        return dp;
-    }
+  public void setEmis(ScenarionRunEmis emis) {
+    this.emis = emis;
+  }
 
-    public void setDp(ScenarionRundp dp) {
-        this.dp = dp;
-    }
+  public ScenarionRundp getDp() {
+    return dp;
+  }
 
-    public ScenarionRunvideo getVideo() {
-        return video;
-    }
+  public void setDp(ScenarionRundp dp) {
+    this.dp = dp;
+  }
 
-    public void setVideo(ScenarionRunvideo video) {
-        this.video = video;
-    }
+  public ScenarionRunvideo getVideo() {
+    return video;
+  }
+
+  public void setVideo(ScenarionRunvideo video) {
+    this.video = video;
+  }
+
+  public static class ScenarionRunCctm {
 
     private String dirPath;
 
-    private ScenarionRunCctm cctm;
-
-    private ScenarionRunCctmPre cctmpre;
-
-    private ScenarionRundp dp;
-
-    private ScenarionRunvideo video;
-
-    public static class ScenarionRunCctm{
-
-        private String dirPath;
-
-        public String getDirPath() {
-            return dirPath;
-        }
-
-        public void setDirPath(String dirPath) {
-            this.dirPath = dirPath;
-        }
+    public String getDirPath() {
+      return dirPath;
     }
 
-    public static class ScenarionRunCctmPre{
+    public void setDirPath(String dirPath) {
+      this.dirPath = dirPath;
+    }
+  }
 
-        private String dirPath;
+  public static class ScenarionRunEmis {
 
-        public String getDirPath() {
-            return dirPath;
-        }
+    private String dirPath;
 
-        public void setDirPath(String dirPath) {
-            this.dirPath = dirPath;
-        }
-
+    public String getDirPath() {
+      return dirPath;
     }
 
-    public static class ScenarionRundp{
-
-        private String dirPath;
-
-        public String getDirPath() {
-            return dirPath;
-        }
-
-        public void setDirPath(String dirPath) {
-            this.dirPath = dirPath;
-        }
-
+    public void setDirPath(String dirPath) {
+      this.dirPath = dirPath;
     }
-    public static class ScenarionRunvideo{
 
-        private String dirPath;
+  }
 
-        public String getDirPath() {
-            return dirPath;
-        }
+  public static class ScenarionRundp {
 
-        public void setDirPath(String dirPath) {
-            this.dirPath = dirPath;
-        }
+    private String dirPath;
+
+    public String getDirPath() {
+      return dirPath;
     }
+
+    public void setDirPath(String dirPath) {
+      this.dirPath = dirPath;
+    }
+
+  }
+
+  public static class ScenarionRunvideo {
+
+    private String dirPath;
+
+    public String getDirPath() {
+      return dirPath;
+    }
+
+    public void setDirPath(String dirPath) {
+      this.dirPath = dirPath;
+    }
+  }
 
 }

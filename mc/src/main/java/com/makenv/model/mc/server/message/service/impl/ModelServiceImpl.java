@@ -81,10 +81,16 @@ public class ModelServiceImpl implements ModelService {
     }
     String errLog = String.format("%s%s%s", firstTask.getModelRunDir(), File.separator, Constant.TORQUE_LOG_ERROR);
     String infoLog = String.format("%s%s%s", firstTask.getModelRunDir(), File.separator, Constant.TORQUE_LOG_INFO);
-    String cmd = String.format(mcConfigManager.getSystemConfig().getPbs().getQsub(),
-        firstTask.getModelRunFilePath(), 1, 1, infoLog, errLog, firstTask.getModelRunFilePath());
+    String qsubname = String.format("m%s-%s", modelStartBean.getUserid(), modelStartBean.getScenarioid());
+    String cmd = String.format(mcConfigManager.getSystemConfig().getPbs().getQsub(), 1, 24, qsubname,
+        infoLog, errLog, firstTask.getModelRunFilePath());
     logger.info(cmd);
-//    Runtime.getRuntime().exec(String.format("",wwww));
+    try {
+      Runtime.getRuntime().exec(cmd);
+    } catch (IOException e) {
+      logger.error("", e);
+      return false;
+    }
     return true;
   }
 
@@ -105,12 +111,14 @@ public class ModelServiceImpl implements ModelService {
     boolean succShellRunFlag = createDomainHelper.executeShell(domainCreateBean);
 
     //将domain信息生成到制定目录中
-    String dirPath =  mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getDirPath();
-    dirPath.replaceAll("\\{userid\\}",domainCreateBean.getUserid()).replaceAll("\\{domainid\\}",domainCreateBean.getDomainid());
+    String dirPath = mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getDirPath();
+    dirPath = dirPath.replaceAll("\\{userid\\}", domainCreateBean.getUserid()).replaceAll("\\{domainid\\}", domainCreateBean.getDomainid());
+    FileUtil.checkAndMkdir(dirPath);
     try {
-      FileUtil.writeLocalFile(new File(FilePathUtil.joinByDelimiter(dirPath,Constant.DOMAIN_JSON)), JacksonUtil.objToJson(domainCreateBean.getDomain()));
+      FileUtil.writeLocalFile(new File(FilePathUtil.joinByDelimiter(dirPath, Constant.DOMAIN_JSON)), JacksonUtil.objToJson(domainCreateBean.getDomain()));
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.error("", e);
+      return false;
     }
     return flag && nameListFlag && succShellRunFlag;
   }

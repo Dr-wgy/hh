@@ -22,6 +22,11 @@
       <artifactId>mc-redis</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>com.makenv.model.mc</groupId>
+      <artifactId>mc</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
 </project>

@@ -17,7 +17,7 @@ public class McipBean {
   private String CoordName;
   private String ref_lat;
   private int max_dom;
-  private String btrim;
+  private int btrim;
   private String CTMLAYS;
   private int debug;
   private String cmaq_version;
@@ -134,11 +134,11 @@ public class McipBean {
     this.max_dom = max_dom;
   }
 
-  public String getBtrim() {
+  public int getBtrim() {
     return btrim;
   }
 
-  public void setBtrim(String btrim) {
+  public void setBtrim(int btrim) {
     this.btrim = btrim;
   }
 

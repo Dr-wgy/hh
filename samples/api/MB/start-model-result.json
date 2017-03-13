@@ -10,6 +10,7 @@
     "tasks": [
       {
         "type": "wrf",//prepare,wrf,mcip,megan,meic,cmaq
+        "date": "20170101",
         "code": 0//0,成功  非0,失败
       }
     ]

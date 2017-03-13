@@ -9,7 +9,7 @@ cat > namelist.ipxwrf << EOF
   do_msoil            = ${do_msoil}
   do_tsoil            = ${do_tsoil}
   do_tsoildeep_from2m = ${do_tsoildeep_from2m}
-  avg_period_2m       = 1
+  avg_period_2m       = ${avg_period_2m}
  &END
 EOF
 

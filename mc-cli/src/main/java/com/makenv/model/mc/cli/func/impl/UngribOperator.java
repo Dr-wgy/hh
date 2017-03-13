@@ -144,7 +144,7 @@ public class UngribOperator extends AbstractOperator {
     return true;
   }
 
-  private Map<String, Object> createParams() {
+  private Map<String, Object> createParams() throws IOException {
     Map<String, Object> params = new HashMap<>();
     params.put("namelist_template", namelistFile);
     params.put("start_date", computeDate);
@@ -152,6 +152,7 @@ public class UngribOperator extends AbstractOperator {
     params.put("scripts_path", configManager.getSystemConfig().getRoot().getScript());
     params.put("wrf_build_path", configManager.getSystemConfig().getRoot().getWrf());
     params.put("debug", configManager.getSystemConfig().getModel().getDebug_level());
+    params.put("wrf_version", configManager.getSystemConfig().getModel().getWrf_version());
     return params;
   }
 
