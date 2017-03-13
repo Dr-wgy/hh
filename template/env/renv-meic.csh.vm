@@ -12,7 +12,7 @@ if( ${meic_type} == cache) then
 
     setenv meic_build_path ${meic_build_path}
 
-    setenv invoke_file ${invoke_file}
+    setenv logFile ${logFile}
 
 endif
 
