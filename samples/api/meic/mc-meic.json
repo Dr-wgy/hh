@@ -1,0 +1,15 @@
+{
+  "meicType":"",
+  "maxDom":3,
+  "confTemplateDir":"",
+  "logFile":"",
+  "startDate":"北京时间",
+  "runDays":8,
+  "timeDiff":8,
+  "emissiondir":"outputpath",
+  "emisFilePrefix":"",
+  "taskId":"",
+  "pslist":"",
+  "sslist":"",
+  "meganPathPrefix":""
+}

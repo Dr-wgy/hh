@@ -1,25 +1,4 @@
 #!/bin/csh -f
 
-#meic_type 是使用server还是cache
-setenv meic_type  ${meicType}
-
-setenv max_dom ${max_dom}
-#meic_conf所在的文件夹
-setenv conf_dir ${conf_dir}
-
-setenv meic_conf_path ${meic_conf_path}
-# .measure.jar 和 mc-meic.jar所在的路径
-setenv meic_build_path ${meic_build_path}
-
-
-if( ${meic_type} == cache) then
-    #model-diver所在目录
-    setenv scripts_path ${scripts_path}
-    #日志文件
-    setenv logFile ${logFile}
-
-endif
-
-if (${meic_type} == server)
-
-endif
+setenv jar_path  ${jar_path}
+setenv json_path ${json_path}

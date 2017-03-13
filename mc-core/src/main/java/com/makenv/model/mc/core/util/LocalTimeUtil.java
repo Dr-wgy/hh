@@ -53,9 +53,18 @@ public class LocalTimeUtil {
   public static String ldToUcTime(String ltDate, int startHour) {
     LocalDate date = parse(ltDate, YMD_DATE_FORMAT);
     LocalDateTime time = date.atStartOfDay();
-    ZonedDateTime.of(time,ZoneId.systemDefault());
-    ZonedDateTime cttZoned = ZonedDateTime.of(time, ZoneId.of("Asia/Shanghai") );
+//    ZonedDateTime.of(time,ZoneId.systemDefault());
+    ZonedDateTime cttZoned = ZonedDateTime.of(time, ZoneId.of("Asia/Shanghai"));
     ZonedDateTime utcZoned = cttZoned.withZoneSameInstant(ZoneOffset.UTC);
     return format(utcZoned.toLocalDate(), YMD_DATE_FORMAT) + String.format("%02d", startHour);
+  }
+
+  public static String zonTimeConvert(String dateStr, ZoneId src, ZoneId target) {
+    LocalDate date = parse(dateStr, YMD_DATE_FORMAT);
+    LocalDateTime time = date.atStartOfDay();
+    ZonedDateTime cttZoned = ZonedDateTime.of(time, src);
+    ZonedDateTime utcZoned = cttZoned.withZoneSameInstant(target);
+    return format(utcZoned.toLocalDate(), YMD_DATE_FORMAT);
+
   }
 }
