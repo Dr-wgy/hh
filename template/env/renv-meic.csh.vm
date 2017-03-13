@@ -45,6 +45,6 @@ else if (${meic_type} == server) then
 
     setenv outpath "${outpath}<p.year><p.dayOfYear>"
 
-    setenv megan_megan_valuepath "${megan_megan_valuepath}<p.dayOfYear>.ncf|||<p.speciesname>|||<p.hour>,0,:,:"
+    setenv valuepath "${valuepath}<p.dayOfYear>.ncf|||<p.speciesname>|||<p.hour>,0,:,:"
 
 endif
