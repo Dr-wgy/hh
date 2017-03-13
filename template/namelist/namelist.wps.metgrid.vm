@@ -2,18 +2,18 @@
 
 cat > namelist.wps.metgrid << EOF
 &share
- wrf_core = 'ARW',
- max_dom = ${max_dom},
- start_date = '${START_TIME}:00:00','${START_TIME}:00:00','${START_TIME}:00:00',
- end_date   = '${END_TIME}:00:00','${END_TIME}:00:00','${END_TIME}:00:00',
- interval_seconds = 21600
- opt_output_from_geogrid_path = '${geogrid_data_path}',
- io_form_geogrid = 2,
+wrf_core = 'ARW',
+max_dom = 3,
+start_date = '${START_TIME}:00:00','${START_TIME}:00:00','${START_TIME}:00:00',
+end_date   = '${END_TIME}:00:00','${END_TIME}:00:00','${END_TIME}:00:00',
+interval_seconds = 21600
+opt_output_from_geogrid_path = '${geogrid_output_path}',
+io_form_geogrid = 2,
 /
 
 &metgrid
- fg_name = '${FNL_ungrib_data_path}FILE',
- io_form_metgrid = 2,
- opt_output_from_metgrid_path  = '${FNL_metgrid_data_path}',
+fg_name = '${ungrib_file}',
+io_form_metgrid = 2,
+opt_output_from_metgrid_path  = '${metgrid_output_path}',
 /
 EOF

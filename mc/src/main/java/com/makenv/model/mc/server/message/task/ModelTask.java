@@ -74,7 +74,8 @@ public abstract class ModelTask implements IModelTask {
   }
 
   protected TaskDomain getTaskDomain() throws IOException {
-    return JacksonUtil.readFromJsonFile(domainInfoFile, TaskDomain.class);
+    String content = FileUtil.readLocalFile(new File(domainInfoFile));
+    return JacksonUtil.jsonToObj(content, TaskDomain.class);
   }
 
   protected String processPath(String path) {
@@ -110,7 +111,7 @@ public abstract class ModelTask implements IModelTask {
     debugLevel = configManager.getSystemConfig().getModel().getDebug_level();
     domainInfoFile = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getDirPath();
     domainInfoFile = processPath(domainInfoFile);
-    domainInfoFile= FilePathUtil.joinByDelimiter(domainInfoFile,Constant.DOMAIN_JSON);
+    domainInfoFile = FilePathUtil.joinByDelimiter(domainInfoFile, Constant.DOMAIN_JSON);
   }
 
   protected abstract boolean beforeHandle();

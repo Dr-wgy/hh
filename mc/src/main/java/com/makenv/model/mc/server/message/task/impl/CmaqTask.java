@@ -34,7 +34,15 @@ public class CmaqTask extends AbstractCmaqTask {
     runDir = processPath(base);
     runDir = String.format("%s%s%s", runDir, File.separator, System.currentTimeMillis());
     renvPath = String.format("%s%s%s", runDir, File.separator, Constant.MODEL_RENV_FILE);
-
+    ModelStartBean.Cmaq.Ic ic = modelStartBean.getCmaq().getIc();
+    if (ic != null) {
+      baseCctmDataDir = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getMissionid().getScenarioid().getData().getCctm().getDirPath();
+      baseCctmDataDir = baseCctmDataDir.replace("{userid}", modelStartBean.getUserid()).
+          replace("{domainid}", modelStartBean.getDomainid()).
+          replace("{globaldatasets}", modelStartBean.getCommon().getDatatype()).
+          replace("{scenarioid}", modelStartBean.getCmaq().getIc().getScenarioid()).
+          replace("{missionid}", modelStartBean.getCmaq().getIc().getMissionid());
+    }
     cctmDataDir = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getMissionid().getScenarioid().getData().getCctm().getDirPath();
     cctmDataDir = processPath(cctmDataDir);
     bconDataDir = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getMissionid().getScenarioid().getData().getBcon().getDirPath();
@@ -70,7 +78,7 @@ public class CmaqTask extends AbstractCmaqTask {
     cmaqBean.setDebug(debugLevel);
     cmaqBean.setStart_date(LocalTimeUtil.format(startDate, LocalTimeUtil.YMD_DATE_FORMAT));
     cmaqBean.setTime_difference(timeDiff);
-    cmaqBean.setRun_days((int) LocalTimeUtil.between(startDate, endDate));
+    cmaqBean.setRun_days((int) LocalTimeUtil.between(startDate, endDate) + 1);
     TaskDomain taskDomain = getTaskDomain();
     cmaqBean.setCmaq_version(taskDomain.getCmaq().getVersion());
     cmaqBean.setScripts_path(scriptPath);

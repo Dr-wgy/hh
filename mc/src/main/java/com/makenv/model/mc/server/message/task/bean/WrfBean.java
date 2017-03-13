@@ -17,10 +17,19 @@ public class WrfBean {
   private String ungrib_output_path;//#UNGRIB文件输出目录
   private String metgrid_output_path;//#METGRID文件输出目录
   private String wrf_output_path;//#WRF文件输出目录
-//  private String base_wrf_output_path;//#WRF文件输出目录
+  //  private String base_wrf_output_path;//#WRF文件输出目录
   private int run_type;
   private String global;
   private String ungrib_file;
+  private String wrf_version;
+
+  public String getWrf_version() {
+    return wrf_version;
+  }
+
+  public void setWrf_version(String wrf_version) {
+    this.wrf_version = wrf_version;
+  }
 
   public String getGlobal() {
     return global;

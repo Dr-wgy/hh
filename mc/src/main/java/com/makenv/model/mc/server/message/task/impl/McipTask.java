@@ -66,19 +66,18 @@ public class McipTask extends AbstractCmaqTask {
     mcipBean.setWrf_start_hour(startHour);
     mcipBean.setTime_difference(timeDiff);
     mcipBean.setGlobal(modelStartBean.getCommon().getDatatype());
-    mcipBean.setRun_days((int) LocalTimeUtil.between(startDate, endDate));
+    mcipBean.setRun_days((int) LocalTimeUtil.between(startDate, endDate) + 1);
     mcipBean.setScripts_path(scriptPath);
     mcipBean.setCmaq_build_path(cmaqBuildPath);
     mcipBean.setGeogrid_output_path(geogridOutputPath);
     mcipBean.setWrf_output_path(wrfPath);
     mcipBean.setMcip_output_path(dataDir);
-    //TODO
     TaskDomain domain = getTaskDomain();
-//    mcipBean.setCoordName(domain.getMcip().getCtmlays());
+    mcipBean.setCoordName(domain.getCommon().getCoord_Name());
     mcipBean.setCmaq_version(domain.getCmaq().getVersion());
     mcipBean.setRef_lat(domain.getCommon().getRef_lat() + "");
     mcipBean.setMax_dom(domain.getCommon().getMax_dom());
-//    mcipBean.setBtrim();
+    mcipBean.setBtrim(domain.getMcip().getBtrim());
     mcipBean.setCTMLAYS(domain.getMcip().getCtmlays());
     mcipBean.setDebug(debugLevel);
   }

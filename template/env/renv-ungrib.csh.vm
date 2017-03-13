@@ -6,6 +6,8 @@ setenv start_date ${start_date}
 setenv run_days ${run_days}
 #全球数据集
 setenv global ${global}
+#WRF版本
+setenv wrf_version ${wrf_version}
 #模式驱动脚本目录
 setenv scripts_path ${scripts_path}
 #WRF安装目录

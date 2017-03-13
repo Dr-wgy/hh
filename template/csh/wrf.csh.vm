@@ -1,3 +1,5 @@
+
+# start wrf
 cd $wrf_run_dir
 foreach start_date ( ${start_dates} )
   $wrf_script $renv_scrpit

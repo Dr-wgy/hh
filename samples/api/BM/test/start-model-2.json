@@ -7,14 +7,14 @@
     "domainid": "1",
     "missionid": "1",
     "scenarioid": "1",
-    "tasks": ["wrf", "mcip", "megan", "meic", "cmaq"],
+    "tasks": ["wrf"],
     "cores": 12,
     "common": {
-      "datatype": "gfs",
+      "datatype": "fnl",
       "simtype":"base",
       "time": { 
-        "start": "20170201",
-        "end": "20170201"
+        "start": "20170210",
+        "end": "20170210"
       },
       "pathdate":"20170201" 
     },
@@ -26,8 +26,8 @@
     },
     "wrf": {
       "initial": true,
-      "spinup": 0,
-      "lastfnl": "20170201" 
+      "spinup": 7,
+      "lastfnl": "20170311"
     },
     "cmaq": {
       "initial": true,

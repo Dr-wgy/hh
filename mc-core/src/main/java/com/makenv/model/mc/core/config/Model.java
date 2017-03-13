@@ -14,6 +14,15 @@ public class Model {
   private int days_of_reinitial;
   private int ungrib_gfs_days;
   private int debug_level;
+  private String wrf_version;
+
+  public String getWrf_version() {
+    return wrf_version;
+  }
+
+  public void setWrf_version(String wrf_version) {
+    this.wrf_version = wrf_version;
+  }
 
   public int getDebug_level() {
     return debug_level;
