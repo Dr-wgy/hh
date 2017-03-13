@@ -1,25 +1,12 @@
 #!/bin/csh -f
 
 setenv meic_type  ${meicType}
-#开始日期格式yyyy-MM-dd
-setenv start_date ${start_date}
-#结束日期yyyy-MM-dd
-setenv end_date  ${end_date}
-
-setenv emissiondir  ${emissiondir}
-
-setenv taskId ${taskId}
 
 setenv max_dom ${max_dom}
 
-setenv pslist ${pslist}
-
-setenv sslist ${sslist}
+setenv conf_template_dir ${conf_template_dir}
 
 if( ${meic_type} == cache) then
-
-    #conf_template /public/home/tsinghua/wuguanyu/model-driver/template/
-    setenv conf_template_dir ${conf_template_dir}
 
     setenv scripts_path ${scripts_path}
 
@@ -27,24 +14,10 @@ if( ${meic_type} == cache) then
 
     setenv invoke_file ${invoke_file}
 
-else if (${meic_type} == server) then
+endif
 
-    #conf_template /public/home/tsinghua/wuguanyu/model-driver/template/
+if (${meic_type} == server)
 
-    setenv conf_template_dir ${conf_template_dir}
-
-    setenv meicCityConfig ${meicCityConfig}
-
-    setenv controlfile ${controlfile}
-
-    setenv onefilehours ${onefilehours}
-
-    setenv firsethour ${firsethour}
-
-    setenv meic_server_url ${meic_server_url}
-
-    setenv outpath "${outpath}<p.year><p.dayOfYear>"
-
-    setenv valuepath "${valuepath}<p.dayOfYear>.ncf|||<p.speciesname>|||<p.hour>,0,:,:"
+    setenv interface_conf_path ${interface_conf_path}
 
 endif
