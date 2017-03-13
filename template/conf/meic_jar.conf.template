@@ -1,0 +1,12 @@
+
+cat > meic_jar.conf << EOF
+
+meicRunRequestUrl: ${meicRunRequestUrl}
+
+meicGetStatusUrl: ${meicGetStatusUrl}
+
+meicConfTemplateDir: ${meicConfTemplateDir}
+
+max_dom: ${max_dom}
+
+EOF
