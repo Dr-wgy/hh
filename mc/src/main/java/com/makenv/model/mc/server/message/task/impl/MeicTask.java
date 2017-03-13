@@ -12,7 +12,7 @@ import java.io.File;
  * Created by alei on 2017/3/8.
  */
 public class MeicTask extends ModelTask {
-  private String runDir, cacheConfPath, serverConfPath, renvFilePath;
+  private String runDir, meicConfPath, jarConfPath, renvFilePath, jarPath;
 
   public MeicTask(ModelStartBean modelStartBean, McConfigManager configManager) {
     super(modelStartBean, configManager);
@@ -26,8 +26,9 @@ public class MeicTask extends ModelTask {
     String base = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getMissionid().getScenarioid().getRun().getEmis().getDirPath();
     runDir = processPath(base);
     runDir = String.format("%s%s%s", runDir, File.separator, System.currentTimeMillis());
-    renvFilePath = FilePathUtil.joinByDelimiter(runDir,Constant.MODEL_RENV_FILE);
-    cacheConfPath =  FilePathUtil.joinByDelimiter(runDir,Constant.MEIC_CONF_TEMPLATE);
+    renvFilePath = FilePathUtil.joinByDelimiter(runDir, Constant.MODEL_RENV_FILE);
+    meicConfPath = FilePathUtil.joinByDelimiter(runDir, Constant.MEIC_CONF);
+//    jarConfPath = FilePathUtil.joinByDelimiter(runDir, Constant.);
     return true;
   }
 
