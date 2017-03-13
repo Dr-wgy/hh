@@ -23,9 +23,9 @@ public class Application {
             //配置文件的路径
             String configPath = args[0];
 
-            MeicUrlTools meicUrlTools = new MeicUrlTools(configPath);
-
-            meicUrlTools.doMeicJob();
+//            MeicUrlTools meicUrlTools = new MeicUrlTools(configPath);
+//
+//            meicUrlTools.doMeicJob();
 
         }
   }
