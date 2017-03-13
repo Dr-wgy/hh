@@ -1,10 +1,9 @@
 #!/bin/csh -f
 
-setenv meic_type = ${meicType}
-
-#开始日期
+setenv meic_type  ${meicType}
+#开始日期格式yyyy-MM-dd
 setenv start_date ${start_date}
-#结束日期
+#结束日期yyyy-MM-dd
 setenv end_date  ${end_date}
 
 setenv emissiondir  ${emissiondir}
@@ -12,6 +11,10 @@ setenv emissiondir  ${emissiondir}
 setenv taskId ${taskId}
 
 setenv max_dom ${max_dom}
+
+setenv pslist ${pslist}
+
+setenv sslist ${sslist}
 
 if( ${meic_type} == cache) then
 
