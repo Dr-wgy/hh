@@ -2,14 +2,19 @@
   "meicType":"",
   "maxDom":3,
   "confTemplateDir":"",
-  "logFile":"",
   "startDate":"北京时间",
   "runDays":8,
   "timeDiff":8,
   "emissiondir":"outputpath",
   "emisFilePrefix":"",
-  "taskId":"",
   "pslist":"",
   "sslist":"",
-  "meganPathPrefix":""
+  "meganPathPrefix":"",
+  "logFile":"",
+  "taskId":"",
+  "meicRunRequestUrl":"",
+  "meicGetStatusUrl":"",
+  "onefilehours":0,
+  "firsthour":0,
+  "shutdown":false
 }

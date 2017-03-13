@@ -5,10 +5,14 @@ common {
   emissiondir: ${emissiondir}
   taskid: ${taskId}
 }
+builder {
+  outpath: "${outpath}<p.year><p.dayOfYear>"
+  start: ${start_date}
+  end: ${end_date}
+}
+
 common.snip.psmeasures.action: ${pslist}
 common.snip.ssmeasures.action: ${sslist}
-builder.start: ${start_date}
-builder.end: ${end_date}
 emission.megan.megan.valuepath: ${meganpath}"<p.dayOfYear>.ncf|||<p.speciesname>|||<p.hour>,0,:,:"
 emission.megan.shutdown: false
 emission.megan.grid: {
