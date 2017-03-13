@@ -8,6 +8,7 @@ import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.server.message.pojo.ModelCommonParams;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
+import com.makenv.model.mc.server.message.pojo.TaskDomain;
 import com.makenv.model.mc.server.message.task.ModelTask;
 import com.makenv.model.mc.server.message.task.bean.WrfBean;
 import com.makenv.model.mc.server.message.util.McUtil;
@@ -82,15 +83,20 @@ public class WrfTask extends ModelTask {
 
   @Override
   protected boolean doHandle() {
-    switch (modelStartBean.getCommon().getDatatype()) {
-      case Constant.GLOBAL_TYPE_FNL:
-        buildFnlRenvBean();
-        break;
-      case Constant.GLOBAL_TYPE_GFS:
-        buildGfsRenvBean();
-        break;
-      default:
-        return false;
+    try {
+      switch (modelStartBean.getCommon().getDatatype()) {
+        case Constant.GLOBAL_TYPE_FNL:
+          buildFnlRenvBean();
+          break;
+        case Constant.GLOBAL_TYPE_GFS:
+          buildGfsRenvBean();
+          break;
+        default:
+          return false;
+      }
+    } catch (IOException e) {
+      logger.error("", e);
+      return false;
     }
 
     return buildRenv() && buildCsh();
@@ -135,7 +141,7 @@ public class WrfTask extends ModelTask {
     return true;
   }
 
-  private void buildGfsRenvBean() {
+  private void buildGfsRenvBean() throws IOException {
     WrfBean bean = createWrfBean();
     bean.setStart_date(LocalTimeUtil.format(startDate, LocalTimeUtil.YMD_DATE_FORMAT));
     bean.setRun_days((int) LocalTimeUtil.between(endDate, startDate) + 1);
@@ -150,7 +156,7 @@ public class WrfTask extends ModelTask {
     wrfBeans.add(bean);
   }
 
-  private void buildFnlRenvBean() {
+  private void buildFnlRenvBean() throws IOException {
     boolean isInitial = modelStartBean.getWrf().isInitial();
     int i = 0, j = 0;
     LocalDate _current = startDate, lastDate = startDate;
@@ -174,7 +180,7 @@ public class WrfTask extends ModelTask {
     wrfBeans.add(bean);
   }
 
-  private WrfBean buildFnlWrfBean(LocalDate startDate, LocalDate current) {
+  private WrfBean buildFnlWrfBean(LocalDate startDate, LocalDate current) throws IOException {
     WrfBean bean = createWrfBean();
     bean.setStart_date(LocalTimeUtil.format(startDate, LocalTimeUtil.YMD_DATE_FORMAT));
     bean.setRun_days((int) LocalTimeUtil.between(current, startDate) + 1);
@@ -189,7 +195,7 @@ public class WrfTask extends ModelTask {
   }
 
 
-  private WrfBean createWrfBean() {
+  private WrfBean createWrfBean() throws IOException {
     WrfBean bean = new WrfBean();
     bean.setNamelist_wps_metgrid_template(metgridTemplate);
     bean.setNamelist_wrf_template(wrfTemplate);
@@ -200,6 +206,8 @@ public class WrfTask extends ModelTask {
     bean.setDebug(debugLevel);
     bean.setGlobal(modelStartBean.getCommon().getDatatype());
     bean.setUngrib_file(Constant.UNGRIB_FILE_PREFIX);
+    TaskDomain domain = getTaskDomain();
+    bean.setWrf_version(domain.getWrf().getVersion());
     return bean;
   }
 }

@@ -12,6 +12,8 @@ setenv run_hours ${wrfBean.run_hours}
 setenv start_hour ${wrfBean.start_hour}
 #全球数据集: fnl or gfs?
 setenv global ${wrfBean.global}
+#WRF版本
+setenv wrf_version ${wrfBean.wrf_version}
 #ungrib生成的文件名称前缀FILE
 setenv ungrib_file ${wrfBean.ungrib_file}
 #模式驱动脚本目录
@@ -27,6 +29,6 @@ setenv metgrid_output_path ${wrfBean.metgrid_output_path}
 #WRF文件输出目录
 setenv wrf_output_path ${wrfBean.wrf_output_path}
 #是否为run_type: 0-initial, 1-restart, 2-reinitial
-setenv run_type ${wrfBean.restart_run}
+setenv run_type ${wrfBean.run_type}
 #是否为debug模式，0非，>0为debug
 setenv debug ${wrfBean.debug}

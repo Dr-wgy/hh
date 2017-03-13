@@ -16,6 +16,15 @@ public class McipParams {
   private int ctm_vert;
   @JsonProperty("CTMLAYS")
   private String ctmlays;
+  private int btrim;
+
+  public int getBtrim() {
+    return btrim;
+  }
+
+  public void setBtrim(int btrim) {
+    this.btrim = btrim;
+  }
 
   public int getCtm_vert() {
     return ctm_vert;
