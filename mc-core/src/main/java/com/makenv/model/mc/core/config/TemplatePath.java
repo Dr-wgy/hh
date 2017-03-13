@@ -31,6 +31,8 @@ public class TemplatePath {
   private String csh_megan;
   private String csh_cmaq;
 
+  private String meic_jar_conf;
+
   public String getCsh_mcip() {
     return csh_mcip;
   }
@@ -197,6 +199,14 @@ public class TemplatePath {
 
   public void setMeic_server_conf_vm(String meic_server_conf_vm) {
     this.meic_server_conf_vm = meic_server_conf_vm;
+  }
+
+  public String getMeic_jar_conf() {
+    return meic_jar_conf;
+  }
+
+  public void setMeic_jar_conf(String meic_jar_conf) {
+    this.meic_jar_conf = meic_jar_conf;
   }
 
 }

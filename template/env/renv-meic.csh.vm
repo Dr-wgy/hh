@@ -8,11 +8,12 @@ setenv conf_dir ${conf_dir}
 
 setenv meic_conf_path ${meic_conf_path}
 
+setenv meic_build_path ${meic_build_path}
+
+
 if( ${meic_type} == cache) then
 
     setenv scripts_path ${scripts_path}
-
-    setenv meic_build_path ${meic_build_path}
 
     setenv logFile ${logFile}
 
