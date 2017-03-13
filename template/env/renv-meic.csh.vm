@@ -4,7 +4,7 @@ setenv meic_type  ${meicType}
 
 setenv max_dom ${max_dom}
 
-setenv conf_template_dir ${conf_template_dir}
+setenv conf_dir ${conf_dir}
 
 if( ${meic_type} == cache) then
 
@@ -12,7 +12,7 @@ if( ${meic_type} == cache) then
 
     setenv meic_build_path ${meic_build_path}
 
-    setenv invoke_file ${invoke_file}
+    setenv logFile ${logFile}
 
 endif
 
