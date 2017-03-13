@@ -26,7 +26,7 @@
     },
     "wrf": {
       "initial": true,
-      "spinup": 7,
+      "spinup": 0,
       "lastfnl": "20170311"
     },
     "cmaq": {

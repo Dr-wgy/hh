@@ -1,0 +1,20 @@
+{
+  "meicType": "${meicType}",
+  "maxDom": ${maxDom},
+  "confTemplateDir": "${confTemplateDir}",
+  "startDate": "${startDate}",
+  "runDays": ${runDays},
+  "timeDiff": ${timeDiff},
+  "emissiondir": "${emissiondir}",
+  "emisFilePrefix": "${emisFilePrefix}",
+  "pslist": "${pslist}",
+  "sslist": "${sslist}",
+  "meganPathPrefix": "${meganPathPrefix}",
+  "logFile": "${logFile}",
+  "taskId": "${taskId}",
+  "meicRunRequestUrl": "${meicRunRequestUrl}",
+  "meicGetStatusUrl": "${meicGetStatusUrl}",
+  "onefilehours": ${onefilehours},
+  "firsthour": ${firsthour},
+  "shutdown": ${shutdown}
+}

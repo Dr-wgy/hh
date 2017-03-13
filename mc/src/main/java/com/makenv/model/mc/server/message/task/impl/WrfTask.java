@@ -6,7 +6,6 @@ import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.LocalTimeUtil;
 import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
-import com.makenv.model.mc.server.message.pojo.ModelCommonParams;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
 import com.makenv.model.mc.server.message.pojo.TaskDomain;
 import com.makenv.model.mc.server.message.task.ModelTask;
@@ -29,7 +28,7 @@ import java.util.Map;
  */
 public class WrfTask extends ModelTask {
   private Logger logger = LoggerFactory.getLogger(WrfTask.class);
-  private String wrfRunDir, wrfOutDir;
+  private String wrfRunDir, wrfOutDir, metgridOutPath;
   private List<WrfBean> wrfBeans;
   private String renvFilePathPrefix;
 
@@ -62,7 +61,6 @@ public class WrfTask extends ModelTask {
   private boolean processDirectory() {
     String runDir = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getRun().getWrf();
     runDir = processPath(runDir);
-    ModelCommonParams.TimeDate time = modelStartBean.getCommon().getTime();
     wrfRunDir = String.format("%s%s%s-%s", runDir, File.separator, modelStartBean.getScenarioid(), System.currentTimeMillis());
 
     wrfOutDir = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGlobaldatasets().getWrf().getDirPath();
@@ -73,7 +71,10 @@ public class WrfTask extends ModelTask {
       wrfOutDir = String.format("%s%s%s", wrfOutDir, File.separator, initialTime);
     }
     renvFilePathPrefix = String.format("%s%s%s-", wrfRunDir, File.separator, Constant.MODEL_RENV_FILE);
-    return FileUtil.checkAndMkdir(wrfRunDir) && FileUtil.checkAndMkdir(wrfRunDir);
+    metgridOutPath = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGlobaldatasets().getMetgrid().getDirPath();
+//    metgridOutPath = String.format("%s%s%s", metgridOutPath, File.separator, bean.getStart_date());
+    metgridOutPath = processPath(metgridOutPath);
+    return FileUtil.checkAndMkdir(wrfRunDir) && FileUtil.checkAndMkdir(wrfOutDir) && FileUtil.checkAndMkdir(metgridOutPath);
   }
 
   @Override
@@ -149,9 +150,7 @@ public class WrfTask extends ModelTask {
     String ungribOutPath = configManager.getSystemConfig().getWorkspace().getShare().getInput().getUngrib_gfs().getDirPath();
     ungribOutPath = String.format("%s%s%s", ungribOutPath, File.separator, bean.getStart_date());
     bean.setUngrib_output_path(ungribOutPath);
-    String metgridOutPath = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGlobaldatasets().getMetgrid().getDirPath();
-    metgridOutPath = String.format("%s%s%s", metgridOutPath, File.separator, bean.getStart_date());
-    bean.setMetgrid_output_path(processPath(metgridOutPath));
+    bean.setMetgrid_output_path(metgridOutPath);
     bean.setWrf_output_path(wrfOutDir);
     wrfBeans.add(bean);
   }
