@@ -14,7 +14,7 @@ public class MeicConfBean {
     private double ref_lon;
     private double stand_lat2;
     private int currdom;
-    private int meicType;
+    private String meicType;
     private String name;
     private Double xorig;
     private Double yorig;
@@ -107,19 +107,19 @@ public class MeicConfBean {
         this.currdom = currdom;
     }
 
-    public int getMeicType() {
-        return meicType;
-    }
-
-    public void setMeicType(int meicType) {
-        this.meicType = meicType;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getMeicType() {
+        return meicType;
+    }
+
+    public void setMeicType(String meicType) {
+        this.meicType = meicType;
     }
 }
