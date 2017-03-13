@@ -10,7 +10,7 @@ public class Application {
 
   public static void main(String[] args) throws Exception {
 
-        if(args.length < 0) {
+        if(args.length <= 0) {
 
             logger.info("please check your cmd command,confirm you input confFilePath");
 
