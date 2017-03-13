@@ -111,6 +111,8 @@ public class TemplateFileHelper {
 
             meic.setStand_lat1(domain.getCommon().getStand_lat1());
 
+            meic.setMeicType(Constant.MEIC_SERVER_TYPE);
+
             meic.setStand_lat2(domain.getCommon().getStand_lat2());
 
             meic.setRef_lat(domain.getCommon().getRef_lat());
@@ -202,6 +204,8 @@ public class TemplateFileHelper {
             meic.setXorig(Double.parseDouble(xorig[currdom].trim()));
 
             meic.setYorig(Double.parseDouble(yorig[currdom].trim()));
+
+            meic.setMeicType(Constant.MEIC_CACHE_TYPE);
 
             meic.setCurrdom(currdom + 1);
 

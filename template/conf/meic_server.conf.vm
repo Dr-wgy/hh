@@ -1,6 +1,6 @@
 #!/bin/csh
 
-cat > meicd0${meic.currdom}_${meic_type}.conf << EOF
+cat > meicd0${meic.currdom}_${meic.meicType}.conf << EOF
 
 username:linxin
 password:linxin
@@ -8,21 +8,21 @@ password:linxin
 meicCityConfig: ${meic_city_path}
 controlfile:/home/zhangchenchen/conf/cf.csv
 #
-caseid: ${}
+caseid: linxin_meicd0${meic.currdom}_${meic.meicType}
 
 #
-domain:[
+domain: [
 
 	{
-      "dx" : ${dx},
-      "dy" : ${dy},
-      "name" : "${name}",
-      "params" : "+proj=lcc +lat_1=${stand_lat1} +lat_2=${stand_lat2} +lat_0=${ref_lat} +lon_0=${ref_lat} +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs",
-      "xcells" : ${xcells},
-      "xorig" : ${xorig},
+      "dx" : ${meic.dx},
+      "dy" : ${meic.dy},
+      "name" : "${meic.name}",
+      "params" : "+proj=lcc +lat_1=${meic.stand_lat1} +lat_2=${meic.stand_lat2} +lat_0=${meic.ref_lat} +lon_0=${meic.ref_lon} +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs",
+      "xcells" : ${meic.xcells},
+      "xorig" : ${meic.xorig},
       "xpad" : 0,
-      "ycells" : ${ycells},
-      "yorig" : ${yorig},
+      "ycells" : ${meic.ycells},
+      "yorig" : ${meic.yorig},
       "ypad" : 0
 	}
 ]
@@ -34,10 +34,10 @@ time:{
 }
 
 #
-model: ["${model}"]
+model: ["${meic.model}"]
 
 cmaq:{
-	submodel: ${submodel}
+	submodel: ${meic.submodel}
 }
 
 #
