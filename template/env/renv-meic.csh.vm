@@ -18,7 +18,7 @@ setenv sslist ${sslist}
 
 if( ${meic_type} == cache) then
 
-    #conf_template /public/home/tsinghua/wuguanyu/model-driver/template/meicd0${domain}_${meic_type}.conf.template
+    #conf_template /public/home/tsinghua/wuguanyu/model-driver/template/
     setenv conf_template_dir ${conf_template_dir}
 
     setenv scripts_path ${scripts_path}
@@ -29,7 +29,7 @@ if( ${meic_type} == cache) then
 
 else if (${meic_type} == server) then
 
-    #conf_template /public/home/tsinghua/wuguanyu/model-driver/template/meicd0${domain}_${meic_type}.conf.template
+    #conf_template /public/home/tsinghua/wuguanyu/model-driver/template/
 
     setenv conf_template_dir ${conf_template_dir}
 
