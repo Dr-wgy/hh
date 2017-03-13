@@ -18,7 +18,7 @@ public class Constant {
   public static final String NAMELIST_WRF_TEMPLATE = "namelist.wrf.template";
   public static final String NAMELIST_WPS_METGRID_TEMPLATE = "namelist.wps.metgrid.template";
   public static final String NAMELIST_WPS_UNGRIB_TEMPLATE = "namelist.wps.ungrib.template";
-  public static final String MEIC_CONF_TEMPLATE="meic%02d_%s.conf.template";
+  public static final String MEIC_CONF_TEMPLATE="meicd%02d_%s.conf.template";
 
 
   public static final String GEOGRID_SCRIPT_FILE = "invoke-geogrid";
