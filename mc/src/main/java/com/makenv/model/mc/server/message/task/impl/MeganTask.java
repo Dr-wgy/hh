@@ -14,11 +14,11 @@ public class MeganTask extends ModelTask {
 
   @Override
   protected boolean beforeHandle() {
-    return false;
+    return true;
   }
 
   @Override
   protected boolean doHandle() {
-    return false;
+    return true;
   }
 }
