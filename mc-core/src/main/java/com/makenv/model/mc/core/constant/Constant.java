@@ -8,7 +8,7 @@ public class Constant {
   //  public static final int START_HOUR = 18;
   public static final String SYS_RENV_CSH = "sys_renv.csh";
   public static final String[] FILE_HOURS = {"00", "06", "12", "18"};
-//  public static final int MODEL_DEBUG_LEVEL = 1;
+  //  public static final int MODEL_DEBUG_LEVEL = 1;
   public static final String UNGRIB_FILE_PREFIX = "FILE";
   public static final String GRIDNAME = "China_d%02d";
 
@@ -18,7 +18,8 @@ public class Constant {
   public static final String NAMELIST_WRF_TEMPLATE = "namelist.wrf.template";
   public static final String NAMELIST_WPS_METGRID_TEMPLATE = "namelist.wps.metgrid.template";
   public static final String NAMELIST_WPS_UNGRIB_TEMPLATE = "namelist.wps.ungrib.template";
-  public static final String MEIC_CONF_TEMPLATE="meicd%02d_%s.conf.template";
+  public static final String MEIC_CONF = "meicd%02d_%s.conf";
+  public static final String MEIC_CONF_TEMPLATE = MEIC_CONF + ".template";
 
 
   public static final String GEOGRID_SCRIPT_FILE = "invoke-geogrid";
