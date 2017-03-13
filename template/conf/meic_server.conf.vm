@@ -45,7 +45,7 @@ builder:{
 }
 emission:{
 	megan.shutdown: ${shutdown}
-	megan.megan.valuepath: "${valuepath}<p.dayOfYear>.ncf|||<p.speciesname>|||<p.hour>,0,:,:"
+	megan.megan.valuepath: "${meganpath}<p.dayOfYear>.ncf|||<p.speciesname>|||<p.hour>,0,:,:"
 	megan.year.yearmap.2015: 2016
 }
 append:{

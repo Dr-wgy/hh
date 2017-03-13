@@ -8,8 +8,8 @@ common {
 common.snip.psmeasures.action: ${pslist}
 common.snip.ssmeasures.action: ${sslist}
 builder.start: ${start_date}
-builder.end: ${start_date}
-emission.megan.megan.valuepath: ${valuepath}"<p.dayOfYear>.ncf|||<p.speciesname>|||<p.hour>,0,:,:"
+builder.end: ${end_date}
+emission.megan.megan.valuepath: ${meganpath}"<p.dayOfYear>.ncf|||<p.speciesname>|||<p.hour>,0,:,:"
 emission.megan.shutdown: false
 emission.megan.grid: {
   "dx" : ${meic.dx},
