@@ -69,7 +69,7 @@ public class MeicServerTask implements IMeicTask {
 
         for(int currDom = 1; currDom <= maxDom; currDom ++ ) {
 
-            String meicFileConf = String.format(MeicConstant.meicConfFile, currDom, MeicType.MEICTYPE_SERVER.getType());
+            String meicFileConf = String.format(MeicConstant.meicConfTemplateFile, currDom, MeicType.MEICTYPE_SERVER.getType());
 
             String confTemplateDir = meicServerParams.getConfTemplateDir();
 
@@ -335,7 +335,7 @@ public class MeicServerTask implements IMeicTask {
 
             String meicTemplateDir = meicServerParams.getConfTemplateDir();
 
-            String filePath = String.format(MeicConstant.meicConfFile,dom,MeicType.MEICTYPE_SERVER.getType());
+            String filePath = String.format(MeicConstant.meicConfTemplateFile,dom,MeicType.MEICTYPE_SERVER.getType());
 
             String meicTemplatePath = String.join("/",meicTemplateDir,filePath);
 
