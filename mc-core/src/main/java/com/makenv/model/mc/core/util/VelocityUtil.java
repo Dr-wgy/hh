@@ -16,6 +16,12 @@ public class VelocityUtil {
 
   private static VelocityEngine velocityEngine;
 
+  public static void setRelativeOrNot(boolean relativeOrNot) {
+    VelocityUtil.relativeOrNot = relativeOrNot;
+  }
+
+  private static boolean relativeOrNot = true;
+
   private static VelocityEngine newInstance() {
     if (velocityEngine == null) {
       synchronized (VelocityEngine.class) {
@@ -25,6 +31,9 @@ public class VelocityUtil {
           p.setProperty(Velocity.INPUT_ENCODING, "UTF-8");
           p.setProperty(Velocity.OUTPUT_ENCODING, "UTF-8");
           p.setProperty(Velocity.ENCODING_DEFAULT, "UTF-8");
+          if(!relativeOrNot) {
+            p.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH,"");
+          }
           velocityEngine.init(p);
         }
       }

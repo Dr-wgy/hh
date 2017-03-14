@@ -78,6 +78,10 @@ public class MeicServerTask implements IMeicTask {
 
             String confFileTemplatePath = FilePathUtil.joinByDelimiter(confTemplateDir, meicFileConf);
 
+            System.out.println(confFileTemplatePath);
+
+            System.out.println(new File(confFileTemplatePath).exists());
+
             String content = VelocityUtil.buildTemplate(confFileTemplatePath, createServerParams(currDom));
 
             String targetConfFilePath = FilePathUtil.joinByDelimiter(runPath, meicFileConf);

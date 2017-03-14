@@ -1,5 +1,6 @@
 package com.makenv.model.mc.meic;
 
+import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.meic.request.AnstractRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,10 @@ public class Application {
   private static Logger logger = LoggerFactory.getLogger(AnstractRequest.class);
 
   public static void main(String[] args) throws Exception {
+
+        //设置绝对路径
+
+        VelocityUtil.setRelativeOrNot(false);
 
         if(args.length <= 0) {
 

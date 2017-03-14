@@ -7,9 +7,11 @@ import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.meic.config.MeicCacheParams;
 import com.makenv.model.mc.meic.constants.Constant;
 import com.makenv.model.mc.meic.constants.MeicType;
+import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -186,6 +188,7 @@ public class MeicCacheTask implements IMeicTask {
             String runPath = meicCacheParams.getRunPath();
 
             String confFileTemplatePath = FilePathUtil.joinByDelimiter(confTemplateDir, meicFileConf);
+
 
             String content = VelocityUtil.buildTemplate(confFileTemplatePath, createParams(currDom));
 
