@@ -5,7 +5,6 @@ import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.LocalTimeUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.meic.config.MeicServerParams;
-import com.makenv.model.mc.meic.constants.Constant;
 import com.makenv.model.mc.meic.constants.MeicType;
 import com.makenv.model.mc.meic.request.MeicGetStatusRequest;
 import com.makenv.model.mc.meic.request.MeicRunRequest;
@@ -70,7 +69,7 @@ public class MeicServerTask implements IMeicTask {
 
         for(int currDom = 1; currDom <= maxDom; currDom ++ ) {
 
-            String meicFileConf = String.format(Constant.meicConfFile, currDom, MeicType.MEICTYPE_SERVER.getType());
+            String meicFileConf = String.format(MeicConstant.meicConfFile, currDom, MeicType.MEICTYPE_SERVER.getType());
 
             String confTemplateDir = meicServerParams.getConfTemplateDir();
 
@@ -102,7 +101,7 @@ public class MeicServerTask implements IMeicTask {
         paramsMap.put("controlfile",meicServerParams.getControlfile());
 
         //TODO 输出参数outPath需要修改
-        String outPath = FilePathUtil.joinByDelimiter(meicServerParams.getEmissiondir(),String.format(Constant.meicOutFile,currdom));
+        String outPath = FilePathUtil.joinByDelimiter(meicServerParams.getEmissiondir(),String.format(MeicConstant.meicOutFile,currdom));
 
         paramsMap.put("outpath",outPath);
 
@@ -122,7 +121,7 @@ public class MeicServerTask implements IMeicTask {
 
         paramsMap.put("shutdown",meicServerParams.isMeganShutdown());
 
-        return null;
+        return paramsMap;
     }
 
     private void symbolicLinkFile(Map<String, String> dateMapping) {
@@ -146,9 +145,9 @@ public class MeicServerTask implements IMeicTask {
 
             for(int currDom = 1 ;currDom <= maxDom; currDom ++) {
 
-                String sourceFile = FilePathUtil.joinByDelimiter(emissiondir,String.format(Constant.meicOutFile,currDom) + str);
+                String sourceFile = FilePathUtil.joinByDelimiter(emissiondir,String.format(MeicConstant.meicOutFile,currDom) + str);
 
-                String targetFile = FilePathUtil.joinByDelimiter(emissiondir,String.format(Constant.meicOutFile,currDom) + valueStr);
+                String targetFile = FilePathUtil.joinByDelimiter(emissiondir,String.format(MeicConstant.meicOutFile,currDom) + valueStr);
 
                 FileUtil.symbolicLink(sourceFile,targetFile);
 
@@ -336,7 +335,7 @@ public class MeicServerTask implements IMeicTask {
 
             String meicTemplateDir = meicServerParams.getConfTemplateDir();
 
-            String filePath = String.format(MeicConstant.meicConfFile,dom);
+            String filePath = String.format(MeicConstant.meicConfFile,dom,MeicType.MEICTYPE_SERVER.getType());
 
             String meicTemplatePath = String.join("/",meicTemplateDir,filePath);
 

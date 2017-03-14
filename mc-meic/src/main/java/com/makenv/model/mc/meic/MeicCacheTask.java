@@ -5,13 +5,10 @@ import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.LocalTimeUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.meic.config.MeicCacheParams;
-import com.makenv.model.mc.meic.constants.Constant;
 import com.makenv.model.mc.meic.constants.MeicType;
-import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -90,9 +87,9 @@ public class MeicCacheTask implements IMeicTask {
 
             for(int currDom = 1 ;currDom <= maxDom; currDom ++) {
 
-                String sourceFile = FilePathUtil.joinByDelimiter(emissiondir,String.format(Constant.meicOutFile,currDom) + str);
+                String sourceFile = FilePathUtil.joinByDelimiter(emissiondir,String.format(MeicConstant.meicOutFile,currDom) + str);
 
-                String targetFile = FilePathUtil.joinByDelimiter(emissiondir,String.format(Constant.meicOutFile,currDom) + valueStr);
+                String targetFile = FilePathUtil.joinByDelimiter(emissiondir,String.format(MeicConstant.meicOutFile,currDom) + valueStr);
 
                 FileUtil.symbolicLink(sourceFile,targetFile);
 
@@ -151,7 +148,7 @@ public class MeicCacheTask implements IMeicTask {
 
             String runPath = meicCacheParams.getRunPath();
 
-            String meicFileConf = String.format(Constant.meicConfFile,currDom, MeicType.MEICTYPE_CACHE.getType());
+            String meicFileConf = String.format(MeicConstant.meicConfFile,currDom, MeicType.MEICTYPE_CACHE.getType());
 
             String javaCmd = String.format(execJarPath,
                     meicCacheParams.getMeasureJarDir(),
@@ -181,7 +178,7 @@ public class MeicCacheTask implements IMeicTask {
 
         for(int currDom = 1; currDom <= maxDom; currDom ++ ) {
 
-            String meicFileConf = String.format(Constant.meicConfFile, currDom, MeicType.MEICTYPE_CACHE.getType());
+            String meicFileConf = String.format(MeicConstant.meicConfFile, currDom, MeicType.MEICTYPE_CACHE.getType());
 
             String confTemplateDir = meicCacheParams.getConfTemplateDir();
 
@@ -208,7 +205,7 @@ public class MeicCacheTask implements IMeicTask {
 
         paramsMap.put("taskId",meicCacheParams.getTaskId());
         //TODO 输出参数outPath需要修改
-        String outPath = FilePathUtil.joinByDelimiter(meicCacheParams.getEmissiondir(),String.format(Constant.meicOutFile,currDom));
+        String outPath = FilePathUtil.joinByDelimiter(meicCacheParams.getEmissiondir(),String.format(MeicConstant.meicOutFile,currDom));
 
         paramsMap.put("outpath",outPath);
 

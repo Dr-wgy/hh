@@ -7,9 +7,11 @@ public class MeicConstant {
 
     public static final String meicConfTemplateFile = "meic%d02_%s.conf.template";
 
-    public static final String meicConfFile = "meicd%d02_%s.conf";
-
     public static final String mesure_jar = ".measure.jar";
+
+    public static final String meicConfFile = "meicd%02d_%s.conf.template";
+
+    public static final String meicOutFile = "meic_china_d%02d_";
 
 
 }
