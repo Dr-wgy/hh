@@ -5,7 +5,11 @@ package com.makenv.model.mc.meic;
  */
 public class MeicConstant {
 
-    public static final String meicConfFile = "meic%d02_server.conf";
+    public static final String meicConfTemplateFile = "meic%d02_%s.conf.template";
+
+    public static final String meicConfFile = "meic%d02_%s.conf";
+
+    public static final String mesure_jar = ".measure.jar";
 
 
 }

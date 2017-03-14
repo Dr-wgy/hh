@@ -11,9 +11,7 @@ public enum MeicGetStatusEnum {
 
     DONE_STATUS("DONE","完成"),
 
-    FAIL_STATUS("FAIL","失败")
-
-    ;
+    FAIL_STATUS("FAIL","失败");
 
     public String getDesc() {
         return desc;

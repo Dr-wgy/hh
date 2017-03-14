@@ -35,5 +35,10 @@
       <artifactId>fluent-hc</artifactId>
       <version>4.5.2</version>
     </dependency>
+    <dependency>
+      <artifactId>mc-core</artifactId>
+      <groupId>com.makenv.model.mc</groupId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>
