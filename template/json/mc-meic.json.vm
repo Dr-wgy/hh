@@ -6,7 +6,6 @@
   "runDays": ${runDays},
   "timeDiff": ${timeDiff},
   "emissiondir": "${emissiondir}",
-  "emisFilePrefix": "${emisFilePrefix}",
   "pslist": "${pslist}",
   "sslist": "${sslist}",
   "meganPathPrefix": "${meganPathPrefix}",

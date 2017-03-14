@@ -78,7 +78,7 @@ public class MeicServerTask implements IMeicTask {
 
             String confFileTemplatePath = FilePathUtil.joinByDelimiter(confTemplateDir, meicFileConf);
 
-            String content = VelocityUtil.buildTemplate(confFileTemplatePath, createServerParams(meicServerParams,currDom));
+            String content = VelocityUtil.buildTemplate(confFileTemplatePath, createServerParams(currDom));
 
             String targetConfFilePath = FilePathUtil.joinByDelimiter(runPath, meicFileConf);
 
@@ -87,7 +87,7 @@ public class MeicServerTask implements IMeicTask {
         }
     }
 
-    private Map<String, ?> createServerParams(MeicServerParams meicServerParams,int currdom) {
+    private Map<String, ?> createServerParams(int currdom) {
 
         Map paramsMap = new HashMap();
 
@@ -97,11 +97,10 @@ public class MeicServerTask implements IMeicTask {
 
         paramsMap.put("controlfile",meicServerParams.getControlfile());
 
-
         //TODO 输出参数outPath需要修改
-        String outPath = FilePathUtil.joinByDelimiter(meicServerParams.getEmissiondir(),meicServerParams.getEmisFilePrefix());
+        String outPath = FilePathUtil.joinByDelimiter(meicServerParams.getEmissiondir(),String.format(Constant.meicOutFile,currdom));
 
-        paramsMap.put("outpath",FilePathUtil.joinByDelimiter(outPath, String.format(Constant.meicOutFile,currdom)));
+        paramsMap.put("outpath",outPath);
 
         paramsMap.put("start_date",meicServerParams.getStartDate());
 

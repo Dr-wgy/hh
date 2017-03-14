@@ -187,7 +187,7 @@ public class MeicCacheTask implements IMeicTask {
 
             String confFileTemplatePath = FilePathUtil.joinByDelimiter(confTemplateDir, meicFileConf);
 
-            String content = VelocityUtil.buildTemplate(confFileTemplatePath, createParams(meicCacheParams,currDom));
+            String content = VelocityUtil.buildTemplate(confFileTemplatePath, createParams(currDom));
 
             String targetConfFilePath = FilePathUtil.joinByDelimiter(runPath, meicFileConf);
 
@@ -197,7 +197,7 @@ public class MeicCacheTask implements IMeicTask {
 
     }
 
-    private Map createParams(MeicCacheParams meicCacheParams,int currDom){
+    private Map createParams(int currDom){
 
         Map paramsMap = new HashMap();
 
@@ -205,9 +205,9 @@ public class MeicCacheTask implements IMeicTask {
 
         paramsMap.put("taskId",meicCacheParams.getTaskId());
         //TODO 输出参数outPath需要修改
-        String outPath = FilePathUtil.joinByDelimiter(meicCacheParams.getEmissiondir(),meicCacheParams.getEmisFilePrefix());
+        String outPath = FilePathUtil.joinByDelimiter(meicCacheParams.getEmissiondir(),String.format(Constant.meicOutFile,currDom));
 
-        paramsMap.put("outpath",FilePathUtil.joinByDelimiter(outPath, String.format(Constant.meicOutFile,currDom)));
+        paramsMap.put("outpath",outPath);
 
         paramsMap.put("start_date",meicCacheParams.getStartDate());
 

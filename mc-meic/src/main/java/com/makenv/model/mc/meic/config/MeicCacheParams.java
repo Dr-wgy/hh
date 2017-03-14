@@ -19,8 +19,6 @@ public class MeicCacheParams {
 
     private String emissiondir;
 
-    private String emisFilePrefix;
-
     private String pslist;
 
     private String sslist;
@@ -89,14 +87,6 @@ public class MeicCacheParams {
 
     public void setEmissiondir(String emissiondir) {
         this.emissiondir = emissiondir;
-    }
-
-    public String getEmisFilePrefix() {
-        return emisFilePrefix;
-    }
-
-    public void setEmisFilePrefix(String emisFilePrefix) {
-        this.emisFilePrefix = emisFilePrefix;
     }
 
     public String getPslist() {
