@@ -39,7 +39,7 @@ public class MeicServerParams {
 
     private String runPath;
 
-    private String meicCityPath;
+    private String meicCityConfigPath;
 
     private String controlfile;
 
@@ -179,19 +179,19 @@ public class MeicServerParams {
         this.endDate = endDate;
     }
 
-    public String getMeicCityPath() {
-        return meicCityPath;
-    }
-
-    public void setMeicCityPath(String meicCityPath) {
-        this.meicCityPath = meicCityPath;
-    }
-
     public String getControlfile() {
         return controlfile;
     }
 
     public void setControlfile(String controlfile) {
         this.controlfile = controlfile;
+    }
+
+    public String getMeicCityConfigPath() {
+        return meicCityConfigPath;
+    }
+
+    public void setMeicCityConfigPath(String meicCityConfigPath) {
+        this.meicCityConfigPath = meicCityConfigPath;
     }
 }
