@@ -39,9 +39,11 @@ public class MeicParams {
 
     private int firsthour;
 
-    private boolean shutdown;
+    private boolean meganShutdown;
 
     private String measureJarDir;
+
+    private String meicCityPath;
 
     public String getMeicType() {
         return meicType;
@@ -163,13 +165,6 @@ public class MeicParams {
         this.firsthour = firsthour;
     }
 
-    public boolean isShutdown() {
-        return shutdown;
-    }
-
-    public void setShutdown(boolean shutdown) {
-        this.shutdown = shutdown;
-    }
 
     public int getMaxDom() {
         return maxDom;
@@ -193,5 +188,21 @@ public class MeicParams {
 
     public void setMeasureJarDir(String measureJarDir) {
         this.measureJarDir = measureJarDir;
+    }
+
+    public boolean isMeganShutdown() {
+        return meganShutdown;
+    }
+
+    public void setMeganShutdown(boolean meganShutdown) {
+        this.meganShutdown = meganShutdown;
+    }
+
+    public String getMeicCityPath() {
+        return meicCityPath;
+    }
+
+    public void setMeicCityPath(String meicCityPath) {
+        this.meicCityPath = meicCityPath;
     }
 }

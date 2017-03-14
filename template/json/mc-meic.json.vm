@@ -10,11 +10,11 @@
   "pslist": "${pslist}",
   "sslist": "${sslist}",
   "meganPathPrefix": "${meganPathPrefix}",
-  "logFile": "${logFile}",
+  "runPath": "${runPath}",
   "taskId": "${taskId}",
   "meicRunRequestUrl": "${meicRunRequestUrl}",
   "meicGetStatusUrl": "${meicGetStatusUrl}",
   "onefilehours": ${onefilehours},
   "firsthour": ${firsthour},
-  "shutdown": ${shutdown}
+  "meganShutdown": ${meganShutdown}
 }

@@ -39,7 +39,7 @@ cmaq:{
 
 #
 builder:{
-	onefilehours: ${onefilehours}
+  onefilehours: ${onefilehours}
     firsthour: ${firsthour}
 	outpath: "${outpath}<p.year><p.dayOfYear>"
 }
