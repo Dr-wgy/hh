@@ -3,6 +3,7 @@ package com.makenv.model.mc.meic;
 import com.makenv.model.mc.meic.request.AnstractRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 
 public class Application {
 
@@ -23,9 +24,9 @@ public class Application {
             //配置文件的路径
             String configPath = args[0];
 
-//            MeicUrlTools meicUrlTools = new MeicUrlTools(configPath);
-//
-//            meicUrlTools.doMeicJob();
+            MeicTools meicTools = new MeicTools(configPath);
+
+            meicTools.doMeicJob();
 
         }
   }
