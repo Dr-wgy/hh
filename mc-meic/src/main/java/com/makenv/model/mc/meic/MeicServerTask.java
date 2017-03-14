@@ -95,6 +95,9 @@ public class MeicServerTask implements IMeicTask {
 
         paramsMap.put("meic_city_path",meicServerParams.getMeicCityPath());
 
+        paramsMap.put("controlfile",meicServerParams.getControlfile());
+
+
         //TODO 输出参数outPath需要修改
         String outPath = FilePathUtil.joinByDelimiter(meicServerParams.getEmissiondir(),meicServerParams.getEmisFilePrefix());
 

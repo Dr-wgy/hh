@@ -17,5 +17,7 @@
   "onefilehours": ${onefilehours},
   "firsthour": ${firsthour},
   "meganShutdown": ${meganShutdown},
-  "measureJarDir":${measureJarDir}
+  "measureJarDir":${measureJarDir},
+  "controlfile":${controlfile},
+  "meicCityConfigPath":${meicCityConfigPath}
 }
