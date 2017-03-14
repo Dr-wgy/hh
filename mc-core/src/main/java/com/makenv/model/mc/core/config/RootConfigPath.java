@@ -10,6 +10,15 @@ public class RootConfigPath {
   private String script;
   private String wrf;
   private String cmaq;
+  private String meic;
+
+  public String getMeic() {
+    return meic;
+  }
+
+  public void setMeic(String meic) {
+    this.meic = meic;
+  }
 
   public String getCmaq() {
     return cmaq;

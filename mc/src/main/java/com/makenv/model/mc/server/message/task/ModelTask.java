@@ -99,7 +99,7 @@ public abstract class ModelTask implements IModelTask {
     timeDiff = configManager.getSystemConfig().getModel().getTime_difference();
     String templateDir = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getTemplate().getDirPath());
     metgridTemplate = String.format("%s%s%s", templateDir, File.separator, Constant.NAMELIST_WPS_METGRID_TEMPLATE);
-    wrfTemplate = String.format("%s%s%s", templateDir, File.separator, Constant.NAMELIST_WPS_METGRID_TEMPLATE);
+    wrfTemplate = String.format("%s%s%s", templateDir, File.separator, Constant.NAMELIST_WRF_TEMPLATE);
     scriptPath = configManager.getSystemConfig().getRoot().getScript();
     wrfBuildPath = configManager.getSystemConfig().getRoot().getWrf();
     geogridOutputPath = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGeogrid().getDirPath());

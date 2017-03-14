@@ -44,5 +44,8 @@ public class Constant {
   public static final String MEIC_CACHE_TYPE = "cache";
   public static final String MEIC_SERVER_TYPE = "server";
 
+  public static final String ACTIONLIST_PS = "ps-action.csv";
+  public static final String ACTIONLIST_SS = "ss-action.csv";
+  public static final String MEIC_JSON = "meic.json";
 
 }
