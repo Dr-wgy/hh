@@ -5,5 +5,5 @@ package com.makenv.model.mc.meic;
  */
 public interface IMeicTask {
 
-    public void doMeicJobs();
+    void doMeicJobs();
 }
