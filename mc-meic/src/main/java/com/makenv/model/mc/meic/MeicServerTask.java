@@ -290,11 +290,11 @@ public class MeicServerTask implements IMeicTask {
 
         for(int currDom = 1;currDom <= maxDom;currDom ++ ) {
 
-            String meicTemplateDir = meicServerParams.getConfTemplateDir();
+            String meicConfDir = meicServerParams.getRunPath();
 
-            String filePath = String.format(MeicConstant.meicConfFile,maxDom);
+            String filePath = String.format(MeicConstant.meicConfFile,maxDom,MeicType.MEICTYPE_SERVER.getType());
 
-            String meicTemplatePath = String.join("/",meicTemplateDir,filePath);
+            String meicTemplatePath = String.join("/",meicConfDir,filePath);
 
             File exsitsFile = new File(meicTemplatePath);
 
