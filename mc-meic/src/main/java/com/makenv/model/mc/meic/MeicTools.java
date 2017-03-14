@@ -1,6 +1,8 @@
 package com.makenv.model.mc.meic;
 
 import com.makenv.model.mc.core.bean.MeicParams;
+import com.makenv.model.mc.core.util.FileUtil;
+import com.makenv.model.mc.core.util.JacksonUtil;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigBeanFactory;
 import com.typesafe.config.ConfigFactory;
@@ -8,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by wgy on 2017/3/12.
@@ -29,9 +32,27 @@ public class MeicTools {
 
     private void init() {
 
-        Config config = ConfigFactory.parseFile(new File(configInputPath));
+        //conf格式
 
-        this.meicParams = ConfigBeanFactory.create(config,MeicParams.class);
+        //Config config = ConfigFactory.parseFile(new File(configInputPath));
+
+        //this.meicParams = ConfigBeanFactory.create(config,MeicParams.class);
+
+        //json格式
+
+        try {
+
+            String content = FileUtil.readLocalFile(new File(configInputPath));
+
+            this.meicParams = JacksonUtil.jsonToObj(content,MeicParams.class);
+
+        } catch (IOException e) {
+
+            logger.info("file is not correct");
+
+            e.printStackTrace();
+        }
+
 
     }
 
