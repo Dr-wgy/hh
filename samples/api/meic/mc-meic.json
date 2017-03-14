@@ -10,11 +10,12 @@
   "pslist":"",
   "sslist":"",
   "meganPathPrefix":"",
-  "logFile":"",
+  "runPath":"",
   "taskId":"",
   "meicRunRequestUrl":"",
   "meicGetStatusUrl":"",
   "onefilehours":0,
   "firsthour":0,
-  "shutdown":false
+  "shutdown":false,
+  "measureJarDir":""
 }
