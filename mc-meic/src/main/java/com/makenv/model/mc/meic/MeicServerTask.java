@@ -93,7 +93,7 @@ public class MeicServerTask implements IMeicTask {
 
         paramsMap.put("emissiondir",meicServerParams.getEmissiondir());
 
-        paramsMap.put("meic_city_path",meicServerParams.getMeicCityPath());
+        paramsMap.put("meic_city_path",meicServerParams.getMeicCityConfigPath());
 
         paramsMap.put("controlfile",meicServerParams.getControlfile());
 
