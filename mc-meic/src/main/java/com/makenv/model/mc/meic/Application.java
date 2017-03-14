@@ -13,7 +13,6 @@ public class Application {
   public static void main(String[] args) throws Exception {
 
         //设置绝对路径
-
         VelocityUtil.setRelativeOrNot(false);
 
         if(args.length <= 0) {
