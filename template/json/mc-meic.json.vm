@@ -16,5 +16,6 @@
   "meicGetStatusUrl": "${meicGetStatusUrl}",
   "onefilehours": ${onefilehours},
   "firsthour": ${firsthour},
-  "meganShutdown": ${meganShutdown}
+  "meganShutdown": ${meganShutdown},
+  "measureJarDir":${measureJarDir}
 }
