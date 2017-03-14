@@ -3,7 +3,7 @@ username:linxin
 password:linxin
 
 meicCityConfig: ${meic_city_path}
-controlfile:/home/zhangchenchen/conf/cf.csv
+controlfile: ${controlfile}
 #
 caseid: linxin_meicd0${meic.currdom}_${meic.meicType}
 
