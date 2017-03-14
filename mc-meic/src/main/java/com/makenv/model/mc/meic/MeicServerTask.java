@@ -163,7 +163,7 @@ public class MeicServerTask implements IMeicTask {
 
         String start_date = meicServerParams.getStartDate();
 
-        LocalDate startDate = LocalTimeUtil.parse(start_date);
+        LocalDate startDate = LocalTimeUtil.parse(start_date,"yyyyMMdd");
 
         LocalTime localTime = LocalTime.of(0,0,0);
 

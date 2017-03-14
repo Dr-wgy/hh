@@ -109,7 +109,7 @@ public class MeicCacheTask implements IMeicTask {
 
         String start_date = meicCacheParams.getStartDate();
 
-        LocalDate startDate = LocalTimeUtil.parse(start_date);
+        LocalDate startDate = LocalTimeUtil.parse(start_date,"yyyyMMdd");
 
         LocalTime localTime = LocalTime.of(0,0,0);
 
