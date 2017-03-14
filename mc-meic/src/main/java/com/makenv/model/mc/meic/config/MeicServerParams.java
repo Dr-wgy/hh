@@ -41,6 +41,8 @@ public class MeicServerParams {
 
     private String meicCityPath;
 
+    private String controlfile;
+
     public int getMaxDom() {
         return maxDom;
     }
@@ -183,5 +185,13 @@ public class MeicServerParams {
 
     public void setMeicCityPath(String meicCityPath) {
         this.meicCityPath = meicCityPath;
+    }
+
+    public String getControlfile() {
+        return controlfile;
+    }
+
+    public void setControlfile(String controlfile) {
+        this.controlfile = controlfile;
     }
 }
