@@ -9,7 +9,7 @@ public class Constant {
 
     public static final String meicConfFile = "meicd%02d_%s.conf.template";
 
-    public static final String meicOutFile = "meic_d%02d_";
+    public static final String meicOutFile = "meic_china_d%02d_";
 
     //public static final String meicOutPath =
 

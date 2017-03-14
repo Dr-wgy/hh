@@ -1,4 +1,4 @@
 #!/bin/csh -f
 
-setenv jar_path  ${jar_path}
+setenv jar_dir  ${jar_dir}
 setenv json_path ${json_path}
