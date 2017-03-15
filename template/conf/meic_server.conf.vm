@@ -34,7 +34,7 @@ time:{
 model: ["${meic.model}"]
 
 cmaq:{
-	submodel: ${meic.submodel}
+	submodel: "${meic.submodel}"
 }
 
 #
