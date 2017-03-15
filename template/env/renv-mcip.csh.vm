@@ -19,13 +19,13 @@ setenv geogrid_output_path ${mcipBean.geogrid_output_path}
 #WRF文件输出目录
 setenv wrf_output_path ${mcipBean.wrf_output_path}
 #MCIP文件输出目录/public/home/tsinghua/lixin/data/test/mcip/
-setenv mcip_output_path ${mcipBean.mcip_output_path}#reinitial判断工具
-#
-setenv reinit_judge_tool "~/lixin/mc-core-1.0-SNAPSHOT.jar com.makenv.model.mc.core.util.LocalTimeUtil"
+setenv mcip_output_path ${mcipBean.mcip_output_path}
+#reinitial判断工具，"~/lixin/mc-core-1.0-SNAPSHOT.jar com.makenv.model.mc.core.util.LocalTimeUtil"
+setenv reinit_judge_tool "${reinit_judge_tool}"
 #reinitial循环天数
-setenv reinit_cycle_days 5
+setenv reinit_cycle_days ${reinit_cycle_days}
 #reinitial原始日期
-setenv reinit_origin_date 19800101
+setenv reinit_origin_date ${reinit_origin_date}
 #坐标系名称,LAM_20_50_35_110
 setenv CoordName ${mcipBean.CoordName}
 #原点纬度,35

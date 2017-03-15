@@ -1,6 +1,7 @@
 package com.makenv.model.mc.server.message.task.impl;
 
 import com.makenv.model.mc.core.config.McConfigManager;
+import com.makenv.model.mc.core.config.Model;
 import com.makenv.model.mc.core.constant.Constant;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.LocalTimeUtil;
@@ -80,6 +81,10 @@ public class McipTask extends AbstractCmaqTask {
     mcipBean.setBtrim(domain.getMcip().getBtrim());
     mcipBean.setCTMLAYS(domain.getMcip().getCtmlays());
     mcipBean.setDebug(debugLevel);
+    Model model = configManager.getSystemConfig().getModel();
+    mcipBean.setReinit_cycle_days(model.getReinit_cycle_days());
+    mcipBean.setReinit_judge_tool(model.getReinit_judge_tool());
+    mcipBean.setReinit_origin_date(model.getReinit_origin_date());
   }
 
   private boolean buildRenv() {
