@@ -111,8 +111,7 @@ public class CmaqTask extends AbstractCmaqTask {
   private boolean buildCsh() {
     Map<String, Object> params = new HashMap<>();
     params.put("cmaq_run_dir", runDir);
-    String scriptDir = configManager.getSystemConfig().getRoot().getScript();
-    params.put("cmaq_script", String.format("%s%s%s", scriptDir, File.separator, configManager.getSystemConfig().getCsh().getModule_cmaq_csh()));
+    params.put("cmaq_script", configManager.getSystemConfig().getCsh().getModule_cmaq_csh());
     params.put("renv_scrpit", renvPath);
     String content = VelocityUtil.buildTemplate(configManager.getSystemConfig().getTemplate().getCsh_cmaq(), params);
     try {
