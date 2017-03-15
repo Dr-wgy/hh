@@ -1,5 +1,6 @@
 package com.makenv.model.mc.meic;
 
+import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.meic.request.AnstractRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,10 @@ public class Application {
 
   public static void main(String[] args) throws Exception {
 
-        if(args.length <= 0) {
+        //设置绝对路径
+        VelocityUtil.setRelativeOrNot(false);
+
+        if(args.length < 0) {
 
             logger.info("please check your cmd command,confirm you input confFilePath");
 

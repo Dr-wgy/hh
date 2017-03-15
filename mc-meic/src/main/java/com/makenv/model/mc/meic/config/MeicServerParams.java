@@ -1,5 +1,7 @@
 package com.makenv.model.mc.meic.config;
 
+import com.makenv.model.mc.core.util.StringUtil;
+
 /**
  * Created by wgy on 2017/3/13.
  */
@@ -23,7 +25,7 @@ public class MeicServerParams {
 
     private String sslist;
 
-    private String meganPathPrefix;
+    private String meganPathPrefix = "";
 
     private String meicRunRequestUrl;
 
@@ -40,6 +42,36 @@ public class MeicServerParams {
     private String meicCityConfigPath;
 
     private String controlfile;
+
+    private String username;
+
+    private String password;
+
+    private int sleepSeconds;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getSleepSeconds() {
+        return sleepSeconds;
+    }
+
+    public void setSleepSeconds(int sleepSeconds) {
+        this.sleepSeconds = sleepSeconds;
+    }
 
     public int getMaxDom() {
         return maxDom;
@@ -110,7 +142,11 @@ public class MeicServerParams {
     }
 
     public void setMeganPathPrefix(String meganPathPrefix) {
-        this.meganPathPrefix = meganPathPrefix;
+
+        if(!StringUtil.isEmpty(meganPathPrefix)) {
+
+            this.meganPathPrefix = meganPathPrefix;
+        }
     }
 
     public String getMeicRunRequestUrl() {

@@ -1,5 +1,7 @@
 package com.makenv.model.mc.meic.config;
 
+import com.makenv.model.mc.core.util.StringUtil;
+
 /**
  * Created by wgy on 2017/3/13.
  */
@@ -23,7 +25,7 @@ public class MeicCacheParams {
 
     private String sslist;
 
-    private String meganPathPrefix;
+    private String meganPathPrefix = "";
 
     private String taskId;
 
@@ -110,7 +112,11 @@ public class MeicCacheParams {
     }
 
     public void setMeganPathPrefix(String meganPathPrefix) {
-        this.meganPathPrefix = meganPathPrefix;
+
+        if(!StringUtil.isEmpty(meganPathPrefix)) {
+
+            this.meganPathPrefix = meganPathPrefix;
+        }
     }
 
     public String getTaskId() {

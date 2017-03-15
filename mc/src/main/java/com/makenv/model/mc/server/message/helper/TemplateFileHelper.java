@@ -77,13 +77,13 @@ public class TemplateFileHelper {
 
     private boolean generateMeicServerConfTemplate(DomainCreateBean domainCreateBean) {
 
-        String meicTemplatePath = mcConfigManager.getSystemConfig().getTemplate().getMeic_cache_conf_vm();
+        String meicTemplatePath = mcConfigManager.getSystemConfig().getTemplate().getMeic_server_conf_vm();
 
         TaskDomain domain = domainCreateBean.getDomain();
 
         String model = domainCreateBean.getDomain().getMeic().getModel().getName();
 
-        String submodel = domainCreateBean.getDomain().getMeic().getModel().getName();
+        String submodel = domainCreateBean.getDomain().getMeic().getModel().getSubmodel();
 
         String dx[]  =  domain.getCommon().getDx().split(",");
 
