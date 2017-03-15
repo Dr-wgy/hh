@@ -49,10 +49,7 @@ emission:{
 	megan.year.yearmap.2015: 2016
 }
 append:{
-    #if(!$pslist)
+
       common.snip.psmeasures.action:"${pslist}"
-    #end
-    #if(!$sslist)
       common.snip.ssmeasures.action:"${sslist}"
-    #end
 }
