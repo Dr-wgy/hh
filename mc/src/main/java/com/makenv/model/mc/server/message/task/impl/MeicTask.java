@@ -110,7 +110,7 @@ public class MeicTask extends ModelTask {
     Map<String, String> params = new HashMap<>();
     params.put("jar_dir", meicDir);
     params.put("json_path", jsonFilePath);
-    String content = VelocityUtil.buildTemplate(configManager.getSystemConfig().getTemplate().getRenv_cmaq_sh(), params);
+    String content = VelocityUtil.buildTemplate(configManager.getSystemConfig().getTemplate().getRenv_meic_sh(), params);
     try {
       FileUtil.writeAppendLocalFileInLinux(new File(renvFilePath), content);
     } catch (IOException e) {
@@ -131,7 +131,7 @@ public class MeicTask extends ModelTask {
     String scriptDir = configManager.getSystemConfig().getRoot().getScript();
     params.put("meic_script", FilePathUtil.joinByDelimiter(scriptDir, configManager.getSystemConfig().getCsh().getModule_cmaq_csh()));
     params.put("renv_scrpit", renvFilePath);
-    String content = VelocityUtil.buildTemplate(configManager.getSystemConfig().getTemplate().getCsh_cmaq(), params);
+    String content = VelocityUtil.buildTemplate(configManager.getSystemConfig().getTemplate().getCsh_meic(), params);
     try {
       FileUtil.writeAppendLocalFileInLinux(getModelRunFile(), content);
     } catch (IOException e) {

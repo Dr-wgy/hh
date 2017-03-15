@@ -10,6 +10,15 @@ public class CshShell {
   private String module_wrf_csh;
   private String module_domain_csh;
   private String module_cmaq_csh;
+  private String module_meic_csh;
+
+  public String getModule_meic_csh() {
+    return module_meic_csh;
+  }
+
+  public void setModule_meic_csh(String module_meic_csh) {
+    this.module_meic_csh = module_meic_csh;
+  }
 
   public String getModule_cmaq_csh() {
     return module_cmaq_csh;
