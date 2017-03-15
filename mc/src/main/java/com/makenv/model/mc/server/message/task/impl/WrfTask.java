@@ -10,7 +10,6 @@ import com.makenv.model.mc.server.message.pojo.ModelStartBean;
 import com.makenv.model.mc.server.message.pojo.TaskDomain;
 import com.makenv.model.mc.server.message.task.ModelTask;
 import com.makenv.model.mc.server.message.task.bean.WrfBean;
-import com.makenv.model.mc.server.message.util.McUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,8 +37,8 @@ public class WrfTask extends ModelTask {
   }
 
   private boolean isReInitial(LocalDate compDate) {
-    LocalDate baseDate = configManager.getSystemConfig().getModel().getBaseDate();
-    int reinitialDays = configManager.getSystemConfig().getModel().getDays_of_reinitial();
+    LocalDate baseDate = configManager.getSystemConfig().getModel().getReinitOriginDate();
+    int reinitialDays = configManager.getSystemConfig().getModel().getReinit_cycle_days();
     return LocalTimeUtil.needReInitial(baseDate, compDate, reinitialDays);
   }
 

@@ -21,6 +21,33 @@ public class McipBean {
   private String CTMLAYS;
   private int debug;
   private String cmaq_version;
+  private String reinit_origin_date;
+  private String reinit_judge_tool;
+  private int reinit_cycle_days;
+
+  public String getReinit_origin_date() {
+    return reinit_origin_date;
+  }
+
+  public void setReinit_origin_date(String reinit_origin_date) {
+    this.reinit_origin_date = reinit_origin_date;
+  }
+
+  public String getReinit_judge_tool() {
+    return reinit_judge_tool;
+  }
+
+  public void setReinit_judge_tool(String reinit_judge_tool) {
+    this.reinit_judge_tool = reinit_judge_tool;
+  }
+
+  public int getReinit_cycle_days() {
+    return reinit_cycle_days;
+  }
+
+  public void setReinit_cycle_days(int reinit_cycle_days) {
+    this.reinit_cycle_days = reinit_cycle_days;
+  }
 
   public String getCmaq_version() {
     return cmaq_version;

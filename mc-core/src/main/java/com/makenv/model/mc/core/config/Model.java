@@ -9,13 +9,39 @@ public class Model {
   private int start_hour;
   private int time_difference;
   private int wrf_run_hours;
-  private String base_date;
-  private LocalDate baseDate;
-  private int days_of_reinitial;
+  private String reinit_origin_date;
+  private String reinit_judge_tool;
+  private int reinit_cycle_days;
+  private LocalDate reinitOriginDate;
+//  private int days_of_reinitial;
   private int ungrib_gfs_days;
   private int debug_level;
   private String wrf_version;
   private Meic meic;
+
+  public String getReinit_origin_date() {
+    return reinit_origin_date;
+  }
+
+  public void setReinit_origin_date(String reinit_origin_date) {
+    this.reinit_origin_date = reinit_origin_date;
+  }
+
+  public String getReinit_judge_tool() {
+    return reinit_judge_tool;
+  }
+
+  public void setReinit_judge_tool(String reinit_judge_tool) {
+    this.reinit_judge_tool = reinit_judge_tool;
+  }
+
+  public int getReinit_cycle_days() {
+    return reinit_cycle_days;
+  }
+
+  public void setReinit_cycle_days(int reinit_cycle_days) {
+    this.reinit_cycle_days = reinit_cycle_days;
+  }
 
   public Meic getMeic() {
     return meic;
@@ -34,6 +60,33 @@ public class Model {
     private long sleepSeconds;
     private String username;
     private String password;
+    private String actionlist_header;
+    private String ps_actionlist;
+    private String ss_actionlist;
+
+    public String getActionlist_header() {
+      return actionlist_header;
+    }
+
+    public void setActionlist_header(String actionlist_header) {
+      this.actionlist_header = actionlist_header;
+    }
+
+    public String getPs_actionlist() {
+      return ps_actionlist;
+    }
+
+    public void setPs_actionlist(String ps_actionlist) {
+      this.ps_actionlist = ps_actionlist;
+    }
+
+    public String getSs_actionlist() {
+      return ss_actionlist;
+    }
+
+    public void setSs_actionlist(String ss_actionlist) {
+      this.ss_actionlist = ss_actionlist;
+    }
 
     public long getSleepSeconds() {
       return sleepSeconds;
@@ -132,25 +185,22 @@ public class Model {
     this.ungrib_gfs_days = ungrib_gfs_days;
   }
 
-  public int getDays_of_reinitial() {
-    return days_of_reinitial;
+//  public int getDays_of_reinitial() {
+//    return days_of_reinitial;
+//  }
+//
+//  public void setDays_of_reinitial(int days_of_reinitial) {
+//    this.days_of_reinitial = days_of_reinitial;
+//  }
+
+  public LocalDate getReinitOriginDate() {
+    return reinitOriginDate;
   }
 
-  public void setDays_of_reinitial(int days_of_reinitial) {
-    this.days_of_reinitial = days_of_reinitial;
-  }
-
-  public LocalDate getBaseDate() {
-    return baseDate;
-  }
-
-  public String getBase_date() {
-    return base_date;
-  }
 
   public void setBase_date(String base_date) {
-    baseDate = LocalDate.parse(base_date);
-    this.base_date = base_date;
+    reinitOriginDate = LocalDate.parse(base_date);
+    this.reinit_origin_date = base_date;
   }
 
   public int getStart_hour() {
