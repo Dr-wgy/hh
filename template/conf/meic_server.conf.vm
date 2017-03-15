@@ -1,6 +1,6 @@
 
-username:modelcloud
-password:eyMwKYG6fPu4TZqW
+username:${username}
+password:${password}
 
 meicCityConfig: ${meic_city_path}
 controlfile: ${controlfile}

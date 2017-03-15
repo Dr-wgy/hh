@@ -58,9 +58,7 @@ public class MeicServerTask implements IMeicTask {
         List<String> taskList = doMeicRunRequest();
 
         //计算睡眠时间
-        int calculSleepMinute = calculSleepMinute(dateMapping.entrySet().size());
-
-        doMeicGetStateRequest(taskList,calculSleepMinute);
+        doMeicGetStateRequest(taskList);
 
         // 3. ln -sf 执行文件链接
         symbolicLinkFile(dateMapping);
@@ -130,6 +128,10 @@ public class MeicServerTask implements IMeicTask {
         paramsMap.put("meganpath",meicServerParams.getMeganPathPrefix());
 
         paramsMap.put("shutdown",meicServerParams.isMeganShutdown());
+
+        paramsMap.put("username",meicServerParams.getUsername());
+
+        paramsMap.put("password",meicServerParams.getPassword());
 
         return paramsMap;
     }
@@ -206,7 +208,7 @@ public class MeicServerTask implements IMeicTask {
         return dateMapping;
     }
 
-    private void doMeicGetStateRequest(List<String> taskList,int minutes) {
+    private void doMeicGetStateRequest(List<String> taskList) {
 
         int count = 0;
 
@@ -215,7 +217,7 @@ public class MeicServerTask implements IMeicTask {
             if(count != 0 ) {
 
                 try {
-                    TimeUnit.MINUTES.sleep(minutes);
+                    TimeUnit.SECONDS.sleep(meicServerParams.getSleepSeconds());
 
                 } catch (InterruptedException e) {
 
@@ -280,7 +282,8 @@ public class MeicServerTask implements IMeicTask {
 
     private boolean checkFaildStatus(MeicGetStatusResponse meicGetStatusResponse) {
 
-        return MeicGetStatusEnum.FAIL_STATUS.getStatus().equalsIgnoreCase(meicGetStatusResponse.getData());
+        return MeicGetStatusEnum.FAIL_STATUS.getStatus().equalsIgnoreCase(meicGetStatusResponse.getData()) ||
+                MeicGetStatusEnum.KILL_STATUS.getStatus().equalsIgnoreCase(meicGetStatusResponse.getData());
 
     }
 

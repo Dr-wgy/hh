@@ -43,6 +43,36 @@ public class MeicServerParams {
 
     private String controlfile;
 
+    private String username;
+
+    private String password;
+
+    private int sleepSeconds;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getSleepSeconds() {
+        return sleepSeconds;
+    }
+
+    public void setSleepSeconds(int sleepSeconds) {
+        this.sleepSeconds = sleepSeconds;
+    }
+
     public int getMaxDom() {
         return maxDom;
     }
