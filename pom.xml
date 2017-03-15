@@ -29,19 +29,18 @@
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <configuration>
-          <mainClass>com.makenv.model.mc.Application</mainClass>
-          <additionalProperties>
-            <encoding.source>${maven.compiler.encoding}</encoding.source>
-            <encoding.reporting>${maven.compiler.encoding}</encoding.reporting>
-            <java.source>${version.jdk}</java.source>
-            <java.target>${version.jdk}</java.target>
-          </additionalProperties>
-        </configuration>
-      </plugin>
+      <!--<plugin>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+        <!--<configuration>-->
+          <!--<additionalProperties>-->
+            <!--<encoding.source>${maven.compiler.encoding}</encoding.source>-->
+            <!--<encoding.reporting>${maven.compiler.encoding}</encoding.reporting>-->
+            <!--<java.source>${version.jdk}</java.source>-->
+            <!--<java.target>${version.jdk}</java.target>-->
+          <!--</additionalProperties>-->
+        <!--</configuration>-->
+      <!--</plugin>-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
