@@ -108,7 +108,7 @@ public class CreateDomainHelper {
         .append("cd ")
         .append(geogridRunPath)
         .append("\n")
-        .append("source " + FilePathUtil.joinByDelimiter(script_path, mcConfigManager.getSystemConfig().getRenv().getSys()))
+        .append("source " + mcConfigManager.getSystemConfig().getRenv().getSys())
         .append("\n")
         .append(moduleDomainCsh).append(" ")
         .append(renvPathName);

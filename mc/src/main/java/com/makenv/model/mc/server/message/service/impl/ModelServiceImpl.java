@@ -65,9 +65,8 @@ public class ModelServiceImpl implements ModelService {
       return false;
     }
     File modelRunFile = new File(firstTask.getModelRunFilePath());
-    String content = String.format("%ssource %s%s%s\n", Constant.CSH_HEADER,
-        mcConfigManager.getSystemConfig().getRoot().getScript(),
-        File.separator,
+    String content = String.format("%ssource %s%s%s\n",
+        Constant.CSH_HEADER,
         mcConfigManager.getSystemConfig().getRenv().getSys());
     try {
       FileUtil.writeLocalFile(modelRunFile, content);
