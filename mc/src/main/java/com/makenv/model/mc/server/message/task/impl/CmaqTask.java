@@ -94,7 +94,7 @@ public class CmaqTask extends AbstractCmaqTask {
     cmaqBean.setBase_cmaq_output_path(baseCctmDataDir);
     cmaqBean.setCmaq_output_path(cctmDataDir);
     cmaqBean.setMax_dom(taskDomain.getCommon().getMax_dom());
-    cmaqBean.setRun_type(modelStartBean.getCmaq().isInitial() ? RUN_TYPE_INIT : RUN_TYPE_RESTART);
+    cmaqBean.setRun_type(modelStartBean.getCmaq().isFirsttime() ? RUN_TYPE_INIT : RUN_TYPE_RESTART);
   }
 
   private boolean buildRenv() {

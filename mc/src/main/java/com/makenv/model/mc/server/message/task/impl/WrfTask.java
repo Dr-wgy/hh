@@ -156,7 +156,7 @@ public class WrfTask extends ModelTask {
   }
 
   private void buildFnlRenvBean() throws IOException {
-    boolean isInitial = modelStartBean.getWrf().isInitial();
+    boolean isInitial = modelStartBean.getWrf().isFirsttime();
     int i = 0, j = 0;
     LocalDate _current = startDate, lastDate = startDate;
     WrfBean bean;
