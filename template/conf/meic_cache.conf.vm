@@ -2,13 +2,13 @@
 include file("this/etc/__task.conf")
 
 common {
-  emissiondir: ${emissiondir}
-  taskid: ${taskId}
+  emissiondir: "${emissiondir}"
+  taskid: "${taskId}"
 }
 builder {
   outpath: "${outpath}<p.year><p.dayOfYear>"
-  start: ${start_date}
-  end: ${end_date}
+  start: "${start_date}"
+  end: "${end_date}"
 }
 emission.megan.shutdown: ${shutdown}
 common.snip.psmeasures.action: ${pslist}

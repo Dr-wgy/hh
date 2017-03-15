@@ -1,9 +1,9 @@
 
-username:${username}
-password:${password}
+username:"${username}"
+password:"${password}"
 
-meicCityConfig: ${meic_city_path}
-controlfile: ${controlfile}
+meicCityConfig: "${meic_city_path}"
+controlfile: "${controlfile}"
 #
 caseid: linxin_meicd0${meic.currdom}_${meic.meicType}
 
@@ -26,8 +26,8 @@ domain: [
 
 #
 time:{
-      start: ${start_date}
-      end: ${end_date}
+      start: "${start_date}"
+      end: "${end_date}"
 }
 
 #
@@ -49,6 +49,6 @@ emission:{
 	megan.year.yearmap.2015: 2016
 }
 append:{
-    common.snip.psmeasures.action: ${pslist}
-    common.snip.ssmeasures.action: ${sslist}
+    common.snip.psmeasures.action: "${pslist}"
+    common.snip.ssmeasures.action: "${sslist}"
 }

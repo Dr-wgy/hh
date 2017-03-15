@@ -3,6 +3,7 @@ package com.makenv.model.mc.core.config;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigBeanFactory;
 import com.typesafe.config.ConfigFactory;
+import com.typesafe.config.ConfigValue;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,7 +18,11 @@ import java.io.InputStreamReader;
 @Configuration
 public class McConfigManager implements InitializingBean {
 
-    private String configPath = "file:etc/system.conf";
+    private String instanceConfigPath = "file:etc/instance.conf";
+
+    private String systemRouterPath = "file:etc/%s/system.conf";
+
+    private String systemPath = "file:etc/system.conf";
 
     public SystemConfig getSystemConfig() {
         return systemConfig;
@@ -27,6 +32,24 @@ public class McConfigManager implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
+
+        Config routerConfig = getConfigPath(instanceConfigPath);
+
+        String nodeMachineConfig = routerConfig.getString("system.instance");
+
+        Config nodeMachineSystemConfig = getConfigPath(String.format(systemRouterPath, nodeMachineConfig));
+
+        Config basicSystemConfig = getConfigPath(systemPath);
+
+        Config dealConfig = nodeMachineSystemConfig.
+                withFallback(basicSystemConfig).withFallback(routerConfig).resolve().getConfig("system");
+
+        systemConfig = ConfigBeanFactory.create(dealConfig,SystemConfig.class);
+
+
+    }
+
+    private Config getConfigPath(String configPath) {
 
         Config config = null;
 
@@ -42,7 +65,7 @@ public class McConfigManager implements InitializingBean {
             }
         } else {
 
-            if(configPath.startsWith("file:")){
+            if (configPath.startsWith("file:")) {
                 configPath = configPath.substring(5);
             }
             File configFile = new File(configPath);
@@ -53,12 +76,10 @@ public class McConfigManager implements InitializingBean {
                             "Config file doesn't exist or it's directory");
                 }
             }
-            config = ConfigFactory.parseFile(configFile).resolve();
-
-            systemConfig = ConfigBeanFactory.create(config.getConfig("system"),SystemConfig.class);
-
+            config = ConfigFactory.parseFile(configFile);
         }
-    }
 
+        return config;
+    }
 
 }

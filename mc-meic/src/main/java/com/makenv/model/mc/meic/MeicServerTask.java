@@ -6,6 +6,7 @@ import com.makenv.model.mc.core.util.LocalTimeUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.meic.config.MeicServerParams;
 import com.makenv.model.mc.meic.constants.MeicType;
+import com.makenv.model.mc.meic.constants.ResultStatus;
 import com.makenv.model.mc.meic.request.MeicGetStatusRequest;
 import com.makenv.model.mc.meic.request.MeicRunRequest;
 import com.makenv.model.mc.meic.response.MeicGetStatusEnum;
@@ -317,7 +318,7 @@ public class MeicServerTask implements IMeicTask {
 
             MeicRunResponse meicRunResponse = meicRunRequest.doPost();
 
-            if(meicRunResponse != null) {
+            if(meicRunResponse != null && ResultStatus.REQUEST_SUCCESS.getStatus().equals(meicRunResponse.getStatus())) {
 
                 taskList.add(meicRunResponse.getData());
             }
