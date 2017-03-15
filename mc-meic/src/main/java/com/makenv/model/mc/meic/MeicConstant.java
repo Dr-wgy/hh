@@ -13,5 +13,7 @@ public class MeicConstant {
 
     public static final String meicOutFile = "meic_china_d%02d_";
 
+    public static final int RUN_MINIUTE = 1;
+
 
 }

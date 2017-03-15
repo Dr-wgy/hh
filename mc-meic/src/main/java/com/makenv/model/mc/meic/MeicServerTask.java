@@ -57,10 +57,18 @@ public class MeicServerTask implements IMeicTask {
         // 2.执行接口生成meic
         List<String> taskList = doMeicRunRequest();
 
-        doMeicGetStateRequest(taskList);
+        //计算睡眠时间
+        int calculSleepMinute = calculSleepMinute(dateMapping.entrySet().size());
+
+        doMeicGetStateRequest(taskList,calculSleepMinute);
 
         // 3. ln -sf 执行文件链接
         symbolicLinkFile(dateMapping);
+    }
+
+    private int calculSleepMinute(int size) {
+
+        return MeicConstant.RUN_MINIUTE;
     }
 
     private void generateConfFile() {
@@ -77,9 +85,9 @@ public class MeicServerTask implements IMeicTask {
 
             String confFileTemplatePath = FilePathUtil.joinByDelimiter(confTemplateDir, meicFileTemConf);
 
-            System.out.println(confFileTemplatePath);
+            /*System.out.println(confFileTemplatePath);
 
-            System.out.println(new File(confFileTemplatePath).exists());
+            System.out.println(new File(confFileTemplatePath).exists());*/
 
             String content = VelocityUtil.buildTemplate(confFileTemplatePath, createServerParams(currDom));
 
@@ -198,7 +206,7 @@ public class MeicServerTask implements IMeicTask {
         return dateMapping;
     }
 
-    private void doMeicGetStateRequest(List<String> taskList) {
+    private void doMeicGetStateRequest(List<String> taskList,int minutes) {
 
         int count = 0;
 
@@ -207,7 +215,7 @@ public class MeicServerTask implements IMeicTask {
             if(count != 0 ) {
 
                 try {
-                    TimeUnit.SECONDS.sleep(30);
+                    TimeUnit.MINUTES.sleep(minutes);
 
                 } catch (InterruptedException e) {
 
