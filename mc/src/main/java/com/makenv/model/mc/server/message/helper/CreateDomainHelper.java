@@ -7,6 +7,9 @@ import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.server.constant.Constants;
 import com.makenv.model.mc.server.message.pojo.DomainCreateBean;
+import com.makenv.model.mc.server.message.service.impl.ModelServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +23,8 @@ import java.util.HashMap;
 //执行geogrid和oceanFile
 @Component
 public class CreateDomainHelper {
+
+  private Logger logger = LoggerFactory.getLogger(CreateDomainHelper.class);
 
   @Autowired
   private McConfigManager mcConfigManager;
@@ -42,11 +47,13 @@ public class CreateDomainHelper {
 
     try {
 
-      qsubStr = String.format(qsubStr, 1, 1, String.join(Constants.GEOGRID_NAME, domainCreateBean.getDomainid()),
+      qsubStr = String.format(qsubStr, 1, 1, String.join("",Constants.GEOGRID_NAME, domainCreateBean.getDomainid()),
           FilePathUtil.joinByDelimiter(geogridRunPath, Constants.GEOGRID_OUT_FILE_NAME),
           FilePathUtil.joinByDelimiter(geogridRunPath, Constants.GEOGRID_ERROR_FILE_NAME),
           invokeFile
       );
+
+      logger.info(qsubStr);
 
       Runtime.getRuntime().exec(qsubStr);
 
