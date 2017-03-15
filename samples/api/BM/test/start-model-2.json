@@ -7,7 +7,7 @@
     "domainid": "1",
     "missionid": "1",
     "scenarioid": "1",
-    "tasks": ["wrf"],
+    "tasks": ["meic"],
     "cores": 16,
     "common": {
       "datatype": "fnl",
