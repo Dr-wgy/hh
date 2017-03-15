@@ -68,7 +68,7 @@ public class ModelServiceImpl implements ModelService {
     String content = String.format("%ssource %s%s%s\n", Constant.CSH_HEADER,
         mcConfigManager.getSystemConfig().getRoot().getScript(),
         File.separator,
-        Constant.SYS_RENV_CSH);
+        mcConfigManager.getSystemConfig().getRenv().getSys());
     try {
       FileUtil.writeLocalFile(modelRunFile, content);
       modelRunFile.setExecutable(true);
@@ -82,7 +82,7 @@ public class ModelServiceImpl implements ModelService {
     String errLog = String.format("%s%s%s", firstTask.getModelRunDir(), File.separator, Constant.TORQUE_LOG_ERROR);
     String infoLog = String.format("%s%s%s", firstTask.getModelRunDir(), File.separator, Constant.TORQUE_LOG_INFO);
     String qsubname = String.format("m%s-%s", modelStartBean.getUserid(), modelStartBean.getScenarioid());
-    String cmd = String.format(mcConfigManager.getSystemConfig().getPbs().getQsub(), 1, 24, qsubname,
+    String cmd = String.format(mcConfigManager.getSystemConfig().getPbs().getQsub(), 1, mcConfigManager.getSystemConfig().getPbs().getPpn(), qsubname,
         infoLog, errLog, firstTask.getModelRunFilePath());
     logger.info(cmd);
     try {

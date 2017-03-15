@@ -11,6 +11,24 @@ public class SystemConfig {
   private Pbs pbs;
   private CshShell csh;
   private Model model;
+  private String instance;
+  private Renv renv;
+
+  public String getInstance() {
+    return instance;
+  }
+
+  public void setInstance(String instance) {
+    this.instance = instance;
+  }
+
+  public Renv getRenv() {
+    return renv;
+  }
+
+  public void setRenv(Renv renv) {
+    this.renv = renv;
+  }
 
   public Model getModel() {
     return model;
@@ -66,5 +84,17 @@ public class SystemConfig {
 
   public void setWorkspace(WorkSpacePath workspace) {
     this.workspace = workspace;
+  }
+
+  public static class Renv {
+    private String sys;
+
+    public String getSys() {
+      return sys;
+    }
+
+    public void setSys(String sys) {
+      this.sys = sys;
+    }
   }
 }

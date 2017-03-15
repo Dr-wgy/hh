@@ -183,7 +183,9 @@ public class UngribOperator extends AbstractOperator {
   }
 
   private void prepareExecScript() throws IOException {
-    String sourceSysRenv = String.format("source %s%s%s\necho $LD_LIBRARY_PATH\n\n", configManager.getSystemConfig().getRoot().getScript(), File.separator, Constant.SYS_RENV_CSH);
+    String sourceSysRenv = String.format("source %s%s%s\necho $LD_LIBRARY_PATH\n\n",
+        configManager.getSystemConfig().getRoot().getScript(), File.separator,
+        configManager.getSystemConfig().getRenv().getSys());
     String cdInvokeDir = String.format("cd %s\n", runPath);
     String sb = Constant.CSH_HEADER + sourceSysRenv +
         cdInvokeDir +

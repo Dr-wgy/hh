@@ -19,121 +19,121 @@ import java.util.HashMap;
  */
 //执行geogrid和oceanFile
 @Component
-public class CreateDomainHelper{
+public class CreateDomainHelper {
 
-    @Autowired
-    private McConfigManager mcConfigManager;
+  @Autowired
+  private McConfigManager mcConfigManager;
 
-    public boolean executeShell(DomainCreateBean domainCreateBean) {
+  public boolean executeShell(DomainCreateBean domainCreateBean) {
 
-        String qsubStr = mcConfigManager.getSystemConfig().getPbs().getQsub();
+    String qsubStr = mcConfigManager.getSystemConfig().getPbs().getQsub();
 
-        String moduleDomainCsh = mcConfigManager.getSystemConfig().getCsh().getModule_domain_csh();
+    String moduleDomainCsh = mcConfigManager.getSystemConfig().getCsh().getModule_domain_csh();
 
-        String script_path = mcConfigManager.getSystemConfig().getRoot().getScript();
+    String script_path = mcConfigManager.getSystemConfig().getRoot().getScript();
 
-        String geogridRunPath = mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getRun().getGeogrid();
+    String geogridRunPath = mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getRun().getGeogrid();
 
-        geogridRunPath = replaceRegex(geogridRunPath,domainCreateBean);
+    geogridRunPath = replaceRegex(geogridRunPath, domainCreateBean);
 
-        String renvPathName = buildRenv(domainCreateBean);
+    String renvPathName = buildRenv(domainCreateBean);
 
-        String invokeFile = prepareExecShell(geogridRunPath,script_path,moduleDomainCsh,renvPathName);
+    String invokeFile = prepareExecShell(geogridRunPath, script_path, moduleDomainCsh, renvPathName);
 
-        try {
+    try {
 
-            qsubStr = String.format(qsubStr,1,1,String.join(Constants.GEOGRID_NAME,domainCreateBean.getDomainid()),
-                    FilePathUtil.joinByDelimiter(geogridRunPath,Constants.GEOGRID_OUT_FILE_NAME),
-                    FilePathUtil.joinByDelimiter(geogridRunPath,Constants.GEOGRID_ERROR_FILE_NAME),
-                    invokeFile
-            );
+      qsubStr = String.format(qsubStr, 1, 1, String.join(Constants.GEOGRID_NAME, domainCreateBean.getDomainid()),
+          FilePathUtil.joinByDelimiter(geogridRunPath, Constants.GEOGRID_OUT_FILE_NAME),
+          FilePathUtil.joinByDelimiter(geogridRunPath, Constants.GEOGRID_ERROR_FILE_NAME),
+          invokeFile
+      );
 
-            Runtime.getRuntime().exec(qsubStr);
+      Runtime.getRuntime().exec(qsubStr);
 
-        } catch (IOException e) {
+    } catch (IOException e) {
 
-            e.printStackTrace();
+      e.printStackTrace();
 
-            return false;
-        }
-
-        return true;
+      return false;
     }
 
-    private String buildRenv(DomainCreateBean domainCreateBean){
+    return true;
+  }
 
-        String renvDomainsh =  mcConfigManager.getSystemConfig().getTemplate().getRenv_domain_sh();
+  private String buildRenv(DomainCreateBean domainCreateBean) {
 
-        String geogridTemplatePath = FilePathUtil.joinByDelimiter(mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid()
-                .getCommon().getTemplate().getDirPath(), Constant.NAMELIST_WPS_GEOGRID_TEMPLATE);
+    String renvDomainsh = mcConfigManager.getSystemConfig().getTemplate().getRenv_domain_sh();
 
-        geogridTemplatePath = replaceRegex(geogridTemplatePath,domainCreateBean);
-        GeoRenv geoRenv = new GeoRenv();
-        geoRenv.setWrf_build_path(mcConfigManager.getSystemConfig().getRoot().getWrf());
-        geoRenv.setScripts_path(mcConfigManager.getSystemConfig().getRoot().getScript());
-        geoRenv.setNamelist_wps_geogrid_template(geogridTemplatePath);
-        geoRenv.setGeog_data_path(mcConfigManager.getSystemConfig().getWorkspace().getShare().getInput().getGeog().getDirPath());
-        geoRenv.setWrf_version(domainCreateBean.getDomain().getWrf().getVersion());
+    String geogridTemplatePath = FilePathUtil.joinByDelimiter(mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid()
+        .getCommon().getTemplate().getDirPath(), Constant.NAMELIST_WPS_GEOGRID_TEMPLATE);
 
-        String geogridDataPath = mcConfigManager.getSystemConfig()
-                .getWorkspace().getUserid().
-                getDomainid().getCommon().
-                getData().getGeogrid().getDirPath();
+    geogridTemplatePath = replaceRegex(geogridTemplatePath, domainCreateBean);
+    GeoRenv geoRenv = new GeoRenv();
+    geoRenv.setWrf_build_path(mcConfigManager.getSystemConfig().getRoot().getWrf());
+    geoRenv.setScripts_path(mcConfigManager.getSystemConfig().getRoot().getScript());
+    geoRenv.setNamelist_wps_geogrid_template(geogridTemplatePath);
+    geoRenv.setGeog_data_path(mcConfigManager.getSystemConfig().getWorkspace().getShare().getInput().getGeog().getDirPath());
+    geoRenv.setWrf_version(domainCreateBean.getDomain().getWrf().getVersion());
 
-        geogridDataPath = replaceRegex(geogridDataPath,domainCreateBean);
-        //创建文件夹
-        FileUtil.createFolder(geogridDataPath);
-        geoRenv.setGeogrid_data_path(geogridDataPath);
-        HashMap hashMap = new HashMap();
-        hashMap.put("georenv",geoRenv);
-        String content = VelocityUtil.buildTemplate(renvDomainsh,hashMap);
+    String geogridDataPath = mcConfigManager.getSystemConfig()
+        .getWorkspace().getUserid().
+            getDomainid().getCommon().
+            getData().getGeogrid().getDirPath();
 
-        String geogridRunPath = mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getRun().getGeogrid();
-        geogridRunPath = replaceRegex(geogridRunPath,domainCreateBean);
+    geogridDataPath = replaceRegex(geogridDataPath, domainCreateBean);
+    //创建文件夹
+    FileUtil.createFolder(geogridDataPath);
+    geoRenv.setGeogrid_data_path(geogridDataPath);
+    HashMap hashMap = new HashMap();
+    hashMap.put("georenv", geoRenv);
+    String content = VelocityUtil.buildTemplate(renvDomainsh, hashMap);
 
-        String renvPathName = FilePathUtil.joinByDelimiter(geogridRunPath,Constant.DOMAIN_RENV_FILE);
+    String geogridRunPath = mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getRun().getGeogrid();
+    geogridRunPath = replaceRegex(geogridRunPath, domainCreateBean);
 
-        FileUtil.save(renvPathName,content);
+    String renvPathName = FilePathUtil.joinByDelimiter(geogridRunPath, Constant.DOMAIN_RENV_FILE);
 
-        return renvPathName;
+    FileUtil.save(renvPathName, content);
+
+    return renvPathName;
 
 
+  }
+
+  //准备执行的脚本
+  private String prepareExecShell(String geogridRunPath, String script_path, String moduleDomainCsh, String renvPathName) {
+
+    StringBuffer stringBuffer = new StringBuffer("#!/usr/bin/csh -f");
+    stringBuffer.append("\n")
+        .append("cd ")
+        .append(geogridRunPath)
+        .append("\n")
+        .append("source " + FilePathUtil.joinByDelimiter(script_path, mcConfigManager.getSystemConfig().getRenv().getSys()))
+        .append("\n")
+        .append(moduleDomainCsh).append(" ")
+        .append(renvPathName);
+
+    String invokeFile = FilePathUtil.joinByDelimiter(geogridRunPath, Constant.GEOGRID_SCRIPT_FILE);
+
+    File file = new File(invokeFile);
+
+    try {
+
+      FileUtil.writeLocalFile(file, stringBuffer.toString());
+
+    } catch (IOException e) {
+
+      e.printStackTrace();
     }
 
-    //准备执行的脚本
-    private String prepareExecShell(String geogridRunPath,String script_path,String moduleDomainCsh,String renvPathName){
+    file.setExecutable(true);
 
-        StringBuffer stringBuffer = new StringBuffer("#!/usr/bin/csh -f");
-                    stringBuffer.append("\n")
-                    .append("cd ")
-                    .append(geogridRunPath)
-                    .append("\n")
-                    .append("source "+FilePathUtil.joinByDelimiter(script_path,Constant.SYS_RENV_CSH))
-                    .append("\n")
-                    .append(moduleDomainCsh).append(" ")
-                    .append(renvPathName);
+    return invokeFile;
 
-        String invokeFile = FilePathUtil.joinByDelimiter(geogridRunPath,Constant.GEOGRID_SCRIPT_FILE);
+  }
 
-        File file = new File(invokeFile);
+  private String replaceRegex(String path, DomainCreateBean domainCreateBean) {
 
-        try {
-
-            FileUtil.writeLocalFile(file, stringBuffer.toString());
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        }
-
-        file.setExecutable(true);
-
-        return invokeFile;
-
-    }
-
-    private String replaceRegex(String path,DomainCreateBean domainCreateBean) {
-
-        return path.replaceAll("\\{userid\\}",domainCreateBean.getUserid()).replaceAll("\\{domainid\\}",domainCreateBean.getDomainid());
-    }
+    return path.replaceAll("\\{userid\\}", domainCreateBean.getUserid()).replaceAll("\\{domainid\\}", domainCreateBean.getDomainid());
+  }
 }
