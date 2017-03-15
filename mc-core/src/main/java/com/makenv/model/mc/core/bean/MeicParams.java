@@ -49,17 +49,17 @@ public class MeicParams {
 
     private String password;
 
-    private int sleepSeconds;
+    private long sleepSeconds;
 
-    public int getSleepSeconds() {
-        return sleepSeconds;
-    }
+  public long getSleepSeconds() {
+    return sleepSeconds;
+  }
 
-    public void setSleepSeconds(int sleepSeconds) {
-        this.sleepSeconds = sleepSeconds;
-    }
+  public void setSleepSeconds(long sleepSeconds) {
+    this.sleepSeconds = sleepSeconds;
+  }
 
-    public String getUsername() {
+  public String getUsername() {
         return username;
     }
 
