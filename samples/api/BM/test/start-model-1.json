@@ -20,17 +20,18 @@
     },
     "emis": {
       "sourceid": "1",
-      "calctype": "cache",
-      "actionlist": "/path/actionlist",
+      "calctype": "server",
+      "psal": "",
+      "ssal": "",
       "meiccityconfig": "/work/b/lixin_meic/hebei/meic-city.conf"
     },
     "wrf": {
-      "initial": true,
+      "firsttime": true,
       "spinup": 0,
       "lastfnl": "20170201" 
     },
     "cmaq": {
-      "initial": true,
+      "firsttime": true,
       "spinup": 0,
       "ic":{
         "missionid": "1",

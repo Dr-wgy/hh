@@ -70,19 +70,16 @@ public class MeicTask extends ModelTask {
     meicParams.setTimeDiff(configManager.getSystemConfig().getModel().getTime_difference());
     meicParams.setEmissiondir(emisDir);
 //    meicParams.setEmisFilePrefix(configManager.getSystemConfig().getModel().getMeic().getEmis_file_prefix()); deleted
-    String pslist, sslist;
-    if (!StringUtil.isEmpty(modelStartBean.getEmis().getActionlist())) {
-      pslist = FilePathUtil.joinByDelimiter(modelStartBean.getEmis().getActionlist(), Constant.ACTIONLIST_PS);
-      sslist = FilePathUtil.joinByDelimiter(modelStartBean.getEmis().getActionlist(), Constant.ACTIONLIST_SS);
-      meicParams.setPslist(pslist);
-      meicParams.setSslist(sslist);
-    } else {
-      //TODO测试一下为空是否代表无减排
-//      pslist = FilePathUtil.joinByDelimiter(runDir, Constant.ACTIONLIST_PS);
-//      sslist = FilePathUtil.joinByDelimiter(runDir, Constant.ACTIONLIST_SS);
-//      meicParams.setPslist(pslist);
-//      meicParams.setSslist(sslist);
+    String pslist = "", sslist = "";
+    if (!StringUtil.isEmpty(modelStartBean.getEmis().getPsal())) {
+      pslist = FilePathUtil.joinByDelimiter(modelStartBean.getEmis().getPsal(), Constant.ACTIONLIST_PS);
     }
+    if (!StringUtil.isEmpty(modelStartBean.getEmis().getSsal())) {
+      sslist = FilePathUtil.joinByDelimiter(modelStartBean.getEmis().getSsal(), Constant.ACTIONLIST_SS);
+    }
+    meicParams.setPslist(pslist);
+    meicParams.setSslist(sslist);
+
 //    meicParams.setMeganPathPrefix();
     meicParams.setRunPath(runDir);
     meicParams.setTaskId(String.format("%s-%s-%s", modelStartBean.getUserid(), modelStartBean.getDomainid(), modelStartBean.getScenarioid()));
@@ -93,6 +90,10 @@ public class MeicTask extends ModelTask {
     meicParams.setMeganShutdown(model.getMeic().isMeganShutdown());
     meicParams.setMeasureJarDir(meicDir);
     meicParams.setMeicCityConfigPath(modelStartBean.getEmis().getMeiccityconfig());
+    meicParams.setSleepSeconds(model.getMeic().getSleepSeconds());
+    meicParams.setUsername(model.getMeic().getUsername());
+    meicParams.setPassword(model.getMeic().getPassword());
+    meicParams.setControlfile(model.getMeic().getControl_file());
   }
 
   private boolean buildJson() {
@@ -126,7 +127,7 @@ public class MeicTask extends ModelTask {
 
   private boolean buildCsh() {
     Map<String, Object> params = new HashMap<>();
-    params.put("cmaq_run_dir", runDir);
+    params.put("meic_script", runDir);
     String scriptDir = configManager.getSystemConfig().getRoot().getScript();
     params.put("meic_script", FilePathUtil.joinByDelimiter(scriptDir, configManager.getSystemConfig().getCsh().getModule_cmaq_csh()));
     params.put("renv_scrpit", renvFilePath);

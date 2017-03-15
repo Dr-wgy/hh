@@ -1,15 +1,14 @@
 package com.makenv.model.mc.server.message.pojo;
 
-import java.util.List;
-
 /**
  * Created by wgy on 2017/2/23.
  */
 public class Emis {
 
   private String calctype;
-  private String actionlist;
-//  private List<String> model;
+  private String psal;
+  private String ssal;
+  //  private List<String> model;
 //  private Cmaq cmaq;
 //  private Megan megan;
   private String sourceid;
@@ -31,13 +30,20 @@ public class Emis {
     this.sourceid = sourceid;
   }
 
-
-  public String getActionlist() {
-    return actionlist;
+  public String getPsal() {
+    return psal;
   }
 
-  public void setActionlist(String actionlist) {
-    this.actionlist = actionlist;
+  public void setPsal(String psal) {
+    this.psal = psal;
+  }
+
+  public String getSsal() {
+    return ssal;
+  }
+
+  public void setSsal(String ssal) {
+    this.ssal = ssal;
   }
 
   public String getCalctype() {

@@ -40,7 +40,7 @@ public class WrfTask extends ModelTask {
   private boolean isReInitial(LocalDate compDate) {
     LocalDate baseDate = configManager.getSystemConfig().getModel().getBaseDate();
     int reinitialDays = configManager.getSystemConfig().getModel().getDays_of_reinitial();
-    return McUtil.needReInitial(baseDate, compDate, reinitialDays);
+    return LocalTimeUtil.needReInitial(baseDate, compDate, reinitialDays);
   }
 
   protected boolean checkParams() {

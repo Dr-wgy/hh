@@ -67,4 +67,19 @@ public class LocalTimeUtil {
     return format(utcZoned.toLocalDate(), YMD_DATE_FORMAT);
 
   }
+
+  public static boolean needReInitial(LocalDate baseDate, LocalDate compDate, int reInitialDays) {
+    return LocalTimeUtil.between(baseDate, compDate) % reInitialDays == 0;
+  }
+
+  public static boolean needReInitial(String baseDate, String compDate, int reInitialDays) {
+    LocalDate _baseDate = parse(baseDate, YMD_DATE_FORMAT);
+    LocalDate _compDate = parse(compDate, YMD_DATE_FORMAT);
+    return needReInitial(_baseDate, _compDate, reInitialDays);
+  }
+
+  public static void main(String[] args) {
+    int days = Integer.parseInt(args[2]);
+    System.out.println(needReInitial(args[0], args[1], days) ? "1" : "0");
+  }
 }
