@@ -69,19 +69,21 @@ public class MeicServerTask implements IMeicTask {
 
         for(int currDom = 1; currDom <= maxDom; currDom ++ ) {
 
-            String meicFileConf = String.format(MeicConstant.meicConfTemplateFile, currDom, MeicType.MEICTYPE_SERVER.getType());
+            String meicFileTemConf = String.format(MeicConstant.meicConfTemplateFile, currDom, MeicType.MEICTYPE_SERVER.getType());
 
             String confTemplateDir = meicServerParams.getConfTemplateDir();
 
             String runPath = meicServerParams.getRunPath();
 
-            String confFileTemplatePath = FilePathUtil.joinByDelimiter(confTemplateDir, meicFileConf);
+            String confFileTemplatePath = FilePathUtil.joinByDelimiter(confTemplateDir, meicFileTemConf);
 
             System.out.println(confFileTemplatePath);
 
             System.out.println(new File(confFileTemplatePath).exists());
 
             String content = VelocityUtil.buildTemplate(confFileTemplatePath, createServerParams(currDom));
+
+            String meicFileConf = String.format(MeicConstant.meicConfFile, currDom, MeicType.MEICTYPE_SERVER.getType());
 
             String targetConfFilePath = FilePathUtil.joinByDelimiter(runPath, meicFileConf);
 
@@ -193,7 +195,7 @@ public class MeicServerTask implements IMeicTask {
             startDate = startDate.plus(1,ChronoUnit.DAYS);
         }
 
-        return null;
+        return dateMapping;
     }
 
     private void doMeicGetStateRequest(List<String> taskList) {
@@ -205,7 +207,7 @@ public class MeicServerTask implements IMeicTask {
             if(count != 0 ) {
 
                 try {
-                    TimeUnit.SECONDS.sleep(2);
+                    TimeUnit.SECONDS.sleep(30);
 
                 } catch (InterruptedException e) {
 
@@ -236,10 +238,18 @@ public class MeicServerTask implements IMeicTask {
 
                     MeicGetStatusResponse meicGetStatusResponse = meicGetStatusRequest.doGetReuest(stringBuffer.toString(),meicServerParams.getMeicGetStatusUrl());
 
-                    if(checkStatus(meicGetStatusResponse)){
+
+                    if(checkSuccessStatus(meicGetStatusResponse)){
 
                         iterator.remove();
                     };
+
+                    if(checkFaildStatus(meicGetStatusResponse)) {
+
+                        logger.info("please check your meic-tools log");
+                        //meicTool 运行失败
+                        System.exit(1);
+                    }
 
 
                 } catch (Exception e) {
@@ -254,21 +264,15 @@ public class MeicServerTask implements IMeicTask {
         }
     }
 
-    private boolean checkStatus(MeicGetStatusResponse meicGetStatusResponse) {
+    private boolean checkSuccessStatus(MeicGetStatusResponse meicGetStatusResponse) {
 
-        MeicGetStatusEnum[] meicGetStatusEnums = MeicGetStatusEnum.values();
+        return MeicGetStatusEnum.DONE_STATUS.getStatus().equalsIgnoreCase(meicGetStatusResponse.getData());
 
-        for(MeicGetStatusEnum meicGetStatusEnum:meicGetStatusEnums) {
+    }
 
-            if(meicGetStatusEnum.getStatus().equalsIgnoreCase(meicGetStatusResponse.getStatus())) {
+    private boolean checkFaildStatus(MeicGetStatusResponse meicGetStatusResponse) {
 
-                return true;
-            }
-
-
-        }
-
-        return false;
+        return MeicGetStatusEnum.FAIL_STATUS.getStatus().equalsIgnoreCase(meicGetStatusResponse.getData());
 
     }
 
@@ -292,7 +296,7 @@ public class MeicServerTask implements IMeicTask {
 
             String meicConfDir = meicServerParams.getRunPath();
 
-            String filePath = String.format(MeicConstant.meicConfFile,maxDom,MeicType.MEICTYPE_SERVER.getType());
+            String filePath = String.format(MeicConstant.meicConfFile,currDom,MeicType.MEICTYPE_SERVER.getType());
 
             String meicTemplatePath = String.join("/",meicConfDir,filePath);
 

@@ -178,16 +178,17 @@ public class MeicCacheTask implements IMeicTask {
 
         for(int currDom = 1; currDom <= maxDom; currDom ++ ) {
 
-            String meicFileConf = String.format(MeicConstant.meicConfFile, currDom, MeicType.MEICTYPE_CACHE.getType());
+            String meicTemplateFileConf = String.format(MeicConstant.meicConfTemplateFile, currDom, MeicType.MEICTYPE_CACHE.getType());
 
             String confTemplateDir = meicCacheParams.getConfTemplateDir();
 
             String runPath = meicCacheParams.getRunPath();
 
-            String confFileTemplatePath = FilePathUtil.joinByDelimiter(confTemplateDir, meicFileConf);
-
+            String confFileTemplatePath = FilePathUtil.joinByDelimiter(confTemplateDir, meicTemplateFileConf);
 
             String content = VelocityUtil.buildTemplate(confFileTemplatePath, createParams(currDom));
+
+            String meicFileConf = String.format(MeicConstant.meicConfFile, currDom, MeicType.MEICTYPE_CACHE.getType());
 
             String targetConfFilePath = FilePathUtil.joinByDelimiter(runPath, meicFileConf);
 

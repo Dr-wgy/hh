@@ -15,7 +15,7 @@ public class Application {
         //设置绝对路径
         VelocityUtil.setRelativeOrNot(false);
 
-        if(args.length <= 0) {
+        if(args.length < 0) {
 
             logger.info("please check your cmd command,confirm you input confFilePath");
 

@@ -25,7 +25,7 @@ public class MeicServerParams {
 
     private String sslist;
 
-    private String meganPathPrefix;
+    private String meganPathPrefix = "";
 
     private String meicRunRequestUrl;
 

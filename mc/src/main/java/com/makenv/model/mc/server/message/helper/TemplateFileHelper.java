@@ -83,7 +83,7 @@ public class TemplateFileHelper {
 
         String model = domainCreateBean.getDomain().getMeic().getModel().getName();
 
-        String submodel = domainCreateBean.getDomain().getMeic().getModel().getName();
+        String submodel = domainCreateBean.getDomain().getMeic().getModel().getSubmodel();
 
         String dx[]  =  domain.getCommon().getDx().split(",");
 
