@@ -69,13 +69,20 @@ public class MeicTask extends ModelTask {
     meicParams.setRunDays((int) LocalTimeUtil.between(endDate, startDate) + 1);
     meicParams.setTimeDiff(configManager.getSystemConfig().getModel().getTime_difference());
     meicParams.setEmissiondir(emisDir);
+    Model model = configManager.getSystemConfig().getModel();
 //    meicParams.setEmisFilePrefix(configManager.getSystemConfig().getModel().getMeic().getEmis_file_prefix()); deleted
-    String pslist = "", sslist = "";
+    String pslist, sslist;
     if (!StringUtil.isEmpty(modelStartBean.getEmis().getPsal())) {
       pslist = FilePathUtil.joinByDelimiter(modelStartBean.getEmis().getPsal(), Constant.ACTIONLIST_PS);
+    } else {
+      pslist = FilePathUtil.joinByDelimiter(runDir, model.getMeic().getSs_actionlist());
+      FileUtil.writeLocalFile(new File(pslist), model.getMeic().getActionlist_header());
     }
     if (!StringUtil.isEmpty(modelStartBean.getEmis().getSsal())) {
       sslist = FilePathUtil.joinByDelimiter(modelStartBean.getEmis().getSsal(), Constant.ACTIONLIST_SS);
+    } else {
+      sslist = FilePathUtil.joinByDelimiter(runDir, model.getMeic().getSs_actionlist());
+      FileUtil.writeLocalFile(new File(sslist), model.getMeic().getActionlist_header());
     }
     meicParams.setPslist(pslist);
     meicParams.setSslist(sslist);
@@ -83,7 +90,6 @@ public class MeicTask extends ModelTask {
 //    meicParams.setMeganPathPrefix();
     meicParams.setRunPath(runDir);
     meicParams.setTaskId(String.format("%s-%s-%s", modelStartBean.getUserid(), modelStartBean.getDomainid(), modelStartBean.getScenarioid()));
-    Model model = configManager.getSystemConfig().getModel();
     meicParams.setMeicRunRequestUrl(model.getMeic().getUrl_calc_emis());
     meicParams.setMeicGetStatusUrl(model.getMeic().getUrl_get_status());
     meicParams.setFirsthour(model.getStart_hour());

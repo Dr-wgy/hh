@@ -34,6 +34,33 @@ public class Model {
     private long sleepSeconds;
     private String username;
     private String password;
+    private String actionlist_header;
+    private String ps_actionlist;
+    private String ss_actionlist;
+
+    public String getActionlist_header() {
+      return actionlist_header;
+    }
+
+    public void setActionlist_header(String actionlist_header) {
+      this.actionlist_header = actionlist_header;
+    }
+
+    public String getPs_actionlist() {
+      return ps_actionlist;
+    }
+
+    public void setPs_actionlist(String ps_actionlist) {
+      this.ps_actionlist = ps_actionlist;
+    }
+
+    public String getSs_actionlist() {
+      return ss_actionlist;
+    }
+
+    public void setSs_actionlist(String ss_actionlist) {
+      this.ss_actionlist = ss_actionlist;
+    }
 
     public long getSleepSeconds() {
       return sleepSeconds;
