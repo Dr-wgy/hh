@@ -7,7 +7,7 @@ public enum ResultStatus {
 
     REQUEST_SUCCESS("success"),
 
-    REQUEST_FAIL("success");
+    REQUEST_FAIL("fail");
 
     private String status;
 
