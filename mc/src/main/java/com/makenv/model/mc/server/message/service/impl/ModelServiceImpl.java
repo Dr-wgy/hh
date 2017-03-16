@@ -81,7 +81,7 @@ public class ModelServiceImpl implements ModelService {
     String errLog = String.format("%s%s%s", firstTask.getModelRunDir(), File.separator, Constant.TORQUE_LOG_ERROR);
     String infoLog = String.format("%s%s%s", firstTask.getModelRunDir(), File.separator, Constant.TORQUE_LOG_INFO);
     String qsubname = String.format("m%s-%s", modelStartBean.getUserid(), modelStartBean.getScenarioid());
-    String cmd = String.format(mcConfigManager.getSystemConfig().getPbs().getQsub(), 1, mcConfigManager.getSystemConfig().getPbs().getPpn(), qsubname,
+    String cmd = String.format(mcConfigManager.getSystemConfig().getPbs().getQsub(), 1, modelStartBean.getCores(), qsubname,
         infoLog, errLog, firstTask.getModelRunFilePath());
     logger.info(cmd);
     try {
