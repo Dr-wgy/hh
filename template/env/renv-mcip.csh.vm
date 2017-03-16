@@ -5,7 +5,7 @@ setenv run_days ${mcipBean.run_days}
 #时差
 setenv time_difference ${mcipBean.time_difference}
 #CMAQ版本,CMAQv5.0.1
-setenv cmaq_version ${cmaq_version}
+setenv cmaq_version ${mcipBean.cmaq_version}
 #wrf开始时间
 setenv wrf_start_hour ${mcipBean.wrf_start_hour}
 #全球数据集
@@ -21,11 +21,11 @@ setenv wrf_output_path ${mcipBean.wrf_output_path}
 #MCIP文件输出目录/public/home/tsinghua/lixin/data/test/mcip/
 setenv mcip_output_path ${mcipBean.mcip_output_path}
 #reinitial判断工具，"~/lixin/mc-core-1.0-SNAPSHOT.jar com.makenv.model.mc.core.util.LocalTimeUtil"
-setenv reinit_judge_tool "${reinit_judge_tool}"
+setenv reinit_judge_tool "${mcipBean.reinit_judge_tool}"
 #reinitial循环天数
-setenv reinit_cycle_days ${reinit_cycle_days}
+setenv reinit_cycle_days ${mcipBean.reinit_cycle_days}
 #reinitial原始日期
-setenv reinit_origin_date ${reinit_origin_date}
+setenv reinit_origin_date ${mcipBean.reinit_origin_date}
 #坐标系名称,LAM_20_50_35_110
 setenv CoordName ${mcipBean.CoordName}
 #原点纬度,35

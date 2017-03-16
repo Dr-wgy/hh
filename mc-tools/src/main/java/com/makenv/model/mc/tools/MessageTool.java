@@ -15,6 +15,7 @@ public class MessageTool {
     Jedis jedis = new Jedis("166.111.42.46", 16379);
     jedis.auth("123456");
     String content = FileUtil.readLocalFile(new File("samples\\api\\BM\\test\\start-model-2.json"));
+//    String content = FileUtil.readLocalFile(new File("samples\\api\\BM\\test\\start-model-3.json"));
 //    String content = FileUtil.readLocalFile(new File("samples\\api\\BM\\test\\create-domain-1.json"));
     jedis.lpush(queue, content);
   }
