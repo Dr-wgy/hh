@@ -78,6 +78,32 @@ public class LocalTimeUtil {
     return needReInitial(_baseDate, _compDate, reInitialDays);
   }
 
+  public static LocalDate minusHoursDiff(int timeDiff,String dateString,String format) {
+
+    LocalDate localDate = LocalDate.parse(dateString,DateTimeFormatter.ofPattern(format));
+
+    return minusHoursDiff(timeDiff,localDate);
+  }
+
+  public static LocalDate minusHoursDiff(int timeDiff,String dateString) {
+
+    LocalDate localDate = LocalTimeUtil.parse(dateString);
+
+    return minusHoursDiff(timeDiff,localDate);
+  }
+
+  public static LocalDate minusHoursDiff(int timeDiff,LocalDate localDate) {
+
+    return minusHoursDiff(timeDiff,localDate.atStartOfDay());
+
+  }
+
+  public static LocalDate minusHoursDiff(int timeDiff,LocalDateTime localDateTime) {
+
+    return localDateTime.minus(timeDiff,ChronoUnit.HOURS).toLocalDate();
+
+  }
+
   public static void main(String[] args) {
     int days = Integer.parseInt(args[2]);
     System.out.println(needReInitial(args[0], args[1], days) ? "1" : "0");
