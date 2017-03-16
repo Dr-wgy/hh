@@ -52,15 +52,22 @@ public class MeicServerTask implements IMeicTask {
         // 0.生成日期映射
         Map<String,String> dateMapping = generateDateMapping();
 
+        logger.info("genertate conf start");
+
         // 1.生成配置文件
         generateConfFile();
+
+        logger.info("genertate conf end");
 
         // 2.执行接口生成meic
         List<String> taskList = doMeicRunRequest();
 
-        //计算睡眠时间
+        logger.info("check meicTask is finish or not");
+
+        //获取任务执行转态
         doMeicGetStateRequest(taskList);
 
+        logger.info("execute symbolicLinkFile");
         // 3. ln -sf 执行文件链接
         symbolicLinkFile(dateMapping);
     }
@@ -84,9 +91,9 @@ public class MeicServerTask implements IMeicTask {
 
             String confFileTemplatePath = FilePathUtil.joinByDelimiter(confTemplateDir, meicFileTemConf);
 
-            /*System.out.println(confFileTemplatePath);
+            logger.info(confFileTemplatePath);
 
-            System.out.println(new File(confFileTemplatePath).exists());*/
+            logger.info(String.valueOf(new File(confFileTemplatePath).exists()));
 
             String content = VelocityUtil.buildTemplate(confFileTemplatePath, createServerParams(currDom));
 
@@ -153,6 +160,8 @@ public class MeicServerTask implements IMeicTask {
 
             LocalDate localDate = LocalTimeUtil.parse(keyStr);
 
+            LocalDate valueDate = LocalTimeUtil.parse(valueStr);
+
             //换成dayofYear
             String str = DateTimeFormatter.ofPattern("yyyyDDD").format(localDate);
 
@@ -160,7 +169,7 @@ public class MeicServerTask implements IMeicTask {
 
                 String sourceFile = FilePathUtil.joinByDelimiter(emissiondir,String.format(MeicConstant.meicOutFile,currDom) + str);
 
-                String targetFile = FilePathUtil.joinByDelimiter(emissiondir,String.format(MeicConstant.meicOutFile,currDom) + valueStr);
+                String targetFile = FilePathUtil.joinByDelimiter(emissiondir,String.format(MeicConstant.meicOutFile,currDom) + LocalTimeUtil.format(valueDate,"yyyyMMdd"));
 
                 FileUtil.symbolicLink(sourceFile,targetFile);
 
@@ -265,7 +274,9 @@ public class MeicServerTask implements IMeicTask {
 
                 } catch (Exception e) {
 
-                    e.printStackTrace();
+                    //e.printStackTrace();
+
+                    logger.info("request is failed please check your url: "+meicServerParams.getMeicRunRequestUrl(),e);
                 }
 
                 count++;
