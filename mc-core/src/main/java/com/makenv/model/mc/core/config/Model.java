@@ -24,6 +24,7 @@ public class Model {
   }
 
   public void setReinit_origin_date(String reinit_origin_date) {
+    reinitOriginDate = LocalDate.parse(reinit_origin_date);
     this.reinit_origin_date = reinit_origin_date;
   }
 
@@ -197,11 +198,6 @@ public class Model {
     return reinitOriginDate;
   }
 
-
-  public void setBase_date(String base_date) {
-    reinitOriginDate = LocalDate.parse(base_date);
-    this.reinit_origin_date = base_date;
-  }
 
   public int getStart_hour() {
     return start_hour;
