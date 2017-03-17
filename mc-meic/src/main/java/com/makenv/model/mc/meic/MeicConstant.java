@@ -11,7 +11,7 @@ public class MeicConstant {
 
     public static final String meicConfFile = "meicd%02d_%s.conf";
 
-    public static final String meicOutFile = "meic_china_d%02d_";
+    public static final String meicOutFile = "meic_China_d%02d_";
 
     public static final int RUN_MINIUTE = 1;
 

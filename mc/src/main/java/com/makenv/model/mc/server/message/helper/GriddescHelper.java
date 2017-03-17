@@ -36,7 +36,7 @@ public class GriddescHelper {
 
         String xorig[] = domain.getCmaq().getXorig().split(",");
 
-        String yorig[] = domain.getCmaq().getXorig().split(",");
+        String yorig[] = domain.getCmaq().getYorig().split(",");
 
         int maxDom = domainCreateBean.getDomain().getCommon().getMax_dom();
 
