@@ -9,7 +9,7 @@ public class ModelStartBean {
   private String missionid;//任务编号
   private String scenarioid;//情景编号
   private String domainid;
-  private String taskId;//表示当前请求ID
+  private String taskid;//表示当前请求ID
   private String[] tasks;
   private int cores;// 计算核数
   //  private TaskDomain domain; // 模式domain的具体参数
@@ -18,12 +18,12 @@ public class ModelStartBean {
   private Wrf wrf;
   private Cmaq cmaq;
 
-  public String getTaskId() {
-    return taskId;
+  public String getTaskid() {
+    return taskid;
   }
 
-  public void setTaskId(String taskId) {
-    this.taskId = taskId;
+  public void setTaskid(String taskid) {
+    this.taskid = taskid;
   }
 
   public String getDomainid() {
