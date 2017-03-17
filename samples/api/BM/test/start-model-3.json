@@ -9,7 +9,7 @@
     "missionid": "1",
     "scenarioid": "1",
     "tasks": ["mcip"],
-    "cores": 32,
+    "cores": 1,
     "common": {
       "datatype": "fnl",
       "simtype":"base",
