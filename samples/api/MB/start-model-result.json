@@ -4,10 +4,6 @@
   "type": "model.start.result",
   "body": {
     "taskid":"请求编号",
-    "userid": "用户编号",
-    "missionid": "任务编号",
-    "domainid": "domain版本ID",
-    "scenarioid": "情景编号",
     "tasks": [
       {
         "type": "wrf",//prepare,wrf,mcip,megan,meic,cmaq
