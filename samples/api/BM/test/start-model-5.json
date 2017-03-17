@@ -9,7 +9,7 @@
     "missionid": "1",
     "scenarioid": "1",
     "tasks": ["cmaq"],
-    "cores": 1,
+    "cores": 16,
     "common": {
       "datatype": "fnl",
       "simtype":"base",
