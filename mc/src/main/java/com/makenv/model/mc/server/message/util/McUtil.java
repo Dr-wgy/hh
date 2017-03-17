@@ -10,8 +10,12 @@ public class McUtil {
    * @return 节点数量，每个节点的核数
    */
   public static int[] buildComputeResource(int ppn, int cores) {
-    int needNodes = (int) Math.ceil(cores / ppn);
-    return new int[]{needNodes, ppn};
+    int _ppn = ppn;
+    int needNodes = (int) Math.floor(cores / ppn);
+    if (needNodes == 1 && cores < ppn) {
+      _ppn = cores;
+    }
+    return new int[]{needNodes, _ppn};
   }
 
   public static String buildMultiplier(int num) {

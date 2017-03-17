@@ -3,12 +3,13 @@
   "time": "2017-02-01 12:00:12",
   "type": "model.start",
   "body": {
+    "taskid":"task1",
     "userid": "123",
     "domainid": "1",
     "missionid": "1",
     "scenarioid": "1",
     "tasks": ["mcip"],
-    "cores": 16,
+    "cores": 32,
     "common": {
       "datatype": "fnl",
       "simtype":"base",
