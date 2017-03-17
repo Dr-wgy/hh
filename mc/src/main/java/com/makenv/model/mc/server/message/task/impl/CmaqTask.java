@@ -9,6 +9,7 @@ import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
 import com.makenv.model.mc.server.message.pojo.TaskDomain;
 import com.makenv.model.mc.server.message.task.bean.CmaqBean;
+import com.makenv.model.mc.server.message.util.McUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,6 +96,7 @@ public class CmaqTask extends AbstractCmaqTask {
     cmaqBean.setCmaq_output_path(cctmDataDir);
     cmaqBean.setMax_dom(taskDomain.getCommon().getMax_dom());
     cmaqBean.setRun_type(modelStartBean.getCmaq().isFirsttime() ? RUN_TYPE_INIT : RUN_TYPE_RESTART);
+    cmaqBean.setNpcol_nprow(McUtil.buildMultiplier(modelStartBean.getCores()));
   }
 
   private boolean buildRenv() {
@@ -124,7 +126,14 @@ public class CmaqTask extends AbstractCmaqTask {
   }
 
   protected boolean checkParams() {
-    return super.checkParams();
+    if (!super.checkParams()) {
+      return false;
+    }
+    if (modelStartBean.getCores() <= 0) {
+      logger.error(StringUtil.formatLog("cores invalid", modelStartBean.getCores()));
+      return false;
+    }
+    return true;
   }
 
   @Override

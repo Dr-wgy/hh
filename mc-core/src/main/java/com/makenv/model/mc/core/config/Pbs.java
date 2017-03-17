@@ -5,8 +5,17 @@ package com.makenv.model.mc.core.config;
  */
 public class Pbs {
   private int ppn;
+  private int maxnodes;
   private String queue;
   private String qsub;
+
+  public int getMaxnodes() {
+    return maxnodes;
+  }
+
+  public void setMaxnodes(int maxnodes) {
+    this.maxnodes = maxnodes;
+  }
 
   public int getPpn() {
     return ppn;

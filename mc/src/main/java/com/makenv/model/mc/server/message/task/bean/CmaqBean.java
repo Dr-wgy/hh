@@ -20,7 +20,16 @@ public class CmaqBean {
   private String cmaq_output_path;
   private int max_dom;
   private int run_type;
+  private String npcol_nprow;
   private int debug;
+
+  public String getNpcol_nprow() {
+    return npcol_nprow;
+  }
+
+  public void setNpcol_nprow(String npcol_nprow) {
+    this.npcol_nprow = npcol_nprow;
+  }
 
   public String getGlobal() {
     return global;

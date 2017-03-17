@@ -1,6 +1,7 @@
 package com.makenv.model.mc.server.message.service.impl;
 
 import com.makenv.model.mc.core.config.McConfigManager;
+import com.makenv.model.mc.core.config.Pbs;
 import com.makenv.model.mc.core.constant.Constant;
 import com.makenv.model.mc.core.util.FilePathUtil;
 import com.makenv.model.mc.core.util.FileUtil;
@@ -14,6 +15,7 @@ import com.makenv.model.mc.server.message.pojo.ModelStartBean;
 import com.makenv.model.mc.server.message.service.ModelService;
 import com.makenv.model.mc.server.message.task.IModelTask;
 import com.makenv.model.mc.server.message.task.ModelTaskFactory;
+import com.makenv.model.mc.server.message.util.McUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,10 +80,12 @@ public class ModelServiceImpl implements ModelService {
     if (!firstTask.handleRequest()) {
       return false;
     }
+    Pbs pbs = mcConfigManager.getSystemConfig().getPbs();
+    int[] resource = McUtil.buildComputeResource(pbs.getPpn(), modelStartBean.getCores());
     String errLog = String.format("%s%s%s", firstTask.getModelRunDir(), File.separator, Constant.TORQUE_LOG_ERROR);
     String infoLog = String.format("%s%s%s", firstTask.getModelRunDir(), File.separator, Constant.TORQUE_LOG_INFO);
     String qsubname = String.format("m%s-%s", modelStartBean.getUserid(), modelStartBean.getScenarioid());
-    String cmd = String.format(mcConfigManager.getSystemConfig().getPbs().getQsub(), 1, modelStartBean.getCores(), qsubname,
+    String cmd = String.format(pbs.getQsub(), resource[0], resource[1], qsubname,
         infoLog, errLog, firstTask.getModelRunFilePath());
     logger.info(cmd);
     try {

@@ -10,6 +10,15 @@ public class ScenarionRunDir {
   private ScenarionRunEmis emis;
   private ScenarionRundp dp;
   private ScenarionRunvideo video;
+  private ScenarionBigScript bigscript;
+
+  public ScenarionBigScript getBigscript() {
+    return bigscript;
+  }
+
+  public void setBigscript(ScenarionBigScript bigscript) {
+    this.bigscript = bigscript;
+  }
 
   public String getDirPath() {
     return dirPath;
@@ -92,6 +101,18 @@ public class ScenarionRunDir {
 
   }
 
+  public static class ScenarionBigScript {
+
+    private String dirPath;
+
+    public String getDirPath() {
+      return dirPath;
+    }
+
+    public void setDirPath(String dirPath) {
+      this.dirPath = dirPath;
+    }
+  }
   public static class ScenarionRunvideo {
 
     private String dirPath;
