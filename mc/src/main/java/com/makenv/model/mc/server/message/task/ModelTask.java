@@ -1,5 +1,6 @@
 package com.makenv.model.mc.server.message.task;
 
+import com.makenv.model.mc.core.config.DomainRangeDir;
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.core.constant.Constant;
 import com.makenv.model.mc.core.util.FilePathUtil;
@@ -97,14 +98,15 @@ public abstract class ModelTask implements IModelTask {
   private void init() {
     startHour = configManager.getSystemConfig().getModel().getStart_hour();
     timeDiff = configManager.getSystemConfig().getModel().getTime_difference();
-    String templateDir = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getTemplate().getDirPath());
+    DomainRangeDir domainId = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid();
+    String templateDir = processPath(domainId.getCommon().getTemplate().getDirPath());
     metgridTemplate = String.format("%s%s%s", templateDir, File.separator, Constant.NAMELIST_WPS_METGRID_TEMPLATE);
     wrfTemplate = String.format("%s%s%s", templateDir, File.separator, Constant.NAMELIST_WRF_TEMPLATE);
     scriptPath = configManager.getSystemConfig().getRoot().getScript();
     wrfBuildPath = configManager.getSystemConfig().getRoot().getWrf();
-    geogridOutputPath = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGeogrid().getDirPath());
-    modelRunDir = processPath(configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getModelRunPath());
-    modelRunDir = String.format("%s%s%s/%s", modelRunDir, File.separator, modelStartBean.getScenarioid(), modelStartBean.getCommon().getTime().getStart());
+    geogridOutputPath = processPath(domainId.getCommon().getData().getGeogrid().getDirPath());
+    modelRunDir = processPath(domainId.getMissionid().getScenarioid().getRun().getBigscript().getDirPath());
+    modelRunDir = FilePathUtil.joinByDelimiter(modelRunDir, modelStartBean.getTaskid());
     FileUtil.checkAndMkdir(modelRunDir);
     modelRunFile = String.format("%s%s%s", modelRunDir, File.separator, Constant.MODEL_SCRIPT_FILE);
     cmaqBuildPath = configManager.getSystemConfig().getRoot().getCmaq();

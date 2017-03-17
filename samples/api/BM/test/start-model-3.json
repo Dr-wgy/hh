@@ -8,14 +8,14 @@
     "domainid": "1",
     "missionid": "1",
     "scenarioid": "1",
-    "tasks": ["wrf"],
-    "cores": 48,
+    "tasks": ["mcip"],
+    "cores": 32,
     "common": {
       "datatype": "fnl",
       "simtype":"base",
       "time": { 
-        "start": "20170212",
-        "end": "20170215"
+        "start": "20170213",
+        "end": "20170213"
       },
       "pathdate":"20170211"
     },

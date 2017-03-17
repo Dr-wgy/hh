@@ -7,15 +7,15 @@ public class DomainRangeDir {
   private String dirPath;
   private UserCommonDir common;
   private MissionDir missionid;
-  private String modelRunPath;
-
-  public String getModelRunPath() {
-    return modelRunPath;
-  }
-
-  public void setModelRunPath(String modelRunPath) {
-    this.modelRunPath = modelRunPath;
-  }
+//  private String modelRunPath;
+//
+//  public String getModelRunPath() {
+//    return modelRunPath;
+//  }
+//
+//  public void setModelRunPath(String modelRunPath) {
+//    this.modelRunPath = modelRunPath;
+//  }
 
   public MissionDir getMissionid() {
     return missionid;

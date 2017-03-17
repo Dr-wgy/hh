@@ -1,34 +1,38 @@
 #开始日期, 20170303
-setenv start_date ${start_date}
+setenv start_date ${cmaqBean.start_date}
 #时差
-setenv time_difference ${time_difference}
+setenv time_difference ${cmaqBean.time_difference}
 #运行天数,1
-setenv run_days ${run_days}
+setenv run_days ${cmaqBean.run_days}
 #CMAQ版本,CMAQv5.0.1
-setenv cmaq_version ${cmaq_version}
+setenv cmaq_version ${cmaqBean.cmaq_version}
 #全球数据集
-setenv global ${global}
+setenv global ${cmaqBean.global}
 #模式驱动脚本目录,/public/home/tsinghua/lixin/my_code/git/model-driver/
-setenv scripts_path ${scripts_path}
+setenv scripts_path ${cmaqBean.scripts_path}
 #CMAQ安装目录
-setenv cmaq_build_path ${cmaq_build_path}
+setenv cmaq_build_path ${cmaqBean.cmaq_build_path}
+#OMI臭氧数据目录, /public/home/tsinghua/lixin/data/test/raw/phot/
+setenv OMI_path ${cmaqBean.OMI_path}
 #GRIDDESC文件绝对路径/public/home/tsinghua/lixin/my_code/git/model-driver/GRIDDESC/
-setenv GRIDDESC_path ${griddesc_path}
+setenv GRIDDESC_path ${cmaqBean.griddesc_path}
 #MCIP文件输出目录
-setenv mcip_output_path ${mcip_output_path}
+setenv mcip_output_path ${cmaqBean.mcip_output_path}
 #ocean文件输出目录,/public/home/tsinghua/lixin/data/test/ocean/
-setenv ocean_output_path ${ocean_output_path}
+setenv ocean_output_path ${cmaqBean.ocean_output_path}
 #MEIC文件输出目录
-setenv emis_output_path ${emis_output_path}
+setenv emis_output_path ${cmaqBean.emis_output_path}
 #BCON文件输出目录
-setenv bcon_output_path ${bcon_output_path}
+setenv bcon_output_path ${cmaqBean.bcon_output_path}
 #基础情景CMAQ文件输出目录
-setenv base_cmaq_output_path ${base_cmaq_output_path}
+setenv base_cmaq_output_path ${cmaqBean.base_cmaq_output_path}
 #CMAQ文件输出目录
-setenv cmaq_output_path ${cmaq_output_path}
+setenv cmaq_output_path ${cmaqBean.cmaq_output_path}
 #domain个数
-setenv max_dom ${max_dom}
+setenv max_dom ${cmaqBean.max_dom}
 #是否为初始化模拟: 0-initial, 1-restart
-setenv run_type ${run_type}
+setenv run_type ${cmaqBean.run_type}
+#核数分解
+setenv npcol_nprow "${cmaqBean.npcol_nprow}"
 #是否为debug模式，0非，>0为debug
-setenv debug ${debug}
+setenv debug ${cmaqBean.debug}
