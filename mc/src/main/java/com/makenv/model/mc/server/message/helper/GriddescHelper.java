@@ -62,6 +62,8 @@ public class GriddescHelper {
 
             griddescBean.setStand_lat2(domain.getCommon().getStand_lat2());
 
+            griddescBean.setStand_lon(domain.getCommon().getStand_lon());
+
             griddescBean.setXorig(Double.parseDouble(xorig[maxDom].trim()));
 
             griddescBean.setYorig(Double.parseDouble(yorig[maxDom].trim()));
