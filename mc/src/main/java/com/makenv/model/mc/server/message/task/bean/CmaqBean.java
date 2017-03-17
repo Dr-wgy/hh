@@ -22,6 +22,15 @@ public class CmaqBean {
   private int run_type;
   private String npcol_nprow;
   private int debug;
+  private String OMI_path;
+
+  public String getOMI_path() {
+    return OMI_path;
+  }
+
+  public void setOMI_path(String OMI_path) {
+    this.OMI_path = OMI_path;
+  }
 
   public String getNpcol_nprow() {
     return npcol_nprow;

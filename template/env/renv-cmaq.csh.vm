@@ -12,6 +12,8 @@ setenv global ${cmaqBean.global}
 setenv scripts_path ${cmaqBean.scripts_path}
 #CMAQ安装目录
 setenv cmaq_build_path ${cmaqBean.cmaq_build_path}
+#OMI臭氧数据目录, /public/home/tsinghua/lixin/data/test/raw/phot/
+setenv OMI_path ${cmaqBean.OMI_path}
 #GRIDDESC文件绝对路径/public/home/tsinghua/lixin/my_code/git/model-driver/GRIDDESC/
 setenv GRIDDESC_path ${cmaqBean.griddesc_path}
 #MCIP文件输出目录
