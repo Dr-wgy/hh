@@ -1,13 +1,17 @@
 package com.makenv.model.mc.server.message.redis;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.makenv.model.mc.core.config.RedisQueueConfig;
+import com.makenv.model.mc.core.util.JacksonUtil;
 import com.makenv.model.mc.server.constant.Constants;
+import com.makenv.model.mc.server.message.body.Message;
 import com.makenv.model.mc.server.message.body.MessageWrapper;
 import com.makenv.model.mc.server.message.dispacher.AnnocationMessageDispacher;
 import com.makenv.model.mc.server.message.runable.MessageListenerRunable;
 import com.makenv.model.mc.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -106,6 +110,11 @@ public class RedisQueue{
         }
 
         return false;
+    }
+
+    public void sendMessgae(Message messgae) throws JsonProcessingException {
+
+        redisService.leftPush(redisQueueConfig.getSendQueueName(), JacksonUtil.objToJson(messgae));
     }
 
     private MessageWrapper takeFromTailAndInsertTemQueue() throws InterruptedException, IOException {

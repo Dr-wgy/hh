@@ -4,6 +4,7 @@ import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.core.constant.Constant;
 import com.makenv.model.mc.core.util.FilePathUtil;
 import com.makenv.model.mc.core.util.FileUtil;
+import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.server.constant.Constants;
 import com.makenv.model.mc.server.message.pojo.DomainCreateBean;
@@ -13,8 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 
 /**
@@ -55,7 +55,23 @@ public class CreateDomainHelper {
 
       logger.info(qsubStr);
 
-      Runtime.getRuntime().exec(qsubStr);
+      Process process = Runtime.getRuntime().exec(qsubStr);
+
+      String errorInfo = FileUtil.convertInpustreamToString(process.getErrorStream()).trim();
+
+      if(!StringUtil.isEmpty(errorInfo)) {
+
+          logger.info(errorInfo);
+
+          return false;
+
+      }
+
+       String jobid = getJobId(FileUtil.convertInpustreamToString(process.getInputStream()));
+
+       String qsub = "qstat -f %s | grep 'job_state'";
+
+       Process qstatProcess = Runtime.getRuntime().exec(qsubStr);
 
     } catch (IOException e) {
 
@@ -142,5 +158,11 @@ public class CreateDomainHelper {
   private String replaceRegex(String path, DomainCreateBean domainCreateBean) {
 
     return path.replaceAll("\\{userid\\}", domainCreateBean.getUserid()).replaceAll("\\{domainid\\}", domainCreateBean.getDomainid());
+  }
+
+  private String getJobId(String content){
+
+    return content.substring(0,content.indexOf("."));
+
   }
 }
