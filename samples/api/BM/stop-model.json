@@ -3,7 +3,9 @@
   "time": "2017-02-01 12:00:12",
   "type": "model.stop",
   "body": {
+    "taskid":"请求编号",
     "userid": "用户ID",
+    "domainid":"domainId编号",
     "missionid": "任务ID",
     "scenarioid": "情景ID"
   }
