@@ -9,7 +9,15 @@ public class Globaldatasets {
   private GlobalMegan megan;
   private GlobalMetgrid metgrid;
   private GlobalWrf wrf;
-//  private GlobalWrfDp wrfdp;
+  private GlobalWrfrst wrfrst;
+
+  public GlobalWrfrst getWrfrst() {
+    return wrfrst;
+  }
+
+  public void setWrfrst(GlobalWrfrst wrfrst) {
+    this.wrfrst = wrfrst;
+  }
 
   public String getDirPath() {
     return dirPath;
@@ -51,6 +59,19 @@ public class Globaldatasets {
     this.metgrid = metgrid;
   }
 
+  public static class GlobalWrfrst {
+
+    public String getDirPath() {
+      return dirPath;
+    }
+
+    public void setDirPath(String dirPath) {
+      this.dirPath = dirPath;
+    }
+
+    private String dirPath;
+  }
+
   public static class GlobalMcip {
 
     public String getDirPath() {
@@ -70,9 +91,11 @@ public class Globaldatasets {
     private GlobalMeganEmproc emproc;
     private GlobalMeganMet2mgn met2mgn;
     private GlobalMeganMgn2mech mgn2mech;
+
     public String getDirPath() {
       return dirPath;
     }
+
     public void setDirPath(String dirPath) {
       this.dirPath = dirPath;
     }
@@ -103,27 +126,35 @@ public class Globaldatasets {
 
     public static class GlobalMeganEmproc {
       private String dirPath;
+
       public String getDirPath() {
         return dirPath;
       }
+
       public void setDirPath(String dirPath) {
         this.dirPath = dirPath;
       }
     }
+
     public static class GlobalMeganMet2mgn {
       private String dirPath;
+
       public String getDirPath() {
         return dirPath;
       }
+
       public void setDirPath(String dirPath) {
         this.dirPath = dirPath;
       }
     }
+
     public static class GlobalMeganMgn2mech {
       private String dirPath;
+
       public String getDirPath() {
         return dirPath;
       }
+
       public void setDirPath(String dirPath) {
         this.dirPath = dirPath;
       }

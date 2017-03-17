@@ -27,7 +27,7 @@ import java.util.Map;
  */
 public class WrfTask extends ModelTask {
   private Logger logger = LoggerFactory.getLogger(WrfTask.class);
-  private String wrfRunDir, wrfOutDir, metgridOutPath;
+  private String wrfRunDir, wrfOutDir, metgridOutPath, wrfrstDir;
   private List<WrfBean> wrfBeans;
   private String renvFilePathPrefix;
 
@@ -64,7 +64,8 @@ public class WrfTask extends ModelTask {
 
     wrfOutDir = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGlobaldatasets().getWrf().getDirPath();
     wrfOutDir = processPath(wrfOutDir);
-
+    wrfrstDir = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGlobaldatasets().getWrfrst().getDirPath();
+    wrfrstDir = processPath(wrfrstDir);
     if (modelStartBean.getCommon().getDatatype().equals(Constant.GLOBAL_TYPE_GFS)) {
       String initialTime = LocalTimeUtil.ldToUcTime(modelStartBean.getCommon().getPathdate(), configManager.getSystemConfig().getModel().getStart_hour());
       wrfOutDir = String.format("%s%s%s", wrfOutDir, File.separator, initialTime);
@@ -73,7 +74,7 @@ public class WrfTask extends ModelTask {
     metgridOutPath = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGlobaldatasets().getMetgrid().getDirPath();
 //    metgridOutPath = String.format("%s%s%s", metgridOutPath, File.separator, bean.getStart_date());
     metgridOutPath = processPath(metgridOutPath);
-    return FileUtil.checkAndMkdir(wrfRunDir) && FileUtil.checkAndMkdir(wrfOutDir) && FileUtil.checkAndMkdir(metgridOutPath);
+    return FileUtil.checkAndMkdir(wrfRunDir) && FileUtil.checkAndMkdir(wrfrstDir) && FileUtil.checkAndMkdir(wrfOutDir) && FileUtil.checkAndMkdir(metgridOutPath);
   }
 
   @Override
@@ -185,7 +186,7 @@ public class WrfTask extends ModelTask {
     boolean fisttime = false;
     LocalDate _start = LocalTimeUtil.minusHoursDiff(timeDiff, startDate, LocalTimeUtil.YMD_DATE_FORMAT);
     LocalDate _end = LocalTimeUtil.minusHoursDiff(timeDiff, endDate, LocalTimeUtil.YMD_DATE_FORMAT);
-    LocalDate _current=_start;
+    LocalDate _current = _start;
     long days = LocalTimeUtil.between(_start, _end) + 1;
     while (!_current.isAfter(_end)) {
 
@@ -222,6 +223,7 @@ public class WrfTask extends ModelTask {
     bean.setUngrib_file(Constant.UNGRIB_FILE_PREFIX);
     TaskDomain domain = getTaskDomain();
     bean.setWrf_version(domain.getWrf().getVersion());
+    bean.setWrfrst_output_path(wrfrstDir);
     return bean;
   }
 }

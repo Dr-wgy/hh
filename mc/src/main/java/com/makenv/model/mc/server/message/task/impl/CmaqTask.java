@@ -97,6 +97,7 @@ public class CmaqTask extends AbstractCmaqTask {
     cmaqBean.setMax_dom(taskDomain.getCommon().getMax_dom());
     cmaqBean.setRun_type(modelStartBean.getCmaq().isFirsttime() ? RUN_TYPE_INIT : RUN_TYPE_RESTART);
     cmaqBean.setNpcol_nprow(McUtil.buildMultiplier(modelStartBean.getCores()));
+    cmaqBean.setOMI_path(configManager.getSystemConfig().getSync().getRaw_phot());
   }
 
   private boolean buildRenv() {

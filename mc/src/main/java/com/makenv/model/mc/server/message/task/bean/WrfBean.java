@@ -22,6 +22,15 @@ public class WrfBean {
   private String global;
   private String ungrib_file;
   private String wrf_version;
+  private String wrfrst_output_path;
+
+  public String getWrfrst_output_path() {
+    return wrfrst_output_path;
+  }
+
+  public void setWrfrst_output_path(String wrfrst_output_path) {
+    this.wrfrst_output_path = wrfrst_output_path;
+  }
 
   public String getWrf_version() {
     return wrf_version;
