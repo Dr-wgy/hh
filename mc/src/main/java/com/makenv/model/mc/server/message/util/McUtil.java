@@ -11,7 +11,7 @@ public class McUtil {
    */
   public static int[] buildComputeResource(int ppn, int cores) {
     int _ppn = ppn;
-    int needNodes = (int) Math.floor(cores / ppn);
+    int needNodes = (int) Math.ceil(cores / (double) ppn);
     if (needNodes == 1 && cores < ppn) {
       _ppn = cores;
     }
