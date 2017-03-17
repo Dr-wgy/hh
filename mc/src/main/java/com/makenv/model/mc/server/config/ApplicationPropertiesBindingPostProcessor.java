@@ -1,13 +1,9 @@
 package com.makenv.model.mc.server.config;
 
-import org.springframework.aop.framework.AdvisedSupport;
-import org.springframework.aop.framework.AopProxy;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.bind.PropertiesConfigurationFactory;
 import org.springframework.boot.env.PropertySourcesLoader;
 import org.springframework.context.ApplicationContext;
@@ -22,15 +18,12 @@ import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindException;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
@@ -54,15 +47,12 @@ public class ApplicationPropertiesBindingPostProcessor implements BeanFactoryAwa
         Map<String, Object> beansWithAnnotation = applicationContext.getBeansWithAnnotation(ApplicationProperties.class);
         for (String beanName : beansWithAnnotation.keySet()) {
             Object cglibProxy = beansWithAnnotation.get(beanName);
-            Class clazz = cglibProxy.getClass();
             //TODO cglibProxy
             if(ClassUtils.isCglibProxy(cglibProxy)) {
                 String classStr = cglibProxy.getClass().getCanonicalName();
                 classStr = classStr.substring(0,classStr.indexOf("$$"));
                 Class souceClazz = Class.forName(classStr);
-                Object newInstance = bindPropertiesToTarget(souceClazz,clazz);
-                ConfigurableListableBeanFactory configurableListableBeanFactory = (ConfigurableListableBeanFactory) beanFactory;
-                configurableListableBeanFactory.registerResolvableDependency(clazz, newInstance);
+                bindPropertiesToTarget(souceClazz,cglibProxy);
             };
 
         }
@@ -70,11 +60,9 @@ public class ApplicationPropertiesBindingPostProcessor implements BeanFactoryAwa
     }
 
 
-    private Object bindPropertiesToTarget(Class<?> source,Class clazz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, BindException {
+    private void bindPropertiesToTarget(Class<?> source,Object sourceTarget) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, BindException {
         ApplicationProperties applicationProperties = source.getAnnotation(ApplicationProperties.class);
-        Constructor<?> constructor = clazz.getConstructor();
-        Object newInstance = constructor.newInstance();
-        PropertiesConfigurationFactory<Object> factory = new PropertiesConfigurationFactory<>(newInstance);
+        PropertiesConfigurationFactory<Object> factory = new PropertiesConfigurationFactory<>(sourceTarget);
         factory.setPropertySources(loadPropertySources(applicationProperties.locations()));
         factory.setConversionService(new DefaultConversionService());
         if (StringUtils.hasLength(applicationProperties.prefix())) {
@@ -83,10 +71,10 @@ public class ApplicationPropertiesBindingPostProcessor implements BeanFactoryAwa
         try {
             factory.bindPropertiesToTarget();
         } catch (Exception ex) {
-            String targetClass = ClassUtils.getShortName(clazz);
-            throw new BeanCreationException(clazz.getSimpleName(), "Could not bind properties to " + targetClass + " (" + applicationProperties.toString() + ")", ex);
+            String targetClass = ClassUtils.getShortName(sourceTarget.getClass());
+            throw new BeanCreationException(sourceTarget.getClass().getSimpleName(), "Could not bind properties to " + targetClass + " (" + applicationProperties.toString() + ")", ex);
         }
-        return newInstance;
+
     }
 
     private PropertySources loadPropertySources(String[] locations) {
