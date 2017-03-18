@@ -30,6 +30,15 @@ public class TemplatePath {
   private String csh_meic;
   private String csh_megan;
   private String csh_cmaq;
+  private String csh_header;
+
+  public String getCsh_header() {
+    return csh_header;
+  }
+
+  public void setCsh_header(String csh_header) {
+    this.csh_header = csh_header;
+  }
 
   private String meic_jar_conf;
 
