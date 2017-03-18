@@ -2,6 +2,7 @@ package com.makenv.model.mc.core.util;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -102,6 +103,11 @@ public class LocalTimeUtil {
 
     return localDateTime.minus(timeDiff,ChronoUnit.HOURS).toLocalDate();
 
+  }
+
+  public static int minusHoursDiff(int timeDiff){
+    LocalTime time = LocalDate.now().atStartOfDay().minus(timeDiff, ChronoUnit.HOURS).toLocalTime();
+    return time.getHour();
   }
 
   public static void main(String[] args) {
