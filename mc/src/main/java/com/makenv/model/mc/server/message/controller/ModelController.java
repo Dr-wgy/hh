@@ -24,7 +24,7 @@ public class ModelController {
     private Logger logger = LoggerFactory.getLogger(ModelController.class);
 
     @MessageInvoker("model.start")
-    public boolean modelStart(ModelStartBean modelStartBean) throws IOException {
+    public boolean modelStart(ModelStartBean modelStartBean,String messageId) throws IOException {
         modelService.startModelTask(modelStartBean);
         logger.info("model.start");
         System.out.println("model.start");
@@ -32,7 +32,7 @@ public class ModelController {
     }
 
     @MessageInvoker("model.continue")
-    public boolean modeContinue(ModelContinueBean modelContinueBean){
+    public boolean modeContinue(ModelContinueBean modelContinueBean,String messageId){
 
         logger.info("model.continue");
 
@@ -42,7 +42,7 @@ public class ModelController {
     }
 
     @MessageInvoker("video.convert")
-    public boolean videoConvert(VideoConvertBean videoConvertBean){
+    public boolean videoConvert(VideoConvertBean videoConvertBean,String messageId){
 
         logger.info("video.convert");
 
@@ -52,7 +52,7 @@ public class ModelController {
     }
 
     @MessageInvoker("model.stop")
-    public boolean modelStop(ModelStopBean modelStopBean){
+    public boolean modelStop(ModelStopBean modelStopBean,String messageId){
 
         logger.info("model.stop");
 
@@ -62,7 +62,7 @@ public class ModelController {
     }
 
     @MessageInvoker("domain.create")
-    public boolean domainCreate(DomainCreateBean domainCreateBean){
+    public boolean domainCreate(DomainCreateBean domainCreateBean,String messageId){
 
         logger.info("domain.create");
 

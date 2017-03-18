@@ -120,37 +120,6 @@ public class ModelServiceImpl implements ModelService {
     //3. 执行createDomain的相关shell
     boolean succShellRunFlag = createDomainHelper.executeShell(domainCreateBean);
 
-    Message message = new Message();
-
-    message.setId(UUID.randomUUID().toString());
-
-    message.setTime(new Date());
-
-    DomainMessage domainMessage = new DomainMessage();
-
-    BeanUtils.copyProperties(domainCreateBean,domainMessage);
-
-    if(flag && nameListFlag && succShellRunFlag) {
-
-      domainMessage.setCode(0);
-    }
-    else {
-
-      domainMessage.setCode(-1);
-    }
-
-    message.setBody(domainMessage);
-
-    try {
-
-      //发送消息
-      redisQueue.sendMessgae(message);
-
-    } catch (JsonProcessingException e) {
-
-      logger.error("send message is failed", e);
-
-    }
     //将domain信息生成到制定目录中
     String dirPath = mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getDirPath();
     dirPath = dirPath.replaceAll("\\{userid\\}", domainCreateBean.getUserid()).replaceAll("\\{domainid\\}", domainCreateBean.getDomainid());

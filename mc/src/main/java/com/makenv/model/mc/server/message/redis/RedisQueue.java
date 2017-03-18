@@ -1,8 +1,11 @@
 package com.makenv.model.mc.server.message.redis;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.makenv.model.mc.core.config.RedisQueueConfig;
+import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.JacksonUtil;
+import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.server.config.Cmd;
 import com.makenv.model.mc.server.constant.Constants;
 import com.makenv.model.mc.server.message.body.Message;
@@ -10,6 +13,8 @@ import com.makenv.model.mc.server.message.body.MessageWrapper;
 import com.makenv.model.mc.server.message.dispacher.AnnocationMessageDispacher;
 import com.makenv.model.mc.server.message.runable.MessageListenerRunable;
 import com.makenv.model.mc.redis.RedisService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -28,6 +33,9 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class RedisQueue{
+
+    private Logger logger = LoggerFactory.getLogger(RedisQueue.class);
+
 
     @Autowired
     RedisQueueConfig redisQueueConfig;
@@ -124,21 +132,21 @@ public class RedisQueue{
 
     private MessageWrapper takeFromTailAndInsertTemQueue() throws InterruptedException, IOException {
 
-        /*lock.lockInterruptibly();*/
-
         try {
 
             MessageWrapper messageWrapper = new MessageWrapper();
 
             String obj = redisService.brpop(redisQueueConfig.getReceiveQueueName());
 
-            String queue_name = String.join(":",Constants.TEMP_QUEUE_NAME_PREFIX,UUID.randomUUID().toString());
+            Message message = messageCheck(obj);
+
+            String queue_name = String.join(":",Constants.TEMP_QUEUE_NAME_PREFIX,message.getId());
 
             redisService.set(queue_name,obj);
 
             messageWrapper.setTempQueueName(queue_name);
 
-            messageWrapper.setMessage(obj);
+            messageWrapper.setMessage(message);
 
             if(Objects.isNull(obj)) {
 
@@ -152,7 +160,60 @@ public class RedisQueue{
 
         } finally {
 
-            /*lock.unlock();*/
         }
+    }
+
+    //消息检查
+    private Message messageCheck(String messageStr){
+
+        Message message = null;
+
+        try {
+
+            message = JacksonUtil.jsonToObj(messageStr,Message.class);
+
+            if(StringUtil.isEmpty(message.getId()) || StringUtil.isEmpty(message.getType()) || Objects.isNull(message.getBody())) {
+
+                logger.info("消息格式不能为空");
+
+                logger.info(messageStr);
+
+                message = null;
+
+                FileUtil.writeLogByDaily(Constants.ERROR_MSG_LOG_PREFIX,messageStr);
+
+                //记录日志
+
+            }
+        }
+
+        catch (InvalidFormatException e) {
+
+            logger.info("时间格式不正确");
+
+            logger.info(messageStr);
+
+            e.printStackTrace();
+
+            FileUtil.writeLogByDaily(Constants.ERROR_MSG_LOG_PREFIX,messageStr);
+
+            //记录日志
+
+        }
+
+        catch (IOException e) {
+
+            logger.info("消息格式不正确");
+
+            logger.info(messageStr);
+
+            e.printStackTrace();
+
+            FileUtil.writeLogByDaily(Constants.ERROR_MSG_LOG_PREFIX,messageStr);
+
+            //记录日志
+        }
+
+        return message;
     }
 }
