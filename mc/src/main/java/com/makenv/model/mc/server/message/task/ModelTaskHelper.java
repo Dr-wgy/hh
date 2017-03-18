@@ -11,8 +11,10 @@ import com.makenv.model.mc.server.message.util.McUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Created by alei on 2017/3/18.
@@ -50,7 +52,7 @@ public class ModelTaskHelper {
     modelRunFile.setExecutable(true);
   }
 
-  public static void commitTask(McConfigManager configManager, ModelStartBean modelStartBean, IModelTask task) throws IOException {
+  public static String commitTask(McConfigManager configManager, ModelStartBean modelStartBean, IModelTask task) throws IOException {
     Pbs pbs = configManager.getSystemConfig().getPbs();
     int[] resource = McUtil.buildComputeResource(pbs.getPpn(), modelStartBean.getCores());
     String errLog = FilePathUtil.joinByDelimiter(task.getModelRunDir(), Constant.TORQUE_LOG_ERROR);
@@ -59,6 +61,17 @@ public class ModelTaskHelper {
     String cmd = String.format(pbs.getQsub(), resource[0], resource[1], qsubname,
         infoLog, errLog, task.getModelRunFilePath());
     logger.info(cmd);
-    Runtime.getRuntime().exec(cmd);
+    Process process = Runtime.getRuntime().exec(cmd);
+    BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
+    String line;
+    if ((line = stdInput.readLine()) != null) {
+      return line;//作业ID
+    }
+
+    BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+    while ((line = stdError.readLine()) != null) {
+      logger.error(line);
+    }
+    return null;
   }
 }
