@@ -190,15 +190,11 @@ public class MeicServerTask implements IMeicTask {
 
         LocalDate startDate = LocalTimeUtil.parse(start_date,"yyyyMMdd");
 
-        LocalTime localTime = LocalTime.of(0,0,0);
-
         for(int currdate = 0; currdate < runDays; currdate++) {
 
-            LocalDateTime localDateTime = LocalDateTime.of(startDate,localTime);
+            LocalDate localDate = LocalTimeUtil.minusHoursDiff(timeDiff,startDate);
 
-            localDateTime = localDateTime.minus(timeDiff, ChronoUnit.HOURS);
-
-            String dateTime = LocalTimeUtil.format(localDateTime.toLocalDate());
+            String dateTime = LocalTimeUtil.format(localDate);
 
             dateMapping.put(dateTime,LocalTimeUtil.format(startDate));
 

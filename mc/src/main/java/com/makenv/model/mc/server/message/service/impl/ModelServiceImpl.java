@@ -1,5 +1,6 @@
 package com.makenv.model.mc.server.message.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.core.config.Pbs;
 import com.makenv.model.mc.core.constant.Constant;
@@ -7,22 +8,28 @@ import com.makenv.model.mc.core.util.FilePathUtil;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.JacksonUtil;
 import com.makenv.model.mc.core.util.StringUtil;
+import com.makenv.model.mc.server.message.body.DomainMessage;
+import com.makenv.model.mc.server.message.body.Message;
 import com.makenv.model.mc.server.message.helper.CreateDomainHelper;
 import com.makenv.model.mc.server.message.helper.GriddescHelper;
 import com.makenv.model.mc.server.message.helper.TemplateFileHelper;
 import com.makenv.model.mc.server.message.pojo.DomainCreateBean;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
+import com.makenv.model.mc.server.message.redis.RedisQueue;
 import com.makenv.model.mc.server.message.service.ModelService;
 import com.makenv.model.mc.server.message.task.IModelTask;
 import com.makenv.model.mc.server.message.task.ModelTaskFactory;
 import com.makenv.model.mc.server.message.util.McUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by wgy on 2017/2/23.
@@ -40,7 +47,8 @@ public class ModelServiceImpl implements ModelService {
   private CreateDomainHelper createDomainHelper;
   @Autowired
   private ModelTaskFactory modelTaskFactory;
-
+  @Autowired
+  private RedisQueue redisQueue;
 
   @Override
   public boolean startModelTask(ModelStartBean modelStartBean) {
@@ -103,7 +111,6 @@ public class ModelServiceImpl implements ModelService {
   @Override
   public boolean doCreateBean(DomainCreateBean domainCreateBean) {
 
-
     //1. 生成griddesc
     boolean flag = griddescHelper.generateGriddesc(domainCreateBean);
 
@@ -113,6 +120,37 @@ public class ModelServiceImpl implements ModelService {
     //3. 执行createDomain的相关shell
     boolean succShellRunFlag = createDomainHelper.executeShell(domainCreateBean);
 
+    Message message = new Message();
+
+    message.setId(UUID.randomUUID().toString());
+
+    message.setTime(new Date());
+
+    DomainMessage domainMessage = new DomainMessage();
+
+    BeanUtils.copyProperties(domainCreateBean,domainMessage);
+
+    if(flag && nameListFlag && succShellRunFlag) {
+
+      domainMessage.setCode(0);
+    }
+    else {
+
+      domainMessage.setCode(-1);
+    }
+
+    message.setBody(domainMessage);
+
+    try {
+
+      //发送消息
+      redisQueue.sendMessgae(message);
+
+    } catch (JsonProcessingException e) {
+
+      logger.error("send message is failed", e);
+
+    }
     //将domain信息生成到制定目录中
     String dirPath = mcConfigManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getDirPath();
     dirPath = dirPath.replaceAll("\\{userid\\}", domainCreateBean.getUserid()).replaceAll("\\{domainid\\}", domainCreateBean.getDomainid());
@@ -125,4 +163,5 @@ public class ModelServiceImpl implements ModelService {
     }
     return flag && nameListFlag && succShellRunFlag;
   }
+
 }

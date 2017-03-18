@@ -1,10 +1,7 @@
 package com.makenv.model.mc.server.message.controller;
 
-import com.makenv.model.mc.server.message.pojo.ModelStartBean;
+import com.makenv.model.mc.server.message.pojo.*;
 import com.makenv.model.mc.server.message.annoation.MessageInvoker;
-import com.makenv.model.mc.server.message.pojo.DomainCreateBean;
-import com.makenv.model.mc.server.message.pojo.ModelContinueBean;
-import com.makenv.model.mc.server.message.pojo.VideoConvertBean;
 import com.makenv.model.mc.server.message.service.ModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 
 /**
  * Created by wgy on 2017/2/21.
@@ -53,7 +52,7 @@ public class ModelController {
     }
 
     @MessageInvoker("model.stop")
-    public boolean modelStop(ModelStartBean modelStartBean){
+    public boolean modelStop(ModelStopBean modelStopBean){
 
         logger.info("model.stop");
 
@@ -71,5 +70,4 @@ public class ModelController {
 
         return modelService.doCreateBean(domainCreateBean);
     }
-
 }

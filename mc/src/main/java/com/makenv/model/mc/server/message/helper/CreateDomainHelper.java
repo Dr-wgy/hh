@@ -2,20 +2,23 @@ package com.makenv.model.mc.server.message.helper;
 
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.core.constant.Constant;
-import com.makenv.model.mc.core.util.FilePathUtil;
-import com.makenv.model.mc.core.util.FileUtil;
-import com.makenv.model.mc.core.util.VelocityUtil;
+import com.makenv.model.mc.core.util.*;
+import com.makenv.model.mc.server.config.Cmd;
 import com.makenv.model.mc.server.constant.Constants;
+import com.makenv.model.mc.server.constant.PBSStatus;
 import com.makenv.model.mc.server.message.pojo.DomainCreateBean;
 import com.makenv.model.mc.server.message.service.impl.ModelServiceImpl;
+import com.makenv.model.mc.server.message.util.ShellResult;
+import com.makenv.model.mc.server.message.util.XshellUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by wgy on 2017/3/8.
@@ -29,9 +32,12 @@ public class CreateDomainHelper {
   @Autowired
   private McConfigManager mcConfigManager;
 
+  @Autowired
+  private Cmd cmd;
+
   public boolean executeShell(DomainCreateBean domainCreateBean) {
 
-    String qsubStr = mcConfigManager.getSystemConfig().getPbs().getQsub();
+    String qsubCmd = mcConfigManager.getSystemConfig().getPbs().getQsub();
 
     String moduleDomainCsh = mcConfigManager.getSystemConfig().getCsh().getModule_domain_csh();
 
@@ -45,19 +51,81 @@ public class CreateDomainHelper {
 
     String invokeFile = prepareExecShell(geogridRunPath, script_path, moduleDomainCsh, renvPathName);
 
+    String errorLog = FilePathUtil.joinByDelimiter(geogridRunPath, Constants.GEOGRID_ERROR_FILE_NAME);
+
+    String infoLog = FilePathUtil.joinByDelimiter(geogridRunPath, Constants.GEOGRID_ERROR_FILE_NAME);
+
     try {
 
-      qsubStr = String.format(qsubStr, 1, 1, String.join("",Constants.GEOGRID_NAME, domainCreateBean.getDomainid()),
-          FilePathUtil.joinByDelimiter(geogridRunPath, Constants.GEOGRID_OUT_FILE_NAME),
-          FilePathUtil.joinByDelimiter(geogridRunPath, Constants.GEOGRID_ERROR_FILE_NAME),
-          invokeFile
-      );
+      qsubCmd = String.format(qsubCmd, 1,
+          1, String.join("",Constants.GEOGRID_NAME, domainCreateBean.getDomainid()),
+          errorLog,infoLog, invokeFile);
 
-      logger.info(qsubStr);
+      logger.info(qsubCmd);
 
-      Runtime.getRuntime().exec(qsubStr);
+      ShellResult qsubResult =  XshellUtil.executeShell(qsubCmd,(errorInfo -> checkError(errorInfo)));
 
-    } catch (IOException e) {
+      if(qsubResult.isExecuteFlag()) {
+
+        String jobInfo = getJobId(qsubResult.getOutput()).trim();
+
+        if(StringUtil.isEmpty(jobInfo)) {
+
+          logger.error("qsub is failed,please check your cmd qsub");
+
+          return false;
+
+        };
+
+        String qstat =  cmd.getQstat();
+
+        String qstatCmd = String.format(qstat,jobInfo);
+
+        while(true) {
+
+          ShellResult qstatResult =  XshellUtil.executeShell(qstatCmd,(errorInfo -> checkError(errorInfo)));
+
+          //如果失败
+          if(!qstatResult.isExecuteFlag()){
+
+            logger.error("qstat is failed,please check your log");
+
+            return false;
+
+          }
+
+          String qstatInfo [] = qstatResult.getOutput().split("=");
+
+          //qstat 信息
+          if(Objects.isNull(qstatInfo) || qstatInfo.length < 2) {
+
+              logger.error("qstat is failed and run geogrid is failed,please check your" +errorLog +"and "+ infoLog);
+
+              return false;
+          }
+
+          if(PBSStatus.FINISHED_STATUS.equals(PBSStatus.getStatus(qstatInfo[1]))) {
+
+            String errorInfo = FileUtil.readLocalFile(new File(errorLog));
+
+            if(!StringUtil.isEmpty(errorInfo)) {
+
+              logger.error("run geogrid is failed,please check your please check your" +errorLog +"and "+ infoLog);
+
+              return false;
+            }
+            else {
+
+              return true;
+            }
+          };
+
+          TimeUnit.SECONDS.sleep(30);
+
+        }
+      }
+
+    } catch (Exception e) {
 
       e.printStackTrace();
 
@@ -143,4 +211,20 @@ public class CreateDomainHelper {
 
     return path.replaceAll("\\{userid\\}", domainCreateBean.getUserid()).replaceAll("\\{domainid\\}", domainCreateBean.getDomainid());
   }
+
+  private String getJobId(String content){
+
+    return content.substring(0,content.indexOf("."));
+
+  }
+
+  private boolean checkError(String errorInfo){
+
+    if(StringUtil.isEmpty(errorInfo)) {
+
+      return true;
+    }
+    else return false;
+  }
+
 }

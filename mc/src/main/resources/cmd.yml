@@ -1,0 +1,1 @@
+qstat: qstat -f %s | grep 'job_state'

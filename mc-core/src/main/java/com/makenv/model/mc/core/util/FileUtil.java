@@ -1,18 +1,6 @@
 package com.makenv.model.mc.core.util;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.RandomAccessFile;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -302,5 +290,24 @@ public class FileUtil {
     if(!file.exists()) {
       file.mkdirs();
     }
+  }
+
+  public static String convertInpustreamToString(InputStream inputStream,String encoding){
+    StringBuffer stringBuffer = new StringBuffer();
+    try {
+      InputStreamReader isr= new InputStreamReader(inputStream, encoding);
+      BufferedReader br = new BufferedReader(isr);
+      String line;
+      while ((line = br.readLine()) != null) {
+        stringBuffer.append(line);
+      }
+    } catch (Exception e) {
+    }
+    return stringBuffer.toString();
+  }
+
+  public static String convertInpustreamToString(InputStream inputStream){
+
+    return convertInpustreamToString(inputStream,Charset.forName("utf-8").displayName());
   }
 }
