@@ -1,7 +1,6 @@
 package com.makenv.model.mc.server.message.service.impl;
 
 import com.makenv.model.mc.core.config.McConfigManager;
-import com.makenv.model.mc.core.config.Pbs;
 import com.makenv.model.mc.core.constant.Constant;
 import com.makenv.model.mc.core.util.FilePathUtil;
 import com.makenv.model.mc.core.util.FileUtil;
@@ -15,7 +14,7 @@ import com.makenv.model.mc.server.message.pojo.ModelStartBean;
 import com.makenv.model.mc.server.message.service.ModelService;
 import com.makenv.model.mc.server.message.task.IModelTask;
 import com.makenv.model.mc.server.message.task.ModelTaskFactory;
-import com.makenv.model.mc.server.message.util.McUtil;
+import com.makenv.model.mc.server.message.task.ModelTaskHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Created by wgy on 2017/2/23.
@@ -44,35 +44,13 @@ public class ModelServiceImpl implements ModelService {
 
   @Override
   public boolean startModelTask(ModelStartBean modelStartBean) {
-    String[] tasks = modelStartBean.getTasks();
-    IModelTask firstTask = null, lastTask = null;
-    for (int i = 0; i < tasks.length; i++) {
-      if (i == 0) {
-        firstTask = lastTask = modelTaskFactory.getModelTask(tasks[i], modelStartBean);
-        if (lastTask == null) {
-          logger.error(StringUtil.formatLog("invalid model task", i, tasks[i]));
-          return false;
-        }
-      } else {
-        IModelTask nextTask = modelTaskFactory.getModelTask(tasks[i], modelStartBean);
-        if (lastTask == null) {
-          logger.error(StringUtil.formatLog("invalid model task", i, tasks[i]));
-          return false;
-        }
-        lastTask.setNextTask(nextTask);
-        lastTask = nextTask;
-      }
-    }
+    IModelTask firstTask = ModelTaskHelper.buildModelTask(modelTaskFactory, modelStartBean);
     if (firstTask == null) {
+      logger.error(StringUtil.formatLog("invalid model task", Arrays.toString(modelStartBean.getTasks())));
       return false;
     }
-    File modelRunFile = new File(firstTask.getModelRunFilePath());
-    String content = String.format("%ssource %s\n",
-        Constant.CSH_HEADER,
-        mcConfigManager.getSystemConfig().getRenv().getSys());
     try {
-      FileUtil.writeLocalFile(modelRunFile, content);
-      modelRunFile.setExecutable(true);
+      ModelTaskHelper.buildCshWithHeader(firstTask.getModelRunFilePath(), mcConfigManager);
     } catch (IOException e) {
       logger.error("", e);
       return false;
@@ -80,16 +58,8 @@ public class ModelServiceImpl implements ModelService {
     if (!firstTask.handleRequest()) {
       return false;
     }
-    Pbs pbs = mcConfigManager.getSystemConfig().getPbs();
-    int[] resource = McUtil.buildComputeResource(pbs.getPpn(), modelStartBean.getCores());
-    String errLog = String.format("%s%s%s", firstTask.getModelRunDir(), File.separator, Constant.TORQUE_LOG_ERROR);
-    String infoLog = String.format("%s%s%s", firstTask.getModelRunDir(), File.separator, Constant.TORQUE_LOG_INFO);
-    String qsubname = String.format("m%s-%s", modelStartBean.getUserid(), modelStartBean.getScenarioid());
-    String cmd = String.format(pbs.getQsub(), resource[0], resource[1], qsubname,
-        infoLog, errLog, firstTask.getModelRunFilePath());
-    logger.info(cmd);
     try {
-      Runtime.getRuntime().exec(cmd);
+      ModelTaskHelper.commitTask(mcConfigManager, modelStartBean, firstTask);
     } catch (IOException e) {
       logger.error("", e);
       return false;
