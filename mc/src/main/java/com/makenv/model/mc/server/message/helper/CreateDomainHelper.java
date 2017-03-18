@@ -63,67 +63,7 @@ public class CreateDomainHelper {
 
       logger.info(qsubCmd);
 
-      ShellResult qsubResult =  XshellUtil.executeShell(qsubCmd,(errorInfo -> checkError(errorInfo)));
-
-      if(qsubResult.isExecuteFlag()) {
-
-        String jobInfo = getJobId(qsubResult.getOutput()).trim();
-
-        if(StringUtil.isEmpty(jobInfo)) {
-
-          logger.error("qsub is failed,please check your cmd qsub");
-
-          return false;
-
-        };
-
-        String qstat =  cmd.getQstat();
-
-        String qstatCmd = String.format(qstat,jobInfo);
-
-        while(true) {
-
-          ShellResult qstatResult =  XshellUtil.executeShell(qstatCmd,(errorInfo -> checkError(errorInfo)));
-
-          //如果失败
-          if(!qstatResult.isExecuteFlag()){
-
-            logger.error("qstat is failed,please check your log");
-
-            return false;
-
-          }
-
-          String qstatInfo [] = qstatResult.getOutput().split("=");
-
-          //qstat 信息
-          if(Objects.isNull(qstatInfo) || qstatInfo.length < 2) {
-
-              logger.error("qstat is failed and run geogrid is failed,please check your" +errorLog +"and "+ infoLog);
-
-              return false;
-          }
-
-          if(PBSStatus.FINISHED_STATUS.equals(PBSStatus.getStatus(qstatInfo[1]))) {
-
-            String errorInfo = FileUtil.readLocalFile(new File(errorLog));
-
-            if(!StringUtil.isEmpty(errorInfo)) {
-
-              logger.error("run geogrid is failed,please check your please check your" +errorLog +"and "+ infoLog);
-
-              return false;
-            }
-            else {
-
-              return true;
-            }
-          };
-
-          TimeUnit.SECONDS.sleep(30);
-
-        }
-      }
+      Runtime.getRuntime().exec(qsubCmd);
 
     } catch (Exception e) {
 
@@ -210,21 +150,6 @@ public class CreateDomainHelper {
   private String replaceRegex(String path, DomainCreateBean domainCreateBean) {
 
     return path.replaceAll("\\{userid\\}", domainCreateBean.getUserid()).replaceAll("\\{domainid\\}", domainCreateBean.getDomainid());
-  }
-
-  private String getJobId(String content){
-
-    return content.substring(0,content.indexOf("."));
-
-  }
-
-  private boolean checkError(String errorInfo){
-
-    if(StringUtil.isEmpty(errorInfo)) {
-
-      return true;
-    }
-    else return false;
   }
 
 }

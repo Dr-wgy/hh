@@ -1,19 +1,17 @@
 package com.makenv.model.mc.server.message.dispacher;
 
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.makenv.model.mc.core.util.FileUtil;
+import com.makenv.model.mc.core.util.JacksonUtil;
 import com.makenv.model.mc.server.constant.Constants;
 import com.makenv.model.mc.server.message.annoation.MessageInvoker;
 import com.makenv.model.mc.server.message.body.Message;
 import com.makenv.model.mc.server.message.exception.NoUniqueInvokerExpection;
 import com.makenv.model.mc.server.message.tools.ClassPathPackageScanner;
+import com.makenv.model.mc.server.message.tools.PackageScanner;
 import com.makenv.model.mc.server.message.tools.SpringTools;
 import com.makenv.model.mc.server.message.util.BeanUtil;
-import com.makenv.model.mc.core.util.FileUtil;
-import com.makenv.model.mc.core.util.JacksonUtil;
-import com.makenv.model.mc.core.util.StringUtil;
-import com.makenv.model.mc.server.message.tools.PackageScanner;
-import com.makenv.model.mc.redis.RedisService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,6 @@ import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by wgy on 2017/2/20.
@@ -37,9 +34,6 @@ public class AnnocationMessageDispacher implements ImessageDispacher {
 
 
     private static final String topPackageName = "com.makenv.model.mc.server.message.controller";
-
-    @Autowired
-    private RedisService redisService;
 
     @Autowired
     private SpringTools spingTools;
@@ -110,70 +104,15 @@ public class AnnocationMessageDispacher implements ImessageDispacher {
         }
 
     }
-    //消息检查
-    private Message messageCheck(String messageStr){
-
-        Message message = null;
-
-        try {
-
-            message = JacksonUtil.jsonToObj(messageStr,Message.class);
-
-            if(StringUtil.isEmpty(message.getId()) || StringUtil.isEmpty(message.getType()) || Objects.isNull(message.getBody())) {
-
-                logger.info("消息格式不能为空");
-
-                logger.info(messageStr);
-
-                message = null;
-
-                FileUtil.writeLogByDaily(Constants.ERROR_MSG_LOG_PREFIX,messageStr);
-
-                //记录日志
-
-            }
-        }
-
-        catch (InvalidFormatException e) {
-
-            logger.info("时间格式不正确");
-
-            logger.info(messageStr);
-
-            e.printStackTrace();
-
-            FileUtil.writeLogByDaily(Constants.ERROR_MSG_LOG_PREFIX,messageStr);
-
-            //记录日志
-
-        }
-
-        catch (IOException e) {
-
-            logger.info("消息格式不正确");
-
-            logger.info(messageStr);
-
-            e.printStackTrace();
-
-            FileUtil.writeLogByDaily(Constants.ERROR_MSG_LOG_PREFIX,messageStr);
-
-            //记录日志
-        }
-
-        return message;
-    }
 
     @Override
-    public boolean dispacher(String messageStr) {
+    public boolean dispacher(Message message) {
 
-        Message message = messageCheck(messageStr);
-
-        if(message != null) {
+        if (message != null) {
 
             String uniqueLine = message.getType();
 
-            if(handlerMappings.containsKey(uniqueLine)) {
+            if (handlerMappings.containsKey(uniqueLine)) {
 
                 Method method = handlerMappings.get(uniqueLine);
 
@@ -187,58 +126,79 @@ public class AnnocationMessageDispacher implements ImessageDispacher {
 
                     Class classes[] = method.getParameterTypes();
 
-                    //只支持一个参数的入口
-                    if(classes != null && classes.length != 0) {
+                    Object[] paramsObject = new Object[classes.length];
 
-                        if(String.class.equals(classes[0])) {
+                    //TODO 修改只支持两个参数的入口
+                    if (classes != null && classes.length != 0) {
+
+                        if (String.class.equals(classes[0])) {
 
                             body = JacksonUtil.objToJson(body);
 
-                        }
+                            paramsObject[0] = body;
 
-                        else if(body instanceof Map) {
+                        } else if (body instanceof Map) {
 
                             Object temBody = classes[0].newInstance();
 
-                            body = BeanUtil.transMap2Bean((Map)body,temBody);
+                            body = BeanUtil.transMap2Bean((Map) body, temBody);
 
+                            paramsObject[0] = body;
+
+                        } else {
+
+                            paramsObject[0] = null;
+                        }
+
+                        if (classes.length > 1) {
+
+                            if (String.class.equals(classes[1])) {
+
+                                paramsObject[1] = message.getId();
+
+                            }
+                        }
+
+                        Object returnValue = method.invoke(obj, paramsObject);
+
+                        if (returnValue instanceof Boolean) {
+
+                            return (Boolean) returnValue;
+
+                        } else {
+
+                            return false;
                         }
                     }
 
-                    Object returnValue = method.invoke(obj,body);
-
-                    if( returnValue instanceof Boolean) {
-
-                        return (Boolean) returnValue;
-                    }
-
-                    else {
-
-                        return false;
-                    }
+                    return false;
 
                 } catch (Exception e) {
 
-                    e.printStackTrace();
+                    logger.error("",e);
+                    //e.printStackTrace();
 
                     return false;
 
                 }
-            }
 
-            else {
+            } else {
 
                 logger.info("not dispacher found, please check your config");
                 //记录日志
-                FileUtil.writeLogByDaily(Constants.ERROR_MSG_LOG_PREFIX,messageStr);
+                try {
 
-                //throw new NoDispacherFoundException("not dispacher found, please check your config");
+                    FileUtil.writeLogByDaily(Constants.ERROR_MSG_LOG_PREFIX, JacksonUtil.objToJson(message));
+
+                } catch (JsonProcessingException e) {
+
+                    logger.error("", e);
+                }
 
                 return false;
             }
 
         }
-
         else {
 
             return false;
