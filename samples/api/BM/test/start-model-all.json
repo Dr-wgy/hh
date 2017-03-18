@@ -3,21 +3,21 @@
   "time": "2017-02-01 12:00:12",
   "type": "model.start",
   "body": {
-    "taskid":"task3",
+    "taskid":"taskall",
     "userid": "123",
     "domainid": "1",
     "missionid": "1",
     "scenarioid": "1",
-    "tasks": ["mcip"],
-    "cores": 1,
+    "tasks": ["wrf", "mcip", "megan", "meic", "cmaq"],
+    "cores": 12,
     "common": {
-      "datatype": "fnl",
+      "datatype": "gfs",
       "simtype":"base",
       "time": { 
-        "start": "20170213",
-        "end": "20170213"
+        "start": "20170201",
+        "end": "20170201"
       },
-      "pathdate":"20170211"
+      "pathdate":"20170201" 
     },
     "emis": {
       "sourceid": "1",
@@ -29,7 +29,7 @@
     "wrf": {
       "firsttime": true,
       "spinup": 0,
-      "lastfnl": "20170311"
+      "lastfnl": "20170201" 
     },
     "cmaq": {
       "firsttime": true,

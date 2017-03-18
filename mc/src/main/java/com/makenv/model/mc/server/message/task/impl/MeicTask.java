@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,7 +93,8 @@ public class MeicTask extends ModelTask {
     meicParams.setTaskId(String.format("%s-%s-%s", modelStartBean.getUserid(), modelStartBean.getDomainid(), modelStartBean.getScenarioid()));
     meicParams.setMeicRunRequestUrl(model.getMeic().getUrl_calc_emis());
     meicParams.setMeicGetStatusUrl(model.getMeic().getUrl_get_status());
-    meicParams.setFirsthour(model.getStart_hour());
+    int firstHour = LocalTimeUtil.minusHoursDiff(model.getTime_difference());
+    meicParams.setFirsthour(firstHour);
     meicParams.setMeganShutdown(model.getMeic().isMeganShutdown());
     meicParams.setMeasureJarDir(meicDir);
     meicParams.setMeicCityConfigPath(modelStartBean.getEmis().getMeiccityconfig());

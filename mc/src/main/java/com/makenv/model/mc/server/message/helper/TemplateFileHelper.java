@@ -95,7 +95,7 @@ public class TemplateFileHelper {
 
         String xorig[] = domain.getCmaq().getXorig().split(",");
 
-        String yorig[] = domain.getCmaq().getXorig().split(",");
+        String yorig[] = domain.getCmaq().getYorig().split(",");
 
         int maxDom = domainCreateBean.getDomain().getCommon().getMax_dom();
 
@@ -169,7 +169,7 @@ public class TemplateFileHelper {
 
         String xorig[] = domain.getCmaq().getXorig().split(",");
 
-        String yorig[] = domain.getCmaq().getXorig().split(",");
+        String yorig[] = domain.getCmaq().getYorig().split(",");
 
         int maxDom = domainCreateBean.getDomain().getCommon().getMax_dom();
 
