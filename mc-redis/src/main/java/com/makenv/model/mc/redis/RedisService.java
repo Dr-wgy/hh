@@ -23,10 +23,6 @@ public class RedisService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    public StringRedisTemplate getStringRedisTemplate() {
-        return stringRedisTemplate;
-    }
-
     private ValueOperations<String,String> valueOperations;
 
     //private  HashOperations hashOperations;

@@ -1,10 +1,7 @@
 package com.makenv.model.mc.server.message.controller;
 
-import com.makenv.model.mc.server.message.pojo.ModelStartBean;
+import com.makenv.model.mc.server.message.pojo.*;
 import com.makenv.model.mc.server.message.annoation.MessageInvoker;
-import com.makenv.model.mc.server.message.pojo.DomainCreateBean;
-import com.makenv.model.mc.server.message.pojo.ModelContinueBean;
-import com.makenv.model.mc.server.message.pojo.VideoConvertBean;
 import com.makenv.model.mc.server.message.service.ModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 
 /**
  * Created by wgy on 2017/2/21.
@@ -25,7 +24,7 @@ public class ModelController {
     private Logger logger = LoggerFactory.getLogger(ModelController.class);
 
     @MessageInvoker("model.start")
-    public boolean modelStart(ModelStartBean modelStartBean) throws IOException {
+    public boolean modelStart(ModelStartBean modelStartBean,String messageId) throws IOException {
         modelService.startModelTask(modelStartBean);
         logger.info("model.start");
         System.out.println("model.start");
@@ -33,7 +32,7 @@ public class ModelController {
     }
 
     @MessageInvoker("model.continue")
-    public boolean modeContinue(ModelContinueBean modelContinueBean){
+    public boolean modeContinue(ModelContinueBean modelContinueBean,String messageId){
 
         logger.info("model.continue");
 
@@ -43,7 +42,7 @@ public class ModelController {
     }
 
     @MessageInvoker("video.convert")
-    public boolean videoConvert(VideoConvertBean videoConvertBean){
+    public boolean videoConvert(VideoConvertBean videoConvertBean,String messageId){
 
         logger.info("video.convert");
 
@@ -53,7 +52,7 @@ public class ModelController {
     }
 
     @MessageInvoker("model.stop")
-    public boolean modelStop(ModelStartBean modelStartBean){
+    public boolean modelStop(ModelStopBean modelStopBean,String messageId){
 
         logger.info("model.stop");
 
@@ -63,7 +62,7 @@ public class ModelController {
     }
 
     @MessageInvoker("domain.create")
-    public boolean domainCreate(DomainCreateBean domainCreateBean){
+    public boolean domainCreate(DomainCreateBean domainCreateBean,String messageId){
 
         logger.info("domain.create");
 
@@ -71,5 +70,4 @@ public class ModelController {
 
         return modelService.doCreateBean(domainCreateBean);
     }
-
 }

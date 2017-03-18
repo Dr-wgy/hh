@@ -11,6 +11,7 @@ import com.makenv.model.mc.server.message.helper.GriddescHelper;
 import com.makenv.model.mc.server.message.helper.TemplateFileHelper;
 import com.makenv.model.mc.server.message.pojo.DomainCreateBean;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
+import com.makenv.model.mc.server.message.redis.RedisQueue;
 import com.makenv.model.mc.server.message.service.ModelService;
 import com.makenv.model.mc.server.message.task.IModelTask;
 import com.makenv.model.mc.server.message.task.ModelTaskFactory;
@@ -40,7 +41,8 @@ public class ModelServiceImpl implements ModelService {
   private CreateDomainHelper createDomainHelper;
   @Autowired
   private ModelTaskFactory modelTaskFactory;
-
+  @Autowired
+  private RedisQueue redisQueue;
 
   @Override
   public boolean startModelTask(ModelStartBean modelStartBean) {
@@ -73,7 +75,6 @@ public class ModelServiceImpl implements ModelService {
   @Override
   public boolean doCreateBean(DomainCreateBean domainCreateBean) {
 
-
     //1. 生成griddesc
     boolean flag = griddescHelper.generateGriddesc(domainCreateBean);
 
@@ -95,4 +96,5 @@ public class ModelServiceImpl implements ModelService {
     }
     return flag && nameListFlag && succShellRunFlag;
   }
+
 }
