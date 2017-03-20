@@ -191,7 +191,7 @@ public class UngribOperator extends AbstractOperator {
     params.put("ungrib_csh", configManager.getSystemConfig().getCsh().getModule_ungrib_csh());
     params.put("renv_fnl", renvFnlFile);
     params.put("renv_gfs", renvGfsFile);
-    String bodyContent = VelocityUtil.buildTemplate(template.getCsh_ungrib(), "sys_renv", configManager.getSystemConfig().getRenv().getSys());
+    String bodyContent = VelocityUtil.buildTemplate(template.getCsh_ungrib(), params);
 
 //    String sourceSysRenv = String.format("source %s\necho $LD_LIBRARY_PATH\n\n",
 //        configManager.getSystemConfig().getRenv().getSys());
