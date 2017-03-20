@@ -2,3 +2,8 @@
 cd ${run_path}
 ${ungrib_csh} ${renv_fnl}
 ${ungrib_csh} ${renv_gfs}
+if ( -f file.txt ) then
+  ln -s ${fnl_data} ${gfs_dir}
+else
+	echo "ERROR:${fnl_data} not exist"
+endif

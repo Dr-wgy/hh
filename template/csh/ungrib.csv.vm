@@ -1,5 +1,0 @@
-
-cd ${run_path}
-${ungrib_csh} ${renv_fnl}
-${ungrib_csh} ${renv_gfs}
-ln -s ${fnl_data} ${gfs_dir}
