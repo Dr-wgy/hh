@@ -16,6 +16,11 @@ public class LocalTimeUtil {
   public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
   public static final String YMD_DATE_FORMAT = "yyyyMMdd";
 
+  public static String formatDateTime(LocalDateTime dateTime, String format) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+    return dateTime.format(formatter);
+  }
+
   public static String format(LocalDate date, String format) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
     return date.format(formatter);
@@ -79,33 +84,33 @@ public class LocalTimeUtil {
     return needReInitial(_baseDate, _compDate, reInitialDays);
   }
 
-  public static LocalDate minusHoursDiff(int timeDiff,String dateString,String format) {
+  public static LocalDate minusHoursDiff(int timeDiff, String dateString, String format) {
 
-    LocalDate localDate = LocalDate.parse(dateString,DateTimeFormatter.ofPattern(format));
+    LocalDate localDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern(format));
 
-    return minusHoursDiff(timeDiff,localDate);
+    return minusHoursDiff(timeDiff, localDate);
   }
 
-  public static LocalDate minusHoursDiff(int timeDiff,String dateString) {
+  public static LocalDate minusHoursDiff(int timeDiff, String dateString) {
 
     LocalDate localDate = LocalTimeUtil.parse(dateString);
 
-    return minusHoursDiff(timeDiff,localDate);
+    return minusHoursDiff(timeDiff, localDate);
   }
 
-  public static LocalDate minusHoursDiff(int timeDiff,LocalDate localDate) {
+  public static LocalDate minusHoursDiff(int timeDiff, LocalDate localDate) {
 
-    return minusHoursDiff(timeDiff,localDate.atStartOfDay());
-
-  }
-
-  public static LocalDate minusHoursDiff(int timeDiff,LocalDateTime localDateTime) {
-
-    return localDateTime.minus(timeDiff,ChronoUnit.HOURS).toLocalDate();
+    return minusHoursDiff(timeDiff, localDate.atStartOfDay());
 
   }
 
-  public static int minusHoursDiff(int timeDiff){
+  public static LocalDate minusHoursDiff(int timeDiff, LocalDateTime localDateTime) {
+
+    return localDateTime.minus(timeDiff, ChronoUnit.HOURS).toLocalDate();
+
+  }
+
+  public static int minusHoursDiff(int timeDiff) {
     LocalTime time = LocalDate.now().atStartOfDay().minus(timeDiff, ChronoUnit.HOURS).toLocalTime();
     return time.getHour();
   }
