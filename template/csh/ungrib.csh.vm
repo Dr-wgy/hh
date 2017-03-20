@@ -1,0 +1,4 @@
+
+cd ${run_path}
+${ungrib_csh} ${renv_fnl}
+${ungrib_csh} ${renv_gfs}
