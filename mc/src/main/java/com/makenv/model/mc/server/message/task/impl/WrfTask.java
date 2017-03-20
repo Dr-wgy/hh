@@ -2,6 +2,7 @@ package com.makenv.model.mc.server.message.task.impl;
 
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.core.constant.Constant;
+import com.makenv.model.mc.core.util.FilePathUtil;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.LocalTimeUtil;
 import com.makenv.model.mc.core.util.StringUtil;
@@ -148,7 +149,8 @@ public class WrfTask extends ModelTask {
     bean.setRun_days((int) LocalTimeUtil.between(endDate, startDate) + 1);
     bean.setRun_hours(0);
     String ungribOutPath = configManager.getSystemConfig().getWorkspace().getShare().getInput().getUngrib_gfs().getDirPath();
-    ungribOutPath = String.format("%s%s%s", ungribOutPath, File.separator, bean.getStart_date());
+    String date = bean.getStart_date() + configManager.getSystemConfig().getModel().getStart_hour();
+    ungribOutPath = FilePathUtil.joinByDelimiter(ungribOutPath, date);
     bean.setUngrib_output_path(ungribOutPath);
     bean.setMetgrid_output_path(metgridOutPath);
     bean.setWrf_output_path(wrfOutDir);

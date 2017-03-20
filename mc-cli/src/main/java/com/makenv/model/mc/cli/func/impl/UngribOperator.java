@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,12 +37,13 @@ public class UngribOperator extends AbstractOperator {
   @Autowired
   private McConfigManager configManager;
 
-  private static final String DATE_FORMAT = "yyyyMMdd";
+//  private static final String DATE_FORMAT = "yyyyMMdd";
 
   private String invokeScriptFile, infoLogFile, errorLogFile, namelistFile, tagFile, renvGfsFile, renvFnlFile, runPath;
 
   private Logger logger = LoggerFactory.getLogger(UngribOperator.class);
   private String fnlDir, gfsDir, syncFnlDir, syncGfsDir, ungribFnlDir, ungribGfsDir, year;
+  private LocalDate today;
 
   @Override
   public String getName() {
@@ -52,7 +55,7 @@ public class UngribOperator extends AbstractOperator {
     try {
       computeDate = commandManager.getValueAndCheck(CommandType.CMD_DATE);
       if (StringUtil.isEmpty(computeDate)) {
-        computeDate = LocalTimeUtil.formatToday(DATE_FORMAT);
+        computeDate = LocalTimeUtil.formatToday(LocalTimeUtil.YMD_DATE_FORMAT);
       }
     } catch (InvalidParamsException e) {
       logger.error("", e);
@@ -60,9 +63,9 @@ public class UngribOperator extends AbstractOperator {
     }
     {
       year = computeDate.substring(0, 4);
-      LocalDate today = LocalTimeUtil.parse(computeDate, DATE_FORMAT);
+      today = LocalTimeUtil.parse(computeDate, LocalTimeUtil.YMD_DATE_FORMAT);
       LocalDate yesterday = today.plusDays(-1);
-      String computeYesterday = LocalTimeUtil.format(yesterday, DATE_FORMAT);
+      String computeYesterday = LocalTimeUtil.format(yesterday, LocalTimeUtil.YMD_DATE_FORMAT);
       syncFnlDir = configManager.getSystemConfig().getSync().getFnl() + File.separator + year;
       syncGfsDir = configManager.getSystemConfig().getSync().getGfs() + String.format("%s%s%s", File.separator, computeYesterday, configManager.getSystemConfig().getModel().getStart_hour());
       String _gfsDirSuffix = String.format("%s%s%s", File.separator, computeYesterday, configManager.getSystemConfig().getModel().getStart_hour());
@@ -191,6 +194,11 @@ public class UngribOperator extends AbstractOperator {
     params.put("ungrib_csh", configManager.getSystemConfig().getCsh().getModule_ungrib_csh());
     params.put("renv_fnl", renvFnlFile);
     params.put("renv_gfs", renvGfsFile);
+    LocalDateTime dateTime = today.atStartOfDay().minus(configManager.getSystemConfig().getModel().getTime_difference(), ChronoUnit.HOURS);
+    String time = LocalTimeUtil.formatDateTime(dateTime, "yyyy-MM-dd_HH");
+    String fnl_data = String.format("%s%s%s:%s", ungribFnlDir, File.separator, Constant.UNGRIB_FILE_PREFIX, time);
+    params.put("fnl_data", fnl_data);
+    params.put("gfs_dir", ungribGfsDir + File.separator);
     String bodyContent = VelocityUtil.buildTemplate(template.getCsh_ungrib(), params);
 
 //    String sourceSysRenv = String.format("source %s\necho $LD_LIBRARY_PATH\n\n",

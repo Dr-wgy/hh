@@ -9,7 +9,7 @@
     "missionid": "1",
     "scenarioid": "1",
     "tasks": ["wrf", "mcip", "megan", "meic", "cmaq"],
-    "cores": 12,
+    "cores": 48,
     "common": {
       "datatype": "gfs",
       "simtype":"base",
