@@ -5,6 +5,7 @@ import com.makenv.model.mc.cli.cmd.CommandType;
 import com.makenv.model.mc.cli.exception.InvalidParamsException;
 import com.makenv.model.mc.cli.func.AbstractOperator;
 import com.makenv.model.mc.core.config.McConfigManager;
+import com.makenv.model.mc.core.config.TemplatePath;
 import com.makenv.model.mc.core.constant.Constant;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.LocalTimeUtil;
@@ -183,27 +184,36 @@ public class UngribOperator extends AbstractOperator {
   }
 
   private void prepareExecScript() throws IOException {
-    String sourceSysRenv = String.format("source %s\necho $LD_LIBRARY_PATH\n\n",
-        configManager.getSystemConfig().getRenv().getSys());
-    String cdInvokeDir = String.format("cd %s\n", runPath);
-    String sb = Constant.CSH_HEADER + sourceSysRenv +
-        cdInvokeDir +
-        buildCmd(Constant.GLOBAL_TYPE_FNL) +
-        buildCmd(Constant.GLOBAL_TYPE_GFS);
+    TemplatePath template = configManager.getSystemConfig().getTemplate();
+    String headerContent = VelocityUtil.buildTemplate(template.getCsh_header(), "sys_renv", configManager.getSystemConfig().getRenv().getSys());
+    Map<String, String> params = new HashMap<>();
+    params.put("run_path", runPath);
+    params.put("ungrib_csh", configManager.getSystemConfig().getCsh().getModule_ungrib_csh());
+    params.put("renv_fnl", renvFnlFile);
+    params.put("renv_gfs", renvGfsFile);
+    String bodyContent = VelocityUtil.buildTemplate(template.getCsh_ungrib(), "sys_renv", configManager.getSystemConfig().getRenv().getSys());
+
+//    String sourceSysRenv = String.format("source %s\necho $LD_LIBRARY_PATH\n\n",
+//        configManager.getSystemConfig().getRenv().getSys());
+//    String cdInvokeDir = String.format("cd %s\n", runPath);
+//    String sb = Constant.CSH_HEADER + sourceSysRenv +
+//        cdInvokeDir +
+//        buildCmd(Constant.GLOBAL_TYPE_FNL) +
+//        buildCmd(Constant.GLOBAL_TYPE_GFS);
     File file = new File(invokeScriptFile);
-    FileUtil.writeLocalFile(file, sb);
+    FileUtil.writeLocalFile(file, headerContent + bodyContent);
     file.setExecutable(true);
   }
 
-  private StringBuilder buildCmd(String type) {
-    StringBuilder sb = new StringBuilder();
-//    String driverScriptPath = String.format("%s%slevel_3%sModule_ungrib.csh", configManager.getSystemConfig().getRoot().getScript(), File.separator, File.separator);
-    sb.append(configManager.getSystemConfig().getCsh().getModule_ungrib_csh());
-    sb.append(" ");
-    sb.append(type.equals(Constant.GLOBAL_TYPE_GFS) ? renvGfsFile : renvFnlFile);
-    sb.append("\n");
-    return sb;
-  }
+//  private StringBuilder buildCmd(String type) {
+//    StringBuilder sb = new StringBuilder();
+////    String driverScriptPath = String.format("%s%slevel_3%sModule_ungrib.csh", configManager.getSystemConfig().getRoot().getScript(), File.separator, File.separator);
+//    sb.append(configManager.getSystemConfig().getCsh().getModule_ungrib_csh());
+//    sb.append(" ");
+//    sb.append(type.equals(Constant.GLOBAL_TYPE_GFS) ? renvGfsFile : renvFnlFile);
+//    sb.append("\n");
+//    return sb;
+//  }
 
   private void exec() throws IOException {
     String qsub = configManager.getSystemConfig().getPbs().getQsub();

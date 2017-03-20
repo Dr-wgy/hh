@@ -158,48 +158,73 @@ public class WrfTask extends ModelTask {
   private void buildFnlRenvBean() throws IOException {
     boolean firsTime = modelStartBean.getWrf().isFirsttime();
     int i = 0, j = 0;
-    LocalDate _current = startDate, lastDate = startDate;
+    LocalDate _start = LocalTimeUtil.minusHoursDiff(timeDiff, startDate);
+    LocalDate _end = LocalTimeUtil.minusHoursDiff(timeDiff, endDate);
+    LocalDate _current = _start, lastDate = _start;
     WrfBean bean;
-    while (!_current.isAfter(endDate)) {
-      if (isReInitial(_current) && i != 0) {
+    while (!_current.isAfter(_end)) {
+//      if (isReInitial(_current) && i != 0) {
+      if (isReInitial(_current)) {
         bean = buildFnlWrfBean(lastDate, _current);
-        wrfBeans.add(bean);
+        bean.setRun_days((int) LocalTimeUtil.between(_current, lastDate));
+        bean.setRun_hours(configManager.getSystemConfig().getModel().getWrf_run_hours());
         bean.setRun_type(j++ == 0 ? (firsTime ? RUN_TYPE_INIT : RUN_TYPE_RESTART) : RUN_TYPE_REINIT);
         lastDate = _current;
+        wrfBeans.add(bean);
       }
       i++;
       _current = _current.plusDays(1);
     }
-    bean = buildFnlWrfBean(lastDate, endDate);
+    _current = _current.plusDays(-1);
+    bean = buildFnlWrfBean(lastDate, _end);
+    bean.setRun_hours(0);
     if (j == 0) {
       bean.setRun_type(firsTime ? RUN_TYPE_INIT : RUN_TYPE_RESTART);
+      bean.setRun_days((int) LocalTimeUtil.between(_current, lastDate) + 1);
     } else {
       bean.setRun_type(RUN_TYPE_REINIT);
+      bean.setRun_days((int) LocalTimeUtil.between(_current, lastDate) + 1);
     }
     wrfBeans.add(bean);
   }
 
   public static void main(String[] args) {
-    String startDate = "20170301", endDate = "20170303";
+    String startDate = "20170211", endDate = "20170216";
     String reinit_origin_date = "19800101";
     int reinit_cycle_days = 5, timeDiff = 8;
-    boolean fisttime = false;
+    boolean firsTime = false;
+
     LocalDate _start = LocalTimeUtil.minusHoursDiff(timeDiff, startDate, LocalTimeUtil.YMD_DATE_FORMAT);
     LocalDate _end = LocalTimeUtil.minusHoursDiff(timeDiff, endDate, LocalTimeUtil.YMD_DATE_FORMAT);
-    LocalDate _current = _start;
-    long days = LocalTimeUtil.between(_start, _end) + 1;
+    LocalDate _current = _start, lastDate = _start;
+    LocalDate baseDate = LocalTimeUtil.parse(reinit_origin_date, LocalTimeUtil.YMD_DATE_FORMAT);
+    int i = 0, j = 0;
     while (!_current.isAfter(_end)) {
-
+      if (LocalTimeUtil.needReInitial(baseDate, _current, reinit_cycle_days)) {
+        long runDays = LocalTimeUtil.between(_current, lastDate);
+        int runType = (j == 0 ? (firsTime ? RUN_TYPE_INIT : RUN_TYPE_RESTART) : RUN_TYPE_REINIT);
+        System.out.println(String.format("rundays=%s,runType=%s,runHours=22", runDays, runType));
+        lastDate = _current;
+        j++;
+      }
+      i++;
       _current = _current.plusDays(1);
     }
-
+    _current = _current.plusDays(-1);
+    long runDays, runType;
+    if (j == 0) {
+      runType = firsTime ? RUN_TYPE_INIT : RUN_TYPE_RESTART;
+      runDays = LocalTimeUtil.between(_current, lastDate) + 1;
+    } else {
+      runType = RUN_TYPE_REINIT;
+      runDays = LocalTimeUtil.between(_current, lastDate) + 1;
+    }
+    System.out.println(String.format("rundays=%s,runType=%s,runHours=0", runDays, runType));
   }
 
   private WrfBean buildFnlWrfBean(LocalDate startDate, LocalDate current) throws IOException {
     WrfBean bean = createWrfBean();
     bean.setStart_date(LocalTimeUtil.format(startDate, LocalTimeUtil.YMD_DATE_FORMAT));
-    bean.setRun_days((int) LocalTimeUtil.between(current, startDate) + 1);
-    bean.setRun_hours(configManager.getSystemConfig().getModel().getWrf_run_hours());
     bean.setUngrib_output_path(configManager.getSystemConfig().getWorkspace().getShare().getInput().getUngrib_fnl().getDirPath());
     String metgridOutPath = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getData().getGlobaldatasets().getMetgrid().getDirPath();
     bean.setMetgrid_output_path(processPath(metgridOutPath));
