@@ -14,10 +14,10 @@
       "datatype": "gfs",
       "simtype":"base",
       "time": { 
-        "start": "20170201",
-        "end": "20170201"
+        "start": "20170220",
+        "end": "20170220"
       },
-      "pathdate":"20170201" 
+      "pathdate":"20170203"
     },
     "emis": {
       "sourceid": "1",

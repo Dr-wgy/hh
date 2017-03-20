@@ -31,6 +31,15 @@ public class TemplatePath {
   private String csh_megan;
   private String csh_cmaq;
   private String csh_header;
+  private String csh_ungrib;
+
+  public String getCsh_ungrib() {
+    return csh_ungrib;
+  }
+
+  public void setCsh_ungrib(String csh_ungrib) {
+    this.csh_ungrib = csh_ungrib;
+  }
 
   public String getCsh_header() {
     return csh_header;
