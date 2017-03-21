@@ -138,6 +138,8 @@ public class RedisQueue{
 
             String obj = redisService.brpop(redisQueueConfig.getReceiveQueueName());
 
+            logger.info(obj);
+
             Message message = messageCheck(obj);
 
             String queue_name = String.join(":",Constants.TEMP_QUEUE_NAME_PREFIX,message.getId());
