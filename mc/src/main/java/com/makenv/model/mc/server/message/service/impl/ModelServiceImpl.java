@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * Created by wgy on 2017/2/23.
@@ -43,16 +42,18 @@ public class ModelServiceImpl implements ModelService {
   private ModelTaskFactory modelTaskFactory;
   @Autowired
   private RedisQueue redisQueue;
+  @Autowired
+  private ModelTaskHelper modelTaskHelper;
 
   @Override
   public boolean startModelTask(ModelStartBean modelStartBean) {
-    IModelTask firstTask = ModelTaskHelper.buildModelTask(modelTaskFactory, modelStartBean);
+    IModelTask firstTask = modelTaskHelper.buildModelTask(modelTaskFactory, modelStartBean);
     if (firstTask == null) {
-      logger.error(StringUtil.formatLog("invalid model task", Arrays.toString(modelStartBean.getTasks())));
+      logger.error(StringUtil.formatLog("invalid model task", modelStartBean.getModelType()));
       return false;
     }
     try {
-      ModelTaskHelper.buildCshWithHeader(firstTask.getModelRunFilePath(), mcConfigManager);
+      modelTaskHelper.buildCshWithHeader(firstTask.getModelRunFilePath(), mcConfigManager);
     } catch (IOException e) {
       logger.error("", e);
       return false;
@@ -61,7 +62,7 @@ public class ModelServiceImpl implements ModelService {
       return false;
     }
     try {
-      ModelTaskHelper.commitTask(mcConfigManager, modelStartBean, firstTask);
+      modelTaskHelper.commitTask(mcConfigManager, modelStartBean, firstTask);
     } catch (IOException e) {
       logger.error("", e);
       return false;
