@@ -1,9 +1,110 @@
 
+set fnl_startdate_str = ${fnl_start_date}
+set gfs_startdate_str = ${gfs_start_date}
+
+set fnl_startdate = `date -d "$fnl_startdate_str" +%Y%m%d`
+set gfs_startdate = `date -d "$gfs_startdate_str" +%Y%m%d`
+
+set fnl_rundays = ${fnl_rundays}
+set gfs_rundays = ${gfs_rundays}
+
+set fnl_enddate = `date -d "$fnl_startdate_str $fnl_rundays days - 1 days" +"%Y%m%d"`
+set gfs_enddate = `date -d "$gfs_startdate_str $gfs_rundays days - 1 days" +"%Y%m%d"`
+
+#execute ungrib
 cd ${run_path}
-${ungrib_csh} ${renv_fnl}
-${ungrib_csh} ${renv_gfs}
-if ( -f file.txt ) then
+set fnl_result = `${ungrib_csh} ${renv_fnl}`
+set gfs_result = `${ungrib_csh} ${renv_gfs}`
+
+#check output
+if ( -f ${fnl_data} ) then
   ln -s ${fnl_data} ${gfs_dir}
 else
 	echo "ERROR:${fnl_data} not exist"
 endif
+
+# before send message
+set fnl_fail_flag = `echo $fnl_result| grep ':'`
+set gfs_fail_flag = `echo $gfs_result| grep ':'`
+set fnl = ()
+set gfs = ()
+
+# set tem_start_date
+set tem_fnl_startdate = $fnl_startdate
+set tem_gfs_startdate = $gfs_startdate
+
+# reassemble message fnl
+if($fnl_fail_flag != '') then
+
+    set error_fnl_date = `echo $fnl_fail_flag | cut -d ":" -f 2`
+
+    set error_fnl_date_info = `echo $fnl_fail_flag | cut -d ":" -f 3`
+
+    set error_enddate = `date -d "$error_fnl_date" +%Y%m%d`
+
+    while( $tem_fnl_startdate <= $error_enddate )
+
+       if($tem_fnl_startdate < $fnl_enddate) then
+
+               set fnl = ($fnl 1: )
+       else
+
+               set fnl = ($fnl 0:${error_fnl_date_info} )
+       endif
+
+       set tem_fnl_startdate = `date -d "$tem_fnl_startdate 1 days" +"%Y%m%d"`
+
+    end
+
+else
+
+    while( $tem_fnl_startdate <= $fnl_enddate )
+
+       set fnl = ($fnl 1: )
+
+       set tem_fnl_startdate = `date -d "$tem_fnl_startdate 1 days" +"%Y%m%d"`
+
+    end
+
+endif
+
+
+
+# reassemble message gfs
+if(${gfs_fail_flag} != '') then
+
+    set error_gfs_date = `echo $gfs_fail_flag | cut -d ":" -f 2`
+
+    set error_gfs_date_info = `echo $gfs_fail_flag | cut -d ":" -f 3`
+
+    set error_gfs_enddate = `date -d "$error_gfs_date" +%Y%m%d`
+
+    while( $tem_gfs_startdate <= $error_gfs_enddate )
+
+       if($tem_gfs_startdate < $error_gfs_enddate) then
+
+               set gfs = ($gfs 1: )
+       else
+
+               set gfs = ($gfs 0:${error_gfs_date_info} )
+       endif
+
+       set tem_gfs_startdate = `date -d "$tem_gfs_startdate 1 days" +"%Y%m%d"`
+
+    end
+
+else
+
+    while( $tem_gfs_startdate <= $gfs_enddate )
+
+      set gfs= ($gfs 1: )
+
+      set tem_gfs_startdate = `date -d "$tem_gfs_startdate 1 days" +"%Y%m%d"`
+
+    end
+
+endif
+
+#  send message
+cd ${jar_dir}
+java -jar mc-cli.jar -t send_message -m ungrib -D pathdate=${pathdate}&fnl=${fnl}&gfs=${gfs}

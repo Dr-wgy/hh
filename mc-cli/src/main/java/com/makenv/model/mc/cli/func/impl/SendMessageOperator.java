@@ -2,9 +2,11 @@ package com.makenv.model.mc.cli.func.impl;
 
 import com.makenv.model.mc.cli.cmd.CommandManager;
 import com.makenv.model.mc.cli.cmd.CommandType;
-import com.makenv.model.mc.cli.func.AbstractOperator;
 import com.makenv.model.mc.cli.func.IOperator;
 import com.makenv.model.mc.cli.helper.JedisHelper;
+import com.makenv.model.mc.cli.mission.IMessageResponse;
+import com.makenv.model.mc.cli.mission.MissionFactory;
+import com.makenv.model.mc.cli.parser.RegexKeyValueParser;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.StringUtil;
 import org.slf4j.Logger;
@@ -42,6 +44,10 @@ public class SendMessageOperator implements IOperator {
 
         String pathName = commandManager.getValue(CommandType.CMD_INPUT.longOpt);
 
+        String mission = commandManager.getValue(CommandType.CMD_MISSION.longOpt);
+
+        String content = "";
+
         if(StringUtil.isEmpty(value) && StringUtil.isEmpty(pathName)) {
 
             logger.error("can not send message please add -D or -I paramsters");
@@ -61,9 +67,8 @@ public class SendMessageOperator implements IOperator {
 
         else if(!StringUtil.isEmpty(value) && StringUtil.isEmpty(pathName)) {
 
-            jedisHelper.sendMessage(value);
-
-            return;
+            content = value;
+            //return;
 
         }
 
@@ -71,9 +76,7 @@ public class SendMessageOperator implements IOperator {
 
             try {
 
-                String content = FileUtil.readLocalFile(new File(pathName));
-
-                jedisHelper.sendMessage(content);
+                content = FileUtil.readLocalFile(new File(pathName));
 
 
             }catch (IOException e) {
@@ -82,6 +85,20 @@ public class SendMessageOperator implements IOperator {
 
             }
         }
+
+        if(StringUtil.isEmpty(mission)) {
+
+            jedisHelper.sendMessage(content);
+
+        }
+
+        else {
+
+            IMessageResponse iMessageResponse = MissionFactory.organizeAndSendMessage(mission,jedisHelper,content);
+
+            iMessageResponse.sendMessage();
+        }
+
     }
 
     @Override
