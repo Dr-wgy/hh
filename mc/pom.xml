@@ -12,7 +12,6 @@
   <artifactId>mc</artifactId>
 
   <build>
-    <finalName>mc-cli</finalName>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
