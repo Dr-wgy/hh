@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -31,12 +32,15 @@ public class ModelTaskHelper {
   private McConfigManager configManager;
 
   public IModelTask buildModelTask(ModelTaskFactory mtf, ModelStartBean modelStartBean) {
-    String modelType = modelStartBean.getModelType();
-    Map<String, Object> modelTypes = configManager.getSystemConfig().getModel().getModel_types();
-    if (!modelTypes.containsKey(modelType)) {
-      return null;
+    List<String> tasks = modelStartBean.getTasks();
+    if (CollectionUtils.isEmpty(tasks)) {
+      String modelType = modelStartBean.getModelType();
+      Map<String, Object> modelTypes = configManager.getSystemConfig().getModel().getModel_types();
+      if (!modelTypes.containsKey(modelType)) {
+        return null;
+      }
+      tasks = (List<String>) modelTypes.get(modelType);
     }
-    List<String> tasks = (List<String>) modelTypes.get(modelType);
     IModelTask firstTask = null, lastTask = null;
     for (int i = 0; i < tasks.size(); i++) {
       if (i == 0) {
