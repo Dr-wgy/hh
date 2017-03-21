@@ -2,6 +2,8 @@ package com.makenv.model.mc.server.message.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.List;
+
 /**
  * Created by wgy on 2017/2/23.
  */
@@ -13,7 +15,7 @@ public class ModelStartBean {
   private String domainid;
   private String taskid;//表示当前请求ID
   @JsonIgnoreProperties(ignoreUnknown = true)
-  private String[] tasks;
+  private List<String> tasks;
   private String modelType;
   private int cores;// 计算核数
   //  private TaskDomain domain; // 模式domain的具体参数
@@ -22,11 +24,11 @@ public class ModelStartBean {
   private Wrf wrf;
   private Cmaq cmaq;
 
-  public String[] getTasks() {
+  public List<String> getTasks() {
     return tasks;
   }
 
-  public void setTasks(String[] tasks) {
+  public void setTasks(List<String> tasks) {
     this.tasks = tasks;
   }
 

@@ -55,6 +55,8 @@ public class WrfTask extends ModelTask {
     if (spinup > 0) {
       startDate = startDate.plusDays(-spinup);
     }
+    startDate = LocalTimeUtil.minusHoursDiff(timeDiff, startDate);
+    endDate = LocalTimeUtil.minusHoursDiff(timeDiff, endDate);
     return true;
   }
 
@@ -149,22 +151,21 @@ public class WrfTask extends ModelTask {
     bean.setRun_days((int) LocalTimeUtil.between(endDate, startDate) + 1);
     bean.setRun_hours(0);
     String ungribOutPath = configManager.getSystemConfig().getWorkspace().getShare().getInput().getUngrib_gfs().getDirPath();
-    String date = bean.getStart_date() + configManager.getSystemConfig().getModel().getStart_hour();
+    String date = String.format("%s%02d", bean.getStart_date(), configManager.getSystemConfig().getModel().getStart_hour());
     ungribOutPath = FilePathUtil.joinByDelimiter(ungribOutPath, date);
     bean.setUngrib_output_path(ungribOutPath);
     bean.setMetgrid_output_path(metgridOutPath);
     bean.setWrf_output_path(wrfOutDir);
+    bean.setRun_type(RUN_TYPE_RESTART);
     wrfBeans.add(bean);
   }
 
   private void buildFnlRenvBean() throws IOException {
     boolean firsTime = modelStartBean.getWrf().isFirsttime();
     int i = 0, j = 0;
-    LocalDate _start = LocalTimeUtil.minusHoursDiff(timeDiff, startDate);
-    LocalDate _end = LocalTimeUtil.minusHoursDiff(timeDiff, endDate);
-    LocalDate _current = _start, lastDate = _start;
+    LocalDate _current = startDate, lastDate = startDate;
     WrfBean bean;
-    while (!_current.isAfter(_end)) {
+    while (!_current.isAfter(endDate)) {
 //      if (isReInitial(_current) && i != 0) {
       if (isReInitial(_current)) {
         bean = buildFnlWrfBean(lastDate, _current);
@@ -178,7 +179,7 @@ public class WrfTask extends ModelTask {
       _current = _current.plusDays(1);
     }
     _current = _current.plusDays(-1);
-    bean = buildFnlWrfBean(lastDate, _end);
+    bean = buildFnlWrfBean(lastDate, endDate);
     bean.setRun_hours(0);
     if (j == 0) {
       bean.setRun_type(firsTime ? RUN_TYPE_INIT : RUN_TYPE_RESTART);

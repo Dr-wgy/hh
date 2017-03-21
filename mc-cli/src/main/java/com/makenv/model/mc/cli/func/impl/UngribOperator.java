@@ -2,7 +2,6 @@ package com.makenv.model.mc.cli.func.impl;
 
 import com.makenv.model.mc.cli.cmd.CommandManager;
 import com.makenv.model.mc.cli.cmd.CommandType;
-import com.makenv.model.mc.cli.exception.InvalidParamsException;
 import com.makenv.model.mc.cli.func.AbstractOperator;
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.core.config.TemplatePath;
@@ -31,11 +30,12 @@ import static com.makenv.model.mc.core.constant.Constant.*;
  */
 @Service
 public class UngribOperator extends AbstractOperator {
-  private String computeDate;
+  private String computeDate, ltComputeDate;
   @Autowired
   private CommandManager commandManager;
   @Autowired
   private McConfigManager configManager;
+  private static final int FNL_RUN_DAYS = 1;
 
 //  private static final String DATE_FORMAT = "yyyyMMdd";
 
@@ -53,15 +53,18 @@ public class UngribOperator extends AbstractOperator {
   @Override
   protected boolean beforeOperate() {
     try {
-      computeDate = commandManager.getValueAndCheck(CommandType.CMD_DATE);
+      ltComputeDate = commandManager.getValueAndCheck(CommandType.CMD_DATE);
       if (StringUtil.isEmpty(computeDate)) {
-        computeDate = LocalTimeUtil.formatToday(LocalTimeUtil.YMD_DATE_FORMAT);
+        ltComputeDate = LocalTimeUtil.formatToday(LocalTimeUtil.YMD_DATE_FORMAT);
       }
-    } catch (InvalidParamsException e) {
+    } catch (Exception e) {
       logger.error("", e);
       return false;
     }
     {
+      LocalDate utcDate = LocalTimeUtil.minusHoursDiff(configManager.getSystemConfig().getModel().getTime_difference(), ltComputeDate);
+      computeDate = LocalTimeUtil.format(utcDate, LocalTimeUtil.YMD_DATE_FORMAT);
+//      LocalDate utcDate = LocalTimeUtil.minusHoursDiff(configManager.getSystemConfig().getModel().getTime_difference(), computeDate);
       year = computeDate.substring(0, 4);
       today = LocalTimeUtil.parse(computeDate, LocalTimeUtil.YMD_DATE_FORMAT);
       LocalDate yesterday = today.plusDays(-1);
@@ -170,7 +173,7 @@ public class UngribOperator extends AbstractOperator {
 
   private Map<String, Object> buildFnlEnv() throws IOException {
     Map<String, Object> params = createParams();
-    params.put("run_days", 1);
+    params.put("run_days", FNL_RUN_DAYS);
     params.put("input_path", fnlDir);
     params.put("output_path", ungribFnlDir);
     params.put("global", Constant.GLOBAL_TYPE_FNL);
@@ -189,11 +192,18 @@ public class UngribOperator extends AbstractOperator {
   private void prepareExecScript() throws IOException {
     TemplatePath template = configManager.getSystemConfig().getTemplate();
     String headerContent = VelocityUtil.buildTemplate(template.getCsh_header(), "sys_renv", configManager.getSystemConfig().getRenv().getSys());
-    Map<String, String> params = new HashMap<>();
+    Map<String, Object> params = new HashMap<>();
     params.put("run_path", runPath);
     params.put("ungrib_csh", configManager.getSystemConfig().getCsh().getModule_ungrib_csh());
     params.put("renv_fnl", renvFnlFile);
     params.put("renv_gfs", renvGfsFile);
+
+    params.put("fnl_start_date", computeDate);
+    params.put("gfs_start_date", computeDate);
+    params.put("pathdate", ltComputeDate);
+    params.put("fnl_rundays", FNL_RUN_DAYS);
+    params.put("gfs_rundays", configManager.getSystemConfig().getModel().getUngrib_gfs_days());
+    params.put("jar_dir", configManager.getSystemConfig().getRoot().getMeic());
     LocalDateTime dateTime = today.atStartOfDay().minus(configManager.getSystemConfig().getModel().getTime_difference(), ChronoUnit.HOURS);
     String time = LocalTimeUtil.formatDateTime(dateTime, "yyyy-MM-dd_HH");
     String fnl_data = String.format("%s%s%s:%s", ungribFnlDir, File.separator, Constant.UNGRIB_FILE_PREFIX, time);

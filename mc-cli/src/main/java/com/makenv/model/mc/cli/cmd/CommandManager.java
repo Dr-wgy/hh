@@ -1,6 +1,5 @@
 package com.makenv.model.mc.cli.cmd;
 
-import com.makenv.model.mc.cli.cmd.CommandType;
 import com.makenv.model.mc.cli.exception.InvalidParamsException;
 import com.makenv.model.mc.cli.func.OperatorFactory;
 import com.makenv.model.mc.core.util.StringUtil;
