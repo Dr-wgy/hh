@@ -54,7 +54,7 @@ public class UngribOperator extends AbstractOperator {
   protected boolean beforeOperate() {
     try {
       ltComputeDate = commandManager.getValueAndCheck(CommandType.CMD_DATE);
-      if (StringUtil.isEmpty(computeDate)) {
+      if (StringUtil.isEmpty(ltComputeDate)) {
         ltComputeDate = LocalTimeUtil.formatToday(LocalTimeUtil.YMD_DATE_FORMAT);
       }
     } catch (Exception e) {
@@ -62,7 +62,7 @@ public class UngribOperator extends AbstractOperator {
       return false;
     }
     {
-      LocalDate utcDate = LocalTimeUtil.minusHoursDiff(configManager.getSystemConfig().getModel().getTime_difference(), ltComputeDate);
+      LocalDate utcDate = LocalTimeUtil.minusHoursDiff(configManager.getSystemConfig().getModel().getTime_difference(), ltComputeDate, LocalTimeUtil.YMD_DATE_FORMAT);
       computeDate = LocalTimeUtil.format(utcDate, LocalTimeUtil.YMD_DATE_FORMAT);
 //      LocalDate utcDate = LocalTimeUtil.minusHoursDiff(configManager.getSystemConfig().getModel().getTime_difference(), computeDate);
       year = computeDate.substring(0, 4);

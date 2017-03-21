@@ -12,7 +12,7 @@
     "tasks": ["wrf", "mcip", "megan", "meic", "cmaq"],
     "cores": 48,
     "common": {
-      "datatype": "gfs",
+      "datatype": "fnl",
       "simtype":"base",
       "time": { 
         "start": "20170220",
@@ -28,7 +28,7 @@
       "meiccityconfig": "/work/b/lixin_meic/hebei/meic-city.conf"
     },
     "wrf": {
-      "firsttime": false,
+      "firsttime": true,
       "spinup": 0,
       "lastfnl": "20170201" 
     },
