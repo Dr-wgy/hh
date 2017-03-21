@@ -8,6 +8,7 @@
     "domainid": "1",
     "missionid": "1",
     "scenarioid": "1",
+    "modelType": "1_2",
     "tasks": ["wrf"],
     "cores": 48,
     "common": {

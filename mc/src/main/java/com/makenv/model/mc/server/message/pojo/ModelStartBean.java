@@ -1,5 +1,7 @@
 package com.makenv.model.mc.server.message.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by wgy on 2017/2/23.
  */
@@ -10,13 +12,31 @@ public class ModelStartBean {
   private String scenarioid;//情景编号
   private String domainid;
   private String taskid;//表示当前请求ID
+  @JsonIgnoreProperties(ignoreUnknown = true)
   private String[] tasks;
+  private String modelType;
   private int cores;// 计算核数
   //  private TaskDomain domain; // 模式domain的具体参数
   private ModelCommonParams common; //公共内容
   private Emis emis;
   private Wrf wrf;
   private Cmaq cmaq;
+
+  public String[] getTasks() {
+    return tasks;
+  }
+
+  public void setTasks(String[] tasks) {
+    this.tasks = tasks;
+  }
+
+  public String getModelType() {
+    return modelType;
+  }
+
+  public void setModelType(String modelType) {
+    this.modelType = modelType;
+  }
 
   public String getTaskid() {
     return taskid;
@@ -32,14 +52,6 @@ public class ModelStartBean {
 
   public void setDomainid(String domainid) {
     this.domainid = domainid;
-  }
-
-  public String[] getTasks() {
-    return tasks;
-  }
-
-  public void setTasks(String[] tasks) {
-    this.tasks = tasks;
   }
 
   public Cmaq getCmaq() {

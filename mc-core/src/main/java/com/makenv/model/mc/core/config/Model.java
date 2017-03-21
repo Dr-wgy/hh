@@ -1,6 +1,8 @@
 package com.makenv.model.mc.core.config;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by alei on 2017/3/7.
@@ -17,7 +19,16 @@ public class Model {
   private int ungrib_gfs_days;
   private int debug_level;
   private String wrf_version;
+  private Map<String,Object> model_types;
   private Meic meic;
+
+  public Map<String, Object> getModel_types() {
+    return model_types;
+  }
+
+  public void setModel_types(Map<String, Object> model_types) {
+    this.model_types = model_types;
+  }
 
   public String getReinit_origin_date() {
     return reinit_origin_date;

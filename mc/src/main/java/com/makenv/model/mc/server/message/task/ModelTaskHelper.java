@@ -10,29 +10,42 @@ import com.makenv.model.mc.server.message.pojo.ModelStartBean;
 import com.makenv.model.mc.server.message.util.McUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by alei on 2017/3/18.
  */
+@Component
 public class ModelTaskHelper {
-  private static Logger logger = LoggerFactory.getLogger(ModelTaskHelper.class);
+  private Logger logger = LoggerFactory.getLogger(ModelTaskHelper.class);
+  ;
+  @Autowired
+  private McConfigManager configManager;
 
-  public static IModelTask buildModelTask(ModelTaskFactory mtf, ModelStartBean modelStartBean) {
-    String[] tasks = modelStartBean.getTasks();
+  public IModelTask buildModelTask(ModelTaskFactory mtf, ModelStartBean modelStartBean) {
+    String modelType = modelStartBean.getModelType();
+    Map<String, Object> modelTypes = configManager.getSystemConfig().getModel().getModel_types();
+    if (!modelTypes.containsKey(modelType)) {
+      return null;
+    }
+    List<String> tasks = (List<String>) modelTypes.get(modelType);
     IModelTask firstTask = null, lastTask = null;
-    for (int i = 0; i < tasks.length; i++) {
+    for (int i = 0; i < tasks.size(); i++) {
       if (i == 0) {
-        firstTask = lastTask = mtf.getModelTask(tasks[i], modelStartBean);
+        firstTask = lastTask = mtf.getModelTask(tasks.get(i), modelStartBean);
         if (lastTask == null) {
           return null;
         }
       } else {
-        IModelTask nextTask = mtf.getModelTask(tasks[i], modelStartBean);
+        IModelTask nextTask = mtf.getModelTask(tasks.get(i), modelStartBean);
         if (lastTask == null) {
           return null;
         }
@@ -43,7 +56,7 @@ public class ModelTaskHelper {
     return firstTask;
   }
 
-  public static void buildCshWithHeader(String cshFilePath, McConfigManager configManager) throws IOException {
+  public void buildCshWithHeader(String cshFilePath, McConfigManager configManager) throws IOException {
     String renvFile = configManager.getSystemConfig().getRenv().getSys();
     String template = configManager.getSystemConfig().getTemplate().getCsh_header();
     String content = VelocityUtil.buildTemplate(template, "sys_renv", renvFile);
@@ -52,7 +65,7 @@ public class ModelTaskHelper {
     modelRunFile.setExecutable(true);
   }
 
-  public static String commitTask(McConfigManager configManager, ModelStartBean modelStartBean, IModelTask task) throws IOException {
+  public String commitTask(McConfigManager configManager, ModelStartBean modelStartBean, IModelTask task) throws IOException {
     Pbs pbs = configManager.getSystemConfig().getPbs();
     int[] resource = McUtil.buildComputeResource(pbs.getPpn(), modelStartBean.getCores());
     String errLog = FilePathUtil.joinByDelimiter(task.getModelRunDir(), Constant.TORQUE_LOG_ERROR);
