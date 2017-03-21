@@ -107,4 +107,4 @@ endif
 
 #  send message
 cd ${jar_dir}
-java -jar mc-cli.jar -t send_message -m ungrib -D pathdate=${computeDate}&fnl=${fnl}&gfs=${gfs}
+java -jar mc-cli.jar -t send_message -m ungrib -D pathdate=${pathdate}&fnl=${fnl}&gfs=${gfs}
