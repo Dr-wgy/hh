@@ -3,7 +3,6 @@
   "time": "2017-02-01 12:00:12",
   "type": "model.start",
   "body": {
-    "taskid":"请求编号",
     "userid": "用户ID",
     "domainid": "1",
     "missionid": "任务ID",
@@ -12,8 +11,8 @@
     "tasks": ["wrf", "mcip", "megan", "meic", "cmaq"], //注意顺序，非必须，优先
     "cores": "计算核数",
     "common": {
+      "firsttime": true,
       "datatype": "gfs",//气象数据类型，fnl, gfs
-      "simtype":"base",//模拟类型base or scenario
       "time": { //模拟开始和结束时间
         "start": "20170201",
         "end": "20170201"
@@ -28,12 +27,10 @@
       "meiccityconfig": "/work/b/lixin_meic/hebei/meic-city.conf"
     },
     "wrf": {
-      "firsttime": true,
       "spinup": 2,
       "lastfnl": "20170201" //ungrib成功的最新一天，世界时间
     },
     "cmaq": {
-      "firsttime": true,
       "spinup": 2,
       "ic":{
         "missionid": "1",

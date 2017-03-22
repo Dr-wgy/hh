@@ -3,4 +3,8 @@
 cd $wrf_run_dir
 foreach start_date ( ${start_dates} )
   $wrf_script $renv_scrpit
+  cd ${jar_dir}
+  #  send message
+  java -jar mc-cli.jar -t send_message -m ungrib -D pathdate=${pathdate}&fnl=${fnl}&gfs=${gfs}
+  cd $wrf_run_dir
 end
