@@ -3,14 +3,13 @@
   "time": "2017-02-01 12:00:12",
   "type": "model.start.result",
   "body": {
-    "taskid":"请求编号",
-    "tasks": [
-      {
-        "type": "wrf",//prepare,wrf,mcip,megan,meic,cmaq
-        "startDate": "20170101",
-        "endDate": "20170101",
-        "code": 0//0,成功  非0,失败
-      }
-    ]
+    "userid": "用户ID",
+    "domainid": "1",
+    "missionid": "任务ID",
+    "scenarioid": "情景ID",
+    "index": 0,//任务中每个task在执行链中的索引，从0开始
+    "date": "20170101",
+    "code": 0,//0,成功  非0,失败
+    "desc":""//如果失败，内容为失败详情
   }
 }

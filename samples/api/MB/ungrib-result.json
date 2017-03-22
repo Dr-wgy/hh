@@ -3,8 +3,10 @@
   "time": "2017-02-01 12:00:12",
   "type": "ungrib.result",
   "body": {
-    "date": "20170101",
-    "type":"fnl",//fnl or gfs
-    "code": 0 //0成功，非0失败
+    "pathdate": "20170101",
+    "fnl": [1],//fnl or gfs
+    "gfs": [1,1,1,1,1,1,1,1,1], //0成功，非0失败
+    "fnlDesc":[""],
+    "gfsDesc":["","","","","","","","",""]
   }
 }
