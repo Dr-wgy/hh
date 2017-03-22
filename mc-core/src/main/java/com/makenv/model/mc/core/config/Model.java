@@ -1,7 +1,8 @@
 package com.makenv.model.mc.core.config;
 
+import com.makenv.model.mc.core.util.LocalTimeUtil;
+
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,11 +16,11 @@ public class Model {
   private String reinit_judge_tool;
   private int reinit_cycle_days;
   private LocalDate reinitOriginDate;
-//  private int days_of_reinitial;
+  //  private int days_of_reinitial;
   private int ungrib_gfs_days;
   private int debug_level;
   private String wrf_version;
-  private Map<String,Object> model_types;
+  private Map<String, Object> model_types;
   private Meic meic;
 
   public Map<String, Object> getModel_types() {
@@ -35,7 +36,7 @@ public class Model {
   }
 
   public void setReinit_origin_date(String reinit_origin_date) {
-    reinitOriginDate = LocalDate.parse(reinit_origin_date);
+    reinitOriginDate = LocalTimeUtil.parse(reinit_origin_date, LocalTimeUtil.YMD_DATE_FORMAT);
     this.reinit_origin_date = reinit_origin_date;
   }
 
