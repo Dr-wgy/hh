@@ -76,7 +76,7 @@ public class MeicTask extends ModelTask {
     if (!StringUtil.isEmpty(modelStartBean.getEmis().getPsal())) {
       pslist = FilePathUtil.joinByDelimiter(modelStartBean.getEmis().getPsal(), Constant.ACTIONLIST_PS);
     } else {
-      pslist = FilePathUtil.joinByDelimiter(runDir, model.getMeic().getSs_actionlist());
+      pslist = FilePathUtil.joinByDelimiter(runDir, model.getMeic().getPs_actionlist());
       FileUtil.writeLocalFile(new File(pslist), model.getMeic().getActionlist_header());
     }
     if (!StringUtil.isEmpty(modelStartBean.getEmis().getSsal())) {

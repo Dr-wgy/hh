@@ -31,7 +31,7 @@ public class CmaqTask extends AbstractCmaqTask {
   }
 
   private boolean processDirectory() {
-    String base = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getRun().getCmaq();
+    String base = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getMissionid().getScenarioid().getRun().getCmaq().getDirPath();
     runDir = processPath(base);
     runDir = String.format("%s%s%s", runDir, File.separator, System.currentTimeMillis());
     renvPath = String.format("%s%s%s", runDir, File.separator, Constant.MODEL_RENV_FILE);
@@ -95,7 +95,7 @@ public class CmaqTask extends AbstractCmaqTask {
     cmaqBean.setBase_cmaq_output_path(baseCctmDataDir);
     cmaqBean.setCmaq_output_path(cctmDataDir);
     cmaqBean.setMax_dom(taskDomain.getCommon().getMax_dom());
-    cmaqBean.setRun_type(modelStartBean.getCmaq().isFirsttime() ? RUN_TYPE_INIT : RUN_TYPE_RESTART);
+    cmaqBean.setRun_type(modelStartBean.getCommon().isFirsttime() ? RUN_TYPE_INIT : RUN_TYPE_RESTART);
     cmaqBean.setNpcol_nprow(McUtil.buildMultiplier(modelStartBean.getCores()));
     cmaqBean.setOMI_path(configManager.getSystemConfig().getSync().getRaw_phot());
   }

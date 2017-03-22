@@ -13,7 +13,7 @@ public class ModelStartBean {
   private String missionid;//任务编号
   private String scenarioid;//情景编号
   private String domainid;
-  private String taskid;//表示当前请求ID
+  //  private String taskid;//表示当前请求ID
   @JsonIgnoreProperties(ignoreUnknown = true)
   private List<String> tasks;
   private String modelType;
@@ -23,6 +23,16 @@ public class ModelStartBean {
   private Emis emis;
   private Wrf wrf;
   private Cmaq cmaq;
+
+  public String getKey() {
+    ModelCommonParams.TimeDate time = common.getTime();
+    return String.format("%s-%s-%s-%s-%s-%s", userid, missionid, scenarioid, domainid, time.getStart(), time.getEnd());
+  }
+
+  public String getDateKey() {
+    ModelCommonParams.TimeDate time = common.getTime();
+    return String.format("%s-%s", time.getStart(), time.getEnd());
+  }
 
   public List<String> getTasks() {
     return tasks;
@@ -38,14 +48,6 @@ public class ModelStartBean {
 
   public void setModelType(String modelType) {
     this.modelType = modelType;
-  }
-
-  public String getTaskid() {
-    return taskid;
-  }
-
-  public void setTaskid(String taskid) {
-    this.taskid = taskid;
   }
 
   public String getDomainid() {
@@ -116,15 +118,6 @@ public class ModelStartBean {
   public static class Cmaq {
     private int spinup;
     private Ic ic;
-    private boolean firsttime;
-
-    public boolean isFirsttime() {
-      return firsttime;
-    }
-
-    public void setFirsttime(boolean firsttime) {
-      this.firsttime = firsttime;
-    }
 
     public Ic getIc() {
       return ic;

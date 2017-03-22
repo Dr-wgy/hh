@@ -160,8 +160,15 @@ public class WrfTask extends ModelTask {
     wrfBeans.add(bean);
   }
 
+//  private void buildWrfFirstStep(){
+//
+//  }
+//  private void buildWrfSecondStep(){
+//
+//  }
+
   private void buildFnlRenvBean() throws IOException {
-    boolean firsTime = modelStartBean.getWrf().isFirsttime();
+    boolean firsTime = modelStartBean.getCommon().isFirsttime();
     int i = 0, j = 0;
     LocalDate _current = startDate, lastDate = startDate;
     WrfBean bean;

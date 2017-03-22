@@ -12,9 +12,9 @@
     "tasks": ["meic"],
     "cores": 1,
     "common": {
+      "firsttime": true,
       "datatype": "fnl",
-      "simtype":"base",
-      "time": { 
+      "time": {
         "start": "20170213",
         "end": "20170213"
       },

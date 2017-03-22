@@ -3,11 +3,8 @@
   "time": "2017-02-01 12:00:12",
   "type": "model.stop.result",
   "body": {
-    "userid": "用户ID",
-    "domainid": "1",
-    "missionid": "任务ID",
     "scenarioid": "情景ID",
-    "status":"0",//0成功，非0失败
+    "code":0,//0成功，非0失败
     "desc":""//如果失败，内容为失败详情
   }
 }

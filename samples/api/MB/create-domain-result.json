@@ -5,7 +5,7 @@
   "body": {
     "userid": "123",
     "domainid": "1",
-    "code": "0",
+    "code": 0,
     "desc":""//如果失败，内容为失败详情
   }
 }
