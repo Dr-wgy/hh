@@ -30,7 +30,7 @@ public class MeicTask extends ModelTask {
   private String runDir, meicDir, confTemplateDir, renvFilePath, emisDir, jsonFilePath;
   private MeicParams meicParams;
 
-  public MeicTask(ModelStartBean modelStartBean, McConfigManager configManager) {
+  public MeicTask(ModelStartBean modelStartBean, McConfigManager configManager) throws IOException {
     super(modelStartBean, configManager);
   }
 

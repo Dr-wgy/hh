@@ -4,11 +4,13 @@ import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
 import com.makenv.model.mc.server.message.task.ModelTask;
 
+import java.io.IOException;
+
 /**
  * Created by alei on 2017/3/8.
  */
 public class MeganTask extends ModelTask {
-  public MeganTask(ModelStartBean modelStartBean, McConfigManager configManager) {
+  public MeganTask(ModelStartBean modelStartBean, McConfigManager configManager) throws IOException {
     super(modelStartBean,configManager);
   }
 
