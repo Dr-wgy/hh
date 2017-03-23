@@ -8,6 +8,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by alei on 2015/12/15.
@@ -281,6 +285,65 @@ public class FileUtil {
     return null;
   }
 
+  public static List<String> readNLastLine(File file, int number) {
+
+    return readNLastLine(file, Charset.defaultCharset().displayName(),number);
+  }
+
+  public static List<String> readNLastLine(File file, String charset,int number) {
+    // 定义结果集
+    List<String> result = new ArrayList<String>();
+    if (!file.exists() || file.isDirectory() || !file.canRead()) {
+      return null;
+    }
+    int count = 0;
+    RandomAccessFile randomaccessfile = null;
+    try {
+      randomaccessfile = new RandomAccessFile(file, "r");
+      long len = randomaccessfile.length();
+      if (len == 0L) {
+        return result;
+      } else {
+        long pos = len - 1;
+        while (pos > 0) {
+          pos--;
+          randomaccessfile.seek(pos);
+          if (randomaccessfile.readByte() == '\n') {
+            String line = randomaccessfile.readLine();
+            result.add(line);
+            count++;
+            if(count == number) break;
+          }
+        }
+        if (pos == 0) {
+          randomaccessfile.seek(0);
+          result.add(randomaccessfile.readLine());
+        }
+      }
+    } catch (FileNotFoundException e) {
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      if (randomaccessfile != null) {
+        try {
+          randomaccessfile.close();
+        } catch (Exception e2) {
+        }
+      }
+    }
+
+    Collections.reverse(result);
+    return result;
+  }
+
+  public static String readNLastLineToStr(File file,int number) {
+
+    return readNLastLine(file,number).stream().collect(Collectors.joining(""));
+  }
+
+
   public static String readLastLine(File file) {
     return readLastLine(file, Charset.defaultCharset().displayName());
   }
@@ -309,5 +372,10 @@ public class FileUtil {
   public static String convertInpustreamToString(InputStream inputStream){
 
     return convertInpustreamToString(inputStream,Charset.forName("utf-8").displayName());
+  }
+
+  public static boolean exists(String filePathName) {
+
+     return  Paths.get(filePathName).toFile().exists();
   }
 }

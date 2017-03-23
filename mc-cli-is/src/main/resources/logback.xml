@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="10 seconds">
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+　　　<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+　　　　　　<fileNamePattern>mcCliLogs/logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+　　　　　　<maxHistory>30</maxHistory>
+　　　　</rollingPolicy>
+　　　　　　<encoder>
+　　　　　　　　　<pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+　　　　　　</encoder>
+　　</appender>
+　　<root level="INFO">
+  　　　　<appender-ref ref="FILE" />
+  　</root>
+    <logger name="com.makenv.model.mc.cli.is" level="INFO"/>
+</configuration>
