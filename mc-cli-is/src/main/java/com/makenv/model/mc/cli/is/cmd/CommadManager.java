@@ -46,8 +46,6 @@ public class CommadManager {
         FileInputStream is = null; //文件流
         try {
 
-            System.out.println(ClassloaderUtil.getCurrentClassloaderDetail());
-
             is = new FileInputStream(excelFile);
 
             workbook = getWorkbook(is,ruleExcelPath);

@@ -2,7 +2,7 @@
 <configuration scan="true" scanPeriod="10 seconds">
   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 　　　<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-　　　　　　<fileNamePattern>meicLogs/logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+　　　　　　<fileNamePattern>mcCliLogs/logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
 　　　　　　<maxHistory>30</maxHistory>
 　　　　</rollingPolicy>
 　　　　　　<encoder>
@@ -12,5 +12,5 @@
 　　<root level="INFO">
   　　　　<appender-ref ref="FILE" />
   　</root>
-    <logger name="com.makenv.model.mc.meic" level="INFO"/>
+    <logger name="com.makenv.model.mc.cli.is" level="INFO"/>
 </configuration>

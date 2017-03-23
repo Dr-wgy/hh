@@ -32,8 +32,6 @@ public class RuleConfig {
 
         try {
 
-            System.out.println(ClassloaderUtil.getCurrentClassloaderDetail());
-
             InputStream input = Application.class.getClassLoader().getResourceAsStream(cliProperties);
 
             if(input == null) {

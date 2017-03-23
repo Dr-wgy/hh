@@ -16,8 +16,6 @@ import java.util.Stack;
 public class Application {
 
     public static void main(String[] args) throws Exception {
-
-        System.out.println(ClassloaderUtil.getCurrentClassloaderDetail());
         //初始化配置config
         RuleConfig ruleConfig = new RuleConfig();
 
