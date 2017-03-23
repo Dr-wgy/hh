@@ -37,7 +37,7 @@ public class WrfTask extends ModelTask {
   private List<WrfBean> wrfBeans;
   private String renvFilePathPrefix;
 
-  public WrfTask(ModelStartBean modelStartBean, McConfigManager configManager) {
+  public WrfTask(ModelStartBean modelStartBean, McConfigManager configManager) throws IOException {
     super(modelStartBean, configManager);
     wrfBeans = new LinkedList<>();
   }

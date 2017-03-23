@@ -7,13 +7,15 @@ import com.makenv.model.mc.server.message.task.ModelTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
 /**
  * Created by alei on 2017/3/11.
  */
 public abstract class AbstractCmaqTask extends ModelTask {
   private Logger logger = LoggerFactory.getLogger(AbstractCmaqTask.class);
 
-  AbstractCmaqTask(ModelStartBean modelStartBean, McConfigManager configManager) {
+  AbstractCmaqTask(ModelStartBean modelStartBean, McConfigManager configManager) throws IOException {
     super(modelStartBean, configManager);
   }
 

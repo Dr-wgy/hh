@@ -2,23 +2,20 @@ package com.makenv.model.mc.server.message.helper;
 
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.core.constant.Constant;
-import com.makenv.model.mc.core.util.*;
+import com.makenv.model.mc.core.util.FilePathUtil;
+import com.makenv.model.mc.core.util.FileUtil;
+import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.server.config.Cmd;
 import com.makenv.model.mc.server.constant.Constants;
-import com.makenv.model.mc.server.constant.PBSStatus;
 import com.makenv.model.mc.server.message.pojo.DomainCreateBean;
-import com.makenv.model.mc.server.message.service.impl.ModelServiceImpl;
-import com.makenv.model.mc.server.message.util.ShellResult;
-import com.makenv.model.mc.server.message.util.XshellUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by wgy on 2017/3/8.
@@ -58,8 +55,8 @@ public class CreateDomainHelper {
     try {
 
       qsubCmd = String.format(qsubCmd, 1,
-          1, String.join("",Constants.GEOGRID_NAME, domainCreateBean.getDomainid()),
-          errorLog,infoLog, invokeFile);
+          1, String.join("", Constants.GEOGRID_NAME, domainCreateBean.getDomainid()),
+          errorLog, infoLog, invokeFile);
 
       logger.info(qsubCmd);
 
@@ -84,7 +81,8 @@ public class CreateDomainHelper {
 
     geogridTemplatePath = replaceRegex(geogridTemplatePath, domainCreateBean);
     GeoRenv geoRenv = new GeoRenv();
-    geoRenv.setWrf_build_path(mcConfigManager.getSystemConfig().getRoot().getWrf());
+    String wrfBuildPath = FilePathUtil.joinByDelimiter(mcConfigManager.getSystemConfig().getRoot().getWrf(), domainCreateBean.getDomain().getWrf().getVersion());
+    geoRenv.setWrf_build_path(wrfBuildPath);
     geoRenv.setScripts_path(mcConfigManager.getSystemConfig().getRoot().getScript());
     geoRenv.setNamelist_wps_geogrid_template(geogridTemplatePath);
     geoRenv.setGeog_data_path(mcConfigManager.getSystemConfig().getWorkspace().getShare().getInput().getGeog().getDirPath());
