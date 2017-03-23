@@ -47,9 +47,15 @@ public class ModelServiceImpl implements ModelService {
 
   @Override
   public boolean startModelTask(ModelStartBean modelStartBean) {
-    IModelTask firstTask = modelTaskHelper.buildModelTask(modelTaskFactory, modelStartBean);
-    if (firstTask == null) {
-      logger.error(StringUtil.formatLog("invalid model task", modelStartBean.getModelType()));
+    IModelTask firstTask;
+    try {
+      firstTask = modelTaskHelper.buildModelTask(modelTaskFactory, modelStartBean);
+      if (firstTask == null) {
+        logger.error(StringUtil.formatLog("invalid model task", modelStartBean.getModelType()));
+        return false;
+      }
+    } catch (IOException e) {
+      logger.error("", e);
       return false;
     }
     try {

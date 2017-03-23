@@ -33,7 +33,7 @@ public class ModelTaskHelper {
   @Autowired
   private McConfigManager configManager;
 
-  public IModelTask buildModelTask(ModelTaskFactory mtf, ModelStartBean modelStartBean) {
+  public IModelTask buildModelTask(ModelTaskFactory mtf, ModelStartBean modelStartBean) throws IOException {
     List<String> tasks = modelStartBean.getTasks();
     if (CollectionUtils.isEmpty(tasks)) {
       String modelType = modelStartBean.getModelType();
