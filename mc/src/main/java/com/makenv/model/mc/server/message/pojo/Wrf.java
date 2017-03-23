@@ -7,15 +7,7 @@ public class Wrf {
 
   private int spinup;
   private String lastfnl;
-  private boolean firsttime;
-
-  public boolean isFirsttime() {
-    return firsttime;
-  }
-
-  public void setFirsttime(boolean firsttime) {
-    this.firsttime = firsttime;
-  }
+//  private boolean firsttime;
 
   public String getLastfnl() {
     return lastfnl;

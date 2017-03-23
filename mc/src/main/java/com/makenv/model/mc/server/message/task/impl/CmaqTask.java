@@ -8,6 +8,7 @@ import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
 import com.makenv.model.mc.server.message.pojo.TaskDomain;
+import com.makenv.model.mc.server.message.task.ModelTaskConstant;
 import com.makenv.model.mc.server.message.task.bean.CmaqBean;
 import com.makenv.model.mc.server.message.util.McUtil;
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ public class CmaqTask extends AbstractCmaqTask {
   }
 
   private boolean processDirectory() {
-    String base = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getRun().getCmaq();
+    String base = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getMissionid().getScenarioid().getRun().getCmaq().getDirPath();
     runDir = processPath(base);
     runDir = String.format("%s%s%s", runDir, File.separator, System.currentTimeMillis());
     renvPath = String.format("%s%s%s", runDir, File.separator, Constant.MODEL_RENV_FILE);
@@ -95,7 +96,7 @@ public class CmaqTask extends AbstractCmaqTask {
     cmaqBean.setBase_cmaq_output_path(baseCctmDataDir);
     cmaqBean.setCmaq_output_path(cctmDataDir);
     cmaqBean.setMax_dom(taskDomain.getCommon().getMax_dom());
-    cmaqBean.setRun_type(modelStartBean.getCmaq().isFirsttime() ? RUN_TYPE_INIT : RUN_TYPE_RESTART);
+    cmaqBean.setRun_type(modelStartBean.getCommon().isFirsttime() ? ModelTaskConstant.RUN_TYPE_INIT : ModelTaskConstant.RUN_TYPE_RESTART);
     cmaqBean.setNpcol_nprow(McUtil.buildMultiplier(modelStartBean.getCores()));
     cmaqBean.setOMI_path(configManager.getSystemConfig().getSync().getRaw_phot());
   }

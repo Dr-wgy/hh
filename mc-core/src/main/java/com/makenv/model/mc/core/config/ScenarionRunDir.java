@@ -6,11 +6,45 @@ package com.makenv.model.mc.core.config;
 public class ScenarionRunDir {
 
   private String dirPath;
-  private ScenarionRunCctm cctm;
+  private ScenarionRunCctm cmaq;
+  private ScenarionRunCctm mcip;
   private ScenarionRunEmis emis;
-  private ScenarionRundp dp;
+  private ScenarionRundp dp_met;
+  private ScenarionRundp dp_chem;
   private ScenarionRunvideo video;
   private ScenarionBigScript bigscript;
+
+  public ScenarionRunCctm getMcip() {
+    return mcip;
+  }
+
+  public void setMcip(ScenarionRunCctm mcip) {
+    this.mcip = mcip;
+  }
+
+  public ScenarionRunCctm getCmaq() {
+    return cmaq;
+  }
+
+  public void setCmaq(ScenarionRunCctm cmaq) {
+    this.cmaq = cmaq;
+  }
+
+  public ScenarionRundp getDp_met() {
+    return dp_met;
+  }
+
+  public void setDp_met(ScenarionRundp dp_met) {
+    this.dp_met = dp_met;
+  }
+
+  public ScenarionRundp getDp_chem() {
+    return dp_chem;
+  }
+
+  public void setDp_chem(ScenarionRundp dp_chem) {
+    this.dp_chem = dp_chem;
+  }
 
   public ScenarionBigScript getBigscript() {
     return bigscript;
@@ -28,28 +62,12 @@ public class ScenarionRunDir {
     this.dirPath = dirPath;
   }
 
-  public ScenarionRunCctm getCctm() {
-    return cctm;
-  }
-
-  public void setCctm(ScenarionRunCctm cctm) {
-    this.cctm = cctm;
-  }
-
   public ScenarionRunEmis getEmis() {
     return emis;
   }
 
   public void setEmis(ScenarionRunEmis emis) {
     this.emis = emis;
-  }
-
-  public ScenarionRundp getDp() {
-    return dp;
-  }
-
-  public void setDp(ScenarionRundp dp) {
-    this.dp = dp;
   }
 
   public ScenarionRunvideo getVideo() {

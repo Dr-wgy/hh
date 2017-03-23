@@ -1,6 +1,7 @@
 package com.makenv.model.mc.server.message.task.impl;
 
 import com.makenv.model.mc.core.config.McConfigManager;
+import com.makenv.model.mc.core.config.Model;
 import com.makenv.model.mc.core.constant.Constant;
 import com.makenv.model.mc.core.util.FilePathUtil;
 import com.makenv.model.mc.core.util.FileUtil;
@@ -10,7 +11,11 @@ import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
 import com.makenv.model.mc.server.message.pojo.TaskDomain;
 import com.makenv.model.mc.server.message.task.ModelTask;
+import com.makenv.model.mc.server.message.task.ModelTaskConstant;
 import com.makenv.model.mc.server.message.task.bean.WrfBean;
+import com.makenv.model.mc.server.message.task.bean.WrfFnlCondBean;
+import com.makenv.model.mc.server.message.task.bean.WrfSubBean;
+import com.makenv.model.mc.server.message.task.helper.WrfTaskHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,12 +40,6 @@ public class WrfTask extends ModelTask {
   public WrfTask(ModelStartBean modelStartBean, McConfigManager configManager) {
     super(modelStartBean, configManager);
     wrfBeans = new LinkedList<>();
-  }
-
-  private boolean isReInitial(LocalDate compDate) {
-    LocalDate baseDate = configManager.getSystemConfig().getModel().getReinitOriginDate();
-    int reinitialDays = configManager.getSystemConfig().getModel().getReinit_cycle_days();
-    return LocalTimeUtil.needReInitial(baseDate, compDate, reinitialDays);
   }
 
   protected boolean checkParams() {
@@ -156,76 +155,98 @@ public class WrfTask extends ModelTask {
     bean.setUngrib_output_path(ungribOutPath);
     bean.setMetgrid_output_path(metgridOutPath);
     bean.setWrf_output_path(wrfOutDir);
-    bean.setRun_type(RUN_TYPE_RESTART);
+    bean.setRun_type(ModelTaskConstant.RUN_TYPE_RESTART);
     wrfBeans.add(bean);
   }
 
   private void buildFnlRenvBean() throws IOException {
-    boolean firsTime = modelStartBean.getWrf().isFirsttime();
-    int i = 0, j = 0;
-    LocalDate _current = startDate, lastDate = startDate;
-    WrfBean bean;
-    while (!_current.isAfter(endDate)) {
-//      if (isReInitial(_current) && i != 0) {
-      if (isReInitial(_current)) {
-        bean = buildFnlWrfBean(lastDate, _current);
-        bean.setRun_days((int) LocalTimeUtil.between(_current, lastDate));
-        bean.setRun_hours(configManager.getSystemConfig().getModel().getWrf_run_hours());
-        bean.setRun_type(j++ == 0 ? (firsTime ? RUN_TYPE_INIT : RUN_TYPE_RESTART) : RUN_TYPE_REINIT);
-        lastDate = _current;
-        wrfBeans.add(bean);
+    WrfFnlCondBean wfcb = new WrfFnlCondBean();
+    wfcb.setEnd(endDate);
+    wfcb.setStart(startDate);
+    Model model = configManager.getSystemConfig().getModel();
+    LocalDate baseDate = LocalTimeUtil.parse(model.getReinit_origin_date(), LocalTimeUtil.YMD_DATE_FORMAT);
+    wfcb.setBaseDate(baseDate);
+    wfcb.setFirsTime(modelStartBean.getCommon().isFirsttime());
+    wfcb.setReinitCycleDays(model.getReinit_cycle_days());
+    wfcb.setWrfOutDir(wrfOutDir);
+    wfcb.setReinitRunHours(model.getWrf_run_hours());
+    wfcb = WrfTaskHelper.adjustStartDate(wfcb);
+    List<WrfFnlCondBean> wfcbList = WrfTaskHelper.separateDateByFile(wfcb);
+    for (WrfFnlCondBean _wfcb : wfcbList) {
+      List<WrfSubBean> wsbs = WrfTaskHelper.separateDateByRule(_wfcb);
+      for (WrfSubBean _wsb : wsbs) {
+        WrfBean wrfBean = buildFnlWrfBean(_wfcb.getStart());
+        wrfBean.copyFromWrfFnlCondBean(_wsb);
+        wrfBeans.add(wrfBean);
       }
-      i++;
-      _current = _current.plusDays(1);
     }
-    _current = _current.plusDays(-1);
-    bean = buildFnlWrfBean(lastDate, endDate);
-    bean.setRun_hours(0);
-    if (j == 0) {
-      bean.setRun_type(firsTime ? RUN_TYPE_INIT : RUN_TYPE_RESTART);
-      bean.setRun_days((int) LocalTimeUtil.between(_current, lastDate) + 1);
-    } else {
-      bean.setRun_type(RUN_TYPE_REINIT);
-      bean.setRun_days((int) LocalTimeUtil.between(_current, lastDate) + 1);
-    }
-    wrfBeans.add(bean);
   }
+//  private void buildFnlRenvBean() throws IOException {
+//    boolean firsTime = modelStartBean.getCommon().isFirsttime();
+//    int i = 0, j = 0;
+//    LocalDate _current = startDate, lastDate = startDate;
+//    WrfBean bean;
+//    while (!_current.isAfter(endDate)) {
+////      if (isReInitial(_current) && i != 0) {
+//      if (isReInitial(_current)) {
+//        bean = buildFnlWrfBean(lastDate, _current);
+//        bean.setRun_days((int) LocalTimeUtil.between(_current, lastDate));
+//        bean.setRun_hours(configManager.getSystemConfig().getModel().getWrf_run_hours());
+//        bean.setRun_type(j++ == 0 ? (firsTime ? RUN_TYPE_INIT : RUN_TYPE_RESTART) : RUN_TYPE_REINIT);
+//        lastDate = _current;
+//        wrfBeans.add(bean);
+//      }
+//      i++;
+//      _current = _current.plusDays(1);
+//    }
+//    _current = _current.plusDays(-1);
+//    bean = buildFnlWrfBean(lastDate, endDate);
+//    bean.setRun_hours(0);
+//    if (j == 0) {
+//      bean.setRun_type(firsTime ? RUN_TYPE_INIT : RUN_TYPE_RESTART);
+//      bean.setRun_days((int) LocalTimeUtil.between(_current, lastDate) + 1);
+//    } else {
+//      bean.setRun_type(RUN_TYPE_REINIT);
+//      bean.setRun_days((int) LocalTimeUtil.between(_current, lastDate) + 1);
+//    }
+//    wrfBeans.add(bean);
+//  }
 
-  public static void main(String[] args) {
-    String startDate = "20170211", endDate = "20170216";
-    String reinit_origin_date = "19800101";
-    int reinit_cycle_days = 5, timeDiff = 8;
-    boolean firsTime = false;
+//  public static void main(String[] args) {
+//    String startDate = "20170211", endDate = "20170216";
+//    String reinit_origin_date = "19800101";
+//    int reinit_cycle_days = 5, timeDiff = 8;
+//    boolean firsTime = false;
+//
+//    LocalDate _start = LocalTimeUtil.minusHoursDiff(timeDiff, startDate, LocalTimeUtil.YMD_DATE_FORMAT);
+//    LocalDate _end = LocalTimeUtil.minusHoursDiff(timeDiff, endDate, LocalTimeUtil.YMD_DATE_FORMAT);
+//    LocalDate _current = _start, lastDate = _start;
+//    LocalDate baseDate = LocalTimeUtil.parse(reinit_origin_date, LocalTimeUtil.YMD_DATE_FORMAT);
+//    int i = 0, j = 0;
+//    while (!_current.isAfter(_end)) {
+//      if (LocalTimeUtil.needReInitial(baseDate, _current, reinit_cycle_days)) {
+//        long runDays = LocalTimeUtil.between(_current, lastDate);
+//        int runType = (j == 0 ? (firsTime ? RUN_TYPE_INIT : RUN_TYPE_RESTART) : RUN_TYPE_REINIT);
+//        System.out.println(String.format("rundays=%s,runType=%s,runHours=22", runDays, runType));
+//        lastDate = _current;
+//        j++;
+//      }
+//      i++;
+//      _current = _current.plusDays(1);
+//    }
+//    _current = _current.plusDays(-1);
+//    long runDays, runType;
+//    if (j == 0) {
+//      runType = firsTime ? RUN_TYPE_INIT : RUN_TYPE_RESTART;
+//      runDays = LocalTimeUtil.between(_current, lastDate) + 1;
+//    } else {
+//      runType = RUN_TYPE_REINIT;
+//      runDays = LocalTimeUtil.between(_current, lastDate) + 1;
+//    }
+//    System.out.println(String.format("rundays=%s,runType=%s,runHours=0", runDays, runType));
+//  }
 
-    LocalDate _start = LocalTimeUtil.minusHoursDiff(timeDiff, startDate, LocalTimeUtil.YMD_DATE_FORMAT);
-    LocalDate _end = LocalTimeUtil.minusHoursDiff(timeDiff, endDate, LocalTimeUtil.YMD_DATE_FORMAT);
-    LocalDate _current = _start, lastDate = _start;
-    LocalDate baseDate = LocalTimeUtil.parse(reinit_origin_date, LocalTimeUtil.YMD_DATE_FORMAT);
-    int i = 0, j = 0;
-    while (!_current.isAfter(_end)) {
-      if (LocalTimeUtil.needReInitial(baseDate, _current, reinit_cycle_days)) {
-        long runDays = LocalTimeUtil.between(_current, lastDate);
-        int runType = (j == 0 ? (firsTime ? RUN_TYPE_INIT : RUN_TYPE_RESTART) : RUN_TYPE_REINIT);
-        System.out.println(String.format("rundays=%s,runType=%s,runHours=22", runDays, runType));
-        lastDate = _current;
-        j++;
-      }
-      i++;
-      _current = _current.plusDays(1);
-    }
-    _current = _current.plusDays(-1);
-    long runDays, runType;
-    if (j == 0) {
-      runType = firsTime ? RUN_TYPE_INIT : RUN_TYPE_RESTART;
-      runDays = LocalTimeUtil.between(_current, lastDate) + 1;
-    } else {
-      runType = RUN_TYPE_REINIT;
-      runDays = LocalTimeUtil.between(_current, lastDate) + 1;
-    }
-    System.out.println(String.format("rundays=%s,runType=%s,runHours=0", runDays, runType));
-  }
-
-  private WrfBean buildFnlWrfBean(LocalDate startDate, LocalDate current) throws IOException {
+  private WrfBean buildFnlWrfBean(LocalDate startDate) throws IOException {
     WrfBean bean = createWrfBean();
     bean.setStart_date(LocalTimeUtil.format(startDate, LocalTimeUtil.YMD_DATE_FORMAT));
     bean.setUngrib_output_path(configManager.getSystemConfig().getWorkspace().getShare().getInput().getUngrib_fnl().getDirPath());

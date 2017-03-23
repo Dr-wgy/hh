@@ -24,6 +24,13 @@ public class WrfBean {
   private String wrf_version;
   private String wrfrst_output_path;
 
+  public void copyFromWrfFnlCondBean(WrfSubBean wsb) {
+    this.setRun_type(wsb.getRun_type());
+    this.setStart_date(wsb.getStartDate());
+    this.setRun_days(wsb.getRun_days());
+    this.setRun_hours(wsb.getRun_hours());
+  }
+
   public String getWrfrst_output_path() {
     return wrfrst_output_path;
   }

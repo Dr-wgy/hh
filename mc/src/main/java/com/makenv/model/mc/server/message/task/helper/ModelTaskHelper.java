@@ -1,4 +1,4 @@
-package com.makenv.model.mc.server.message.task;
+package com.makenv.model.mc.server.message.task.helper;
 
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.core.config.Pbs;
@@ -7,6 +7,8 @@ import com.makenv.model.mc.core.util.FilePathUtil;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
+import com.makenv.model.mc.server.message.task.IModelTask;
+import com.makenv.model.mc.server.message.task.ModelTaskFactory;
 import com.makenv.model.mc.server.message.util.McUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
