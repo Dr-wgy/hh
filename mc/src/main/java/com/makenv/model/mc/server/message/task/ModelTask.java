@@ -24,9 +24,6 @@ public abstract class ModelTask implements IModelTask {
   private IModelTask nextTask;
   protected ModelStartBean modelStartBean;
   protected McConfigManager configManager;
-  protected final static int RUN_TYPE_INIT = 0;
-  protected final static int RUN_TYPE_RESTART = 1;
-  protected final static int RUN_TYPE_REINIT = 2;
 
   protected int startHour;
   protected int timeDiff;

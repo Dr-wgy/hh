@@ -15,7 +15,7 @@ import com.makenv.model.mc.server.message.redis.RedisQueue;
 import com.makenv.model.mc.server.message.service.ModelService;
 import com.makenv.model.mc.server.message.task.IModelTask;
 import com.makenv.model.mc.server.message.task.ModelTaskFactory;
-import com.makenv.model.mc.server.message.task.ModelTaskHelper;
+import com.makenv.model.mc.server.message.task.helper.ModelTaskHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
