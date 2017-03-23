@@ -46,12 +46,15 @@ public class WrfTaskTest {
     for (int i = 0; i < wsbs.size(); i++) {
       switch (i) {
         case 0:
-          assertWsb(wsbs.get(i), ModelTaskConstant.RUN_TYPE_REINIT, "20170205", reinit_cycle_days, reinit_hours);
+          assertWsb(wsbs.get(i), ModelTaskConstant.RUN_TYPE_RESTART, "20170205", 0, reinit_hours);
           break;
         case 1:
-          assertWsb(wsbs.get(i), ModelTaskConstant.RUN_TYPE_REINIT, "20170210", reinit_cycle_days, reinit_hours);
+          assertWsb(wsbs.get(i), ModelTaskConstant.RUN_TYPE_REINIT, "20170205", reinit_cycle_days, reinit_hours);
           break;
         case 2:
+          assertWsb(wsbs.get(i), ModelTaskConstant.RUN_TYPE_REINIT, "20170210", reinit_cycle_days, reinit_hours);
+          break;
+        case 3:
           assertWsb(wsbs.get(i), ModelTaskConstant.RUN_TYPE_REINIT, "20170215", reinit_cycle_days, 0);
           break;
       }
