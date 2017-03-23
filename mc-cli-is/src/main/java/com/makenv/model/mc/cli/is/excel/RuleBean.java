@@ -1,4 +1,4 @@
-package com.makenv.model.mc.cli_is.excel;
+package com.makenv.model.mc.cli.is.excel;
 
 /**
  * Created by wgy on 2017/3/22.
@@ -14,6 +14,16 @@ public class RuleBean {
     private String content;
 
     private String desc;
+
+    public int getLastline() {
+        return lastline;
+    }
+
+    public void setLastline(int lastline) {
+        this.lastline = lastline;
+    }
+
+    private int lastline;
 
     public String getId() {
         return id;
@@ -54,5 +64,6 @@ public class RuleBean {
     public void setDesc(String desc) {
         this.desc = desc;
     }
+
 
 }

@@ -1,4 +1,4 @@
-package com.makenv.model.mc.cli_is.cmd;
+package com.makenv.model.mc.cli.is.cmd;
 
 /**
  * Created by alei on 2016/9/7.
