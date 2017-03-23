@@ -7,6 +7,6 @@ public class Constants {
 
     public static final  String SUCCESS_FLAG = "success";
 
-    public static final  String FAIL_FLAG = "fail";
+    public static final  String FAIL_FLAG = "error";
 
 }

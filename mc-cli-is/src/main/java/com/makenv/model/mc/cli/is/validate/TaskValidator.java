@@ -57,6 +57,8 @@ public class TaskValidator {
             checkRule(successList,true);
 
         }
+
+        System.out.print(Constants.FAIL_FLAG);
     }
 
     /**
@@ -66,53 +68,62 @@ public class TaskValidator {
      */
     private void checkRule(List <RuleBean> list,boolean flag) {
 
+        logger.info(filePathName);
+
+        logger.info("check log start");
+
         String allContent = "";
 
         try {
 
             allContent = FileUtil.readLocalFile(new File(filePathName));
 
+            for(RuleBean ruleBean:list) {
+
+                int lastLine = ruleBean.getLastline();
+
+                String source = null;
+
+                if(lastLine != 0) {
+
+                    source = FileUtil.readNLastLineToStr(new File(filePathName),lastLine);
+                }
+                else {
+
+                    source = allContent;
+
+                }
+
+                String ruleType = ruleBean.getType();
+
+                RuleEnum ruleEnum = RuleEnum.getRule(ruleType);
+
+                String target = ruleBean.getContent();
+
+                if(ruleEnum.getValidate().matches(source,target) && !flag) {
+
+                    System.out.print(Constants.FAIL_FLAG);
+
+                    logger.info("check log end");
+
+                    System.exit(0);
+                }
+                else if (ruleEnum.getValidate().matches(source,target) && flag){
+
+                    System.out.print(Constants.SUCCESS_FLAG);
+                }
+            }
+
+            logger.info("check log end");
+
+
         } catch (IOException e) {
 
             //e.printStackTrace();
 
             logger.error("the file is not exsits",e);
+
+            System.exit(1);
         }
-
-        for(RuleBean ruleBean:list) {
-
-            int lastLine = ruleBean.getLastline();
-
-            String source = null;
-
-            if(lastLine != 0) {
-
-                source = FileUtil.readNLastLineToStr(new File(filePathName),lastLine);
-            }
-            else {
-
-                source = allContent;
-
-            }
-
-            String ruleType = ruleBean.getType();
-
-            RuleEnum ruleEnum = RuleEnum.getRule(ruleType);
-
-            String target = ruleBean.getContent();
-
-            if(ruleEnum.getValidate().matches(source,target) && !flag) {
-
-                System.out.print("error");
-
-                System.exit(0);
-            }
-            else if (ruleEnum.getValidate().matches(source,target) && flag){
-
-                System.out.print("success");
-            }
-        }
-
-
     }
 }
