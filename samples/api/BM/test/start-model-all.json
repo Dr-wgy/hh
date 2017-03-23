@@ -30,7 +30,7 @@
       "lastfnl": "20170321"
     },
     "cmaq": {
-      "spinup": 7,
+      "spinup": 1,
       "ic":{
         "missionid": "",
         "scenarioid":"",

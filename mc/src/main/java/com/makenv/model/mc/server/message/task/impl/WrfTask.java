@@ -18,6 +18,7 @@ import com.makenv.model.mc.server.message.task.bean.WrfSubBean;
 import com.makenv.model.mc.server.message.task.helper.WrfTaskHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -113,7 +114,7 @@ public class WrfTask extends ModelTask {
     try {
       for (WrfBean wrfBean : wrfBeans) {
         String content = VelocityUtil.buildTemplate(renvTemplate, "wrfBean", wrfBean);
-        String renvFilePath = String.format("%s%s", renvFilePathPrefix, wrfBean.getStart_date());
+        String renvFilePath = String.format("%s%s-%s", renvFilePathPrefix, wrfBean.getStart_date(), wrfBean.getRun_days());
         FileUtil.writeLocalFile(new File(renvFilePath), content);
       }
     } catch (IOException e) {
@@ -126,7 +127,11 @@ public class WrfTask extends ModelTask {
   private boolean buildCsh() {
     List<String> dateList = new LinkedList<>();
     for (WrfBean wrfBean : wrfBeans) {
-      dateList.add(wrfBean.getStart_date());
+      dateList.add(wrfBean.getStart_date() + "-" + wrfBean.getRun_days());
+    }
+    if (CollectionUtils.isEmpty(dateList)) {
+      logger.info("date list is empty, do not execute wrf");
+      return false;
     }
     String start_dates = String.join(" ", dateList);
     Map<String, Object> params = new HashMap<>();
