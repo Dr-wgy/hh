@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.makenv.model.mc.cli.is.enumeration.Constants.UNKOWN_ERROR;
+
 /**
  * Created by wgy on 2017/3/22.
  */
@@ -58,7 +60,13 @@ public class TaskValidator {
 
         }
 
-        System.out.print(Constants.FAIL_FLAG);
+        //假设什么也没有匹配到 吐出unkown error
+
+        String outStr =  String.join(":",Constants.FAIL_SUCCESS_ALIAS,Constants.UNKOWN_ERROR);
+
+        System.out.print(outStr);
+
+        System.exit(0);
     }
 
     /**
@@ -102,7 +110,11 @@ public class TaskValidator {
 
                 if(ruleEnum.getValidate().matches(source,target) && !flag) {
 
-                    System.out.print(Constants.FAIL_FLAG);
+                    String outStr = String.join(":","0",ruleBean.getDesc());
+
+                    System.out.print(outStr);
+
+                    logger.info(outStr);
 
                     logger.info("check log end");
 
@@ -110,7 +122,9 @@ public class TaskValidator {
                 }
                 else if (ruleEnum.getValidate().matches(source,target) && flag){
 
-                    System.out.print(Constants.SUCCESS_FLAG);
+                    System.out.print(1);
+
+                    System.exit(0);
                 }
             }
 
@@ -118,8 +132,6 @@ public class TaskValidator {
 
 
         } catch (IOException e) {
-
-            //e.printStackTrace();
 
             logger.error("the file is not exsits",e);
 
