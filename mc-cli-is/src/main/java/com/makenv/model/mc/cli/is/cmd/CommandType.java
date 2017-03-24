@@ -5,7 +5,9 @@ package com.makenv.model.mc.cli.is.cmd;
  */
 public enum CommandType {
   CMD_TYPE(true, 't', "type", true, "function type"),
-  CMD_FILE(true, 'f', "file", true, "check file");
+  CMD_MISSION(true,'m',"mission",true,"mission type"),
+  CMD_FILE(true, 'f', "file", true, "check file"),
+  CMD_VERSION(true, 'v', "version", true, "task version");
   public final boolean required;
   public final char opt;
   public final String longOpt;

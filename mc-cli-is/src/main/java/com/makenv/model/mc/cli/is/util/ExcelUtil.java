@@ -89,7 +89,7 @@ public class ExcelUtil {
 
                 switch (cell.getCellType()) {
 
-                    case XSSFCell.CELL_TYPE_STRING:
+                    case Cell.CELL_TYPE_STRING:
 
                         Object value = checkField(field, cell.getStringCellValue(), currRowNum, columnIndex);
 
@@ -97,7 +97,7 @@ public class ExcelUtil {
 
                         break;
 
-                    case XSSFCell.CELL_TYPE_NUMERIC:
+                    case Cell.CELL_TYPE_NUMERIC:
 
                         Object value1 = checkField(field, cell.getNumericCellValue(), currRowNum, columnIndex);
 
@@ -105,11 +105,21 @@ public class ExcelUtil {
 
                         break;
 
-                    case XSSFCell.CELL_TYPE_BOOLEAN:
+                    case Cell.CELL_TYPE_BOOLEAN:
 
                         Object value2 = checkField(field, cell.getBooleanCellValue(), currRowNum, columnIndex);
 
                         field.set(t, value2);
+
+                        break;
+
+                    case Cell.CELL_TYPE_BLANK:
+
+                        System.out.println(cell.getStringCellValue());
+
+                        Object value3 = checkField(field, cell.getStringCellValue(), currRowNum, columnIndex);
+
+                        field.set(t, value3);
 
                         break;
 

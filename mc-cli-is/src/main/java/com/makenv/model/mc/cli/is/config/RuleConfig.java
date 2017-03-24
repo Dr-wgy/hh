@@ -2,6 +2,9 @@ package com.makenv.model.mc.cli.is.config;
 
 import com.makenv.model.mc.cli.is.Application;
 import com.makenv.model.mc.cli.is.util.ClassloaderUtil;
+import com.makenv.model.mc.cli.is.util.ExcelUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +16,8 @@ import java.util.Properties;
  * Created by wgy on 2017/3/22.
  */
 public class RuleConfig {
+
+    private Logger logger = LoggerFactory.getLogger(RuleConfig.class);
 
     public String getRuleExcelPath() {
         return ruleExcelPath;
@@ -48,7 +53,10 @@ public class RuleConfig {
 
         } catch (Exception e) {
 
-            e.printStackTrace();
+            logger.error("",e);
+            //非正常退出
+            System.exit(1);
+            //e.printStackTrace();
         }
 
 
