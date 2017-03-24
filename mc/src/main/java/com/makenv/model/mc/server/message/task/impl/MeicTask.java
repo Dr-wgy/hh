@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +34,14 @@ public class MeicTask extends ModelTask {
   }
 
   protected boolean checkParams() {
-    return super.checkParams();
+    if (!super.checkParams()) {
+      return false;
+    }
+    int spinup = modelStartBean.getCmaq().getSpinup();
+    if (spinup > 0) {
+      startDate = startDate.plusDays(spinup);
+    }
+    return true;
   }
 
   private boolean processDirectory() {

@@ -14,10 +14,10 @@
       "firsttime": true,
       "datatype": "fnl",
       "time": {
-        "start": "20170213",
-        "end": "20170213"
+        "start": "20170219",
+        "end": "20170220"
       },
-      "pathdate":"20170211"
+      "pathdate":"20170220"
     },
     "emis": {
       "sourceid": "1",
@@ -27,13 +27,11 @@
       "meiccityconfig": "/work/b/lixin_meic/hebei/meic-city.conf"
     },
     "wrf": {
-      "firsttime": true,
       "spinup": 0,
       "lastfnl": "20170311"
     },
     "cmaq": {
-      "firsttime": true,
-      "spinup": 0,
+      "spinup": 1,
       "ic":{
         "missionid": "1",
         "scenarioid":"1",
