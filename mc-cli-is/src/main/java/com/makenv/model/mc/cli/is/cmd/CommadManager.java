@@ -66,7 +66,7 @@ public class CommadManager {
 
     private boolean parseAndCheck(String[] args) throws Exception {
         if (Arrays.isNullOrEmpty(args)) {
-            //printHelp();
+            logger.error("args can not be empty");
             return false;
         }
         CommandLineParser parser = new DefaultParser();

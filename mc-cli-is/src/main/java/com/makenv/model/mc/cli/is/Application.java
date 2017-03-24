@@ -18,16 +18,7 @@ import java.util.Stack;
  */
 public class Application {
 
-    private static Logger logger = LoggerFactory.getLogger(Application.class);
-
     public static void main(String[] args) throws Exception {
-
-        if(args.length < 0) {
-
-            logger.error("the args can not be empty");
-
-            System.exit(1);
-        }
 
         //初始化配置cliConfig
         CommadManager commadManager = new CommadManager(args);
