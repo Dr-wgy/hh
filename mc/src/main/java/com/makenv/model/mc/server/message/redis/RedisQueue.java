@@ -2,13 +2,13 @@ package com.makenv.model.mc.server.message.redis;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.makenv.model.mc.core.bean.Message;
 import com.makenv.model.mc.core.config.RedisQueueConfig;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.JacksonUtil;
 import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.server.config.Cmd;
 import com.makenv.model.mc.server.constant.Constants;
-import com.makenv.model.mc.server.message.body.Message;
 import com.makenv.model.mc.server.message.body.MessageWrapper;
 import com.makenv.model.mc.server.message.dispacher.AnnocationMessageDispacher;
 import com.makenv.model.mc.server.message.runable.MessageListenerRunable;
@@ -125,8 +125,7 @@ public class RedisQueue{
         return false;
     }
 
-    public void sendMessgae(Message messgae) throws JsonProcessingException {
-
+    public void sendMessage(Message messgae) throws JsonProcessingException {
         redisService.leftPush(redisQueueConfig.getSendQueueName(), JacksonUtil.objToJson(messgae));
     }
 

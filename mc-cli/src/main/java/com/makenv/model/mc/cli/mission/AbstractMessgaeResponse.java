@@ -1,7 +1,7 @@
 package com.makenv.model.mc.cli.mission;
 
 
-import com.makenv.model.mc.cli.bean.Message;
+import com.makenv.model.mc.core.bean.Message;
 
 import java.util.Date;
 import java.util.UUID;

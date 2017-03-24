@@ -1,4 +1,4 @@
-package com.makenv.model.mc.cli.bean;
+package com.makenv.model.mc.core.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -7,6 +7,14 @@ import java.util.Date;
 /**
  * Created by wgy on 2017/3/20.
  */
+/*{
+        "id": "消息号，每次唯一",
+        "time": "消息发送时间，如：2017-02-01 12:00:12",
+        "type": "消息类型",
+        "body": {//消息体，存储内容数据
+
+        }
+        }*/
 public class Message {
 
     private String id;
