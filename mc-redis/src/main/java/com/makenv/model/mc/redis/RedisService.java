@@ -171,7 +171,7 @@ public class RedisService {
 
                 byte [] key1Bytes = keyRedisSerializer.serialize(key1);
 
-                byte [] key2Bytes = keyRedisSerializer.serialize(key1);
+                byte [] key2Bytes = keyRedisSerializer.serialize(key2);
 
                 byte[] listByte =  redisConnection.bRPopLPush(timeOut,key1Bytes,key2Bytes);;
 
