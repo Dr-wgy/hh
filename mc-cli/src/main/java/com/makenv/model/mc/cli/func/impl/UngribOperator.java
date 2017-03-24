@@ -6,6 +6,7 @@ import com.makenv.model.mc.cli.func.AbstractOperator;
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.core.config.TemplatePath;
 import com.makenv.model.mc.core.constant.Constant;
+import com.makenv.model.mc.core.util.FilePathUtil;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.LocalTimeUtil;
 import com.makenv.model.mc.core.util.StringUtil;
@@ -157,7 +158,8 @@ public class UngribOperator extends AbstractOperator {
     params.put("start_date", computeDate);
     params.put("ungrib_file", Constant.UNGRIB_FILE_PREFIX);
     params.put("scripts_path", configManager.getSystemConfig().getRoot().getScript());
-    params.put("wrf_build_path", configManager.getSystemConfig().getRoot().getWrf());
+    String wrfBuildPath = FilePathUtil.joinByDelimiter(configManager.getSystemConfig().getRoot().getWrf(), configManager.getSystemConfig().getModel().getWrf_version());
+    params.put("wrf_build_path", wrfBuildPath);
     params.put("debug", configManager.getSystemConfig().getModel().getDebug_level());
     params.put("wrf_version", configManager.getSystemConfig().getModel().getWrf_version());
     return params;

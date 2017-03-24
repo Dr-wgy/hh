@@ -10,14 +10,16 @@ public class ModelCommonParams {
   private String datatype;//情景类型
   private TimeDate time;
   private String pathdate;
-  private String simtype;
+  private boolean firsttime;
+//  private String simtype;
 
-  public String getSimtype() {
-    return simtype;
+
+  public boolean isFirsttime() {
+    return firsttime;
   }
 
-  public void setSimtype(String simtype) {
-    this.simtype = simtype;
+  public void setFirsttime(boolean firsttime) {
+    this.firsttime = firsttime;
   }
 
   public String getDatatype() {

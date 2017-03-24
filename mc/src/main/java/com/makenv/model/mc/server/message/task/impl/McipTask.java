@@ -26,7 +26,7 @@ public class McipTask extends AbstractCmaqTask {
   private McipBean mcipBean;
   private String runDir, renvPath, dataDir, wrfPath;
 
-  public McipTask(ModelStartBean modelStartBean, McConfigManager configManager) {
+  public McipTask(ModelStartBean modelStartBean, McConfigManager configManager) throws IOException {
     super(modelStartBean, configManager);
     mcipBean = new McipBean();
   }
@@ -36,7 +36,7 @@ public class McipTask extends AbstractCmaqTask {
   }
 
   private boolean processDirectory() {
-    String base = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getCommon().getRun().getMcip();
+    String base = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getMissionid().getScenarioid().getRun().getMcip().getDirPath();
     runDir = processPath(base);
     runDir = String.format("%s%s%s", runDir, File.separator, System.currentTimeMillis());
     renvPath = String.format("%s%s%s", runDir, File.separator, Constant.MODEL_RENV_FILE);

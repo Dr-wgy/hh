@@ -15,7 +15,7 @@ import com.makenv.model.mc.server.message.redis.RedisQueue;
 import com.makenv.model.mc.server.message.service.ModelService;
 import com.makenv.model.mc.server.message.task.IModelTask;
 import com.makenv.model.mc.server.message.task.ModelTaskFactory;
-import com.makenv.model.mc.server.message.task.ModelTaskHelper;
+import com.makenv.model.mc.server.message.task.helper.ModelTaskHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +47,15 @@ public class ModelServiceImpl implements ModelService {
 
   @Override
   public boolean startModelTask(ModelStartBean modelStartBean) {
-    IModelTask firstTask = modelTaskHelper.buildModelTask(modelTaskFactory, modelStartBean);
-    if (firstTask == null) {
-      logger.error(StringUtil.formatLog("invalid model task", modelStartBean.getModelType()));
+    IModelTask firstTask;
+    try {
+      firstTask = modelTaskHelper.buildModelTask(modelTaskFactory, modelStartBean);
+      if (firstTask == null) {
+        logger.error(StringUtil.formatLog("invalid model task", modelStartBean.getModelType()));
+        return false;
+      }
+    } catch (IOException e) {
+      logger.error("", e);
       return false;
     }
     try {

@@ -24,9 +24,6 @@ public abstract class ModelTask implements IModelTask {
   private IModelTask nextTask;
   protected ModelStartBean modelStartBean;
   protected McConfigManager configManager;
-  protected final static int RUN_TYPE_INIT = 0;
-  protected final static int RUN_TYPE_RESTART = 1;
-  protected final static int RUN_TYPE_REINIT = 2;
 
   protected int startHour;
   protected int timeDiff;
@@ -41,10 +38,11 @@ public abstract class ModelTask implements IModelTask {
   private String domainInfoFile;
   protected LocalDate startDate, endDate;
   protected int debugLevel;
+  protected TaskDomain taskDomain;
 
   private Logger logger = LoggerFactory.getLogger(ModelTask.class);
 
-  public ModelTask(ModelStartBean modelStartBean, McConfigManager configManager) {
+  public ModelTask(ModelStartBean modelStartBean, McConfigManager configManager) throws IOException {
     this.modelStartBean = modelStartBean;
     this.configManager = configManager;
     init();
@@ -95,7 +93,7 @@ public abstract class ModelTask implements IModelTask {
     return beforeHandle() && doHandle() && afterHandle();
   }
 
-  private void init() {
+  private void init() throws IOException {
     startHour = configManager.getSystemConfig().getModel().getStart_hour();
     timeDiff = configManager.getSystemConfig().getModel().getTime_difference();
     DomainRangeDir domainId = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid();
@@ -103,17 +101,21 @@ public abstract class ModelTask implements IModelTask {
     metgridTemplate = String.format("%s%s%s", templateDir, File.separator, Constant.NAMELIST_WPS_METGRID_TEMPLATE);
     wrfTemplate = String.format("%s%s%s", templateDir, File.separator, Constant.NAMELIST_WRF_TEMPLATE);
     scriptPath = configManager.getSystemConfig().getRoot().getScript();
-    wrfBuildPath = configManager.getSystemConfig().getRoot().getWrf();
-    geogridOutputPath = processPath(domainId.getCommon().getData().getGeogrid().getDirPath());
-    modelRunDir = processPath(domainId.getMissionid().getScenarioid().getRun().getBigscript().getDirPath());
-    modelRunDir = FilePathUtil.joinByDelimiter(modelRunDir, modelStartBean.getTaskid());
-    FileUtil.checkAndMkdir(modelRunDir);
-    modelRunFile = String.format("%s%s%s", modelRunDir, File.separator, Constant.MODEL_SCRIPT_FILE);
-    cmaqBuildPath = configManager.getSystemConfig().getRoot().getCmaq();
-    debugLevel = configManager.getSystemConfig().getModel().getDebug_level();
+
     domainInfoFile = configManager.getSystemConfig().getWorkspace().getUserid().getDomainid().getDirPath();
     domainInfoFile = processPath(domainInfoFile);
     domainInfoFile = FilePathUtil.joinByDelimiter(domainInfoFile, Constant.DOMAIN_JSON);
+
+    taskDomain = getTaskDomain();
+    wrfBuildPath = FilePathUtil.joinByDelimiter(configManager.getSystemConfig().getRoot().getWrf(), taskDomain.getWrf().getVersion());
+
+    geogridOutputPath = processPath(domainId.getCommon().getData().getGeogrid().getDirPath());
+    modelRunDir = processPath(domainId.getMissionid().getScenarioid().getRun().getBigscript().getDirPath());
+    modelRunDir = FilePathUtil.joinByDelimiter(modelRunDir, modelStartBean.getDateKey());
+    FileUtil.checkAndMkdir(modelRunDir);
+    modelRunFile = String.format("%s%s%s", modelRunDir, File.separator, Constant.MODEL_SCRIPT_FILE);
+    cmaqBuildPath = FilePathUtil.joinByDelimiter(configManager.getSystemConfig().getRoot().getCmaq(), taskDomain.getCmaq().getVersion());
+    debugLevel = configManager.getSystemConfig().getModel().getDebug_level();
   }
 
   protected abstract boolean beforeHandle();

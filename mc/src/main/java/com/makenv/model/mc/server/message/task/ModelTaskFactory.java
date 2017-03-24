@@ -10,6 +10,8 @@ import com.makenv.model.mc.server.message.task.impl.WrfTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 /**
  * Created by alei on 2017/3/8.
  */
@@ -18,7 +20,7 @@ public class ModelTaskFactory {
   @Autowired
   private McConfigManager configManager;
 
-  public IModelTask getModelTask(String taskType, ModelStartBean modelStartBean) {
+  public IModelTask getModelTask(String taskType, ModelStartBean modelStartBean) throws IOException {
     ModelTaskType _taskType = ModelTaskType.valueOf(taskType.toUpperCase());
     switch (_taskType) {
       case MEIC:
