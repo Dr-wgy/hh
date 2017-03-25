@@ -10,8 +10,8 @@ import java.io.IOException;
  * Created by alei on 2017/3/8.
  */
 public class MeganTask extends ModelTask {
-  public MeganTask(ModelStartBean modelStartBean, McConfigManager configManager) throws IOException {
-    super(modelStartBean,configManager);
+  public MeganTask(ModelStartBean modelStartBean, McConfigManager configManager, String messageId) throws IOException {
+    super(modelStartBean, configManager, messageId);
   }
 
   @Override

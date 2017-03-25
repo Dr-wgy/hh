@@ -39,12 +39,14 @@ public abstract class ModelTask implements IModelTask {
   protected LocalDate startDate, endDate;
   protected int debugLevel;
   protected TaskDomain taskDomain;
+  protected String messageId;
 
   private Logger logger = LoggerFactory.getLogger(ModelTask.class);
 
-  public ModelTask(ModelStartBean modelStartBean, McConfigManager configManager) throws IOException {
+  public ModelTask(ModelStartBean modelStartBean, McConfigManager configManager, String messageId) throws IOException {
     this.modelStartBean = modelStartBean;
     this.configManager = configManager;
+    this.messageId = messageId;
     init();
   }
 
@@ -113,7 +115,7 @@ public abstract class ModelTask implements IModelTask {
     modelRunDir = processPath(domainId.getMissionid().getScenarioid().getRun().getBigscript().getDirPath());
     modelRunDir = FilePathUtil.joinByDelimiter(modelRunDir, modelStartBean.getDateKey());
     FileUtil.checkAndMkdir(modelRunDir);
-    modelRunFile = String.format("%s%s%s%s", modelRunDir, File.separator, Constant.MODEL_SCRIPT_FILE, System.currentTimeMillis());
+    modelRunFile = String.format("%s%s%s%s", modelRunDir, File.separator, Constant.MODEL_SCRIPT_FILE, messageId);
     cmaqBuildPath = FilePathUtil.joinByDelimiter(configManager.getSystemConfig().getRoot().getCmaq(), taskDomain.getCmaq().getVersion());
     debugLevel = configManager.getSystemConfig().getModel().getDebug_level();
   }

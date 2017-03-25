@@ -8,7 +8,7 @@ import com.makenv.model.mc.server.message.pojo.DomainCreateBean;
  */
 public interface ModelService {
 
-  boolean startModelTask(ModelStartBean modelStartBean);
+  boolean startModelTask(ModelStartBean modelStartBean,String messageId);
 
   boolean doCreateBean(DomainCreateBean domainCreateBean);
 }

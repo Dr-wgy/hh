@@ -6,15 +6,15 @@ package com.makenv.model.mc.server.message.pojo;
 public class Wrf {
 
   private int spinup;
-  private String lastfnl;
+  private String lastungrib;
 //  private boolean firsttime;
 
-  public String getLastfnl() {
-    return lastfnl;
+  public String getLastungrib() {
+    return lastungrib;
   }
 
-  public void setLastfnl(String lastfnl) {
-    this.lastfnl = lastfnl;
+  public void setLastungrib(String lastungrib) {
+    this.lastungrib = lastungrib;
   }
 
   public int getSpinup() {

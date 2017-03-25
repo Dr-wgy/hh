@@ -10,8 +10,8 @@ import java.io.IOException;
  * Created by alei on 2017/3/22.
  */
 public class DpChemTask extends ModelTask {
-  public DpChemTask(ModelStartBean modelStartBean, McConfigManager configManager) throws IOException {
-    super(modelStartBean, configManager);
+  public DpChemTask(ModelStartBean modelStartBean, McConfigManager configManager, String messageId) throws IOException {
+    super(modelStartBean, configManager, messageId);
   }
 
   @Override

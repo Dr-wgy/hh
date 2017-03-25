@@ -6,7 +6,6 @@ import com.makenv.model.mc.core.constant.Constant;
 import com.makenv.model.mc.core.util.FilePathUtil;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.LocalTimeUtil;
-import com.makenv.model.mc.core.util.StringUtil;
 import com.makenv.model.mc.core.util.VelocityUtil;
 import com.makenv.model.mc.server.message.pojo.ModelStartBean;
 import com.makenv.model.mc.server.message.pojo.TaskDomain;
@@ -38,8 +37,8 @@ public class WrfTask extends ModelTask {
   private List<WrfBean> wrfBeans;
   private String renvFilePathPrefix;
 
-  public WrfTask(ModelStartBean modelStartBean, McConfigManager configManager) throws IOException {
-    super(modelStartBean, configManager);
+  public WrfTask(ModelStartBean modelStartBean, McConfigManager configManager, String messageId) throws IOException {
+    super(modelStartBean, configManager, messageId);
     wrfBeans = new LinkedList<>();
   }
 

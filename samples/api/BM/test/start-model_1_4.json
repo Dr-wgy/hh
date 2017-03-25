@@ -1,0 +1,41 @@
+{
+  "id": "123",
+  "time": "2017-02-01 12:00:12",
+  "type": "model.start",
+  "body": {
+    "userid": "123",
+    "domainid": "1",
+    "missionid": "34",
+    "scenarioid": "2",
+    "modelType": "1_4",
+    "cores": "48",
+    "common": {
+      "firsttime": true,
+      "datatype": "fnl",
+      "time": { 
+        "start": "20170324",
+        "end": "20170324"
+      },
+      "pathdate":"20170325"
+    },
+    "emis": {
+      "sourceid": "1",
+      "calctype": "server",
+      "psal": "",
+      "ssal": "",
+      "meiccityconfig": "/work/b/lixin_meic/hebei/meic-city.conf"
+    },
+    "wrf": {
+      "spinup": 2,
+      "lastungrib": "20170325"
+    },
+    "cmaq": {
+      "spinup": 2,
+      "ic":{
+        "missionid": "",
+        "scenarioid":"",
+        "date":""
+      }
+    }
+  }
+}
