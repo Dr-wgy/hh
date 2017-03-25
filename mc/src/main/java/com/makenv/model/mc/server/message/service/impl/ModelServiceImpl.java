@@ -1,11 +1,16 @@
 package com.makenv.model.mc.server.message.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.makenv.model.mc.core.bean.Message;
 import com.makenv.model.mc.core.config.McConfigManager;
 import com.makenv.model.mc.core.constant.Constant;
+import com.makenv.model.mc.core.constant.ResponseConstant;
+import com.makenv.model.mc.core.enu.MessageType;
 import com.makenv.model.mc.core.util.FilePathUtil;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.JacksonUtil;
 import com.makenv.model.mc.core.util.StringUtil;
+import com.makenv.model.mc.server.message.body.StartModelResultMessage;
 import com.makenv.model.mc.server.message.helper.CreateDomainHelper;
 import com.makenv.model.mc.server.message.helper.GriddescHelper;
 import com.makenv.model.mc.server.message.helper.TemplateFileHelper;
@@ -45,6 +50,19 @@ public class ModelServiceImpl implements ModelService {
   @Autowired
   private ModelTaskHelper modelTaskHelper;
 
+  private void sendStartModelResultMessage(int code, String date) {
+    StartModelResultMessage body = new StartModelResultMessage();
+    body.setCode(code);
+    body.setDate(date);
+    body.setDesc(ResponseConstant.getDescription(code));
+    Message message = ModelTaskHelper.buildMessage(body, MessageType.MB_START_MODEL_RESULT);
+    try {
+      redisQueue.sendMessage(message);
+    } catch (JsonProcessingException e) {
+      logger.error("", e);
+    }
+  }
+
   @Override
   public boolean startModelTask(ModelStartBean modelStartBean) {
     IModelTask firstTask;
@@ -52,25 +70,30 @@ public class ModelServiceImpl implements ModelService {
       firstTask = modelTaskHelper.buildModelTask(modelTaskFactory, modelStartBean);
       if (firstTask == null) {
         logger.error(StringUtil.formatLog("invalid model task", modelStartBean.getModelType()));
+        sendStartModelResultMessage(ResponseConstant.ERR_PARAMS, modelStartBean.getCommon().getTime().getStart());
         return false;
       }
     } catch (IOException e) {
       logger.error("", e);
+      sendStartModelResultMessage(ResponseConstant.ERR_PARAMS, modelStartBean.getCommon().getTime().getStart());
       return false;
     }
     try {
       modelTaskHelper.buildCshWithHeader(firstTask.getModelRunFilePath(), mcConfigManager);
     } catch (IOException e) {
       logger.error("", e);
+      sendStartModelResultMessage(ResponseConstant.ERR_SYS, modelStartBean.getCommon().getTime().getStart());
       return false;
     }
     if (!firstTask.handleRequest()) {
+      sendStartModelResultMessage(ResponseConstant.ERR_PARAMS, modelStartBean.getCommon().getTime().getStart());
       return false;
     }
     try {
       modelTaskHelper.commitTask(mcConfigManager, modelStartBean, firstTask);
     } catch (IOException e) {
       logger.error("", e);
+      sendStartModelResultMessage(ResponseConstant.ERR_COMMIT_JOB, modelStartBean.getCommon().getTime().getStart());
       return false;
     }
     return true;

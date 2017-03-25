@@ -2,11 +2,11 @@ package com.makenv.model.mc.server.message.dispacher;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.makenv.model.mc.core.bean.Message;
 import com.makenv.model.mc.core.util.FileUtil;
 import com.makenv.model.mc.core.util.JacksonUtil;
 import com.makenv.model.mc.server.constant.Constants;
 import com.makenv.model.mc.server.message.annoation.MessageInvoker;
-import com.makenv.model.mc.server.message.body.Message;
 import com.makenv.model.mc.server.message.exception.NoUniqueInvokerExpection;
 import com.makenv.model.mc.server.message.tools.ClassPathPackageScanner;
 import com.makenv.model.mc.server.message.tools.PackageScanner;
@@ -31,7 +31,6 @@ import java.util.Map;
 public class AnnocationMessageDispacher implements ImessageDispacher {
 
     private Logger logger = LoggerFactory.getLogger(AnnocationMessageDispacher.class);
-
 
     private static final String topPackageName = "com.makenv.model.mc.server.message.controller";
 

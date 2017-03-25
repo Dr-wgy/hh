@@ -9,15 +9,15 @@
     "scenarioid": "1",
     "modelType": "1_2",
     "tasks": ["cmaq"],
-    "cores": 16,
+    "cores": 48,
     "common": {
       "firsttime": true,
       "datatype": "fnl",
       "time": {
-        "start": "20170213",
-        "end": "20170213"
+        "start": "20170220",
+        "end": "20170220"
       },
-      "pathdate":"20170211"
+      "pathdate":"20170220"
     },
     "emis": {
       "sourceid": "1",
@@ -31,7 +31,7 @@
       "lastfnl": "20170311"
     },
     "cmaq": {
-      "spinup": 0,
+      "spinup": 1,
       "ic":{
         "missionid": "1",
         "scenarioid":"1",
