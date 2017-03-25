@@ -21,10 +21,6 @@ public class CommadManager {
 
     private String []args;
 
-    private String ruleExcelPath;
-
-    private Workbook  workbook ;
-
     public CommadManager(String [] args){
 
         this.args  = args;

@@ -62,9 +62,7 @@ public class TaskValidator {
 
         //假设什么也没有匹配到 吐出unkown error
 
-        String outStr =  String.join(":",Constants.FAIL_SUCCESS_ALIAS,Constants.UNKOWN_ERROR);
-
-        System.out.print(outStr);
+        System.out.print(Constants.UNKOWN_ERROR);
 
         System.exit(0);
     }
@@ -110,11 +108,9 @@ public class TaskValidator {
 
                 if(ruleEnum.getValidate().matches(source,target) && !flag) {
 
-                    String outStr = String.join(":","0",ruleBean.getDesc());
+                    System.out.print(ruleBean.getDesc());
 
-                    System.out.print(outStr);
-
-                    logger.info(outStr);
+                    logger.info(ruleBean.getDesc());
 
                     logger.info("check log end");
 
@@ -122,7 +118,7 @@ public class TaskValidator {
                 }
                 else if (ruleEnum.getValidate().matches(source,target) && flag){
 
-                    System.out.print(1);
+                    System.out.print(Constants.SUCCESS_FLAG);
 
                     System.exit(0);
                 }
