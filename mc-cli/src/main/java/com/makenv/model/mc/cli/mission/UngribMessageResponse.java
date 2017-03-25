@@ -75,6 +75,8 @@ public class UngribMessageResponse extends AbstractMessgaeResponse {
 
             Message message = createMessage(body);
 
+            logger.info(message.getTime().toString());
+
             jedisHelper.sendMessage(JacksonUtil.objToJson(message));
 
         } catch (Exception e) {
