@@ -108,3 +108,18 @@ endif
 #  send message
 cd ${jar_dir}
 java -jar mc-cli.jar -t send_message -m ungrib -D "pathdate=${pathdate}&fnl=${fnl}&gfs=${gfs}"
+
+#
+
+if( ${gfs_fail_flag} == '' && ${gfs_fail_flag} == '') then
+	if ( -f ${suc_tag_file} ) then
+		set last_date = `cat ${suc_tag_file}`
+   	if ( $pathdate > $last_date ) then
+    	echo 'overwrite tag file, content is:'$pathdate
+			echo $pathdate > $suc_tag_file
+		endif
+	else
+    echo 'the first time to write tag file, content is:'$pathdate
+		echo $pathdate > $suc_tag_file
+	endif
+endif

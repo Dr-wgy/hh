@@ -1,2 +1,5 @@
 #!/bin/csh
-source ${sys_renv}
+source sys_renv${sys_renv}
+echo "LD_LIBRARY_PATH="$LD_LIBRARY_PATH"\n"
+echo "PATH="$PATH"\n"
+echo "NETCDF_LIB="$NETCDF_LIB"\n"
