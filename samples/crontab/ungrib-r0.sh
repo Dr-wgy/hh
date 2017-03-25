@@ -13,8 +13,9 @@ if [ -f $tagPath ]; then
 	if [ $today > $lastDate ];	then
 		while [ $lastDate -lt $today ]
 		do
-			echo ''
-			lastDate=`date +%Y%m%d -d "${lastDate}+1 days"`
+			echo 'do ungrib for '${lastDate}
+			java -jar mc-cli.jar -t ungrib -d ${lastDate}
+			lastDate=`date -d "${lastDate} +1 day"`
 		done
 	else
 		echo 'do not need ungrib, the last date is'${lastDate}', today is '${today}

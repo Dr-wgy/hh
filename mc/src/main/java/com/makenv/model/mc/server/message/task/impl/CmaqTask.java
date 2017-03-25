@@ -27,8 +27,8 @@ public class CmaqTask extends AbstractCmaqTask {
   private Logger logger = LoggerFactory.getLogger(CmaqTask.class);
   private String runDir, renvPath, baseCctmDataDir, cctmDataDir, cmipOutPath, bconDataDir, meicDataDir, griddescDataDir;
 
-  public CmaqTask(ModelStartBean modelStartBean, McConfigManager configManager) throws IOException {
-    super(modelStartBean, configManager);
+  public CmaqTask(ModelStartBean modelStartBean, McConfigManager configManager, String messageId) throws IOException {
+    super(modelStartBean, configManager, messageId);
   }
 
   private boolean processDirectory() {

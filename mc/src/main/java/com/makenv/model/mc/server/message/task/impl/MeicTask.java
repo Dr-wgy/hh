@@ -29,8 +29,8 @@ public class MeicTask extends ModelTask {
   private String runDir, meicDir, confTemplateDir, renvFilePath, emisDir, jsonFilePath;
   private MeicParams meicParams;
 
-  public MeicTask(ModelStartBean modelStartBean, McConfigManager configManager) throws IOException {
-    super(modelStartBean, configManager);
+  public MeicTask(ModelStartBean modelStartBean, McConfigManager configManager, String messageId) throws IOException {
+    super(modelStartBean, configManager, messageId);
   }
 
   protected boolean checkParams() {

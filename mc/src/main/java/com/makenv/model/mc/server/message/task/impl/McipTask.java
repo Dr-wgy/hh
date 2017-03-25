@@ -26,8 +26,8 @@ public class McipTask extends AbstractCmaqTask {
   private McipBean mcipBean;
   private String runDir, renvPath, dataDir, wrfPath;
 
-  public McipTask(ModelStartBean modelStartBean, McConfigManager configManager) throws IOException {
-    super(modelStartBean, configManager);
+  public McipTask(ModelStartBean modelStartBean, McConfigManager configManager, String messageId) throws IOException {
+    super(modelStartBean, configManager, messageId);
     mcipBean = new McipBean();
   }
 

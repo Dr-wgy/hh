@@ -15,8 +15,8 @@ import java.io.IOException;
 public abstract class AbstractCmaqTask extends ModelTask {
   private Logger logger = LoggerFactory.getLogger(AbstractCmaqTask.class);
 
-  AbstractCmaqTask(ModelStartBean modelStartBean, McConfigManager configManager) throws IOException {
-    super(modelStartBean, configManager);
+  AbstractCmaqTask(ModelStartBean modelStartBean, McConfigManager configManager, String messageId) throws IOException {
+    super(modelStartBean, configManager, messageId);
   }
 
   protected boolean checkParams() {

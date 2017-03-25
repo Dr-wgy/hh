@@ -36,7 +36,7 @@ public class ModelTaskHelper {
   @Autowired
   private McConfigManager configManager;
 
-  public IModelTask buildModelTask(ModelTaskFactory mtf, ModelStartBean modelStartBean) throws IOException {
+  public IModelTask buildModelTask(ModelTaskFactory mtf, ModelStartBean modelStartBean, String messageId) throws IOException {
     List<String> tasks = modelStartBean.getTasks();
     if (CollectionUtils.isEmpty(tasks)) {
       String modelType = modelStartBean.getModelType();
@@ -49,12 +49,12 @@ public class ModelTaskHelper {
     IModelTask firstTask = null, lastTask = null;
     for (int i = 0; i < tasks.size(); i++) {
       if (i == 0) {
-        firstTask = lastTask = mtf.getModelTask(tasks.get(i), modelStartBean);
+        firstTask = lastTask = mtf.getModelTask(tasks.get(i), modelStartBean, messageId);
         if (lastTask == null) {
           return null;
         }
       } else {
-        IModelTask nextTask = mtf.getModelTask(tasks.get(i), modelStartBean);
+        IModelTask nextTask = mtf.getModelTask(tasks.get(i), modelStartBean, messageId);
         if (lastTask == null) {
           return null;
         }

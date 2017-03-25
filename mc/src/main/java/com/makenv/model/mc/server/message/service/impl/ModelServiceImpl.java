@@ -64,10 +64,10 @@ public class ModelServiceImpl implements ModelService {
   }
 
   @Override
-  public boolean startModelTask(ModelStartBean modelStartBean) {
+  public boolean startModelTask(ModelStartBean modelStartBean, String messageId) {
     IModelTask firstTask;
     try {
-      firstTask = modelTaskHelper.buildModelTask(modelTaskFactory, modelStartBean);
+      firstTask = modelTaskHelper.buildModelTask(modelTaskFactory, modelStartBean, messageId);
       if (firstTask == null) {
         logger.error(StringUtil.formatLog("invalid model task", modelStartBean.getModelType()));
         sendStartModelResultMessage(ResponseConstant.ERR_PARAMS, modelStartBean.getCommon().getTime().getStart());
