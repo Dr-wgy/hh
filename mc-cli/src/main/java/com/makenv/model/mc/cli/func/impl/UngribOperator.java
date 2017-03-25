@@ -38,8 +38,6 @@ public class UngribOperator extends AbstractOperator {
   private McConfigManager configManager;
   private static final int FNL_RUN_DAYS = 1;
 
-//  private static final String DATE_FORMAT = "yyyyMMdd";
-
   private String invokeScriptFile, infoLogFile, errorLogFile, namelistFile, tagFile, renvGfsFile, renvFnlFile, runPath;
 
   private Logger logger = LoggerFactory.getLogger(UngribOperator.class);
@@ -126,10 +124,12 @@ public class UngribOperator extends AbstractOperator {
   }
 
   private boolean checkFnl() {
+    //TODO
     return true;
   }
 
   private boolean checkGfs() {
+    //TODO
     return true;
   }
 
@@ -203,6 +203,7 @@ public class UngribOperator extends AbstractOperator {
     params.put("fnl_start_date", computeDate);
     params.put("gfs_start_date", computeDate);
     params.put("pathdate", ltComputeDate);
+    params.put("suc_tag_file", FilePathUtil.joinByDelimiter(configManager.getSystemConfig().getWorkspace().getShare().getRun().getUngrib().getDirPath(), "tag"));
     params.put("fnl_rundays", FNL_RUN_DAYS);
     params.put("gfs_rundays", configManager.getSystemConfig().getModel().getUngrib_gfs_days());
     params.put("jar_dir", configManager.getSystemConfig().getRoot().getMeic());
@@ -213,27 +214,10 @@ public class UngribOperator extends AbstractOperator {
     params.put("gfs_dir", ungribGfsDir + File.separator);
     String bodyContent = VelocityUtil.buildTemplate(template.getCsh_ungrib(), params);
 
-//    String sourceSysRenv = String.format("source %s\necho $LD_LIBRARY_PATH\n\n",
-//        configManager.getSystemConfig().getRenv().getSys());
-//    String cdInvokeDir = String.format("cd %s\n", runPath);
-//    String sb = Constant.CSH_HEADER + sourceSysRenv +
-//        cdInvokeDir +
-//        buildCmd(Constant.GLOBAL_TYPE_FNL) +
-//        buildCmd(Constant.GLOBAL_TYPE_GFS);
     File file = new File(invokeScriptFile);
     FileUtil.writeLocalFile(file, headerContent + bodyContent);
     file.setExecutable(true);
   }
-
-//  private StringBuilder buildCmd(String type) {
-//    StringBuilder sb = new StringBuilder();
-////    String driverScriptPath = String.format("%s%slevel_3%sModule_ungrib.csh", configManager.getSystemConfig().getRoot().getScript(), File.separator, File.separator);
-//    sb.append(configManager.getSystemConfig().getCsh().getModule_ungrib_csh());
-//    sb.append(" ");
-//    sb.append(type.equals(Constant.GLOBAL_TYPE_GFS) ? renvGfsFile : renvFnlFile);
-//    sb.append("\n");
-//    return sb;
-//  }
 
   private void exec() throws IOException {
     String qsub = configManager.getSystemConfig().getPbs().getQsub();
@@ -248,11 +232,27 @@ public class UngribOperator extends AbstractOperator {
         String _file = String.format("fnl_%s_%s_00.grib2", computeDate, _hour);
         String fnlSrcFile = String.format("%s%s%s", syncFnlDir, File.separator, _file);
         String fnlDestFile = String.format("%s%s%s%s%s", fnlDir, File.separator, year, File.separator, _file);
-        logger.info(fnlSrcFile + " -> " + fnlDestFile);
-        FileUtil.copyFile(fnlSrcFile, fnlDestFile);
+        File dest = new File(fnlDestFile);
+        if (dest.exists() && dest.isFile()) {
+          logger.info(fnlDestFile + " is exist");
+        } else {
+          logger.info(fnlSrcFile + " -> " + fnlDestFile);
+          FileUtil.copyFile(fnlSrcFile, fnlDestFile);
+        }
       }
-      logger.info(syncGfsDir + " -> " + gfsDir);
-      FileUtil.copyFolder(new File(syncGfsDir), new File(gfsDir));
+      File syncGfsDirFile = new File(syncGfsDir);
+      File gfsDirFile = new File(gfsDir);
+      if (gfsDirFile.exists() && gfsDirFile.isDirectory()) {
+        if (gfsDirFile.list().length == syncGfsDirFile.list().length) {
+          logger.info(gfsDir + " is exist");
+        } else {
+          logger.info(syncGfsDir + " -> " + gfsDir);
+          FileUtil.copyFolder(syncGfsDirFile, gfsDirFile);
+        }
+      } else {
+        logger.info(syncGfsDir + " -> " + gfsDir);
+        FileUtil.copyFolder(syncGfsDirFile, gfsDirFile);
+      }
     } catch (IOException e) {
       logger.error("", e);
       return false;

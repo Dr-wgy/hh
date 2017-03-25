@@ -47,14 +47,14 @@ public class WrfTask extends ModelTask {
     if (!super.checkParams()) {
       return false;
     }
-    int spinup = modelStartBean.getWrf().getSpinup();
-    if (spinup < 0) {
-      logger.error(StringUtil.formatLog("spinup invalid", spinup));
-      return false;
-    }
-    if (spinup > 0) {
-      startDate = startDate.plusDays(-spinup);
-    }
+//    int spinup = modelStartBean.getWrf().getSpinup();
+//    if (spinup < 0) {
+//      logger.error(StringUtil.formatLog("spinup invalid", spinup));
+//      return false;
+//    }
+//    if (spinup > 0) {
+//      startDate = startDate.plusDays(-spinup);
+//    }
     startDate = LocalTimeUtil.minusHoursDiff(timeDiff, startDate);
     endDate = LocalTimeUtil.minusHoursDiff(timeDiff, endDate);
     return true;

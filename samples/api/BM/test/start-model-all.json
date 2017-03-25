@@ -13,10 +13,10 @@
       "firsttime": true,
       "datatype": "fnl",
       "time": {
-        "start": "20170220",
-        "end": "20170220"
+        "start": "20170301",
+        "end": "20170301"
       },
-      "pathdate":"20170220"
+      "pathdate":"20170301"
     },
     "emis": {
       "sourceid": "1",
@@ -27,7 +27,7 @@
     },
     "wrf": {
       "spinup": 12,
-      "lastfnl": "20170321"
+      "lastfnl": "20170301"
     },
     "cmaq": {
       "spinup": 1,
