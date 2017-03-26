@@ -39,7 +39,7 @@ public class MeicTask extends ModelTask {
     }
     int spinup = modelStartBean.getCmaq().getSpinup();
     if (spinup > 0) {
-      startDate = startDate.plusDays(spinup);
+      startDate = startDate.plusDays(-spinup);
     }
     return true;
   }
@@ -62,6 +62,12 @@ public class MeicTask extends ModelTask {
     if (!FileUtil.checkAndMkdir(emisDir)) {
       logger.error(StringUtil.formatLog("create dir failed", emisDir));
       return false;
+    }
+    try {
+      //TODO fix me
+      Runtime.getRuntime().exec("chmod 777 " + emisDir);
+    } catch (IOException e) {
+      logger.error("", e);
     }
     return true;
   }
