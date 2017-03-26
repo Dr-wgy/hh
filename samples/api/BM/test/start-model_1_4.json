@@ -8,6 +8,7 @@
     "missionid": "34",
     "scenarioid": "2",
     "modelType": "1_4",
+    "tasks": ["mcip", "megan", "meic", "cmaq"],
     "cores": "48",
     "common": {
       "firsttime": true,
