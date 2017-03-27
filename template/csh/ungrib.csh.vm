@@ -34,7 +34,7 @@ set tem_fnl_startdate = $fnl_startdate
 set tem_gfs_startdate = $gfs_startdate
 
 # reassemble message fnl
-if($fnl_fail_flag != '') then
+if("$fnl_fail_flag" != '') then
 
     set error_fnl_date = `echo $fnl_fail_flag | cut -d ":" -f 2`
 
@@ -71,7 +71,7 @@ endif
 
 
 # reassemble message gfs
-if(${gfs_fail_flag} != '') then
+if("${gfs_fail_flag}" != '') then
 
     set error_gfs_date = `echo $gfs_fail_flag | cut -d ":" -f 2`
 
@@ -111,7 +111,7 @@ java -jar mc-cli.jar -t send_message -m ungrib -D "pathdate=${pathdate}&fnl=${fn
 
 #
 
-if( ${gfs_fail_flag} == '' && ${gfs_fail_flag} == '') then
+if( "${gfs_fail_flag}" == '' && "${gfs_fail_flag}" == '') then
 	if ( -f ${suc_tag_file} ) then
 		set last_date = `cat ${suc_tag_file}`
    	if ( $pathdate > $last_date ) then
