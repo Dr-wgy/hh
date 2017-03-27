@@ -16,13 +16,21 @@ public class ModelStartBean {
   //  private String taskid;//表示当前请求ID
   @JsonIgnoreProperties(ignoreUnknown = true)
   private List<String> tasks;
-  private String modelType;
+  private String modetype;
   private int cores;// 计算核数
   //  private TaskDomain domain; // 模式domain的具体参数
   private ModelCommonParams common; //公共内容
   private Emis emis;
   private Wrf wrf;
   private Cmaq cmaq;
+
+  public String getModetype() {
+    return modetype;
+  }
+
+  public void setModetype(String modetype) {
+    this.modetype = modetype;
+  }
 
   public String getKey() {
     ModelCommonParams.TimeDate time = common.getTime();
@@ -40,14 +48,6 @@ public class ModelStartBean {
 
   public void setTasks(List<String> tasks) {
     this.tasks = tasks;
-  }
-
-  public String getModelType() {
-    return modelType;
-  }
-
-  public void setModelType(String modelType) {
-    this.modelType = modelType;
   }
 
   public String getDomainid() {
