@@ -7,7 +7,7 @@
     "domainid": "1",
     "missionid": "任务ID",
     "scenarioid": "情景ID",
-    "modelType": "1_2", //模式类型
+    "modeltype": "1_2", //模式类型
     "tasks": ["wrf", "mcip", "megan", "meic", "cmaq"], //注意顺序，非必须，优先
     "cores": "计算核数",
     "common": {
