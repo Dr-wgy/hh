@@ -104,9 +104,10 @@ public class ClassPathPackageScanner implements PackageScanner {
             names = readFromJarFile(filePath, splashPath);
 
             for (String name : names) {
+                name = StringUtil.SplashToDot(name);
                 if (isClassFile(name)) {
                     try {
-                        String fullName = StringUtil.SplashToDot(name).replaceAll(".class","");
+                        String fullName = name.replaceAll(".class","");
                         Class clazz = Class.forName(fullName);
                         if(annotationFilter != null) {
                             Object annocationClass = clazz.getDeclaredAnnotation(annotationFilter);
@@ -125,7 +126,8 @@ public class ClassPathPackageScanner implements PackageScanner {
                     // this is a directory
                     // check this directory for more classes
                     // do recursive invocation
-                    doScan(basePackage + "." + name, nameList);
+
+                    doScan(name, nameList);
                 }
             }
         } else {
